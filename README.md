@@ -1,6 +1,6 @@
 # tagi
 
-`tagi` to paczka Python i CLI do **orkiestracji wysyłki zmian Git**, a nie zamiennik komendy `git`.
+`tagi` to paczka Python i CLI do **orkiestracji wysyłania zmian Git**, a nie zamiennik komendy `git`.
 
 ## Pozycjonowanie
 
@@ -17,7 +17,7 @@
 - jawność przed magią,
 - preview → confirm → execute,
 - brak ukrywania realnych komend,
-- deterministyczne tagowanie jako domyślne,
+- deterministyczne tagowanie jako domyślne.
 - LLM opcjonalnie do redakcji opisów, nie do sterowania logiką wysyłki.
 
 ## Zakres odpowiedzialności
@@ -27,7 +27,7 @@
 - analizować `git status --porcelain` i diffy,
 - budować grupy zmian na podstawie heurystyk,
 - proponować paczki wysyłkowe i plan wykonania,
-- generować draft opisu commita,
+- generować draft tytułu i treści opisu commita,
 - uruchamiać `git` i opcjonalnie `gh`/`glab` dopiero po decyzji użytkownika.
 
 ### Czego `tagi` nie powinien robić
@@ -53,7 +53,7 @@ tagi publish #small
 - `list` — lista paczek/tagów,
 - `inspect` — podgląd paczki i ryzyka,
 - `draft` — propozycja opisu i planu,
-- `send` — stage/commit/(opcjonalnie) push po potwierdzeniu,
+- `send` — po potwierdzeniu wykonuje `git add`, `git commit`, a push uruchamia opcjonalnie (np. flagą lub konfiguracją),
 - `publish` — rozszerzenie o PR/MR przez provider.
 
 ## Architektura (kierunek)
@@ -72,7 +72,7 @@ src/tagi/
 - `scanner`: odczyt stanu repo,
 - `heuristics`: tagi, scoring, ryzyko,
 - `planner`: budowa paczek i preview,
-- `composer`: opisy commitów,
+- `composer`: generowanie i formatowanie opisów commitów,
 - `executor`: cienka warstwa uruchamiająca `git`/`gh`/`glab`,
 - `providers`: integracje GitHub/GitLab,
 - `llm`: opcjonalna redakcja komunikatów.
@@ -98,4 +98,4 @@ tagi send #small --dry-run
 
 ## Definicja produktu
 
-> `tagi` to orchestrator wysyłki zmian Git: analizuje nie wysłane pliki, grupuje je hashtagami, proponuje sensowne paczki commitów i uruchamia istniejące narzędzia Git/GitHub/GitLab do publikacji.
+> `tagi` to orchestrator wysyłania zmian Git: analizuje nie wysłane pliki, grupuje je hashtagami, proponuje sensowne paczki commitów i uruchamia istniejące narzędzia Git/GitHub/GitLab do publikacji.
