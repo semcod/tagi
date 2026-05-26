@@ -1,0 +1,33 @@
+# redup/duplication | 1 groups | 10f 765L | 2026-05-26
+
+SUMMARY:
+  files_scanned: 10
+  total_lines:   765
+  dup_groups:    1
+  dup_fragments: 2
+  saved_lines:   21
+  scan_ms:       2108
+
+HOTSPOTS[1] (files with most duplication):
+  src/tagi/providers.py  dup=42L  groups=1  frags=2  (5.5%)
+
+DUPLICATES[1] (ranked by impact):
+  [e67f77bbdc4b5d22]   STRU  create_pr  L=21 N=2 saved=21 sim=1.00
+      src/tagi/providers.py:7-27  (create_pr)
+      src/tagi/providers.py:30-50  (create_mr)
+
+REFACTOR[1] (ranked by priority):
+  [1] ○ extract_function   → src/tagi/utils/create_pr.py
+      WHY: 2 occurrences of 21-line block across 1 files — saves 21 lines
+      FILES: src/tagi/providers.py
+
+QUICK_WINS[1] (low risk, high savings — do first):
+  [1] extract_function   saved=21L  → src/tagi/utils/create_pr.py
+      FILES: providers.py
+
+EFFORT_ESTIMATE (total ≈ 0.7h):
+  medium create_pr                           saved=21L  ~42min
+
+METRICS-TARGET:
+  dup_groups:  1 → 0
+  saved_lines: 21 lines recoverable

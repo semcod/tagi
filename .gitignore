@@ -1,4 +1,19 @@
 # Byte-compiled / optimized / DLL files
+.code2llm_cache/__init___1779800615590949571_38.pkl
+.code2llm_cache/cli_1779800820729188454_8260.pkl
+.code2llm_cache/composer_1779800740358318524_2153.pkl
+.code2llm_cache/config_1779800818644168363_1842.pkl
+.code2llm_cache/executor_1779800740376318721_1750.pkl
+.code2llm_cache/goal_1779800989729846870_12188.pkl
+.code2llm_cache/heuristics_1779800850797479284_4181.pkl
+.code2llm_cache/models_1779800615824952139_977.pkl
+.code2llm_cache/planner_1779800615861952545_827.pkl
+.code2llm_cache/project_1777557997938138204_1409.pkl
+.code2llm_cache/providers_1779800805254030484_2195.pkl
+.code2llm_cache/pyproject_1779801059786708490_1302.pkl
+.code2llm_cache/scanner_1779800615648950208_1153.pkl
+.code2llm_cache/tree_1777298880917790642_186.pkl
+.idea/misc.xml
 .env.example
 .idea/pyProjectModel.xml
 .idea/inspectionProfiles/Project_Default.xml

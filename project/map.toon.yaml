@@ -1,0 +1,72 @@
+# tagi | 14f 866L | python:11,shell:2,less:1 | 2026-05-26
+# stats: 24 func | 5 cls | 14 mod | CC̄=5.5 | critical:4 | cycles:0
+# alerts[5]: CC apply_tags=24; CC generate_commit_message=14; CC publish=11; CC send=10; CC _count_lines_changed=7
+# hotspots[5]: publish fan=17; send fan=15; scan fan=9; apply_tags fan=9; draft fan=8
+# evolution: baseline
+# Keys: M=modules, D=details, i=imports, e=exports, c=classes, f=functions, m=methods
+M[14]:
+  app.doql.less,29
+  project.sh,48
+  src/tagi/__init__.py,2
+  src/tagi/cli.py,273
+  src/tagi/composer.py,59
+  src/tagi/config.py,64
+  src/tagi/executor.py,60
+  src/tagi/heuristics.py,123
+  src/tagi/models.py,48
+  src/tagi/planner.py,29
+  src/tagi/providers.py,70
+  src/tagi/scanner.py,47
+  tests/test_tagi.py,12
+  tree.sh,2
+D:
+  src/tagi/__init__.py:
+  src/tagi/cli.py:
+    e: scan,list_groups,inspect,draft,send,publish,_display_changes,_display_groups
+    scan(repo_path)
+    list_groups(repo_path)
+    inspect(tag;repo_path)
+    draft(tag;repo_path)
+    send(tag;repo_path;dry_run;push)
+    publish(tag;repo_path;dry_run)
+    _display_changes(changes)
+    _display_groups(groups)
+  src/tagi/composer.py:
+    e: generate_commit_message,_build_title
+    generate_commit_message(group)
+    _build_title(tag;count)
+  src/tagi/config.py:
+    e: Config
+    Config: __init__(1),_load_config(0),get_tag_for_path(1),get_custom_tags_for_pattern(1)  # Configuration loaded from tagi.toml.
+  src/tagi/executor.py:
+    e: stage_changes,commit_changes,push_changes
+    stage_changes(changes;repo_path;dry_run)
+    commit_changes(message;repo_path;dry_run)
+    push_changes(repo_path;dry_run)
+  src/tagi/heuristics.py:
+    e: apply_tags,_count_lines_changed,_calculate_risk_score
+    apply_tags(changes;repo_path)
+    _count_lines_changed(file_path;repo_path)
+    _calculate_risk_score(change;tags)
+  src/tagi/models.py:
+    e: ChangeType,Tag,Change,ChangeGroup
+    ChangeType:  # Type of git change.
+    Tag:  # Hashtag categories for changes.
+    Change:  # Represents a single file change.
+    ChangeGroup:  # Group of related changes.
+  src/tagi/planner.py:
+    e: group_changes
+    group_changes(changes)
+  src/tagi/providers.py:
+    e: create_pr,create_mr,detect_provider
+    create_pr(title;body;repo_path;dry_run)
+    create_mr(title;body;repo_path;dry_run)
+    detect_provider(repo_path)
+  src/tagi/scanner.py:
+    e: scan_repo,_parse_status
+    scan_repo(repo_path)
+    _parse_status(status)
+  tests/test_tagi.py:
+    e: test_placeholder,test_import
+    test_placeholder()
+    test_import()

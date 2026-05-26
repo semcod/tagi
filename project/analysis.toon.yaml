@@ -1,0 +1,57 @@
+# code2llm | 14f 1388L | python:10,shell:2,yaml:1,toml:1 | 2026-05-26
+# generated in 0.00s
+# CC̅=5.4 | critical:1/26 | dups:0 | cycles:0
+
+HEALTH[1]:
+  🟡 CC    apply_tags CC=24 (limit:15)
+
+REFACTOR[1]:
+  1. split 1 high-CC methods  (CC>15)
+
+PIPELINES[10]:
+  [1] Src [__init__]: __init__
+      PURITY: 100% pure
+  [2] Src [_load_config]: _load_config
+      PURITY: 100% pure
+  [3] Src [get_tag_for_path]: get_tag_for_path
+      PURITY: 100% pure
+  [4] Src [get_custom_tags_for_pattern]: get_custom_tags_for_pattern
+      PURITY: 100% pure
+  [5] Src [scan]: scan → scan_repo → _parse_status
+      PURITY: 100% pure
+  [6] Src [list_groups]: list_groups → scan_repo → _parse_status
+      PURITY: 100% pure
+  [7] Src [inspect]: inspect → scan_repo → _parse_status
+      PURITY: 100% pure
+  [8] Src [draft]: draft → scan_repo → _parse_status
+      PURITY: 100% pure
+  [9] Src [send]: send → scan_repo → _parse_status
+      PURITY: 100% pure
+  [10] Src [publish]: publish → scan_repo → _parse_status
+      PURITY: 100% pure
+
+LAYERS:
+  src/                            CC̄=5.4    ←in:0  →out:0
+  │ cli                        272L  0C    8m  CC=11     ←0
+  │ !! heuristics                 122L  0C    3m  CC=24     ←1
+  │ providers                   69L  0C    3m  CC=4      ←1
+  │ config                      63L  1C    4m  CC=6      ←0
+  │ executor                    59L  0C    3m  CC=5      ←1
+  │ composer                    58L  0C    2m  CC=14     ←1
+  │ models                      47L  4C    0m  CC=0.0    ←0
+  │ scanner                     46L  0C    2m  CC=4      ←1
+  │ planner                     28L  0C    1m  CC=7      ←1
+  │ __init__                     1L  0C    0m  CC=0.0    ←0
+  │
+  ./                              CC̄=0.0    ←in:0  →out:0
+  │ !! goal.yaml                  510L  0C    0m  CC=0.0    ←0
+  │ pyproject.toml              64L  0C    0m  CC=0.0    ←0
+  │ project.sh                  48L  0C    0m  CC=0.0    ←0
+  │ tree.sh                      1L  0C    0m  CC=0.0    ←0
+  │
+
+COUPLING: no cross-package imports detected
+
+EXTERNAL:
+  validation: run `vallm batch .` → validation.toon
+  duplication: run `redup scan .` → duplication.toon

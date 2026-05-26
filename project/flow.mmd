@@ -1,0 +1,24 @@
+flowchart TD
+%% generated in 0.00s
+
+    %% Entry points (blue)
+    classDef entry fill:#4dabf7,stroke:#1971c2,color:#fff
+
+    subgraph Core
+        src__tagi__config__Config___load_config["_load_config"]
+        src__tagi__config__Config__get_tag_for_path["get_tag_for_path"]
+        src__tagi__config__Config__get_custom_tags_for_pattern["get_custom_tags_for_pattern"]
+        src__tagi__cli__scan["scan"]
+        src__tagi__cli__list_groups["list_groups"]
+        src__tagi__cli__inspect["inspect"]
+        src__tagi__cli__draft["draft"]
+        src__tagi__cli__send["send"]
+        src__tagi__cli__publish["publish"]
+        src__tagi__cli___display_changes["_display_changes"]
+        src__tagi__cli___display_groups["_display_groups"]
+        src__tagi__scanner__scan_repo["scan_repo"]
+        src__tagi__scanner___parse_status["_parse_status"]
+        src__tagi__heuristics__apply_tags{{apply_tags CC=24}}
+    end
+
+    class src__tagi__config__Config___load_config,src__tagi__config__Config__get_tag_for_path,src__tagi__config__Config__get_custom_tags_for_pattern,src__tagi__cli__scan,src__tagi__cli__list_groups,src__tagi__cli__inspect,src__tagi__cli__draft,src__tagi__cli__send,src__tagi__cli__publish,src__tagi__cli___display_changes entry

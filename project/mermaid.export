@@ -1,0 +1,62 @@
+flowchart TD
+%% generated in 0.00s
+    subgraph src__tagi
+        src__tagi__config__Config____init__["__init__"]
+        src__tagi__config__Config___load_config["_load_config"]
+        src__tagi__config__Config__get_tag_for_path["get_tag_for_path"]
+        src__tagi__config__Config__get_custom_tags_for_pattern["get_custom_tags_for_pattern"]
+        src__tagi__cli__scan["scan"]
+        src__tagi__cli__list_groups["list_groups"]
+        src__tagi__cli__inspect["inspect"]
+        src__tagi__cli__draft["draft"]
+        src__tagi__cli__send("send CC=10")
+        src__tagi__cli__publish("publish CC=11")
+        src__tagi__cli___display_changes["_display_changes"]
+        src__tagi__cli___display_groups["_display_groups"]
+        src__tagi__composer__generate_commit_message("generate_commit_message CC=14")
+        src__tagi__composer___build_title["_build_title"]
+        src__tagi__planner__group_changes["group_changes"]
+        src__tagi__providers__create_pr["create_pr"]
+        src__tagi__providers__create_mr["create_mr"]
+        src__tagi__providers__detect_provider["detect_provider"]
+        src__tagi__executor__stage_changes["stage_changes"]
+        src__tagi__executor__commit_changes["commit_changes"]
+        src__tagi__executor__push_changes["push_changes"]
+        src__tagi__scanner__scan_repo["scan_repo"]
+        src__tagi__scanner___parse_status["_parse_status"]
+        src__tagi__heuristics__apply_tags{{apply_tags CC=24}}
+        src__tagi__heuristics___count_lines_changed["_count_lines_changed"]
+        src__tagi__heuristics___calculate_risk_score["_calculate_risk_score"]
+    end
+    src__tagi__cli__scan --> src__tagi__scanner__scan_repo
+    src__tagi__cli__scan --> src__tagi__heuristics__apply_tags
+    src__tagi__cli__scan --> src__tagi__cli___display_changes
+    src__tagi__cli__list_groups --> src__tagi__scanner__scan_repo
+    src__tagi__cli__list_groups --> src__tagi__heuristics__apply_tags
+    src__tagi__cli__list_groups --> src__tagi__planner__group_changes
+    src__tagi__cli__list_groups --> src__tagi__cli___display_groups
+    src__tagi__cli__inspect --> src__tagi__scanner__scan_repo
+    src__tagi__cli__inspect --> src__tagi__heuristics__apply_tags
+    src__tagi__cli__inspect --> src__tagi__cli___display_changes
+    src__tagi__cli__draft --> src__tagi__scanner__scan_repo
+    src__tagi__cli__draft --> src__tagi__heuristics__apply_tags
+    src__tagi__cli__draft --> src__tagi__planner__group_changes
+    src__tagi__cli__draft --> src__tagi__composer__generate_commit_message
+    src__tagi__cli__send --> src__tagi__scanner__scan_repo
+    src__tagi__cli__send --> src__tagi__heuristics__apply_tags
+    src__tagi__cli__send --> src__tagi__planner__group_changes
+    src__tagi__cli__send --> src__tagi__composer__generate_commit_message
+    src__tagi__cli__publish --> src__tagi__scanner__scan_repo
+    src__tagi__cli__publish --> src__tagi__heuristics__apply_tags
+    src__tagi__cli__publish --> src__tagi__planner__group_changes
+    src__tagi__cli__publish --> src__tagi__providers__detect_provider
+    src__tagi__cli__publish --> src__tagi__composer__generate_commit_message
+    src__tagi__composer__generate_commit_message --> src__tagi__composer___build_title
+    src__tagi__scanner__scan_repo --> src__tagi__scanner___parse_status
+    src__tagi__heuristics__apply_tags --> src__tagi__heuristics___count_lines_changed
+    src__tagi__heuristics__apply_tags --> src__tagi__heuristics___calculate_risk_score
+
+    classDef highCC fill:#ff6b6b,stroke:#c92a2a,color:#fff
+    classDef medCC fill:#ffd43b,stroke:#f08c00,color:#000
+    class src__tagi__heuristics__apply_tags highCC
+    class src__tagi__cli__send,src__tagi__cli__publish,src__tagi__composer__generate_commit_message medCC

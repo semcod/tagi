@@ -1,0 +1,92 @@
+# code2llm call graph | /home/tom/github/semcod/tagi
+# generated in 0.01s
+# nodes: 17 | edges: 25 | modules: 6
+# CC̄=5.4
+
+HUBS[20]:
+  src.tagi.cli.publish
+    CC=11  in:0  out:34  total:34
+  src.tagi.heuristics.apply_tags
+    CC=24  in:6  out:27  total:33
+  src.tagi.cli.send
+    CC=10  in:0  out:32  total:32
+  src.tagi.composer.generate_commit_message
+    CC=14  in:3  out:18  total:21
+  src.tagi.scanner.scan_repo
+    CC=3  in:6  out:7  total:13
+  src.tagi.cli.draft
+    CC=4  in:0  out:12  total:12
+  src.tagi.planner.group_changes
+    CC=7  in:4  out:8  total:12
+  src.tagi.cli.scan
+    CC=3  in:0  out:11  total:11
+  src.tagi.cli._display_groups
+    CC=3  in:1  out:9  total:10
+  src.tagi.cli._display_changes
+    CC=3  in:2  out:7  total:9
+  src.tagi.cli.inspect
+    CC=4  in:0  out:9  total:9
+  src.tagi.cli.list_groups
+    CC=2  in:0  out:8  total:8
+  src.tagi.heuristics._count_lines_changed
+    CC=7  in:1  out:7  total:8
+  src.tagi.heuristics._calculate_risk_score
+    CC=7  in:1  out:2  total:3
+  src.tagi.providers.detect_provider
+    CC=3  in:1  out:1  total:2
+  src.tagi.composer._build_title
+    CC=1  in:1  out:1  total:2
+  src.tagi.scanner._parse_status
+    CC=4  in:1  out:0  total:1
+
+MODULES:
+  src.tagi.cli  [8 funcs]
+    _display_changes  CC=3  out:7
+    _display_groups  CC=3  out:9
+    draft  CC=4  out:12
+    inspect  CC=4  out:9
+    list_groups  CC=2  out:8
+    publish  CC=11  out:34
+    scan  CC=3  out:11
+    send  CC=10  out:32
+  src.tagi.composer  [2 funcs]
+    _build_title  CC=1  out:1
+    generate_commit_message  CC=14  out:18
+  src.tagi.heuristics  [3 funcs]
+    _calculate_risk_score  CC=7  out:2
+    _count_lines_changed  CC=7  out:7
+    apply_tags  CC=24  out:27
+  src.tagi.planner  [1 funcs]
+    group_changes  CC=7  out:8
+  src.tagi.providers  [1 funcs]
+    detect_provider  CC=3  out:1
+  src.tagi.scanner  [2 funcs]
+    _parse_status  CC=4  out:0
+    scan_repo  CC=3  out:7
+
+EDGES:
+  src.tagi.cli.scan → src.tagi.scanner.scan_repo
+  src.tagi.cli.scan → src.tagi.heuristics.apply_tags
+  src.tagi.cli.scan → src.tagi.cli._display_changes
+  src.tagi.cli.list_groups → src.tagi.scanner.scan_repo
+  src.tagi.cli.list_groups → src.tagi.heuristics.apply_tags
+  src.tagi.cli.list_groups → src.tagi.planner.group_changes
+  src.tagi.cli.list_groups → src.tagi.cli._display_groups
+  src.tagi.cli.inspect → src.tagi.scanner.scan_repo
+  src.tagi.cli.inspect → src.tagi.heuristics.apply_tags
+  src.tagi.cli.inspect → src.tagi.cli._display_changes
+  src.tagi.cli.draft → src.tagi.scanner.scan_repo
+  src.tagi.cli.draft → src.tagi.heuristics.apply_tags
+  src.tagi.cli.draft → src.tagi.planner.group_changes
+  src.tagi.cli.draft → src.tagi.composer.generate_commit_message
+  src.tagi.cli.send → src.tagi.scanner.scan_repo
+  src.tagi.cli.send → src.tagi.heuristics.apply_tags
+  src.tagi.cli.send → src.tagi.planner.group_changes
+  src.tagi.cli.publish → src.tagi.scanner.scan_repo
+  src.tagi.cli.publish → src.tagi.heuristics.apply_tags
+  src.tagi.cli.publish → src.tagi.planner.group_changes
+  src.tagi.cli.publish → src.tagi.providers.detect_provider
+  src.tagi.composer.generate_commit_message → src.tagi.composer._build_title
+  src.tagi.scanner.scan_repo → src.tagi.scanner._parse_status
+  src.tagi.heuristics.apply_tags → src.tagi.heuristics._count_lines_changed
+  src.tagi.heuristics.apply_tags → src.tagi.heuristics._calculate_risk_score

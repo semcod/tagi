@@ -1,0 +1,40 @@
+# tagi | 26 func | 8f | 1388L | python | 2026-05-26
+# generated in 0.00s
+
+HEALTH:
+  CC̄=5.4  critical=4 (limit:10)  dup=0  cycles=0
+
+ALERTS[3]:
+  !!  cc_exceeded      apply_tags = 24 (limit:15)
+  !!  high_fan_out     publish = 17 (limit:10)
+  !!  high_fan_out     send = 15 (limit:10)
+
+MODULES[14] (top by size):
+  M[goal.yaml] 510L C:0 F:0 CC↑0 D:0 (yaml)
+  M[src/tagi/cli.py] 272L C:0 F:8 CC↑11 D:0 (python)
+  M[src/tagi/heuristics.py] 122L C:0 F:3 CC↑24 D:1 (python)
+  M[src/tagi/providers.py] 69L C:0 F:3 CC↑4 D:1 (python)
+  M[pyproject.toml] 64L C:0 F:0 CC↑0 D:0 (toml)
+  M[src/tagi/config.py] 63L C:1 F:4 CC↑6 D:0 (python)
+  M[src/tagi/executor.py] 59L C:0 F:3 CC↑5 D:1 (python)
+  M[src/tagi/composer.py] 58L C:0 F:2 CC↑14 D:1 (python)
+  M[project.sh] 48L C:0 F:0 CC↑0 D:0 (shell)
+  M[src/tagi/models.py] 47L C:4 F:0 CC↑0 D:0 (python)
+  M[src/tagi/scanner.py] 46L C:0 F:2 CC↑4 D:1 (python)
+  M[src/tagi/planner.py] 28L C:0 F:1 CC↑7 D:1 (python)
+  M[src/tagi/__init__.py] 1L C:0 F:0 CC↑0 D:0 (python)
+  M[tree.sh] 1L C:0 F:0 CC↑0 D:0 (shell)
+  LANGS: python:10/shell:2/yaml:1/toml:1
+
+HOTSPOTS[2]:
+  ★ publish fan=17  // Create a PR or MR for the changes.
+  ★ send fan=15  // Stage, commit, and optionally push changes.
+
+REFACTOR[4]:
+  [1] H/H Split god module goal.yaml (510L, 0 classes)
+  [2] M/L Split apply_tags (CC=24)
+  [3] M/M Reduce publish fan-out (currently 17)
+  [4] M/M Reduce send fan-out (currently 15)
+
+EVOLUTION:
+  2026-05-26 CC̄=5.4 crit=4 1388L // Automated analysis

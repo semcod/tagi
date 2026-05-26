@@ -1,0 +1,36 @@
+.
+├── app.doql.less
+├── CHANGELOG.md
+├── goal.yaml
+├── LICENSE
+├── project.sh
+├── pyproject.toml
+├── README.md
+├── src
+│   └── tagi
+│       ├── cli.py
+│       ├── composer.py
+│       ├── config.py
+│       ├── executor.py
+│       ├── heuristics.py
+│       ├── __init__.py
+│       ├── models.py
+│       ├── planner.py
+│       ├── providers.py
+│       └── scanner.py
+├── SUMD.md
+├── SUMR.md
+├── tagi.toml.example
+├── testql-scenarios
+│   └── generated-cli-tests.testql.toon.yaml
+├── tests
+│   └── test_tagi.py
+├── TODO
+│   ├── 1.md
+│   └── 2.md
+├── tree.sh
+├── tree.txt
+├── uv.lock
+└── VERSION
+
+6 directories, 28 files

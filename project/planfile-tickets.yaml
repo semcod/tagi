@@ -1,0 +1,255 @@
+source: code2llm
+# generated in 0.01s
+schema: code2llm.planfile_tickets.v1
+project_root: /home/tom/github/semcod/tagi
+tickets:
+- signal: code2llm_smell_shotgun_surgery
+  title: 'Address code smell: Shotgun Surgery: changes'
+  description: 'code2llm reports `Shotgun Surgery: changes` in `src/tagi/cli.py:177`.
+
+
+    Mutation of variable ''changes'' spans 7 functions. Changing this logic requires
+    work in many places.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: high
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - shotgun-surgery
+  files:
+  - src/tagi/cli.py
+  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/cli.py:177:Shotgun Surgery:
+    changes'
+- signal: code2llm_smell_shotgun_surgery
+  title: 'Address code smell: Shotgun Surgery: cmd'
+  description: 'code2llm reports `Shotgun Surgery: cmd` in `src/tagi/executor.py:29`.
+
+
+    Mutation of variable ''cmd'' spans 7 functions. Changing this logic requires work
+    in many places.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: high
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - shotgun-surgery
+  files:
+  - src/tagi/executor.py
+  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/executor.py:29:Shotgun Surgery:
+    cmd'
+- signal: code2llm_smell_shotgun_surgery
+  title: 'Address code smell: Shotgun Surgery: groups'
+  description: 'code2llm reports `Shotgun Surgery: groups` in `src/tagi/cli.py:177`.
+
+
+    Mutation of variable ''groups'' spans 5 functions. Changing this logic requires
+    work in many places.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: high
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - shotgun-surgery
+  files:
+  - src/tagi/cli.py
+  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/cli.py:177:Shotgun Surgery:
+    groups'
+- signal: code2llm_smell_shotgun_surgery
+  title: 'Address code smell: Shotgun Surgery: result'
+  description: 'code2llm reports `Shotgun Surgery: result` in `src/tagi/executor.py:29`.
+
+
+    Mutation of variable ''result'' spans 8 functions. Changing this logic requires
+    work in many places.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: high
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - shotgun-surgery
+  files:
+  - src/tagi/executor.py
+  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/executor.py:29:Shotgun Surgery:
+    result'
+- signal: code2llm_cc
+  title: 'Reduce cyclomatic complexity: src.tagi.heuristics.apply_tags (CC=24)'
+  description: 'code2llm reports `src.tagi.heuristics.apply_tags` at `src/tagi/heuristics.py:11`
+    with cyclomatic complexity 24 (limit 15).
+
+
+    Extract smaller functions, flatten conditionals, or split strategy branches. Re-run
+    code2llm after the change and keep tests green.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - complexity
+  - refactor
+  files:
+  - src/tagi/heuristics.py
+  dedupe_key: code2llm:cc:src/tagi/heuristics.py:src.tagi.heuristics.apply_tags
+- signal: code2llm_smell_data_clump
+  title: 'Address code smell: Data Clump: repo_path, dry_run, title, body'
+  description: 'code2llm reports `Data Clump: repo_path, dry_run, title, body` in
+    `src/tagi/providers.py:7`.
+
+
+    Arguments (repo_path, dry_run, title, body) are used together in multiple functions:
+    src.tagi.providers.create_pr, src.tagi.providers.create_mr.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - data-clump
+  files:
+  - src/tagi/providers.py
+  dedupe_key: 'code2llm:smell:data_clump:src/tagi/providers.py:7:Data Clump: repo_path,
+    dry_run, title, body'
+- signal: code2llm_smell_data_clump
+  title: 'Address code smell: Data Clump: repo_path, dry_run, title, body'
+  description: 'code2llm reports `Data Clump: repo_path, dry_run, title, body` in
+    `src/tagi/providers.py:30`.
+
+
+    Arguments (repo_path, dry_run, title, body) are used together in multiple functions:
+    src.tagi.providers.create_pr, src.tagi.providers.create_mr.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - data-clump
+  files:
+  - src/tagi/providers.py
+  dedupe_key: 'code2llm:smell:data_clump:src/tagi/providers.py:30:Data Clump: repo_path,
+    dry_run, title, body'
+- signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: _calculate_risk_score'
+  description: 'code2llm reports `God Function: _calculate_risk_score` in `src/tagi/heuristics.py:99`.
+
+
+    Function ''_calculate_risk_score'' is oversized: CC=7, fan-out=1, mutations=8.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - src/tagi/heuristics.py
+  dedupe_key: 'code2llm:smell:god_function:src/tagi/heuristics.py:99:God Function:
+    _calculate_risk_score'
+- signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: draft'
+  description: 'code2llm reports `God Function: draft` in `src/tagi/cli.py:85`.
+
+
+    Function ''draft'' is oversized: CC=4, fan-out=8, mutations=7.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - src/tagi/cli.py
+  dedupe_key: 'code2llm:smell:god_function:src/tagi/cli.py:85:God Function: draft'
+- signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: generate_commit_message'
+  description: 'code2llm reports `God Function: generate_commit_message` in `src/tagi/composer.py:8`.
+
+
+    Function ''generate_commit_message'' is oversized: CC=14, fan-out=5, mutations=15.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - src/tagi/composer.py
+  dedupe_key: 'code2llm:smell:god_function:src/tagi/composer.py:8:God Function: generate_commit_message'
+- signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: publish'
+  description: 'code2llm reports `God Function: publish` in `src/tagi/cli.py:177`.
+
+
+    Function ''publish'' is oversized: CC=11, fan-out=17, mutations=10.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - src/tagi/cli.py
+  dedupe_key: 'code2llm:smell:god_function:src/tagi/cli.py:177:God Function: publish'
+- signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: scan_repo'
+  description: 'code2llm reports `God Function: scan_repo` in `src/tagi/scanner.py:9`.
+
+
+    Function ''scan_repo'' is oversized: CC=3, fan-out=7, mutations=7.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - src/tagi/scanner.py
+  dedupe_key: 'code2llm:smell:god_function:src/tagi/scanner.py:9:God Function: scan_repo'
+- signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: send'
+  description: 'code2llm reports `God Function: send` in `src/tagi/cli.py:114`.
+
+
+    Function ''send'' is oversized: CC=10, fan-out=15, mutations=7.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - src/tagi/cli.py
+  dedupe_key: 'code2llm:smell:god_function:src/tagi/cli.py:114:God Function: send'
+applied: []
+skipped: []
