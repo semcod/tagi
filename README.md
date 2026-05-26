@@ -1,6 +1,6 @@
 # tagi
 
-`tagi` to paczka Python i CLI do **orkiestracji wysyłek zmian Git**, a nie zamiennik komendy `git`.
+`tagi` to paczka Python i CLI do **orkiestracji wysyłki zmian Git**, a nie zamiennik komendy `git`.
 
 ## Pozycjonowanie
 
@@ -98,4 +98,4 @@ tagi send #small --dry-run
 
 ## Definicja produktu
 
-> `tagi` to orchestrator wysyłek zmian Git: analizuje nie wysłane pliki, grupuje je hashtagami, proponuje sensowne paczki commitów i uruchamia istniejące narzędzia Git/GitHub/GitLab do publikacji.
+> `tagi` to orchestrator wysyłki zmian Git: analizuje nie wysłane pliki, grupuje je hashtagami, proponuje sensowne paczki commitów i uruchamia istniejące narzędzia Git/GitHub/GitLab do publikacji.
