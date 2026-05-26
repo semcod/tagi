@@ -1,5 +1,20 @@
 # tagi
 
+
+## AI Cost Tracking
+
+![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-0.1.1-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
+![AI Cost](https://img.shields.io/badge/AI%20Cost-$0.03-orange) ![Human Time](https://img.shields.io/badge/Human%20Time-3.1h-blue) ![Model](https://img.shields.io/badge/Model-openrouter%2Fqwen%2Fqwen3--coder--next-lightgrey)
+
+- 🤖 **LLM usage:** $0.0325 (4 commits)
+- 👤 **Human dev:** ~$311 (3.1h @ $100/h, 30min dedup)
+
+Generated on 2026-05-26 using [openrouter/qwen/qwen3-coder-next](https://openrouter.ai/qwen/qwen3-coder-next)
+
+---
+
+
+
 `tagi` to paczka Python i CLI do **orkiestracji wysyłania zmian Git**, a nie zamiennik komendy `git`.
 
 ## Pozycjonowanie
@@ -99,3 +114,8 @@ tagi send #small --dry-run
 ## Definicja produktu
 
 > `tagi` to orchestrator wysyłania zmian Git: analizuje nie wysłane pliki, grupuje je hashtagami, proponuje sensowne paczki commitów i uruchamia istniejące narzędzia Git/GitHub/GitLab do publikacji.
+
+
+## License
+
+Licensed under Apache-2.0.

@@ -1,4 +1,11 @@
 # Byte-compiled / optimized / DLL files
+.env.example
+.idea/pyProjectModel.xml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/modules.xml
+.idea/tagi.iml
+.idea/vcs.xml
 __pycache__/
 *.py[codz]
 *$py.class

@@ -1,0 +1,21 @@
+# Example tagi.toml configuration file
+# Copy this to tagi.toml in your repository root to customize tagging
+
+[tags]
+# Define custom tag groups for file patterns
+frontend = ["frontend/", "client/", "web/", "ui/"]
+backend = ["backend/", "server/", "api/"]
+database = ["db/", "database/", "migration/", "models/"]
+infrastructure = ["infra/", "deploy/", "docker/", "k8s/"]
+
+[rules]
+# Map file patterns to specific tags
+# Format: "pattern" = "tag"
+"frontend/" = "#frontend"
+"backend/" = "#backend"
+"db/" = "#database"
+"migration/" = "#risky"
+"docker" = "#infra"
+"k8s" = "#infra"
+"auth" = "#risky"
+"security" = "#risky"
