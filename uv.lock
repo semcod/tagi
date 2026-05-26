@@ -831,7 +831,7 @@ wheels = [
 
 [[package]]
 name = "goal"
-version = "2.1.234"
+version = "2.1.235"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -841,9 +841,9 @@ dependencies = [
     { name = "tomlkit" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d1/e6/f4812ac246a688d5aef6e8286f69512eb455c241b663bf7870d9802eb673/goal-2.1.234.tar.gz", hash = "sha256:8d13444d44437bedefc2cd9a2b0729e1e348b5be845dae3a242bd786990efd6f", size = 272197, upload-time = "2026-05-24T19:48:37.869Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/52/f9/15a717947ff12f5a69c7f507536529296b8c3616f8741383dfc39fe9d1b3/goal-2.1.235.tar.gz", hash = "sha256:1455293adce03cf5db9cb8d9cba64df2fcd06a0ce5143f48729e591e87adb25e", size = 272321, upload-time = "2026-05-26T16:52:28.029Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/00/bc/7c8f8fe905261fcff237419c132061812136cb06c8e7c1c6ae06a36151ff/goal-2.1.234-py3-none-any.whl", hash = "sha256:55b7f4230704b74244d910817b2deb623c18f23b3b421e53cfcdfcbd8f7148b2", size = 268706, upload-time = "2026-05-24T19:48:36.062Z" },
+    { url = "https://files.pythonhosted.org/packages/0e/e9/fbdd84cb50768b5404a6cb80de6772daa451e8f19fa00278ab15dfd467d4/goal-2.1.235-py3-none-any.whl", hash = "sha256:16df07433bf38199960bcab99d83fab8bfa2a3dedb582dac5c0d6907ac51aab4", size = 268804, upload-time = "2026-05-26T16:52:25.375Z" },
 ]
 
 [[package]]
@@ -2773,7 +2773,7 @@ wheels = [
 
 [[package]]
 name = "tagi"
-version = "0.49.2"
+version = "0.49.3"
 source = { editable = "." }
 dependencies = [
     { name = "pydantic" },
@@ -2790,6 +2790,11 @@ dev = [
     { name = "pytest" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "goal" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "costs", marker = "extra == 'dev'", specifier = ">=0.1.20" },
@@ -2804,7 +2809,7 @@ requires-dist = [
 provides-extras = ["dev"]
 
 [package.metadata.requires-dev]
-dev = []
+dev = [{ name = "goal", specifier = ">=2.1.235" }]
 
 [[package]]
 name = "tiktoken"
