@@ -10,7 +10,7 @@ from tagi.models import Change, ChangeType, Tag
 from tagi.config import Config
 from tagi.planner.grouper import group_changes, group_by_tag, group_by_risk
 from tagi.planner.selector import select_by_tags, select_safe_changes
-from tagi.composer.commit_message import generate_conventional_message
+from tagi.composer.commit_message import generate_commit_message, generate_conventional_message
 from tagi.composer.summary import generate_summary
 from tagi.executor.git import GitExecutor
 from tagi.executor.publish import PublishExecutor
@@ -459,6 +459,37 @@ def test_composer_conventional():
     
     message = generate_conventional_message(changes)
     assert message.startswith("feat")
+
+
+def test_composer_mixed_tags_use_all_summary_tag():
+    """Test mixed change sets do not inherit the first sorted file's tag."""
+    changes = [
+        Change(path="README.md", change_type=ChangeType.MODIFIED),
+        Change(path="src/tagi/cli.py", change_type=ChangeType.MODIFIED),
+        Change(path="goal.yaml", change_type=ChangeType.MODIFIED),
+        Change(path="src/tagi/providers/koru.py", change_type=ChangeType.ADDED),
+    ]
+    changes[0].tags = [Tag.DOCS]
+    changes[1].tags = [Tag.SMALL]
+    changes[2].tags = [Tag.CONFIG]
+    changes[3].tags = [Tag.NEW]
+
+    message = generate_commit_message(changes, template="default")
+    assert message.startswith("#all: 4 files")
+    assert not message.startswith("#docs:")
+
+
+def test_composer_homogeneous_tags_keep_specific_tag():
+    """Test single-tag change sets keep their category prefix."""
+    changes = [
+        Change(path="README.md", change_type=ChangeType.MODIFIED),
+        Change(path="docs/usage.md", change_type=ChangeType.MODIFIED),
+    ]
+    changes[0].tags = [Tag.DOCS]
+    changes[1].tags = [Tag.DOCS]
+
+    message = generate_commit_message(changes, template="default")
+    assert message.startswith("#docs: 2 files")
 
 
 def test_composer_summary():

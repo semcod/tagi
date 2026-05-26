@@ -17,6 +17,7 @@ from tagi.models.change import ChangeType, Tag
 from tagi.planner.grouper import group_changes
 from tagi.providers.github import GitHubProvider
 from tagi.providers.gitlab import GitLabProvider
+from tagi.providers.koru import KoruProvider
 from tagi.scanner.status import scan_repo
 from tagi.scanner.diff import get_diff
 from tagi.utils.logger import setup_logger
@@ -587,6 +588,175 @@ def send(
             console.print("[yellow]Push failed, but changes are committed[/yellow]")
         else:
             console.print("[green]✓ Changes pushed[/green]")
+
+
+@app.command()
+def auto(
+    repo_path: str = typer.Argument(".", help="Path to repository"),
+    dry_run: bool = typer.Option(False, "--dry-run", help="Preview without executing"),
+    template: str = typer.Option("default", "--template", "-t", help="Commit message template (default, conventional, detailed)"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose logging"),
+):
+    """Automatically scan and send all changes with auto-order and push."""
+    _configure_command_logging(verbose)
+
+    console.print("[bold]Auto mode:[/bold] Scanning and sending all changes")
+    
+    # First scan
+    try:
+        changes = scan_repo(repo_path)
+        changes = apply_tags(changes, repo_path)
+    except (ValueError, RuntimeError) as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(1)
+    except Exception as e:
+        console.print(f"[red]Unexpected error: {e}[/red]")
+        raise typer.Exit(1)
+    
+    if not changes:
+        console.print("[yellow]No changes found[/yellow]")
+        return
+    
+    # Display scan results
+    console.print(f"[green]✓ Found {len(changes)} changes[/green]")
+    
+    # Sort by complexity and send with push
+    filtered_changes = sort_by_complexity(changes)
+    console.print("[bold]Sorting changes by complexity (simplest first)[/bold]")
+    
+    # Create group for all changes
+    from tagi.models import ChangeGroup
+    total_lines = sum(c.lines_changed for c in filtered_changes)
+    avg_risk = sum(c.risk_score for c in filtered_changes) / len(filtered_changes) if filtered_changes else 0.0
+    
+    group = ChangeGroup(
+        name="all",
+        changes=filtered_changes,
+        tags=[],
+        total_lines=total_lines,
+        avg_risk=avg_risk
+    )
+
+    # Generate commit message
+    message = generate_commit_message(group.changes, template=template, repo_path=repo_path)
+    console.print("\n[bold cyan]Commit message:[/bold cyan]")
+    console.print(message)
+    
+    if dry_run:
+        console.print("\n[yellow][DRY-RUN] No changes will be made[/yellow]")
+        return
+    
+    # Stage and commit changes
+    executor = PublishExecutor(repo_path)
+    files = [c.path for c in group.changes]
+    
+    try:
+        if not executor.stage_and_commit(files, message):
+            console.print("[red]Error staging and committing changes[/red]")
+            raise typer.Exit(1)
+    except RuntimeError as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(1)
+    
+    console.print("[green]✓ Changes committed[/green]")
+    
+    # Push changes
+    console.print("[bold]Pushing[/bold]...")
+    if not executor.git.push():
+        console.print("[yellow]Push failed, but changes are committed[/yellow]")
+    else:
+        console.print("[green]✓ Changes pushed[/green]")
+
+
+@app.command()
+def deploy(
+    repo_path: str = typer.Argument(".", help="Path to repository"),
+    dry_run: bool = typer.Option(False, "--dry-run", help="Preview deployment without executing"),
+    koru_host: str = typer.Option("127.0.0.1", "--koru-host", help="Koru API host"),
+    koru_port: int = typer.Option(8790, "--koru-port", help="Koru API port"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose logging"),
+):
+    """Deploy changes using Koru API for priority analysis."""
+    _configure_command_logging(verbose)
+
+    console.print("[bold]Deploy mode:[/bold] Analyzing deployment priority with Koru")
+    
+    # Initialize Koru provider
+    koru = KoruProvider(Path(repo_path), koru_host, koru_port)
+    
+    if not koru.is_available():
+        console.print("[red]Koru API is not available[/red]")
+        console.print(f"Make sure Koru is running on {koru_host}:{koru_port}")
+        raise typer.Exit(1)
+    
+    # Scan changes
+    try:
+        changes = scan_repo(repo_path)
+        changes = apply_tags(changes, repo_path)
+    except (ValueError, RuntimeError) as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(1)
+    except Exception as e:
+        console.print(f"[red]Unexpected error: {e}[/red]")
+        raise typer.Exit(1)
+    
+    if not changes:
+        console.print("[yellow]No changes found[/yellow]")
+        return
+    
+    console.print(f"[green]✓ Found {len(changes)} changes[/green]")
+    
+    # Analyze deployment priority with Koru
+    deployment_plan = koru.analyze_deployment_priority(changes)
+    
+    console.print("\n[bold cyan]Deployment Priority Analysis:[/bold cyan]")
+    console.print(f"Priority order: {' → '.join(deployment_plan.priority_order)}")
+    
+    console.print("\n[bold cyan]Deployment Groups:[/bold cyan]")
+    for group in deployment_plan.deployment_groups:
+        console.print(f"\n[yellow]{group['name'].upper()}[/yellow] (Priority: {group['priority']})")
+        console.print(f"Reason: {group['reason']}")
+        console.print(f"Files: {', '.join(group['changes'])}")
+        if group['name'] in deployment_plan.risk_assessment:
+            console.print(f"Risk score: {deployment_plan.risk_assessment[group['name']]:.2f}")
+    
+    console.print("\n[bold cyan]Recommendations:[/bold cyan]")
+    for rec in deployment_plan.recommendations:
+        console.print(f"• {rec}")
+    
+    if dry_run:
+        console.print("\n[yellow][DRY-RUN] No deployment actions will be taken[/yellow]")
+        return
+    
+    # Ask for confirmation
+    if not typer.confirm("\nProceed with deployment according to priority order?"):
+        console.print("[yellow]Deployment cancelled[/yellow]")
+        return
+    
+    # Deploy groups in priority order
+    console.print("\n[bold]Starting deployment...[/bold]")
+    
+    for group_name in deployment_plan.priority_order:
+        group = next((g for g in deployment_plan.deployment_groups if g['name'] == group_name), None)
+        if not group:
+            continue
+        
+        console.print(f"\n[yellow]Deploying {group_name}...[/yellow]")
+        
+        # Get changes for this group
+        group_changes = [c for c in changes if c.path in group['changes']]
+        
+        # Deploy using Koru
+        success = koru.deploy_group(group_name, group_changes, dry_run=False)
+        
+        if success:
+            console.print(f"[green]✓ {group_name} deployed successfully[/green]")
+        else:
+            console.print(f"[red]✗ {group_name} deployment failed[/red]")
+            if not typer.confirm(f"Continue with next group?"):
+                break
+    
+    console.print("\n[green]Deployment completed[/green]")
 
 
 @app.command()

@@ -1,6 +1,7 @@
 """Commit message module for generating commit messages."""
 
 from typing import List
+from collections import Counter
 
 from tagi.models import Change, Tag
 from tagi.config import Config
@@ -17,7 +18,7 @@ def generate_commit_message(changes: List[Change], template: str = "default", re
     
     files_str = ", ".join([c.path for c in changes])
     count = len(changes)
-    tag = changes[0].tags[0].value if changes and changes[0].tags else "#small"
+    tag = _summary_tag(changes)
     
     if template == "conventional":
         message = generate_conventional_message(changes)
@@ -38,7 +39,7 @@ def generate_commit_message(changes: List[Change], template: str = "default", re
     if use_llm or config.llm_enabled:
         from tagi.llm import LlxAdapter
         llm = LlxAdapter(repo_path, enabled=True)
-        context = f"Files: {files_str}, Tags: {[t.value for t in changes[0].tags] if changes else []}"
+        context = f"Files: {files_str}, Tags: {_all_tag_values(changes)}"
         message = llm.improve_message(message, context)
     
     return message
@@ -50,7 +51,7 @@ def generate_conventional_message(changes: List[Change]) -> str:
         return "chore: empty commit"
     
     # Determine type from tags
-    tags = changes[0].tags
+    tags = set(_all_tags(changes))
     if Tag.FEATURE in tags:
         commit_type = "feat"
     elif Tag.RISKY in tags:
@@ -97,7 +98,6 @@ def generate_detailed_message(changes: List[Change]) -> str:
     lines.append("")
     
     # Group by tag
-    from collections import Counter
     tag_counts = Counter()
     for change in changes:
         for tag in change.tags:
@@ -121,7 +121,7 @@ def generate_simple_message(changes: List[Change]) -> str:
     if not changes:
         return "Empty commit"
     
-    tag = changes[0].tags[0].value if changes and changes[0].tags else "small"
+    tag = _summary_tag(changes)
     files = [c.path for c in changes]
     
     if len(files) == 1:
@@ -135,7 +135,7 @@ def generate_oneline_message(changes: List[Change]) -> str:
     if not changes:
         return "empty commit"
     
-    tag = changes[0].tags[0].value if changes and changes[0].tags else "small"
+    tag = _summary_tag(changes)
     count = len(changes)
     files_str = ", ".join([c.path for c in changes[:3]])
     if count > 3:
@@ -158,6 +158,33 @@ def generate_files_message(changes: List[Change]) -> str:
         lines.append(f"  {change.change_type.value:8} {change.path:40} [{tags_str}]")
     
     return "\n".join(lines)
+
+
+def _all_tags(changes: List[Change]) -> List[Tag]:
+    """Return unique tags across all changes, preserving first-seen order."""
+    tags = []
+    seen = set()
+    for change in changes:
+        for tag in change.tags:
+            if tag not in seen:
+                tags.append(tag)
+                seen.add(tag)
+    return tags
+
+
+def _all_tag_values(changes: List[Change]) -> List[str]:
+    """Return unique tag values across all changes."""
+    return [tag.value for tag in _all_tags(changes)]
+
+
+def _summary_tag(changes: List[Change]) -> str:
+    """Choose a stable tag prefix for a commit spanning one or more changes."""
+    tags = _all_tags(changes)
+    if not tags:
+        return "#small"
+    if len(tags) == 1:
+        return tags[0].value
+    return "#all"
 
 
 def _infer_scope(changes: List[Change]) -> str:

@@ -3,11 +3,11 @@
 
 ## AI Cost Tracking
 
-![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-0.49.7-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
-![AI Cost](https://img.shields.io/badge/AI%20Cost-$1.59-orange) ![Human Time](https://img.shields.io/badge/Human%20Time-9.2h-blue) ![Model](https://img.shields.io/badge/Model-openrouter%2Fqwen%2Fqwen3--coder--next-lightgrey)
+![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-0.1.31-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
+![AI Cost](https://img.shields.io/badge/AI%20Cost-$1.60-orange) ![Human Time](https://img.shields.io/badge/Human%20Time-9.6h-blue) ![Model](https://img.shields.io/badge/Model-openrouter%2Fqwen%2Fqwen3--coder--next-lightgrey)
 
-- 🤖 **LLM usage:** $1.5936 (18 commits)
-- 👤 **Human dev:** ~$918 (9.2h @ $100/h, 30min dedup)
+- 🤖 **LLM usage:** $1.5985 (20 commits)
+- 👤 **Human dev:** ~$955 (9.6h @ $100/h, 30min dedup)
 
 Generated on 2026-05-26 using [openrouter/qwen/qwen3-coder-next](https://openrouter.ai/qwen/qwen3-coder-next)
 
@@ -69,6 +69,8 @@ tagi deps <path> [--cycles] [--critical]
 tagi metrics <path> [--output FILE] [--report]
 tagi draft <tag> <path> [--template TEMPLATE]
 tagi send <path> [tags...] [--dry-run] [--push] [--template TEMPLATE] [--interactive] [--auto-order]
+tagi auto <path> [--dry-run] [--template TEMPLATE]
+tagi deploy <path> [--dry-run] [--koru-host HOST] [--koru-port PORT]
 tagi publish <tag> <path> [--dry-run] [--template TEMPLATE]
 ```
 
@@ -87,6 +89,8 @@ tagi publish <tag> <path> [--dry-run] [--template TEMPLATE]
 - `metrics` — zbieraj i wyświetlaj metryki o zmianach (eksport JSON, raport)
 - `draft` — propozycja opisu commita z wyborem szablonu
 - `send` — po potwierdzeniu wykonuje `git add` i `git commit`; push jest opcjonalny (z trybem interaktywnym); akceptuje wiele tagów w kolejności priorytetu, np. `tagi send . small docs`; bez tagów lub z flagą --auto-order sortuje automatycznie od najprostszych do najtrudniejszych
+- `auto` — automatycznie skanuje, sortuje i wysyła wszystkie zmiany z pushem (odpowiednik `tagi scan . && tagi send . --auto-order --push`)
+- `deploy` — wdraża zmiany na serwer z analizą priorytetów przez API Koru (inteligentna kolejność wdrażania)
 - `publish` — rozszerzenie o PR/MR przez provider z auto-detection (GitHub/GitLab)
 
 ## Architektura (kierunek)
@@ -241,21 +245,64 @@ tagi publish small /path/to/repo --template conventional
 tagi publish risky /path/to/repo --dry-run
 ```
 
+### Integracja z Koru (wdrożenia na serwer)
+```bash
+# Analiza priorytetów wdrożenia z API Koru
+tagi deploy /path/to/repo
+
+# Podgląd planu wdrożenia
+tagi deploy /path/to/repo --dry-run
+
+# Wdrożenie z niestandardowym hostem Koru
+tagi deploy /path/to/repo --koru-host 192.168.1.100 --koru-port 8790
+```
+
+**Korzyści z integracji z Koru:**
+- 🎯 **Inteligentna kolejność** - analiza priorytetów przez API Koru
+- 📊 **Analiza ryzyka** - ocena wpływu zmian na system
+- 🏗️ **Kontekst projektu** - uwzględnienie topologii i zależności
+- 🚦 **Quality gates** - automatyczne sprawdzanie jakości
+- 📋 **Planfile tickets** - integracja z systemem ticketów
+
+### Automatyzacja
+```bash
+# Pełna automatyzacja - skanuj, sortuj, commituj i pushuj
+tagi auto /path/to/repo
+
+# Automatyzacja z podglądem
+tagi auto /path/to/repo --dry-run
+
+# Automatyzacja z konwencjonalnym formatem
+tagi auto /path/to/repo --template conventional
+```
+
 ### Przepływy pracy (workflows)
 ```bash
-# Workflow 1: Bezpieczne zmiany najpierw
+# Workflow 1: Szybka automatyzacja
+tagi auto /path/to/repo
+
+# Workflow 2: Bezpieczne zmiany najpierw
 tagi safe /path/to/repo
 tagi send /path/to/repo $(tagi safe /path/to/repo --tags-only) --push
 
-# Workflow 2: Priorytetyzacja od ryzykownych
+# Workflow 3: Priorytetyzacja od ryzykownych
 tagi scan /path/to/repo --grouped
 tagi send /path/to/repo risky large --push
 
-# Workflow 3: Pełny cykl development
+# Workflow 4: Pełny cykl development
 tagi scan /path/to/repo
 tagi summary /path/to/repo --output dev-report.txt
-tagi send /path/to/repo small docs --push
+tagi auto /path/to/repo  # zamiast send + push
 tagi publish /path/to/repo feature --template detailed
+
+# Workflow 5: Inteligentne wdrożenie z Koru
+tagi deploy /path/to/repo --dry-run  # analiza priorytetów
+tagi deploy /path/to/repo  # wdrożenie z uwzględnieniem kolejności
+
+# Workflow 6: Pełny cykl z wdrożeniem
+tagi scan /path/to/repo
+tagi auto /path/to/repo  # commit lokalny
+tagi deploy /path/to/repo  # wdrożenie na serwer z analizą
 ```
 
 ## Konfiguracja

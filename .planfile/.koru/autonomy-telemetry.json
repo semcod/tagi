@@ -1,0 +1,74 @@
+{
+  "cumulative": {
+    "autopilot_idle_streak_skips": 0,
+    "scan_after_idle_runs": 0,
+    "scan_after_idle_tickets_applied": 0
+  },
+  "cycle": 3,
+  "knobs": {
+    "autopilot_skip_drive_idle_streak": 0,
+    "scan_after_idle_min_interval_seconds": 60.0,
+    "scan_after_idle_queue": true
+  },
+  "last_cycle": {
+    "autopilot_skipped_idle_streak": false,
+    "environment_profile": {
+      "control": {
+        "can_confirm_submit": false,
+        "family": "ide_control",
+        "interface_id": "plugin_socket_jetbrains",
+        "operator_recovery": [
+          "reconnect_plugin",
+          "restart_ide"
+        ],
+        "transport": "unix_socket_ndjson",
+        "verification_mode": "plugin_ack",
+        "write_mode": "plugin_drive"
+      },
+      "decision_key": "os=wayland|ide=jetbrains|llm=ide_chat|control=plugin_socket_jetbrains|verify=plugin_ack",
+      "ide": {
+        "config_path": null,
+        "extensions_metadata_path": null,
+        "id": "jetbrains",
+        "keyboard_fallback_default": true,
+        "label": "JetBrains IDE",
+        "plugin_supported": false,
+        "strict_plugin_ack_required": false,
+        "submit_key": "ctrl+Return",
+        "trusted_publisher_required": false
+      },
+      "llm": {
+        "model": null,
+        "provider": "ide_chat",
+        "source": "default"
+      },
+      "os": {
+        "display_server": "wayland",
+        "platform": "linux",
+        "preferred_keyboard_interface": "os_injector_wtype",
+        "session": "wayland",
+        "system": "Linux"
+      },
+      "project": "/home/tom/github/semcod/tagi",
+      "schema": "koru.environment-profile/v1"
+    },
+    "scan_after_idle_applied": 0,
+    "scan_after_idle_run": false,
+    "scan_after_idle_skipped_rate_limit": false
+  },
+  "recent_decisions": [
+    {
+      "action": "submit_verified(backend=os_injector)",
+      "at": "2026-05-26T19:38:05+00:00",
+      "blocked_by": "",
+      "cycle": 3,
+      "decided": "ticket_prompt",
+      "evidence": "backend=os_injector, diagnostics=skipped, wup=skipped",
+      "next_step": "wait for IDE response, then advance queue",
+      "observed": "queue=waiting_input ticket=PLF-001 streak=2",
+      "skip_because": "",
+      "skip_code": "ok"
+    }
+  ],
+  "updated_at": "2026-05-26T19:38:05.322578+00:00"
+}

@@ -1,0 +1,12 @@
+{
+  "created_ticket_id": "PLF-001",
+  "created_ticket_title": "Frontend: spójny design-system",
+  "project": "/home/tom/github/semcod/tagi",
+  "schema": "koru.onboarding/v1",
+  "selected_ide": "jetbrains",
+  "strategy_path": [
+    "frontend",
+    "design_system"
+  ],
+  "updated_at": "2026-05-26T19:32:16.881864+00:00"
+}
