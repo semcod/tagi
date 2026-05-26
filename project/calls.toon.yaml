@@ -1,15 +1,19 @@
 # code2llm call graph | /home/tom/github/semcod/tagi
-# generated in 0.04s
-# nodes: 43 | edges: 39 | modules: 13
-# CC̄=4.3
+# generated in 0.03s
+# nodes: 66 | edges: 60 | modules: 21
+# CC̄=3.9
 
 HUBS[20]:
   src.tagi.cli.send
-    CC=27  in:0  out:47  total:47
+    CC=23  in:0  out:48  total:48
   src.tagi.cli.publish
-    CC=17  in:0  out:45  total:45
+    CC=12  in:0  out:45  total:45
   src.tagi.cli.filter
-    CC=17  in:0  out:28  total:28
+    CC=11  in:0  out:28  total:28
+  src.tagi.cli.summary
+    CC=5  in:0  out:28  total:28
+  src.tagi.cli.inspect
+    CC=11  in:0  out:28  total:28
   src.tagi.heuristics.tags.apply_tags
     CC=11  in:10  out:16  total:26
   src.tagi.scanner.status.scan_repo
@@ -17,52 +21,48 @@ HUBS[20]:
   src.tagi.cli.draft
     CC=10  in:0  out:22  total:22
   src.tagi.utils.logger.setup_logger
-    CC=4  in:1  out:15  total:16
+    CC=4  in:2  out:15  total:17
   src.tagi.composer.commit_message.generate_commit_message
-    CC=14  in:3  out:12  total:15
+    CC=15  in:3  out:13  total:16
   src.tagi.cli.scan
     CC=6  in:0  out:15  total:15
-  src.tagi.cli._display_changes_grouped
-    CC=5  in:1  out:12  total:13
-  src.tagi.cli.list_groups
-    CC=4  in:0  out:13  total:13
   src.tagi.composer.commit_message.generate_detailed_message
     CC=7  in:1  out:12  total:13
+  src.tagi.cli._do_list_groups
+    CC=4  in:2  out:11  total:13
   src.tagi.planner.grouper.group_changes
     CC=7  in:2  out:11  total:13
+  src.tagi.cli._display_changes_grouped
+    CC=5  in:1  out:12  total:13
+  src.tagi.utils.inspect_helpers.display_statistics_table
+    CC=1  in:1  out:11  total:12
   src.tagi.heuristics.metrics._calculate_complexity
     CC=5  in:1  out:10  total:11
   src.tagi.cli._display_changes
     CC=2  in:3  out:7  total:10
-  src.tagi.analyzer.dependency_graph.analyze_python_imports
-    CC=8  in:1  out:8  total:9
   src.tagi.cli._display_groups
     CC=2  in:1  out:8  total:9
-  src.tagi.cli._format_tags
-    CC=5  in:4  out:4  total:8
-  src.tagi.heuristics.metrics._calculate_impact
-    CC=5  in:1  out:7  total:8
-  src.tagi.scanner.files.count_lines_changed
-    CC=7  in:1  out:7  total:8
+  src.tagi.analyzer.dependency_graph.analyze_python_imports
+    CC=8  in:1  out:8  total:9
 
 MODULES:
   src.tagi.analyzer.dependency_graph  [2 funcs]
     analyze_python_imports  CC=8  out:8
     build_dependency_graph  CC=3  out:4
-  src.tagi.cli  [13 funcs]
+  src.tagi.cli  [20 funcs]
+    _configure_command_logging  CC=2  out:2
     _display_changes  CC=2  out:7
     _display_changes_grouped  CC=5  out:12
     _display_groups  CC=2  out:8
+    _do_list_groups  CC=4  out:11
     _ensure_tag_prefix  CC=2  out:1
     _format_tags  CC=5  out:4
+    _is_known_tag  CC=2  out:2
+    _resolve_send_target  CC=5  out:5
     detect_provider  CC=3  out:4
-    draft  CC=10  out:22
-    filter  CC=17  out:28
-    list_groups  CC=4  out:13
-    publish  CC=17  out:45
   src.tagi.composer.commit_message  [6 funcs]
     _infer_scope  CC=7  out:2
-    generate_commit_message  CC=14  out:12
+    generate_commit_message  CC=15  out:13
     generate_conventional_message  CC=12  out:2
     generate_detailed_message  CC=7  out:12
     generate_oneline_message  CC=6  out:2
@@ -92,38 +92,80 @@ MODULES:
   src.tagi.planner.sorter  [2 funcs]
     group_by_complexity  CC=5  out:7
     sort_by_complexity  CC=1  out:4
+  src.tagi.providers.github  [3 funcs]
+    create_pr  CC=1  out:3
+    get_auth_status  CC=1  out:2
+    is_authenticated  CC=1  out:2
+  src.tagi.providers.gitlab  [3 funcs]
+    create_pr  CC=1  out:3
+    get_auth_status  CC=1  out:2
+    is_authenticated  CC=1  out:2
+  src.tagi.providers.utils.auth  [2 funcs]
+    get_auth_status_from_result  CC=2  out:0
+    is_authenticated_from_result  CC=1  out:0
+  src.tagi.providers.utils.pr  [2 funcs]
+    build_pr_command  CC=5  out:4
+    execute_pr_command  CC=2  out:0
   src.tagi.scanner.files  [1 funcs]
     count_lines_changed  CC=7  out:7
   src.tagi.scanner.status  [2 funcs]
     parse_status  CC=4  out:0
     scan_repo  CC=7  out:15
+  src.tagi.utils.inspect_helpers  [2 funcs]
+    calculate_tag_statistics  CC=4  out:5
+    display_statistics_table  CC=1  out:11
   src.tagi.utils.logger  [1 funcs]
     setup_logger  CC=4  out:15
+  src.tagi.utils.publish_helpers  [2 funcs]
+    detect_and_get_provider  CC=3  out:3
+    filter_changes_by_tag  CC=3  out:1
+  src.tagi.utils.send_helpers  [1 funcs]
+    resolve_filtered_changes  CC=5  out:3
+  src.tagi.utils.summary_helpers  [1 funcs]
+    build_report_header  CC=1  out:7
 
 EDGES:
-  src.tagi.scanner.status.scan_repo → src.tagi.scanner.status.parse_status
   src.tagi.cli.setup_logging → src.tagi.utils.logger.setup_logger
+  src.tagi.cli._configure_command_logging → src.tagi.utils.logger.setup_logger
+  src.tagi.cli._is_known_tag → src.tagi.cli._ensure_tag_prefix
+  src.tagi.cli._resolve_send_target → src.tagi.cli._is_known_tag
   src.tagi.cli.scan → src.tagi.scanner.status.scan_repo
   src.tagi.cli.scan → src.tagi.heuristics.tags.apply_tags
   src.tagi.cli.scan → src.tagi.cli._display_changes_grouped
   src.tagi.cli.scan → src.tagi.cli._display_changes
-  src.tagi.cli.list_groups → src.tagi.cli._display_groups
-  src.tagi.cli.list_groups → src.tagi.scanner.status.scan_repo
-  src.tagi.cli.list_groups → src.tagi.heuristics.tags.apply_tags
-  src.tagi.cli.list_groups → src.tagi.planner.grouper.group_changes
+  src.tagi.cli.list_groups → src.tagi.cli._do_list_groups
+  src.tagi.cli.list_cmd → src.tagi.cli._do_list_groups
+  src.tagi.cli._do_list_groups → src.tagi.cli._display_groups
+  src.tagi.cli._do_list_groups → src.tagi.scanner.status.scan_repo
+  src.tagi.cli._do_list_groups → src.tagi.heuristics.tags.apply_tags
+  src.tagi.cli._do_list_groups → src.tagi.planner.grouper.group_changes
+  src.tagi.cli.inspect → src.tagi.utils.inspect_helpers.display_statistics_table
+  src.tagi.cli.inspect → src.tagi.cli._display_changes
   src.tagi.cli.filter → src.tagi.cli._display_changes
   src.tagi.cli.filter → src.tagi.scanner.status.scan_repo
   src.tagi.cli.filter → src.tagi.heuristics.tags.apply_tags
+  src.tagi.cli.summary → src.tagi.utils.summary_helpers.build_report_header
   src.tagi.cli.draft → src.tagi.composer.commit_message.generate_commit_message
-  src.tagi.cli.send → src.tagi.composer.commit_message.generate_commit_message
+  src.tagi.cli.send → src.tagi.cli._configure_command_logging
+  src.tagi.cli.send → src.tagi.cli._resolve_send_target
+  src.tagi.cli.publish → src.tagi.cli._configure_command_logging
   src.tagi.cli.publish → src.tagi.cli._ensure_tag_prefix
-  src.tagi.cli.publish → src.tagi.cli.detect_provider
+  src.tagi.cli.publish → src.tagi.utils.publish_helpers.filter_changes_by_tag
   src.tagi.cli._display_changes → src.tagi.cli._format_tags
   src.tagi.cli._display_groups → src.tagi.cli._format_tags
   src.tagi.analyzer.dependency_graph.build_dependency_graph → src.tagi.analyzer.dependency_graph.analyze_python_imports
   src.tagi.planner.sorter.group_by_complexity → src.tagi.planner.sorter.sort_by_complexity
   src.tagi.planner.grouper.group_changes → src.tagi.planner.grouper._get_primary_tag
   src.tagi.planner.grouper.group_by_tag → src.tagi.planner.selector.select_changes_by_tag
+  src.tagi.providers.gitlab.GitLabProvider.is_authenticated → src.tagi.providers.utils.auth.is_authenticated_from_result
+  src.tagi.providers.gitlab.GitLabProvider.get_auth_status → src.tagi.providers.utils.auth.get_auth_status_from_result
+  src.tagi.providers.gitlab.GitLabProvider.create_pr → src.tagi.providers.utils.pr.build_pr_command
+  src.tagi.providers.gitlab.GitLabProvider.create_pr → src.tagi.providers.utils.pr.execute_pr_command
+  src.tagi.providers.github.GitHubProvider.is_authenticated → src.tagi.providers.utils.auth.is_authenticated_from_result
+  src.tagi.providers.github.GitHubProvider.get_auth_status → src.tagi.providers.utils.auth.get_auth_status_from_result
+  src.tagi.providers.github.GitHubProvider.create_pr → src.tagi.providers.utils.pr.build_pr_command
+  src.tagi.providers.github.GitHubProvider.create_pr → src.tagi.providers.utils.pr.execute_pr_command
+  src.tagi.scanner.status.scan_repo → src.tagi.scanner.status.parse_status
   src.tagi.heuristics.metrics.calculate_metrics → src.tagi.heuristics.metrics._calculate_complexity
   src.tagi.heuristics.metrics.calculate_metrics → src.tagi.heuristics.metrics._calculate_impact
   src.tagi.heuristics.metrics.calculate_metrics → src.tagi.heuristics.metrics._calculate_stability
@@ -133,10 +175,3 @@ EDGES:
   src.tagi.heuristics.tags.apply_tags → src.tagi.heuristics.metrics.calculate_metrics
   src.tagi.heuristics.tags.apply_tags → src.tagi.heuristics.scoring.calculate_risk_score
   src.tagi.heuristics.tags.apply_tags → src.tagi.heuristics.tags.apply_path_tags
-  src.tagi.heuristics.rules.get_custom_rules → src.tagi.heuristics.rules._get_config_attr
-  src.tagi.heuristics.rules.get_custom_heuristics → src.tagi.heuristics.rules._get_config_attr
-  src.tagi.composer.commit_message.generate_commit_message → src.tagi.composer.commit_message.generate_conventional_message
-  src.tagi.composer.commit_message.generate_commit_message → src.tagi.composer.commit_message.generate_detailed_message
-  src.tagi.composer.commit_message.generate_commit_message → src.tagi.composer.commit_message.generate_simple_message
-  src.tagi.composer.commit_message.generate_commit_message → src.tagi.composer.commit_message.generate_oneline_message
-  src.tagi.composer.commit_message.generate_conventional_message → src.tagi.composer.commit_message._infer_scope

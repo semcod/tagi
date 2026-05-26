@@ -1,5 +1,5 @@
 flowchart TD
-%% generated in 0.01s
+%% generated in 0.00s
 
     %% Entry points (blue)
     classDef entry fill:#4dabf7,stroke:#1971c2,color:#fff
@@ -13,14 +13,14 @@ flowchart TD
         src__tagi__config__Config__get_tag_description["get_tag_description"]
         src__tagi__config__Config__get_template["get_template"]
         src__tagi__config__Config__should_ignore["should_ignore"]
-        src__tagi__planner__preview__preview_plan["preview_plan"]
-        src__tagi__planner__preview__preview_changes["preview_changes"]
-        src__tagi__planner__selector__select_low_risk_changes["select_low_risk_changes"]
-        src__tagi__planner__selector__select_small_changes["select_small_changes"]
-        src__tagi__planner__selector__select_by_tags["select_by_tags"]
-        src__tagi__planner__selector__select_safe_changes["select_safe_changes"]
-        src__tagi__providers__base__BaseProvider__is_authenticated["is_authenticated"]
-        ...["+82 more"]
+        src__tagi__cli__setup_logging["setup_logging"]
+        src__tagi__cli___configure_command_logging["_configure_command_logging"]
+        src__tagi__cli___ensure_tag_prefix["_ensure_tag_prefix"]
+        src__tagi__cli___is_known_tag["_is_known_tag"]
+        src__tagi__cli___resolve_send_target["_resolve_send_target"]
+        src__tagi__cli__scan["scan"]
+        src__tagi__cli__list_groups["list_groups"]
+        ...["+93 more"]
     end
 
-    class src__tagi__config__Config___load_config,src__tagi__config__Config__get_tag_for_path,src__tagi__config__Config__get_custom_tags_for_pattern,src__tagi__config__Config__get_tag_color,src__tagi__config__Config__get_heuristics_for_path,src__tagi__config__Config__get_tag_description,src__tagi__config__Config__get_template,src__tagi__config__Config__should_ignore,src__tagi__planner__preview__preview_plan,src__tagi__planner__preview__preview_changes entry
+    class src__tagi__config__Config___load_config,src__tagi__config__Config__get_tag_for_path,src__tagi__config__Config__get_custom_tags_for_pattern,src__tagi__config__Config__get_tag_color,src__tagi__config__Config__get_heuristics_for_path,src__tagi__config__Config__get_tag_description,src__tagi__config__Config__get_template,src__tagi__config__Config__should_ignore,src__tagi__cli__setup_logging,src__tagi__cli___configure_command_logging entry

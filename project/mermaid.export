@@ -10,78 +10,95 @@ flowchart TD
         src__tagi__config__Config__get_tag_description["get_tag_description"]
         src__tagi__config__Config__get_template["get_template"]
         src__tagi__config__Config__should_ignore["should_ignore"]
+        src__tagi__cli__setup_logging["setup_logging"]
+        src__tagi__cli___configure_command_logging["_configure_command_logging"]
+        src__tagi__cli___ensure_tag_prefix["_ensure_tag_prefix"]
+        src__tagi__cli___is_known_tag["_is_known_tag"]
+        src__tagi__cli___resolve_send_target["_resolve_send_target"]
+        src__tagi__cli__scan["scan"]
+        src__tagi__cli__list_groups["list_groups"]
+        src__tagi__cli__list_cmd["list_cmd"]
+        src__tagi__cli___do_list_groups["_do_list_groups"]
+        src__tagi__cli__stats("stats CC=12")
+        src__tagi__cli__inspect("inspect CC=11")
+        src__tagi__cli__filter("filter CC=11")
+        src__tagi__cli__file["file"]
+        src__tagi__cli__summary["summary"]
+        src__tagi__cli__draft("draft CC=10")
+        src__tagi__cli__send{{send CC=23}}
+        src__tagi__cli__publish("publish CC=12")
+        src__tagi__cli___display_changes["_display_changes"]
+        src__tagi__cli___format_tags["_format_tags"]
+        src__tagi__cli___display_groups["_display_groups"]
+        src__tagi__cli___display_changes_grouped["_display_changes_grouped"]
+        src__tagi__cli__detect_provider["detect_provider"]
+        src__tagi__cli__create_pr["create_pr"]
+        src__tagi__cli__create_mr["create_mr"]
+        src__tagi__hooks__install_hooks["install_hooks"]
+        src__tagi__hooks__uninstall_hooks["uninstall_hooks"]
+        src__tagi__hooks__check_hooks_installed["check_hooks_installed"]
+        src__tagi__hooks__list_hooks["list_hooks"]
+        src__tagi__hooks__run_hook["run_hook"]
+        src__tagi__analyzer__dependency_graph__analyze_python_imports("analyze_python_imports CC=8")
+        src__tagi__analyzer__dependency_graph__build_dependency_graph["build_dependency_graph"]
+        src__tagi__analyzer__dependency_graph__find_dependency_order("find_dependency_order CC=10")
+        src__tagi__analyzer__dependency_graph__detect_cycles["detect_cycles"]
+        src__tagi__analyzer__dependency_graph__get_critical_path("get_critical_path CC=10")
+        src__tagi__analyzer__metrics__MetricsCollector____init__["__init__"]
+        src__tagi__analyzer__metrics__MetricsCollector__collect("collect CC=12")
+        src__tagi__analyzer__metrics__MetricsCollector__to_json["to_json"]
+        src__tagi__analyzer__metrics__MetricsCollector__save["save"]
+        src__tagi__analyzer__metrics__generate_report["generate_report"]
+        src__tagi__analyzer__metrics__compare_metrics["compare_metrics"]
+        src__tagi__planner__sorter__sort_by_complexity["sort_by_complexity"]
+        src__tagi__planner__sorter__sort_by_tag_priority["sort_by_tag_priority"]
+        src__tagi__planner__sorter__group_by_complexity["group_by_complexity"]
+        src__tagi__planner__grouper__group_changes["group_changes"]
+        src__tagi__planner__grouper__group_by_tag["group_by_tag"]
+        src__tagi__planner__grouper__group_by_risk["group_by_risk"]
+        src__tagi__planner__grouper___get_primary_tag["_get_primary_tag"]
         src__tagi__planner__preview__preview_plan["preview_plan"]
         src__tagi__planner__preview__preview_changes["preview_changes"]
-        src__tagi__planner__selector__select_changes_by_tag["select_changes_by_tag"]
-        src__tagi__planner__selector__select_low_risk_changes["select_low_risk_changes"]
-        src__tagi__planner__selector__select_small_changes["select_small_changes"]
-        src__tagi__planner__selector__select_by_tags("select_by_tags CC=8")
-        src__tagi__planner__selector__select_safe_changes("select_safe_changes CC=8")
-        src__tagi__providers__base__BaseProvider____init__["__init__"]
-        src__tagi__providers__base__BaseProvider__is_authenticated["is_authenticated"]
-        src__tagi__providers__base__BaseProvider__get_auth_status["get_auth_status"]
-        src__tagi__providers__base__BaseProvider__create_pr["create_pr"]
-        src__tagi__providers__base__BaseProvider__detect_remote["detect_remote"]
-        src__tagi__providers__base__BaseProvider___run_command["_run_command"]
-        src__tagi__providers__base__BaseProvider___get_git_remote_url["_get_git_remote_url"]
-        src__tagi__providers__base__BaseProvider___check_git_remote_for_provider["_check_git_remote_for_provider"]
-        src__tagi__providers__gitlab__GitLabProvider__is_authenticated["is_authenticated"]
-        src__tagi__providers__gitlab__GitLabProvider__get_auth_status["get_auth_status"]
-        src__tagi__providers__gitlab__GitLabProvider__get_configured_host["get_configured_host"]
-        src__tagi__providers__gitlab__GitLabProvider__create_pr["create_pr"]
-        src__tagi__providers__gitlab__GitLabProvider__detect_remote["detect_remote"]
-        src__tagi__providers__github__GitHubProvider__is_authenticated["is_authenticated"]
-        src__tagi__providers__github__GitHubProvider__get_auth_status["get_auth_status"]
-        src__tagi__providers__github__GitHubProvider__get_token["get_token"]
-        src__tagi__providers__github__GitHubProvider__create_pr["create_pr"]
-        src__tagi__providers__github__GitHubProvider__detect_remote["detect_remote"]
-        src__tagi__scanner__files__count_lines_changed["count_lines_changed"]
-        src__tagi__scanner__status__scan_repo["scan_repo"]
-        src__tagi__scanner__status__parse_status["parse_status"]
-        src__tagi__scanner__diff__get_diff["get_diff"]
-        src__tagi__scanner__diff__get_staged_diff["get_staged_diff"]
-        src__tagi__heuristics__scoring__calculate_risk_score["calculate_risk_score"]
-        src__tagi__llm__llx_adapter__LlxAdapter____init__["__init__"]
-        src__tagi__llm__llx_adapter__LlxAdapter__is_available["is_available"]
-        src__tagi__llm__llx_adapter__LlxAdapter__improve_message["improve_message"]
-        src__tagi__llm__llx_adapter__LlxAdapter__improve_description["improve_description"]
-        src__tagi__composer__summary__generate_summary("generate_summary CC=11")
-        src__tagi__composer__summary__generate_file_list["generate_file_list"]
-        src__tagi__executor__git__GitExecutor____init__["__init__"]
-        src__tagi__executor__git__GitExecutor__add["add"]
-        src__tagi__executor__git__GitExecutor__commit["commit"]
-        src__tagi__executor__git__GitExecutor__push["push"]
-        src__tagi__executor__git__GitExecutor__status["status"]
-        src__tagi__executor__git__GitExecutor__get_current_branch["get_current_branch"]
-        src__tagi__executor__git__GitExecutor__get_remote_url["get_remote_url"]
-        src__tagi__executor__git__GitExecutor__has_staged_changes["has_staged_changes"]
-        src__tagi__executor__publish__PublishExecutor____init__["__init__"]
-        src__tagi__executor__publish__PublishExecutor__stage_and_commit["stage_and_commit"]
-        src__tagi__executor__publish__PublishExecutor__publish["publish"]
-        src__tagi__executor__publish__PublishExecutor__dry_run["dry_run"]
-        src__tagi__cli__setup_logging["setup_logging"]
-        src__tagi__cli___ensure_tag_prefix["_ensure_tag_prefix"]
+        src__tagi__planner__branch_grouper__group_by_branch("group_by_branch CC=8")
+        src__tagi__planner__branch_grouper__get_branch_info["get_branch_info"]
     end
-    src__tagi__scanner__status__scan_repo --> src__tagi__scanner__status__parse_status
     src__tagi__cli__setup_logging --> src__tagi__utils__logger__setup_logger
+    src__tagi__cli___configure_command_logging --> src__tagi__utils__logger__setup_logger
+    src__tagi__cli___is_known_tag --> src__tagi__cli___ensure_tag_prefix
+    src__tagi__cli___resolve_send_target --> src__tagi__cli___is_known_tag
     src__tagi__cli__scan --> src__tagi__scanner__status__scan_repo
     src__tagi__cli__scan --> src__tagi__heuristics__tags__apply_tags
     src__tagi__cli__scan --> src__tagi__cli___display_changes_grouped
     src__tagi__cli__scan --> src__tagi__cli___display_changes
-    src__tagi__cli__list_groups --> src__tagi__cli___display_groups
-    src__tagi__cli__list_groups --> src__tagi__scanner__status__scan_repo
-    src__tagi__cli__list_groups --> src__tagi__heuristics__tags__apply_tags
-    src__tagi__cli__list_groups --> src__tagi__planner__grouper__group_changes
+    src__tagi__cli__list_groups --> src__tagi__cli___do_list_groups
+    src__tagi__cli__list_cmd --> src__tagi__cli___do_list_groups
+    src__tagi__cli___do_list_groups --> src__tagi__cli___display_groups
+    src__tagi__cli___do_list_groups --> src__tagi__scanner__status__scan_repo
+    src__tagi__cli___do_list_groups --> src__tagi__heuristics__tags__apply_tags
+    src__tagi__cli___do_list_groups --> src__tagi__planner__grouper__group_changes
+    src__tagi__cli__inspect --> src__tagi__utils__inspect_helpers__display_statistics_table
+    src__tagi__cli__inspect --> src__tagi__cli___display_changes
+    src__tagi__cli__inspect --> src__tagi__scanner__status__scan_repo
+    src__tagi__cli__inspect --> src__tagi__heuristics__tags__apply_tags
     src__tagi__cli__filter --> src__tagi__cli___display_changes
     src__tagi__cli__filter --> src__tagi__scanner__status__scan_repo
     src__tagi__cli__filter --> src__tagi__heuristics__tags__apply_tags
+    src__tagi__cli__filter --> src__tagi__utils__inspect_helpers__filter_changes_by_tags_all
     src__tagi__cli__file --> src__tagi__scanner__status__scan_repo
+    src__tagi__cli__summary --> src__tagi__utils__summary_helpers__build_report_header
+    src__tagi__cli__summary --> src__tagi__scanner__status__scan_repo
+    src__tagi__cli__summary --> src__tagi__heuristics__tags__apply_tags
     src__tagi__cli__draft --> src__tagi__composer__commit_message__generate_commit_message
     src__tagi__cli__draft --> src__tagi__scanner__status__scan_repo
     src__tagi__cli__draft --> src__tagi__heuristics__tags__apply_tags
     src__tagi__cli__draft --> src__tagi__planner__grouper__group_changes
+    src__tagi__cli__send --> src__tagi__cli___configure_command_logging
+    src__tagi__cli__send --> src__tagi__cli___resolve_send_target
     src__tagi__cli__send --> src__tagi__composer__commit_message__generate_commit_message
+    src__tagi__cli__publish --> src__tagi__cli___configure_command_logging
     src__tagi__cli__publish --> src__tagi__cli___ensure_tag_prefix
+    src__tagi__cli__publish --> src__tagi__utils__publish_helpers__filter_changes_by_tag
+    src__tagi__cli__publish --> src__tagi__utils__publish_helpers__create_publish_group
     src__tagi__cli__publish --> src__tagi__cli__detect_provider
     src__tagi__cli__publish --> src__tagi__composer__commit_message__generate_commit_message
     src__tagi__cli___display_changes --> src__tagi__cli___format_tags
@@ -91,6 +108,15 @@ flowchart TD
     src__tagi__planner__sorter__group_by_complexity --> src__tagi__planner__sorter__sort_by_complexity
     src__tagi__planner__grouper__group_changes --> src__tagi__planner__grouper___get_primary_tag
     src__tagi__planner__grouper__group_by_tag --> src__tagi__planner__selector__select_changes_by_tag
+    src__tagi__providers__gitlab__GitLabProvider__is_authenticated --> src__tagi__providers__utils__auth__is_authenticated_from_result
+    src__tagi__providers__gitlab__GitLabProvider__get_auth_status --> src__tagi__providers__utils__auth__get_auth_status_from_result
+    src__tagi__providers__gitlab__GitLabProvider__create_pr --> src__tagi__providers__utils__pr__build_pr_command
+    src__tagi__providers__gitlab__GitLabProvider__create_pr --> src__tagi__providers__utils__pr__execute_pr_command
+    src__tagi__providers__github__GitHubProvider__is_authenticated --> src__tagi__providers__utils__auth__is_authenticated_from_result
+    src__tagi__providers__github__GitHubProvider__get_auth_status --> src__tagi__providers__utils__auth__get_auth_status_from_result
+    src__tagi__providers__github__GitHubProvider__create_pr --> src__tagi__providers__utils__pr__build_pr_command
+    src__tagi__providers__github__GitHubProvider__create_pr --> src__tagi__providers__utils__pr__execute_pr_command
+    src__tagi__scanner__status__scan_repo --> src__tagi__scanner__status__parse_status
     src__tagi__heuristics__metrics__calculate_metrics --> src__tagi__heuristics__metrics___calculate_complexity
     src__tagi__heuristics__metrics__calculate_metrics --> src__tagi__heuristics__metrics___calculate_impact
     src__tagi__heuristics__metrics__calculate_metrics --> src__tagi__heuristics__metrics___calculate_stability
@@ -108,8 +134,11 @@ flowchart TD
     src__tagi__composer__commit_message__generate_commit_message --> src__tagi__composer__commit_message__generate_oneline_message
     src__tagi__composer__commit_message__generate_commit_message --> src__tagi__composer__commit_message__generate_files_message
     src__tagi__composer__commit_message__generate_conventional_message --> src__tagi__composer__commit_message___infer_scope
+    src__tagi__utils__publish_helpers__detect_and_get_provider --> src__tagi__cli__detect_provider
+    src__tagi__utils__inspect_helpers__display_statistics_table --> src__tagi__utils__inspect_helpers__calculate_tag_statistics
+    src__tagi__utils__send_helpers__resolve_filtered_changes --> src__tagi__cli___ensure_tag_prefix
 
     classDef highCC fill:#ff6b6b,stroke:#c92a2a,color:#fff
     classDef medCC fill:#ffd43b,stroke:#f08c00,color:#000
-    class src__tagi__cli__inspect,src__tagi__cli__filter,src__tagi__cli__summary,src__tagi__cli__send,src__tagi__cli__publish highCC
-    class src__tagi__config__Config___load_config,src__tagi__planner__selector__select_by_tags,src__tagi__planner__selector__select_safe_changes,src__tagi__composer__summary__generate_summary,src__tagi__cli__stats,src__tagi__cli__draft,src__tagi__analyzer__dependency_graph__analyze_python_imports,src__tagi__analyzer__dependency_graph__find_dependency_order,src__tagi__analyzer__dependency_graph__get_critical_path,src__tagi__analyzer__metrics__MetricsCollector__collect,src__tagi__planner__branch_grouper__group_by_branch,src__tagi__heuristics__tags__apply_tags,src__tagi__composer__commit_message__generate_commit_message,src__tagi__composer__commit_message__generate_conventional_message medCC
+    class src__tagi__cli__send,src__tagi__composer__commit_message__generate_commit_message highCC
+    class src__tagi__config__Config___load_config,src__tagi__cli__stats,src__tagi__cli__inspect,src__tagi__cli__filter,src__tagi__cli__draft,src__tagi__cli__publish,src__tagi__analyzer__dependency_graph__analyze_python_imports,src__tagi__analyzer__dependency_graph__find_dependency_order,src__tagi__analyzer__dependency_graph__get_critical_path,src__tagi__analyzer__metrics__MetricsCollector__collect,src__tagi__planner__branch_grouper__group_by_branch,src__tagi__planner__selector__select_by_tags,src__tagi__planner__selector__select_safe_changes,src__tagi__heuristics__tags__apply_tags,src__tagi__composer__summary__generate_summary,src__tagi__composer__commit_message__generate_conventional_message medCC

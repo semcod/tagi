@@ -1,18 +1,18 @@
-# tagi | 46f 4051L | python:43,shell:2,less:1 | 2026-05-26
-# stats: 130 func | 15 cls | 46 mod | CC̄=4.8 | critical:14 | cycles:0
-# alerts[5]: CC send=27; CC filter=17; CC publish=17; CC inspect=15; CC summary=15
-# hotspots[5]: inspect fan=20; summary fan=20; publish fan=20; send fan=19; stats fan=18
+# tagi | 54f 4527L | python:51,shell:2,less:1 | 2026-05-26
+# stats: 156 func | 15 cls | 54 mod | CC̄=4.4 | critical:13 | cycles:0
+# alerts[5]: CC send=23; CC generate_commit_message=15; CC stats=12; CC publish=12; CC generate_conventional_message=12
+# hotspots[5]: send fan=20; publish fan=20; stats fan=18; summary fan=18; filter fan=17
 # evolution: baseline
 # Keys: M=modules, D=details, i=imports, e=exports, c=classes, f=functions, m=methods
-M[46]:
+M[54]:
   app.doql.less,29
   project.sh,48
   src/tagi/__init__.py,48
   src/tagi/analyzer/dependency_graph.py,196
   src/tagi/analyzer/metrics.py,154
-  src/tagi/cli.py,806
+  src/tagi/cli.py,798
   src/tagi/composer/__init__.py,13
-  src/tagi/composer/commit_message.py,184
+  src/tagi/composer/commit_message.py,186
   src/tagi/composer/summary.py,46
   src/tagi/config.py,130
   src/tagi/executor/__init__.py,10
@@ -39,17 +39,25 @@ M[46]:
   src/tagi/providers/__init__.py,12
   src/tagi/providers/base.py,59
   src/tagi/providers/detector.py,16
-  src/tagi/providers/github.py,48
-  src/tagi/providers/gitlab.py,56
+  src/tagi/providers/github.py,40
+  src/tagi/providers/gitlab.py,46
+  src/tagi/providers/utils/__init__.py,2
+  src/tagi/providers/utils/auth.py,33
+  src/tagi/providers/utils/pr.py,59
   src/tagi/scanner/__init__.py,14
   src/tagi/scanner/diff.py,32
   src/tagi/scanner/files.py,31
   src/tagi/scanner/status.py,68
+  src/tagi/utils/detect_provider.py,34
+  src/tagi/utils/inspect_helpers.py,99
   src/tagi/utils/logger.py,72
+  src/tagi/utils/publish_helpers.py,63
+  src/tagi/utils/send_helpers.py,71
+  src/tagi/utils/summary_helpers.py,114
   tests/test_e2e.py,129
   tests/test_github_provider.py,78
   tests/test_gitlab_provider.py,77
-  tests/test_tagi.py,483
+  tests/test_tagi.py,508
   tree.sh,2
 D:
   src/tagi/__init__.py:
@@ -66,19 +74,24 @@ D:
     generate_report(metrics)
     compare_metrics(metrics1;metrics2)
   src/tagi/cli.py:
-    e: setup_logging,_ensure_tag_prefix,scan,list_groups,stats,inspect,filter,file,summary,draft,send,publish,_display_changes,_format_tags,_display_groups,_display_changes_grouped,detect_provider,create_pr,create_mr
+    e: setup_logging,_configure_command_logging,_ensure_tag_prefix,_is_known_tag,_resolve_send_target,scan,list_groups,list_cmd,_do_list_groups,stats,inspect,filter,file,summary,draft,send,publish,_display_changes,_format_tags,_display_groups,_display_changes_grouped,detect_provider,create_pr,create_mr
     setup_logging(verbose)
+    _configure_command_logging(verbose)
     _ensure_tag_prefix(tag)
+    _is_known_tag(value)
+    _resolve_send_target(target;repo_path)
     scan(repo_path;grouped)
     list_groups(repo_path)
+    list_cmd(repo_path)
+    _do_list_groups(repo_path)
     stats(repo_path)
     inspect(tag;repo_path;diff)
     filter(tags;repo_path;match_all)
     file(file_path;repo_path)
     summary(repo_path;output)
     draft(tag;repo_path;template)
-    send(tag;repo_path;auto_order;dry_run;push;template)
-    publish(tag;repo_path;dry_run;template)
+    send(target;repo_path;auto_order;dry_run;push;template;verbose)
+    publish(tag;repo_path;dry_run;template;verbose)
     _display_changes(changes;config)
     _format_tags(tags;config)
     _display_groups(groups)
@@ -199,6 +212,15 @@ D:
   src/tagi/providers/gitlab.py:
     e: GitLabProvider
     GitLabProvider: is_authenticated(0),get_auth_status(0),get_configured_host(0),create_pr(6),detect_remote(0)  # GitLab provider using glab CLI.
+  src/tagi/providers/utils/__init__.py:
+  src/tagi/providers/utils/auth.py:
+    e: get_auth_status_from_result,is_authenticated_from_result
+    get_auth_status_from_result(result)
+    is_authenticated_from_result(result)
+  src/tagi/providers/utils/pr.py:
+    e: build_pr_command,execute_pr_command
+    build_pr_command(tool;pr_type;title;body;branch;base;draft;labels)
+    execute_pr_command(result)
   src/tagi/scanner/__init__.py:
   src/tagi/scanner/diff.py:
     e: get_diff,get_staged_diff
@@ -211,10 +233,36 @@ D:
     e: scan_repo,parse_status
     scan_repo(repo_path)
     parse_status(status)
+  src/tagi/utils/detect_provider.py:
+    e: detect_git_provider
+    detect_git_provider(repo_path)
+  src/tagi/utils/inspect_helpers.py:
+    e: filter_changes_by_tag,filter_changes_by_tags_any,filter_changes_by_tags_all,calculate_tag_statistics,display_statistics_table
+    filter_changes_by_tag(changes;tag)
+    filter_changes_by_tags_any(changes;tags)
+    filter_changes_by_tags_all(changes;tags)
+    calculate_tag_statistics(changes)
+    display_statistics_table(changes;console)
   src/tagi/utils/logger.py:
     e: setup_logger,get_logger
     setup_logger(name;level;log_file;verbose)
     get_logger(name)
+  src/tagi/utils/publish_helpers.py:
+    e: detect_and_get_provider,filter_changes_by_tag,create_publish_group
+    detect_and_get_provider(repo_path)
+    filter_changes_by_tag(changes;tag)
+    create_publish_group(changes;tag)
+  src/tagi/utils/send_helpers.py:
+    e: resolve_filtered_changes,create_change_group
+    resolve_filtered_changes(changes;tag;auto_order;sort_by_complexity_func)
+    create_change_group(filtered_changes;tag)
+  src/tagi/utils/summary_helpers.py:
+    e: build_report_header,build_statistics_section,build_changes_by_type_section,build_tag_distribution_section,build_file_list_section
+    build_report_header(repo_path;changes)
+    build_statistics_section(changes)
+    build_changes_by_type_section(changes)
+    build_tag_distribution_section(changes;config)
+    build_file_list_section(changes)
   tests/test_e2e.py:
     e: test_send_workflow_scan,test_send_workflow_grouping,test_send_workflow_commit_message,test_send_workflow_tag_filtering,test_publish_workflow_full
     test_send_workflow_scan()
@@ -239,7 +287,7 @@ D:
     test_gitlab_provider_get_auth_status()
     test_gitlab_provider_is_authenticated()
   tests/test_tagi.py:
-    e: test_auto_prefix_with_hash,test_auto_prefix_without_hash,test_auto_prefix_empty_string,test_tag_enum_creation_with_prefix,test_tag_enum_creation_without_prefix,test_tag_with_prefix_in_filter,test_tag_filtering_case_sensitive,test_tag_filtering_single_tag,test_tag_filtering_multiple_tags_or,test_tag_filtering_multiple_tags_and,test_tag_filtering_no_match,test_tag_filtering_all_tags_match,test_send_help_uses_repo_path_option,test_send_invalid_tag_exits_cleanly,test_publish_invalid_tag_exits_cleanly,test_placeholder,test_import,test_change_creation,test_change_with_tags,test_multiple_tags,test_tag_values,test_changetype_values,test_change_with_metadata,test_config_loading,test_config_no_file,test_planner_grouper,test_planner_group_by_risk,test_planner_selector_by_tags,test_planner_select_safe,test_composer_conventional,test_composer_summary,test_executor_git_executor,test_executor_publish_executor,test_executor_dry_run
+    e: test_auto_prefix_with_hash,test_auto_prefix_without_hash,test_auto_prefix_empty_string,test_tag_enum_creation_with_prefix,test_tag_enum_creation_without_prefix,test_tag_with_prefix_in_filter,test_tag_filtering_case_sensitive,test_tag_filtering_single_tag,test_tag_filtering_multiple_tags_or,test_tag_filtering_multiple_tags_and,test_tag_filtering_no_match,test_tag_filtering_all_tags_match,test_send_help_uses_repo_path_option,test_send_invalid_tag_exits_cleanly,test_send_accepts_subcommand_verbose_and_path,test_publish_invalid_tag_exits_cleanly,test_placeholder,test_import,test_change_creation,test_change_with_tags,test_multiple_tags,test_tag_values,test_changetype_values,test_change_with_metadata,test_config_loading,test_config_no_file,test_planner_grouper,test_planner_group_by_risk,test_planner_selector_by_tags,test_planner_select_safe,test_composer_conventional,test_composer_summary,test_executor_git_executor,test_executor_publish_executor,test_executor_dry_run
     test_auto_prefix_with_hash()
     test_auto_prefix_without_hash()
     test_auto_prefix_empty_string()
@@ -254,6 +302,7 @@ D:
     test_tag_filtering_all_tags_match()
     test_send_help_uses_repo_path_option()
     test_send_invalid_tag_exits_cleanly(monkeypatch)
+    test_send_accepts_subcommand_verbose_and_path(monkeypatch)
     test_publish_invalid_tag_exits_cleanly(monkeypatch)
     test_placeholder()
     test_import()

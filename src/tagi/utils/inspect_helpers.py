@@ -20,6 +20,52 @@ def filter_changes_by_tag(changes: List[Change], tag: str) -> List[Change]:
     return [c for c in changes if tag_enum in c.tags]
 
 
+def filter_changes_by_tags_any(changes: List[Change], tags: List[str]) -> List[Change]:
+    """Filter changes by tags (OR logic).
+    
+    Args:
+        changes: All changes
+        tags: List of tags to filter by
+        
+    Returns:
+        Changes matching any of the tags
+    """
+    tag_enums = []
+    for t in tags:
+        try:
+            tag_enums.append(Tag(t))
+        except ValueError:
+            continue
+    
+    if not tag_enums:
+        return changes
+    
+    return [c for c in changes if any(tag in c.tags for tag in tag_enums)]
+
+
+def filter_changes_by_tags_all(changes: List[Change], tags: List[str]) -> List[Change]:
+    """Filter changes by tags (AND logic).
+    
+    Args:
+        changes: All changes
+        tags: List of tags to filter by
+        
+    Returns:
+        Changes matching all of the tags
+    """
+    tag_enums = []
+    for t in tags:
+        try:
+            tag_enums.append(Tag(t))
+        except ValueError:
+            continue
+    
+    if not tag_enums:
+        return changes
+    
+    return [c for c in changes if all(tag in c.tags for tag in tag_enums)]
+
+
 def calculate_tag_statistics(changes: List[Change]) -> tuple[int, float]:
     """Calculate statistics for a tag group.
     

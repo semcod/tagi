@@ -24,7 +24,7 @@ from tagi.planner.sorter import sort_by_complexity
 from tagi.utils.detect_provider import detect_git_provider
 from tagi.utils.send_helpers import resolve_filtered_changes, create_change_group
 from tagi.utils.publish_helpers import filter_changes_by_tag, create_publish_group
-from tagi.utils.inspect_helpers import filter_changes_by_tag as inspect_filter_by_tag, calculate_tag_statistics, display_statistics_table
+from tagi.utils.inspect_helpers import filter_changes_by_tag as inspect_filter_by_tag, calculate_tag_statistics, display_statistics_table, filter_changes_by_tags_any, filter_changes_by_tags_all
 
 app = typer.Typer(help="tagi - Git change orchestrator")
 console = Console()
@@ -320,10 +320,10 @@ def filter(
     
     # Filter changes
     if match_all:
-        filtered_changes = [c for c in changes if all(t in c.tags for t in tag_enums)]
+        filtered_changes = filter_changes_by_tags_all(changes, tag_list)
         console.print(f"[dim]Mode: Match ALL tags[/dim]")
     else:
-        filtered_changes = [c for c in changes if any(t in c.tags for t in tag_enums)]
+        filtered_changes = filter_changes_by_tags_any(changes, tag_list)
         console.print(f"[dim]Mode: Match ANY tag[/dim]")
     
     if not filtered_changes:

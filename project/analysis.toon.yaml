@@ -1,18 +1,15 @@
-# code2llm | 44f 3875L | python:39,yaml:2,txt:1,shell:1,toml:1 | 2026-05-26
-# generated in 0.02s
-# CC̅=4.3 | critical:5/127 | dups:0 | cycles:0
+# code2llm | 52f 4341L | python:47,yaml:2,toml:1,txt:1,shell:1 | 2026-05-26
+# generated in 0.01s
+# CC̅=3.9 | critical:2/152 | dups:0 | cycles:0
 
-HEALTH[5]:
-  🟡 CC    inspect CC=15 (limit:15)
-  🟡 CC    filter CC=17 (limit:15)
-  🟡 CC    summary CC=15 (limit:15)
-  🟡 CC    send CC=27 (limit:15)
-  🟡 CC    publish CC=17 (limit:15)
+HEALTH[2]:
+  🟡 CC    send CC=23 (limit:15)
+  🟡 CC    generate_commit_message CC=15 (limit:15)
 
 REFACTOR[1]:
-  1. split 5 high-CC methods  (CC>15)
+  1. split 2 high-CC methods  (CC>15)
 
-PIPELINES[79]:
+PIPELINES[85]:
   [1] Src [__init__]: __init__
       PURITY: 100% pure
   [2] Src [_load_config]: _load_config
@@ -31,115 +28,122 @@ PIPELINES[79]:
       PURITY: 100% pure
   [9] Src [should_ignore]: should_ignore
       PURITY: 100% pure
-  [10] Src [preview_plan]: preview_plan
+  [10] Src [setup_logging]: setup_logging → setup_logger
       PURITY: 100% pure
-  [11] Src [preview_changes]: preview_changes
+  [11] Src [scan]: scan → scan_repo → parse_status
       PURITY: 100% pure
-  [12] Src [select_by_tags]: select_by_tags
+  [12] Src [list_groups]: list_groups → _do_list_groups → _display_groups → _format_tags
       PURITY: 100% pure
-  [13] Src [select_safe_changes]: select_safe_changes
+  [13] Src [list_cmd]: list_cmd → _do_list_groups → _display_groups → _format_tags
       PURITY: 100% pure
-  [14] Src [_run_command]: _run_command
+  [14] Src [stats]: stats → scan_repo → parse_status
       PURITY: 100% pure
-  [15] Src [_get_git_remote_url]: _get_git_remote_url
+  [15] Src [inspect]: inspect → display_statistics_table → calculate_tag_statistics
       PURITY: 100% pure
-  [16] Src [_check_git_remote_for_provider]: _check_git_remote_for_provider
+  [16] Src [filter]: filter → _display_changes → _format_tags
       PURITY: 100% pure
-  [17] Src [is_authenticated]: is_authenticated
+  [17] Src [file]: file → scan_repo → parse_status
       PURITY: 100% pure
-  [18] Src [get_auth_status]: get_auth_status
+  [18] Src [summary]: summary → build_report_header
       PURITY: 100% pure
-  [19] Src [get_configured_host]: get_configured_host
+  [19] Src [draft]: draft → generate_commit_message → generate_conventional_message → _infer_scope
       PURITY: 100% pure
-  [20] Src [create_pr]: create_pr
+  [20] Src [send]: send → _configure_command_logging → setup_logger
       PURITY: 100% pure
-  [21] Src [detect_remote]: detect_remote
+  [21] Src [publish]: publish → _configure_command_logging → setup_logger
       PURITY: 100% pure
-  [22] Src [is_authenticated]: is_authenticated
+  [22] Src [install_hooks]: install_hooks
       PURITY: 100% pure
-  [23] Src [get_auth_status]: get_auth_status
+  [23] Src [uninstall_hooks]: uninstall_hooks
       PURITY: 100% pure
-  [24] Src [get_token]: get_token
+  [24] Src [check_hooks_installed]: check_hooks_installed
       PURITY: 100% pure
-  [25] Src [create_pr]: create_pr
+  [25] Src [list_hooks]: list_hooks
       PURITY: 100% pure
-  [26] Src [detect_remote]: detect_remote
+  [26] Src [run_hook]: run_hook
       PURITY: 100% pure
-  [27] Src [get_staged_diff]: get_staged_diff
+  [27] Src [build_dependency_graph]: build_dependency_graph → analyze_python_imports
       PURITY: 100% pure
-  [28] Src [__init__]: __init__
+  [28] Src [find_dependency_order]: find_dependency_order
       PURITY: 100% pure
-  [29] Src [improve_message]: improve_message
+  [29] Src [detect_cycles]: detect_cycles
       PURITY: 100% pure
-  [30] Src [improve_description]: improve_description
+  [30] Src [get_critical_path]: get_critical_path
       PURITY: 100% pure
-  [31] Src [generate_summary]: generate_summary
+  [31] Src [collect]: collect
       PURITY: 100% pure
-  [32] Src [generate_file_list]: generate_file_list
+  [32] Src [to_json]: to_json
       PURITY: 100% pure
-  [33] Src [add]: add
+  [33] Src [save]: save
       PURITY: 100% pure
-  [34] Src [commit]: commit
+  [34] Src [generate_report]: generate_report
       PURITY: 100% pure
-  [35] Src [push]: push
+  [35] Src [sort_by_tag_priority]: sort_by_tag_priority
       PURITY: 100% pure
-  [36] Src [status]: status
+  [36] Src [group_by_complexity]: group_by_complexity → sort_by_complexity
       PURITY: 100% pure
-  [37] Src [get_current_branch]: get_current_branch
+  [37] Src [group_by_tag]: group_by_tag → select_changes_by_tag
       PURITY: 100% pure
-  [38] Src [get_remote_url]: get_remote_url
+  [38] Src [preview_plan]: preview_plan
       PURITY: 100% pure
-  [39] Src [has_staged_changes]: has_staged_changes
+  [39] Src [preview_changes]: preview_changes
       PURITY: 100% pure
-  [40] Src [__init__]: __init__
+  [40] Src [group_by_branch]: group_by_branch
       PURITY: 100% pure
-  [41] Src [stage_and_commit]: stage_and_commit
+  [41] Src [get_branch_info]: get_branch_info
       PURITY: 100% pure
-  [42] Src [publish]: publish
+  [42] Src [select_by_tags]: select_by_tags
       PURITY: 100% pure
-  [43] Src [dry_run]: dry_run
+  [43] Src [select_safe_changes]: select_safe_changes
       PURITY: 100% pure
-  [44] Src [setup_logging]: setup_logging → setup_logger
+  [44] Src [_run_command]: _run_command
       PURITY: 100% pure
-  [45] Src [scan]: scan → scan_repo → parse_status
+  [45] Src [_get_git_remote_url]: _get_git_remote_url
       PURITY: 100% pure
-  [46] Src [list_groups]: list_groups → _display_groups → _format_tags
+  [46] Src [_check_git_remote_for_provider]: _check_git_remote_for_provider
       PURITY: 100% pure
-  [47] Src [stats]: stats → scan_repo → parse_status
+  [47] Src [detect_provider]: detect_provider
       PURITY: 100% pure
-  [48] Src [inspect]: inspect → _display_changes → _format_tags
+  [48] Src [is_authenticated]: is_authenticated → is_authenticated_from_result
       PURITY: 100% pure
-  [49] Src [filter]: filter → _display_changes → _format_tags
+  [49] Src [get_auth_status]: get_auth_status → get_auth_status_from_result
       PURITY: 100% pure
-  [50] Src [file]: file → scan_repo → parse_status
+  [50] Src [get_configured_host]: get_configured_host
       PURITY: 100% pure
 
 LAYERS:
-  src/                            CC̄=4.3    ←in:0  →out:0
-  │ !! cli                        805L  0C   19m  CC=27     ←0
+  src/                            CC̄=3.9    ←in:0  →out:0
+  │ !! cli                        797L  0C   24m  CC=23     ←2
   │ metrics                    214L  0C    9m  CC=5      ←1
   │ dependency_graph           195L  0C    5m  CC=10     ←0
-  │ commit_message             183L  0C    7m  CC=14     ←1
+  │ !! commit_message             185L  0C    7m  CC=15     ←1
   │ metrics                    153L  1C    6m  CC=12     ←0
   │ config                     129L  1C    9m  CC=13     ←0
   │ hooks                      125L  0C    5m  CC=5      ←0
   │ git                        114L  1C    8m  CC=4      ←0
+  │ summary_helpers            113L  0C    5m  CC=5      ←1
   │ sorter                     104L  0C    3m  CC=5      ←1
+  │ inspect_helpers             98L  0C    5m  CC=7      ←1
   │ branch_grouper              88L  0C    2m  CC=8      ←0
   │ tags                        87L  0C    2m  CC=11     ←1
   │ grouper                     76L  0C    4m  CC=7      ←1
   │ logger                      71L  0C    2m  CC=4      ←1
+  │ send_helpers                70L  0C    2m  CC=5      ←0
   │ status                      67L  0C    2m  CC=7      ←1
+  │ publish_helpers             62L  0C    3m  CC=4      ←1
   │ change                      60L  4C    1m  CC=1      ←0
   │ base                        58L  1C    8m  CC=2      ←0
-  │ gitlab                      55L  1C    5m  CC=4      ←0
+  │ pr                          58L  0C    2m  CC=5      ←2
   │ llx_adapter                 55L  1C    4m  CC=4      ←0
-  │ github                      47L  1C    5m  CC=4      ←0
   │ __init__                    47L  0C    0m  CC=0.0    ←0
+  │ gitlab                      45L  1C    5m  CC=4      ←0
   │ summary                     45L  0C    2m  CC=11     ←0
   │ selector                    44L  0C    5m  CC=8      ←1
   │ preview                     41L  0C    2m  CC=7      ←0
+  │ github                      39L  1C    5m  CC=2      ←0
   │ publish                     39L  1C    4m  CC=3      ←0
+  │ detect_provider             33L  0C    1m  CC=4      ←0
+  │ auth                        32L  0C    2m  CC=2      ←2
   │ diff                        31L  0C    2m  CC=1      ←1
   │ scoring                     31L  0C    1m  CC=7      ←1
   │ files                       30L  0C    1m  CC=7      ←1
@@ -155,10 +159,11 @@ LAYERS:
   │ __init__                    11L  0C    0m  CC=0.0    ←0
   │ __init__                     9L  0C    0m  CC=0.0    ←0
   │ __init__                     7L  0C    0m  CC=0.0    ←0
+  │ __init__                     1L  0C    0m  CC=0.0    ←0
   │
   ./                              CC̄=0.0    ←in:0  →out:0
   │ !! goal.yaml                  511L  0C    0m  CC=0.0    ←0
-  │ tree.txt                    66L  0C    0m  CC=0.0    ←0
+  │ tree.txt                    89L  0C    0m  CC=0.0    ←0
   │ pyproject.toml              64L  0C    0m  CC=0.0    ←0
   │ project.sh                  48L  0C    0m  CC=0.0    ←0
   │

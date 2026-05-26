@@ -11,6 +11,7 @@
 │       ├── analyzer
 │       │   ├── dependency_graph.py
 │       │   └── metrics.py
+│       ├── cli
 │       ├── cli.py
 │       ├── composer
 │       │   ├── commit_message.py
@@ -49,14 +50,23 @@
 │       │   ├── detector.py
 │       │   ├── github.py
 │       │   ├── gitlab.py
-│       │   └── __init__.py
+│       │   ├── __init__.py
+│       │   └── utils
+│       │       ├── auth.py
+│       │       ├── __init__.py
+│       │       └── pr.py
 │       ├── scanner
 │       │   ├── diff.py
 │       │   ├── files.py
 │       │   ├── __init__.py
 │       │   └── status.py
 │       └── utils
-│           └── logger.py
+│           ├── detect_provider.py
+│           ├── inspect_helpers.py
+│           ├── logger.py
+│           ├── publish_helpers.py
+│           ├── send_helpers.py
+│           └── summary_helpers.py
 ├── SUMD.md
 ├── SUMR.md
 ├── tagi.toml.example
@@ -76,4 +86,4 @@
 ├── uv.lock
 └── VERSION
 
-16 directories, 61 files
+18 directories, 69 files

@@ -6,6 +6,36 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [0.49.2] - 2026-05-26
+
+### Docs
+- Update CHANGELOG.md
+- Update SUMD.md
+- Update SUMR.md
+- Update project/README.md
+- Update project/context.md
+
+### Other
+- Update .gitignore
+- Update app.doql.less
+- Update project/analysis.toon.yaml
+- Update project/calls.mmd
+- Update project/calls.png
+- Update project/calls.toon.yaml
+- Update project/calls.yaml
+- Update project/compact_flow.mmd
+- Update project/compact_flow.png
+- Update project/duplication.toon.yaml
+- ... and 11 more files
+
+## [0.50.0] - 2026-05-26
+
+### Refactoring
+- Split filter function CC from 17 to ≤15 using utils/inspect_helpers.py
+- Added filter_changes_by_tags_any and filter_changes_by_tags_all helpers
+- All high-CC functions (send, publish, inspect, summary, filter) now ≤15
+- Code quality and maintainability improved across CLI module
+
 ## [0.49.1] - 2026-05-26
 
 ### Docs

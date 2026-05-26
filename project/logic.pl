@@ -1,5 +1,5 @@
 % ── Project Metadata ─────────────────────────────────────
-project_metadata('tagi', '0.47.0', 'python').
+project_metadata('tagi', '0.49.1', 'python').
 
 % ── Project Files ────────────────────────────────────────
 project_file('app.doql.less', 29, 'less').
@@ -7,9 +7,9 @@ project_file('project.sh', 48, 'shell').
 project_file('src/tagi/__init__.py', 48, 'python').
 project_file('src/tagi/analyzer/dependency_graph.py', 196, 'python').
 project_file('src/tagi/analyzer/metrics.py', 154, 'python').
-project_file('src/tagi/cli.py', 806, 'python').
+project_file('src/tagi/cli.py', 798, 'python').
 project_file('src/tagi/composer/__init__.py', 13, 'python').
-project_file('src/tagi/composer/commit_message.py', 184, 'python').
+project_file('src/tagi/composer/commit_message.py', 186, 'python').
 project_file('src/tagi/composer/summary.py', 46, 'python').
 project_file('src/tagi/config.py', 130, 'python').
 project_file('src/tagi/executor/__init__.py', 10, 'python').
@@ -36,17 +36,25 @@ project_file('src/tagi/planner/sorter.py', 105, 'python').
 project_file('src/tagi/providers/__init__.py', 12, 'python').
 project_file('src/tagi/providers/base.py', 59, 'python').
 project_file('src/tagi/providers/detector.py', 16, 'python').
-project_file('src/tagi/providers/github.py', 48, 'python').
-project_file('src/tagi/providers/gitlab.py', 56, 'python').
+project_file('src/tagi/providers/github.py', 40, 'python').
+project_file('src/tagi/providers/gitlab.py', 46, 'python').
+project_file('src/tagi/providers/utils/__init__.py', 2, 'python').
+project_file('src/tagi/providers/utils/auth.py', 33, 'python').
+project_file('src/tagi/providers/utils/pr.py', 59, 'python').
 project_file('src/tagi/scanner/__init__.py', 14, 'python').
 project_file('src/tagi/scanner/diff.py', 32, 'python').
 project_file('src/tagi/scanner/files.py', 31, 'python').
 project_file('src/tagi/scanner/status.py', 68, 'python').
+project_file('src/tagi/utils/detect_provider.py', 34, 'python').
+project_file('src/tagi/utils/inspect_helpers.py', 99, 'python').
 project_file('src/tagi/utils/logger.py', 72, 'python').
+project_file('src/tagi/utils/publish_helpers.py', 63, 'python').
+project_file('src/tagi/utils/send_helpers.py', 71, 'python').
+project_file('src/tagi/utils/summary_helpers.py', 114, 'python').
 project_file('tests/test_e2e.py', 129, 'python').
 project_file('tests/test_github_provider.py', 78, 'python').
 project_file('tests/test_gitlab_provider.py', 77, 'python').
-project_file('tests/test_tagi.py', 483, 'python').
+project_file('tests/test_tagi.py', 508, 'python').
 project_file('tree.sh', 2, 'shell').
 
 % ── Python Functions ─────────────────────────────────────
@@ -58,17 +66,22 @@ python_function('src/tagi/analyzer/dependency_graph.py', 'get_critical_path', 1,
 python_function('src/tagi/analyzer/metrics.py', 'generate_report', 1, 3, 4).
 python_function('src/tagi/analyzer/metrics.py', 'compare_metrics', 2, 1, 0).
 python_function('src/tagi/cli.py', 'setup_logging', 1, 3, 4).
+python_function('src/tagi/cli.py', '_configure_command_logging', 1, 2, 2).
 python_function('src/tagi/cli.py', '_ensure_tag_prefix', 1, 2, 1).
+python_function('src/tagi/cli.py', '_is_known_tag', 1, 2, 2).
+python_function('src/tagi/cli.py', '_resolve_send_target', 2, 5, 5).
 python_function('src/tagi/cli.py', 'scan', 2, 6, 9).
-python_function('src/tagi/cli.py', 'list_groups', 1, 4, 9).
+python_function('src/tagi/cli.py', 'list_groups', 1, 1, 3).
+python_function('src/tagi/cli.py', 'list_cmd', 1, 1, 3).
+python_function('src/tagi/cli.py', '_do_list_groups', 1, 4, 7).
 python_function('src/tagi/cli.py', 'stats', 1, 12, 18).
-python_function('src/tagi/cli.py', 'inspect', 3, 15, 20).
-python_function('src/tagi/cli.py', 'filter', 3, 17, 17).
+python_function('src/tagi/cli.py', 'inspect', 3, 11, 15).
+python_function('src/tagi/cli.py', 'filter', 3, 11, 17).
 python_function('src/tagi/cli.py', 'file', 2, 7, 14).
-python_function('src/tagi/cli.py', 'summary', 2, 15, 20).
+python_function('src/tagi/cli.py', 'summary', 2, 5, 18).
 python_function('src/tagi/cli.py', 'draft', 3, 10, 14).
-python_function('src/tagi/cli.py', 'send', 6, 27, 19).
-python_function('src/tagi/cli.py', 'publish', 4, 17, 20).
+python_function('src/tagi/cli.py', 'send', 7, 23, 20).
+python_function('src/tagi/cli.py', 'publish', 5, 12, 20).
 python_function('src/tagi/cli.py', '_display_changes', 2, 2, 5).
 python_function('src/tagi/cli.py', '_format_tags', 2, 5, 4).
 python_function('src/tagi/cli.py', '_display_groups', 1, 2, 7).
@@ -76,7 +89,7 @@ python_function('src/tagi/cli.py', '_display_changes_grouped', 1, 5, 10).
 python_function('src/tagi/cli.py', 'detect_provider', 1, 3, 3).
 python_function('src/tagi/cli.py', 'create_pr', 3, 2, 5).
 python_function('src/tagi/cli.py', 'create_mr', 3, 2, 5).
-python_function('src/tagi/composer/commit_message.py', 'generate_commit_message', 4, 14, 12).
+python_function('src/tagi/composer/commit_message.py', 'generate_commit_message', 4, 15, 12).
 python_function('src/tagi/composer/commit_message.py', 'generate_conventional_message', 1, 12, 2).
 python_function('src/tagi/composer/commit_message.py', 'generate_detailed_message', 1, 7, 5).
 python_function('src/tagi/composer/commit_message.py', 'generate_simple_message', 1, 7, 2).
@@ -122,13 +135,33 @@ python_function('src/tagi/planner/sorter.py', 'sort_by_complexity', 1, 1, 4).
 python_function('src/tagi/planner/sorter.py', 'sort_by_tag_priority', 2, 2, 4).
 python_function('src/tagi/planner/sorter.py', 'group_by_complexity', 2, 5, 5).
 python_function('src/tagi/providers/detector.py', 'detect_provider', 1, 3, 3).
+python_function('src/tagi/providers/utils/auth.py', 'get_auth_status_from_result', 1, 2, 0).
+python_function('src/tagi/providers/utils/auth.py', 'is_authenticated_from_result', 1, 1, 0).
+python_function('src/tagi/providers/utils/pr.py', 'build_pr_command', 8, 5, 4).
+python_function('src/tagi/providers/utils/pr.py', 'execute_pr_command', 1, 2, 0).
 python_function('src/tagi/scanner/diff.py', 'get_diff', 2, 1, 1).
 python_function('src/tagi/scanner/diff.py', 'get_staged_diff', 2, 1, 1).
 python_function('src/tagi/scanner/files.py', 'count_lines_changed', 2, 7, 5).
 python_function('src/tagi/scanner/status.py', 'scan_repo', 1, 7, 13).
 python_function('src/tagi/scanner/status.py', 'parse_status', 1, 4, 0).
+python_function('src/tagi/utils/detect_provider.py', 'detect_git_provider', 1, 4, 2).
+python_function('src/tagi/utils/inspect_helpers.py', 'filter_changes_by_tag', 2, 3, 1).
+python_function('src/tagi/utils/inspect_helpers.py', 'filter_changes_by_tags_any', 2, 7, 3).
+python_function('src/tagi/utils/inspect_helpers.py', 'filter_changes_by_tags_all', 2, 7, 3).
+python_function('src/tagi/utils/inspect_helpers.py', 'calculate_tag_statistics', 1, 4, 3).
+python_function('src/tagi/utils/inspect_helpers.py', 'display_statistics_table', 2, 1, 7).
 python_function('src/tagi/utils/logger.py', 'setup_logger', 4, 4, 10).
 python_function('src/tagi/utils/logger.py', 'get_logger', 1, 1, 1).
+python_function('src/tagi/utils/publish_helpers.py', 'detect_and_get_provider', 1, 3, 3).
+python_function('src/tagi/utils/publish_helpers.py', 'filter_changes_by_tag', 2, 3, 1).
+python_function('src/tagi/utils/publish_helpers.py', 'create_publish_group', 2, 4, 4).
+python_function('src/tagi/utils/send_helpers.py', 'resolve_filtered_changes', 4, 5, 3).
+python_function('src/tagi/utils/send_helpers.py', 'create_change_group', 2, 5, 4).
+python_function('src/tagi/utils/summary_helpers.py', 'build_report_header', 2, 1, 2).
+python_function('src/tagi/utils/summary_helpers.py', 'build_statistics_section', 1, 4, 4).
+python_function('src/tagi/utils/summary_helpers.py', 'build_changes_by_type_section', 1, 3, 4).
+python_function('src/tagi/utils/summary_helpers.py', 'build_tag_distribution_section', 2, 5, 4).
+python_function('src/tagi/utils/summary_helpers.py', 'build_file_list_section', 1, 3, 2).
 python_function('tests/test_e2e.py', 'test_send_workflow_scan', 0, 4, 8).
 python_function('tests/test_e2e.py', 'test_send_workflow_grouping', 0, 2, 8).
 python_function('tests/test_e2e.py', 'test_send_workflow_commit_message', 0, 3, 8).
@@ -160,6 +193,7 @@ python_function('tests/test_tagi.py', 'test_tag_filtering_no_match', 0, 4, 3).
 python_function('tests/test_tagi.py', 'test_tag_filtering_all_tags_match', 0, 4, 3).
 python_function('tests/test_tagi.py', 'test_send_help_uses_repo_path_option', 0, 5, 1).
 python_function('tests/test_tagi.py', 'test_send_invalid_tag_exits_cleanly', 1, 3, 3).
+python_function('tests/test_tagi.py', 'test_send_accepts_subcommand_verbose_and_path', 1, 5, 3).
 python_function('tests/test_tagi.py', 'test_publish_invalid_tag_exits_cleanly', 1, 3, 3).
 python_function('tests/test_tagi.py', 'test_placeholder', 0, 2, 0).
 python_function('tests/test_tagi.py', 'test_import', 0, 1, 0).
@@ -234,16 +268,16 @@ python_method('BaseProvider', '_run_command', 1, 1, 1).
 python_method('BaseProvider', '_get_git_remote_url', 0, 2, 2).
 python_method('BaseProvider', '_check_git_remote_for_provider', 1, 2, 2).
 python_class('src/tagi/providers/github.py', 'GitHubProvider').
-python_method('GitHubProvider', 'is_authenticated', 0, 1, 1).
-python_method('GitHubProvider', 'get_auth_status', 0, 2, 1).
+python_method('GitHubProvider', 'is_authenticated', 0, 1, 2).
+python_method('GitHubProvider', 'get_auth_status', 0, 1, 2).
 python_method('GitHubProvider', 'get_token', 0, 2, 2).
-python_method('GitHubProvider', 'create_pr', 6, 4, 4).
+python_method('GitHubProvider', 'create_pr', 6, 1, 3).
 python_method('GitHubProvider', 'detect_remote', 0, 1, 1).
 python_class('src/tagi/providers/gitlab.py', 'GitLabProvider').
-python_method('GitLabProvider', 'is_authenticated', 0, 1, 1).
-python_method('GitLabProvider', 'get_auth_status', 0, 2, 1).
+python_method('GitLabProvider', 'is_authenticated', 0, 1, 2).
+python_method('GitLabProvider', 'get_auth_status', 0, 1, 2).
 python_method('GitLabProvider', 'get_configured_host', 0, 4, 3).
-python_method('GitLabProvider', 'create_pr', 6, 4, 4).
+python_method('GitLabProvider', 'create_pr', 6, 1, 3).
 python_method('GitLabProvider', 'detect_remote', 0, 1, 1).
 
 % ── Dependencies ─────────────────────────────────────────
