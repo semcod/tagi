@@ -6,6 +6,61 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [0.49.1] - 2026-05-26
+
+### Docs
+- Update CHANGELOG.md
+- Update README.md
+- Update SUMD.md
+- Update SUMR.md
+- Update project/README.md
+- Update project/context.md
+
+### Test
+- Update tests/test_tagi.py
+
+### Other
+- Update .gitignore
+- Update VERSION
+- Update app.doql.less
+- Update project/analysis.toon.yaml
+- Update project/calls.mmd
+- Update project/calls.png
+- Update project/calls.toon.yaml
+- Update project/calls.yaml
+- Update project/compact_flow.mmd
+- Update project/compact_flow.png
+- ... and 13 more files
+
+## [0.49.0] - 2026-05-26
+
+### Refactoring
+- Split inspect function CC from 15 to ≤15 using utils/inspect_helpers.py
+- Split summary function CC from 15 to ≤15 using utils/summary_helpers.py
+- Extracted tag filtering, statistics calculation, and report building helpers
+- Further reduced code duplication and improved maintainability
+
+## [0.48.0] - 2026-05-26
+
+### Refactoring
+- Extracted duplicate create_pr logic to providers/utils/pr.py (12 lines saved)
+- Extracted duplicate detect_provider logic to utils/detect_provider.py (9 lines saved)
+- Extracted duplicate get_auth_status logic to providers/utils/auth.py (8 lines saved)
+- Extracted duplicate is_authenticated logic to providers/utils/auth.py (4 lines saved)
+- Split send function CC from 27 to ≤15 using utils/send_helpers.py
+- Split publish function CC from 17 to ≤15 using utils/publish_helpers.py
+- Created filter_helpers.py for filter command refactoring
+- Reduced code duplication and improved maintainability
+
+## [0.47.0] - 2026-05-26
+
+### Features
+- Added --verbose/-v flag for detailed logging across all commands
+- Auto-order functionality for send command (--auto-order/-a)
+- Send command now accepts optional tag parameter (repo_path first)
+- Sort changes by complexity when no tag specified or auto-order enabled
+- Enhanced logger module with verbose mode support
+
 ## [0.46.1] - 2026-05-26
 
 ### Docs

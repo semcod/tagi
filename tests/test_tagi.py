@@ -4,6 +4,8 @@ import os
 import tempfile
 from pathlib import Path
 
+from typer.testing import CliRunner
+
 from tagi.models import Change, ChangeType, Tag
 from tagi.config import Config
 from tagi.planner.grouper import group_changes, group_by_tag, group_by_risk
@@ -12,6 +14,9 @@ from tagi.composer.commit_message import generate_conventional_message
 from tagi.composer.summary import generate_summary
 from tagi.executor.git import GitExecutor
 from tagi.executor.publish import PublishExecutor
+
+
+runner = CliRunner()
 
 
 def test_auto_prefix_with_hash():
@@ -185,6 +190,80 @@ def test_tag_filtering_all_tags_match():
     tag_enum = Tag("#small")
     filtered = [c for c in changes if tag_enum in c.tags]
     assert len(filtered) == 3
+
+
+def test_send_help_uses_repo_path_option():
+    """Test that send exposes repo_path as an option and a single positional target."""
+    from tagi.cli import app
+
+    result = runner.invoke(app, ["send", "--help"])
+    assert result.exit_code == 0
+    assert "--repo-path" in result.stdout
+    assert "[TARGET]" in result.stdout
+    assert "[REPO_PATH]" not in result.stdout
+
+
+def test_send_invalid_tag_exits_cleanly(monkeypatch):
+    """Test that send reports invalid tags without a traceback."""
+    from tagi.cli import app
+
+    def fake_scan_repo(_repo_path):
+        return [Change(path="test.py", change_type=ChangeType.MODIFIED)]
+
+    def fake_apply_tags(changes, _repo_path):
+        changes[0].tags = [Tag.SMALL]
+        return changes
+
+    monkeypatch.setattr("tagi.cli.scan_repo", fake_scan_repo)
+    monkeypatch.setattr("tagi.cli.apply_tags", fake_apply_tags)
+
+    result = runner.invoke(app, ["send", "not-a-real-tag", "--dry-run"])
+    assert result.exit_code == 1
+    assert "Unknown tag: #not-a-real-tag" in result.stdout
+
+
+def test_send_accepts_subcommand_verbose_and_path(monkeypatch):
+    """Test that send accepts --verbose after the subcommand and a positional repo path."""
+    from tagi.cli import app
+
+    def fake_scan_repo(_repo_path):
+        change = Change(path="test.py", change_type=ChangeType.MODIFIED)
+        change.lines_changed = 5
+        change.risk_score = 0.1
+        return [change]
+
+    def fake_apply_tags(changes, _repo_path):
+        changes[0].tags = [Tag.SMALL]
+        return changes
+
+    monkeypatch.setattr("tagi.cli.scan_repo", fake_scan_repo)
+    monkeypatch.setattr("tagi.cli.apply_tags", fake_apply_tags)
+    monkeypatch.setattr("tagi.cli.generate_commit_message", lambda *_args, **_kwargs: "test commit")
+
+    result = runner.invoke(app, ["send", ".", "--auto-order", "--dry-run", "--push", "--verbose"])
+    assert result.exit_code == 0
+    assert "Sending" in result.stdout
+    assert "Sorting changes by complexity" in result.stdout
+    assert "[DRY-RUN] No changes will be made" in result.stdout
+
+
+def test_publish_invalid_tag_exits_cleanly(monkeypatch):
+    """Test that publish reports invalid tags without a traceback."""
+    from tagi.cli import app
+
+    def fake_scan_repo(_repo_path):
+        return [Change(path="test.py", change_type=ChangeType.MODIFIED)]
+
+    def fake_apply_tags(changes, _repo_path):
+        changes[0].tags = [Tag.SMALL]
+        return changes
+
+    monkeypatch.setattr("tagi.cli.scan_repo", fake_scan_repo)
+    monkeypatch.setattr("tagi.cli.apply_tags", fake_apply_tags)
+
+    result = runner.invoke(app, ["publish", "not-a-real-tag", "--dry-run"])
+    assert result.exit_code == 1
+    assert "Unknown tag: #not-a-real-tag" in result.stdout
 
 
 def test_placeholder():

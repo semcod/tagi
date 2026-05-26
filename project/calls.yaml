@@ -1,22 +1,302 @@
 project: /home/tom/github/semcod/tagi
 generated_from: code2llm call graph analysis
 stats:
-  total_nodes: 24
-  total_edges: 27
-  modules_count: 7
+  total_nodes: 43
+  total_edges: 39
+  modules_count: 13
 nodes:
+  src.tagi.heuristics.scoring.calculate_risk_score:
+    name: calculate_risk_score
+    module: src.tagi.heuristics.scoring
+    line: 8
+    cyclomatic_complexity: 7
+    calls_out: 2
+    calls_in: 1
+  src.tagi.analyzer.dependency_graph.analyze_python_imports:
+    name: analyze_python_imports
+    module: src.tagi.analyzer.dependency_graph
+    line: 9
+    cyclomatic_complexity: 8
+    calls_out: 8
+    calls_in: 1
+  src.tagi.composer.commit_message._infer_scope:
+    name: _infer_scope
+    module: src.tagi.composer.commit_message
+    line: 161
+    cyclomatic_complexity: 7
+    calls_out: 2
+    calls_in: 1
   src.tagi.cli._display_changes_grouped:
     name: _display_changes_grouped
     module: src.tagi.cli
-    line: 704
+    line: 743
     cyclomatic_complexity: 5
     calls_out: 12
+    calls_in: 1
+  src.tagi.heuristics.rules.get_custom_rules:
+    name: get_custom_rules
+    module: src.tagi.heuristics.rules
+    line: 14
+    cyclomatic_complexity: 1
+    calls_out: 1
+    calls_in: 0
+  src.tagi.cli.list_groups:
+    name: list_groups
+    module: src.tagi.cli
+    line: 77
+    cyclomatic_complexity: 4
+    calls_out: 13
+    calls_in: 0
+  src.tagi.cli.filter:
+    name: filter
+    module: src.tagi.cli
+    line: 246
+    cyclomatic_complexity: 17
+    calls_out: 28
+    calls_in: 0
+  src.tagi.composer.commit_message.generate_commit_message:
+    name: generate_commit_message
+    module: src.tagi.composer.commit_message
+    line: 9
+    cyclomatic_complexity: 14
+    calls_out: 12
+    calls_in: 3
+  src.tagi.heuristics.metrics._calculate_complexity:
+    name: _calculate_complexity
+    module: src.tagi.heuristics.metrics
+    line: 46
+    cyclomatic_complexity: 5
+    calls_out: 10
+    calls_in: 1
+  src.tagi.heuristics.metrics._calculate_test_impact:
+    name: _calculate_test_impact
+    module: src.tagi.heuristics.metrics
+    line: 121
+    cyclomatic_complexity: 4
+    calls_out: 2
+    calls_in: 1
+  src.tagi.heuristics.tags.apply_path_tags:
+    name: apply_path_tags
+    module: src.tagi.heuristics.tags
+    line: 66
+    cyclomatic_complexity: 4
+    calls_out: 3
+    calls_in: 1
+  src.tagi.cli._format_tags:
+    name: _format_tags
+    module: src.tagi.cli
+    line: 695
+    cyclomatic_complexity: 5
+    calls_out: 4
+    calls_in: 4
+  src.tagi.utils.logger.setup_logger:
+    name: setup_logger
+    module: src.tagi.utils.logger
+    line: 9
+    cyclomatic_complexity: 4
+    calls_out: 15
+    calls_in: 1
+  src.tagi.planner.grouper.group_by_tag:
+    name: group_by_tag
+    module: src.tagi.planner.grouper
+    line: 39
+    cyclomatic_complexity: 1
+    calls_out: 1
+    calls_in: 0
+  src.tagi.heuristics.rules._get_config_attr:
+    name: _get_config_attr
+    module: src.tagi.heuristics.rules
+    line: 8
+    cyclomatic_complexity: 1
+    calls_out: 2
+    calls_in: 2
+  src.tagi.composer.commit_message.generate_simple_message:
+    name: generate_simple_message
+    module: src.tagi.composer.commit_message
+    line: 117
+    cyclomatic_complexity: 7
+    calls_out: 4
+    calls_in: 1
+  src.tagi.cli._display_changes:
+    name: _display_changes
+    module: src.tagi.cli
+    line: 681
+    cyclomatic_complexity: 2
+    calls_out: 7
+    calls_in: 3
+  src.tagi.composer.commit_message.generate_detailed_message:
+    name: generate_detailed_message
+    module: src.tagi.composer.commit_message
+    line: 88
+    cyclomatic_complexity: 7
+    calls_out: 12
+    calls_in: 1
+  src.tagi.heuristics.metrics.calculate_metrics:
+    name: calculate_metrics
+    module: src.tagi.heuristics.metrics
+    line: 8
+    cyclomatic_complexity: 1
+    calls_out: 6
+    calls_in: 1
+  src.tagi.heuristics.rules.get_custom_heuristics:
+    name: get_custom_heuristics
+    module: src.tagi.heuristics.rules
+    line: 19
+    cyclomatic_complexity: 1
+    calls_out: 1
+    calls_in: 0
+  src.tagi.cli.draft:
+    name: draft
+    module: src.tagi.cli
+    line: 434
+    cyclomatic_complexity: 10
+    calls_out: 22
+    calls_in: 0
+  src.tagi.cli._display_groups:
+    name: _display_groups
+    module: src.tagi.cli
+    line: 730
+    cyclomatic_complexity: 2
+    calls_out: 8
+    calls_in: 1
+  src.tagi.heuristics.metrics._calculate_stability:
+    name: _calculate_stability
+    module: src.tagi.heuristics.metrics
+    line: 104
+    cyclomatic_complexity: 1
+    calls_out: 2
+    calls_in: 1
+  src.tagi.composer.commit_message.generate_oneline_message:
+    name: generate_oneline_message
+    module: src.tagi.composer.commit_message
+    line: 131
+    cyclomatic_complexity: 6
+    calls_out: 2
+    calls_in: 1
+  src.tagi.cli._ensure_tag_prefix:
+    name: _ensure_tag_prefix
+    module: src.tagi.cli
+    line: 38
+    cyclomatic_complexity: 2
+    calls_out: 1
+    calls_in: 2
+  src.tagi.cli.send:
+    name: send
+    module: src.tagi.cli
+    line: 483
+    cyclomatic_complexity: 27
+    calls_out: 47
+    calls_in: 0
+  src.tagi.planner.sorter.sort_by_complexity:
+    name: sort_by_complexity
+    module: src.tagi.planner.sorter
+    line: 7
+    cyclomatic_complexity: 1
+    calls_out: 4
+    calls_in: 2
+  src.tagi.cli.setup_logging:
+    name: setup_logging
+    module: src.tagi.cli
+    line: 31
+    cyclomatic_complexity: 3
+    calls_out: 4
+    calls_in: 0
+  src.tagi.cli.publish:
+    name: publish
+    module: src.tagi.cli
+    line: 595
+    cyclomatic_complexity: 17
+    calls_out: 45
+    calls_in: 0
+  src.tagi.cli.scan:
+    name: scan
+    module: src.tagi.cli
+    line: 46
+    cyclomatic_complexity: 6
+    calls_out: 15
+    calls_in: 0
+  src.tagi.cli.detect_provider:
+    name: detect_provider
+    module: src.tagi.cli
+    line: 769
+    cyclomatic_complexity: 3
+    calls_out: 4
+    calls_in: 1
+  src.tagi.composer.commit_message.generate_conventional_message:
+    name: generate_conventional_message
+    module: src.tagi.composer.commit_message
+    line: 45
+    cyclomatic_complexity: 12
+    calls_out: 2
+    calls_in: 1
+  src.tagi.planner.sorter.group_by_complexity:
+    name: group_by_complexity
+    module: src.tagi.planner.sorter
+    line: 80
+    cyclomatic_complexity: 5
+    calls_out: 7
+    calls_in: 0
+  src.tagi.planner.selector.select_changes_by_tag:
+    name: select_changes_by_tag
+    module: src.tagi.planner.selector
+    line: 8
+    cyclomatic_complexity: 3
+    calls_out: 0
+    calls_in: 1
+  src.tagi.heuristics.metrics._calculate_impact:
+    name: _calculate_impact
+    module: src.tagi.heuristics.metrics
+    line: 78
+    cyclomatic_complexity: 5
+    calls_out: 7
+    calls_in: 1
+  src.tagi.heuristics.metrics._calculate_dependency_depth:
+    name: _calculate_dependency_depth
+    module: src.tagi.heuristics.metrics
+    line: 137
+    cyclomatic_complexity: 4
+    calls_out: 4
+    calls_in: 1
+  src.tagi.planner.grouper.group_changes:
+    name: group_changes
+    module: src.tagi.planner.grouper
+    line: 9
+    cyclomatic_complexity: 7
+    calls_out: 11
+    calls_in: 2
+  src.tagi.scanner.status.parse_status:
+    name: parse_status
+    module: src.tagi.scanner.status
+    line: 58
+    cyclomatic_complexity: 4
+    calls_out: 0
+    calls_in: 1
+  src.tagi.planner.grouper._get_primary_tag:
+    name: _get_primary_tag
+    module: src.tagi.planner.grouper
+    line: 56
+    cyclomatic_complexity: 4
+    calls_out: 0
     calls_in: 1
   src.tagi.heuristics.tags.apply_tags:
     name: apply_tags
     module: src.tagi.heuristics.tags
-    line: 11
+    line: 12
     cyclomatic_complexity: 11
+    calls_out: 16
+    calls_in: 10
+  src.tagi.analyzer.dependency_graph.build_dependency_graph:
+    name: build_dependency_graph
+    module: src.tagi.analyzer.dependency_graph
+    line: 41
+    cyclomatic_complexity: 3
+    calls_out: 4
+    calls_in: 0
+  src.tagi.scanner.status.scan_repo:
+    name: scan_repo
+    module: src.tagi.scanner.status
+    line: 11
+    cyclomatic_complexity: 7
     calls_out: 15
     calls_in: 10
   src.tagi.scanner.files.count_lines_changed:
@@ -26,159 +306,12 @@ nodes:
     cyclomatic_complexity: 7
     calls_out: 7
     calls_in: 1
-  src.tagi.composer.commit_message.generate_detailed_message:
-    name: generate_detailed_message
-    module: src.tagi.composer.commit_message
-    line: 82
-    cyclomatic_complexity: 7
-    calls_out: 12
-    calls_in: 1
-  src.tagi.cli._create_pr_for_provider:
-    name: _create_pr_for_provider
-    module: src.tagi.cli
-    line: 559
-    cyclomatic_complexity: 3
-    calls_out: 2
-    calls_in: 1
-  src.tagi.planner.grouper.group_changes:
-    name: group_changes
-    module: src.tagi.planner.grouper
-    line: 9
-    cyclomatic_complexity: 7
-    calls_out: 11
-    calls_in: 4
-  src.tagi.scanner.status.parse_status:
-    name: parse_status
-    module: src.tagi.scanner.status
-    line: 58
-    cyclomatic_complexity: 4
-    calls_out: 0
-    calls_in: 1
-  src.tagi.cli._display_changes:
-    name: _display_changes
-    module: src.tagi.cli
-    line: 642
-    cyclomatic_complexity: 2
-    calls_out: 7
-    calls_in: 3
-  src.tagi.scanner.status.scan_repo:
-    name: scan_repo
-    module: src.tagi.scanner.status
-    line: 11
-    cyclomatic_complexity: 7
-    calls_out: 15
-    calls_in: 10
-  src.tagi.cli.send:
-    name: send
-    module: src.tagi.cli
-    line: 475
-    cyclomatic_complexity: 14
-    calls_out: 32
-    calls_in: 0
-  src.tagi.heuristics.scoring.calculate_risk_score:
-    name: calculate_risk_score
-    module: src.tagi.heuristics.scoring
-    line: 8
-    cyclomatic_complexity: 7
-    calls_out: 2
-    calls_in: 1
-  src.tagi.heuristics.tags.apply_path_tags:
-    name: apply_path_tags
-    module: src.tagi.heuristics.tags
-    line: 62
-    cyclomatic_complexity: 4
-    calls_out: 3
-    calls_in: 1
-  src.tagi.cli.create_pr:
-    name: create_pr
-    module: src.tagi.cli
-    line: 741
-    cyclomatic_complexity: 2
-    calls_out: 5
-    calls_in: 1
-  src.tagi.cli.list_groups:
-    name: list_groups
-    module: src.tagi.cli
-    line: 59
-    cyclomatic_complexity: 4
-    calls_out: 13
-    calls_in: 0
-  src.tagi.cli.create_mr:
-    name: create_mr
-    module: src.tagi.cli
-    line: 753
-    cyclomatic_complexity: 2
-    calls_out: 5
-    calls_in: 1
-  src.tagi.composer.commit_message.generate_commit_message:
-    name: generate_commit_message
-    module: src.tagi.composer.commit_message
-    line: 9
-    cyclomatic_complexity: 11
-    calls_out: 9
-    calls_in: 3
-  src.tagi.composer.commit_message._infer_scope:
-    name: _infer_scope
-    module: src.tagi.composer.commit_message
-    line: 111
-    cyclomatic_complexity: 7
-    calls_out: 2
-    calls_in: 1
-  src.tagi.cli.draft:
-    name: draft
-    module: src.tagi.cli
-    line: 426
-    cyclomatic_complexity: 10
-    calls_out: 22
-    calls_in: 0
-  src.tagi.planner.grouper._get_primary_tag:
-    name: _get_primary_tag
-    module: src.tagi.planner.grouper
-    line: 55
-    cyclomatic_complexity: 4
-    calls_out: 0
-    calls_in: 1
-  src.tagi.cli._display_groups:
-    name: _display_groups
-    module: src.tagi.cli
-    line: 691
-    cyclomatic_complexity: 2
-    calls_out: 8
-    calls_in: 1
-  src.tagi.composer.commit_message.generate_conventional_message:
-    name: generate_conventional_message
-    module: src.tagi.composer.commit_message
-    line: 39
-    cyclomatic_complexity: 12
-    calls_out: 2
-    calls_in: 1
-  src.tagi.cli._format_tags:
-    name: _format_tags
-    module: src.tagi.cli
-    line: 656
-    cyclomatic_complexity: 5
-    calls_out: 4
-    calls_in: 4
-  src.tagi.cli.publish:
-    name: publish
-    module: src.tagi.cli
-    line: 569
-    cyclomatic_complexity: 13
-    calls_out: 33
-    calls_in: 0
-  src.tagi.cli.scan:
-    name: scan
-    module: src.tagi.cli
-    line: 28
-    cyclomatic_complexity: 6
-    calls_out: 15
-    calls_in: 0
 edges:
-- caller: src.tagi.planner.grouper.group_changes
-  callee: src.tagi.planner.grouper._get_primary_tag
-  call_type: resolved
 - caller: src.tagi.scanner.status.scan_repo
   callee: src.tagi.scanner.status.parse_status
+  call_type: resolved
+- caller: src.tagi.cli.setup_logging
+  callee: src.tagi.utils.logger.setup_logger
   call_type: resolved
 - caller: src.tagi.cli.scan
   callee: src.tagi.scanner.status.scan_repo
@@ -204,32 +337,26 @@ edges:
 - caller: src.tagi.cli.list_groups
   callee: src.tagi.planner.grouper.group_changes
   call_type: resolved
+- caller: src.tagi.cli.filter
+  callee: src.tagi.cli._display_changes
+  call_type: resolved
+- caller: src.tagi.cli.filter
+  callee: src.tagi.scanner.status.scan_repo
+  call_type: resolved
+- caller: src.tagi.cli.filter
+  callee: src.tagi.heuristics.tags.apply_tags
+  call_type: resolved
 - caller: src.tagi.cli.draft
   callee: src.tagi.composer.commit_message.generate_commit_message
   call_type: resolved
 - caller: src.tagi.cli.send
-  callee: src.tagi.scanner.status.scan_repo
-  call_type: resolved
-- caller: src.tagi.cli.send
-  callee: src.tagi.heuristics.tags.apply_tags
-  call_type: resolved
-- caller: src.tagi.cli.send
-  callee: src.tagi.planner.grouper.group_changes
-  call_type: resolved
-- caller: src.tagi.cli._create_pr_for_provider
-  callee: src.tagi.cli.create_pr
-  call_type: resolved
-- caller: src.tagi.cli._create_pr_for_provider
-  callee: src.tagi.cli.create_mr
+  callee: src.tagi.composer.commit_message.generate_commit_message
   call_type: resolved
 - caller: src.tagi.cli.publish
-  callee: src.tagi.scanner.status.scan_repo
+  callee: src.tagi.cli._ensure_tag_prefix
   call_type: resolved
 - caller: src.tagi.cli.publish
-  callee: src.tagi.heuristics.tags.apply_tags
-  call_type: resolved
-- caller: src.tagi.cli.publish
-  callee: src.tagi.planner.grouper.group_changes
+  callee: src.tagi.cli.detect_provider
   call_type: resolved
 - caller: src.tagi.cli._display_changes
   callee: src.tagi.cli._format_tags
@@ -237,8 +364,38 @@ edges:
 - caller: src.tagi.cli._display_groups
   callee: src.tagi.cli._format_tags
   call_type: resolved
+- caller: src.tagi.analyzer.dependency_graph.build_dependency_graph
+  callee: src.tagi.analyzer.dependency_graph.analyze_python_imports
+  call_type: resolved
+- caller: src.tagi.planner.sorter.group_by_complexity
+  callee: src.tagi.planner.sorter.sort_by_complexity
+  call_type: resolved
+- caller: src.tagi.planner.grouper.group_changes
+  callee: src.tagi.planner.grouper._get_primary_tag
+  call_type: resolved
+- caller: src.tagi.planner.grouper.group_by_tag
+  callee: src.tagi.planner.selector.select_changes_by_tag
+  call_type: resolved
+- caller: src.tagi.heuristics.metrics.calculate_metrics
+  callee: src.tagi.heuristics.metrics._calculate_complexity
+  call_type: resolved
+- caller: src.tagi.heuristics.metrics.calculate_metrics
+  callee: src.tagi.heuristics.metrics._calculate_impact
+  call_type: resolved
+- caller: src.tagi.heuristics.metrics.calculate_metrics
+  callee: src.tagi.heuristics.metrics._calculate_stability
+  call_type: resolved
+- caller: src.tagi.heuristics.metrics.calculate_metrics
+  callee: src.tagi.heuristics.metrics._calculate_test_impact
+  call_type: resolved
+- caller: src.tagi.heuristics.metrics.calculate_metrics
+  callee: src.tagi.heuristics.metrics._calculate_dependency_depth
+  call_type: resolved
 - caller: src.tagi.heuristics.tags.apply_tags
   callee: src.tagi.scanner.files.count_lines_changed
+  call_type: resolved
+- caller: src.tagi.heuristics.tags.apply_tags
+  callee: src.tagi.heuristics.metrics.calculate_metrics
   call_type: resolved
 - caller: src.tagi.heuristics.tags.apply_tags
   callee: src.tagi.heuristics.scoring.calculate_risk_score
@@ -246,34 +403,63 @@ edges:
 - caller: src.tagi.heuristics.tags.apply_tags
   callee: src.tagi.heuristics.tags.apply_path_tags
   call_type: resolved
+- caller: src.tagi.heuristics.rules.get_custom_rules
+  callee: src.tagi.heuristics.rules._get_config_attr
+  call_type: resolved
+- caller: src.tagi.heuristics.rules.get_custom_heuristics
+  callee: src.tagi.heuristics.rules._get_config_attr
+  call_type: resolved
 - caller: src.tagi.composer.commit_message.generate_commit_message
   callee: src.tagi.composer.commit_message.generate_conventional_message
   call_type: resolved
 - caller: src.tagi.composer.commit_message.generate_commit_message
   callee: src.tagi.composer.commit_message.generate_detailed_message
   call_type: resolved
+- caller: src.tagi.composer.commit_message.generate_commit_message
+  callee: src.tagi.composer.commit_message.generate_simple_message
+  call_type: resolved
+- caller: src.tagi.composer.commit_message.generate_commit_message
+  callee: src.tagi.composer.commit_message.generate_oneline_message
+  call_type: resolved
 - caller: src.tagi.composer.commit_message.generate_conventional_message
   callee: src.tagi.composer.commit_message._infer_scope
   call_type: resolved
 modules:
+  src.tagi.analyzer.dependency_graph:
+  - src.tagi.analyzer.dependency_graph.analyze_python_imports
+  - src.tagi.analyzer.dependency_graph.build_dependency_graph
   src.tagi.cli:
-  - src.tagi.cli._create_pr_for_provider
   - src.tagi.cli._display_changes
   - src.tagi.cli._display_changes_grouped
   - src.tagi.cli._display_groups
+  - src.tagi.cli._ensure_tag_prefix
   - src.tagi.cli._format_tags
-  - src.tagi.cli.create_mr
-  - src.tagi.cli.create_pr
+  - src.tagi.cli.detect_provider
   - src.tagi.cli.draft
+  - src.tagi.cli.filter
   - src.tagi.cli.list_groups
   - src.tagi.cli.publish
   - src.tagi.cli.scan
   - src.tagi.cli.send
+  - src.tagi.cli.setup_logging
   src.tagi.composer.commit_message:
   - src.tagi.composer.commit_message._infer_scope
   - src.tagi.composer.commit_message.generate_commit_message
   - src.tagi.composer.commit_message.generate_conventional_message
   - src.tagi.composer.commit_message.generate_detailed_message
+  - src.tagi.composer.commit_message.generate_oneline_message
+  - src.tagi.composer.commit_message.generate_simple_message
+  src.tagi.heuristics.metrics:
+  - src.tagi.heuristics.metrics._calculate_complexity
+  - src.tagi.heuristics.metrics._calculate_dependency_depth
+  - src.tagi.heuristics.metrics._calculate_impact
+  - src.tagi.heuristics.metrics._calculate_stability
+  - src.tagi.heuristics.metrics._calculate_test_impact
+  - src.tagi.heuristics.metrics.calculate_metrics
+  src.tagi.heuristics.rules:
+  - src.tagi.heuristics.rules._get_config_attr
+  - src.tagi.heuristics.rules.get_custom_heuristics
+  - src.tagi.heuristics.rules.get_custom_rules
   src.tagi.heuristics.scoring:
   - src.tagi.heuristics.scoring.calculate_risk_score
   src.tagi.heuristics.tags:
@@ -281,13 +467,31 @@ modules:
   - src.tagi.heuristics.tags.apply_tags
   src.tagi.planner.grouper:
   - src.tagi.planner.grouper._get_primary_tag
+  - src.tagi.planner.grouper.group_by_tag
   - src.tagi.planner.grouper.group_changes
+  src.tagi.planner.selector:
+  - src.tagi.planner.selector.select_changes_by_tag
+  src.tagi.planner.sorter:
+  - src.tagi.planner.sorter.group_by_complexity
+  - src.tagi.planner.sorter.sort_by_complexity
   src.tagi.scanner.files:
   - src.tagi.scanner.files.count_lines_changed
   src.tagi.scanner.status:
   - src.tagi.scanner.status.parse_status
   - src.tagi.scanner.status.scan_repo
+  src.tagi.utils.logger:
+  - src.tagi.utils.logger.setup_logger
 entry_points:
+- src.tagi.analyzer.dependency_graph.build_dependency_graph
+- src.tagi.analyzer.dependency_graph.detect_cycles
+- src.tagi.analyzer.dependency_graph.find_dependency_order
+- src.tagi.analyzer.dependency_graph.get_critical_path
+- src.tagi.analyzer.metrics.MetricsCollector.__init__
+- src.tagi.analyzer.metrics.MetricsCollector.collect
+- src.tagi.analyzer.metrics.MetricsCollector.save
+- src.tagi.analyzer.metrics.MetricsCollector.to_json
+- src.tagi.analyzer.metrics.compare_metrics
+- src.tagi.analyzer.metrics.generate_report
 - src.tagi.cli.draft
 - src.tagi.cli.file
 - src.tagi.cli.filter
@@ -296,6 +500,7 @@ entry_points:
 - src.tagi.cli.publish
 - src.tagi.cli.scan
 - src.tagi.cli.send
+- src.tagi.cli.setup_logging
 - src.tagi.cli.stats
 - src.tagi.cli.summary
 - src.tagi.composer.summary.generate_file_list
@@ -321,21 +526,33 @@ entry_points:
 - src.tagi.executor.publish.PublishExecutor.dry_run
 - src.tagi.executor.publish.PublishExecutor.publish
 - src.tagi.executor.publish.PublishExecutor.stage_and_commit
+- src.tagi.heuristics.metrics.calculate_vector_distance
+- src.tagi.heuristics.metrics.filter_by_metrics
+- src.tagi.heuristics.metrics.sort_by_metric
 - src.tagi.heuristics.rules.get_custom_heuristics
 - src.tagi.heuristics.rules.get_custom_rules
+- src.tagi.hooks.check_hooks_installed
+- src.tagi.hooks.install_hooks
+- src.tagi.hooks.list_hooks
+- src.tagi.hooks.run_hook
+- src.tagi.hooks.uninstall_hooks
 - src.tagi.llm.llx_adapter.LlxAdapter.__init__
 - src.tagi.llm.llx_adapter.LlxAdapter.improve_description
 - src.tagi.llm.llx_adapter.LlxAdapter.improve_message
 - src.tagi.llm.llx_adapter.LlxAdapter.is_available
+- src.tagi.models.change.ChangeMetrics.to_vector
+- src.tagi.planner.branch_grouper.get_branch_info
+- src.tagi.planner.branch_grouper.group_by_branch
 - src.tagi.planner.grouper.group_by_risk
 - src.tagi.planner.grouper.group_by_tag
 - src.tagi.planner.preview.preview_changes
 - src.tagi.planner.preview.preview_plan
 - src.tagi.planner.selector.select_by_tags
-- src.tagi.planner.selector.select_changes_by_tag
 - src.tagi.planner.selector.select_low_risk_changes
 - src.tagi.planner.selector.select_safe_changes
 - src.tagi.planner.selector.select_small_changes
+- src.tagi.planner.sorter.group_by_complexity
+- src.tagi.planner.sorter.sort_by_tag_priority
 - src.tagi.providers.base.BaseProvider.__init__
 - src.tagi.providers.base.BaseProvider._check_git_remote_for_provider
 - src.tagi.providers.base.BaseProvider._get_git_remote_url
@@ -344,6 +561,7 @@ entry_points:
 - src.tagi.providers.base.BaseProvider.detect_remote
 - src.tagi.providers.base.BaseProvider.get_auth_status
 - src.tagi.providers.base.BaseProvider.is_authenticated
+- src.tagi.providers.detector.detect_provider
 - src.tagi.providers.github.GitHubProvider.create_pr
 - src.tagi.providers.github.GitHubProvider.detect_remote
 - src.tagi.providers.github.GitHubProvider.get_auth_status
@@ -355,3 +573,4 @@ entry_points:
 - src.tagi.providers.gitlab.GitLabProvider.get_configured_host
 - src.tagi.providers.gitlab.GitLabProvider.is_authenticated
 - src.tagi.scanner.diff.get_staged_diff
+- src.tagi.utils.logger.get_logger

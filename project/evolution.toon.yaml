@@ -1,29 +1,45 @@
-# code2llm/evolution | 95 func | 19f | 2026-05-26
+# code2llm/evolution | 127 func | 28f | 2026-05-26
 # generated in 0.00s
 
-NEXT[3] (ranked by impact):
+NEXT[7] (ranked by impact):
   [1] !! SPLIT           src/tagi/cli.py
-      WHY: 766L, 0 classes, max CC=15
-      EFFORT: ~4h  IMPACT: 11490
+      WHY: 805L, 0 classes, max CC=27
+      EFFORT: ~4h  IMPACT: 21735
 
-  [2] !  SPLIT-FUNC      inspect  CC=15  fan=20
+  [2] !! SPLIT-FUNC      send  CC=27  fan=19
+      WHY: CC=27 exceeds 15
+      EFFORT: ~1h  IMPACT: 513
+
+  [3] !  SPLIT-FUNC      publish  CC=17  fan=20
+      WHY: CC=17 exceeds 15
+      EFFORT: ~1h  IMPACT: 340
+
+  [4] !  SPLIT-FUNC      inspect  CC=15  fan=20
       WHY: CC=15 exceeds 15
       EFFORT: ~1h  IMPACT: 300
 
-  [3] !! SPLIT           goal.yaml
+  [5] !  SPLIT-FUNC      summary  CC=15  fan=20
+      WHY: CC=15 exceeds 15
+      EFFORT: ~1h  IMPACT: 300
+
+  [6] !  SPLIT-FUNC      filter  CC=17  fan=17
+      WHY: CC=17 exceeds 15
+      EFFORT: ~1h  IMPACT: 289
+
+  [7] !! SPLIT           goal.yaml
       WHY: 511L, 0 classes, max CC=0
       EFFORT: ~4h  IMPACT: 0
 
 
 RISKS[2]:
-  ⚠ Splitting src/tagi/cli.py may break 25 import paths
+  ⚠ Splitting src/tagi/cli.py may break 19 import paths
   ⚠ Splitting goal.yaml may break 0 import paths
 
 METRICS-TARGET:
-  CC̄:          4.0 → ≤2.8
-  max-CC:      15 → ≤7
+  CC̄:          4.3 → ≤3.0
+  max-CC:      27 → ≤13
   god-modules: 2 → 0
-  high-CC(≥15): 1 → ≤0
+  high-CC(≥15): 5 → ≤2
   hub-types:   0 → ≤0
 
 PATTERNS (language parser shared logic):
@@ -51,4 +67,4 @@ PATTERNS (language parser shared logic):
     - Standardized FunctionInfo/ClassInfo models
 
 HISTORY:
-  prev CC̄=5.0 → now CC̄=4.0
+  prev CC̄=4.0 → now CC̄=4.3

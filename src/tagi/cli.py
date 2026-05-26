@@ -19,15 +19,67 @@ from tagi.providers.github import GitHubProvider
 from tagi.providers.gitlab import GitLabProvider
 from tagi.scanner.status import scan_repo
 from tagi.scanner.diff import get_diff
+from tagi.utils.logger import setup_logger
+from tagi.planner.sorter import sort_by_complexity
+from tagi.utils.detect_provider import detect_git_provider
+from tagi.utils.send_helpers import resolve_filtered_changes, create_change_group
+from tagi.utils.publish_helpers import filter_changes_by_tag, create_publish_group
+from tagi.utils.inspect_helpers import filter_changes_by_tag as inspect_filter_by_tag, calculate_tag_statistics, display_statistics_table
 
 app = typer.Typer(help="tagi - Git change orchestrator")
 console = Console()
+logger = None
+
+
+@app.callback()
+def setup_logging(verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose logging", is_eager=True)):
+    """Set up logging for all commands."""
+    global logger
+    logger = setup_logger(verbose=verbose)
+    if verbose and logger:
+        logger.debug("Verbose logging enabled")
+
+
+def _configure_command_logging(verbose: bool) -> None:
+    """Enable verbose logging for a single command invocation."""
+    global logger
+    if verbose:
+        logger = setup_logger(verbose=True)
+        logger.debug("Verbose logging enabled")
+
 
 def _ensure_tag_prefix(tag: str) -> str:
     """Ensure tag has # prefix."""
     if not tag.startswith("#"):
         return f"#{tag}"
     return tag
+
+
+def _is_known_tag(value: str) -> bool:
+    """Return True when the value matches a supported tag."""
+    try:
+        Tag(_ensure_tag_prefix(value))
+        return True
+    except ValueError:
+        return False
+
+
+def _resolve_send_target(target: Optional[str], repo_path: str) -> tuple[str, Optional[str]]:
+    """Resolve send positional input as either a tag or a repository path."""
+    if target is None:
+        return repo_path, None
+
+    if repo_path != ".":
+        return repo_path, target
+
+    if _is_known_tag(target):
+        return repo_path, target
+
+    candidate = Path(target).expanduser()
+    if candidate.exists():
+        return str(candidate), None
+
+    return repo_path, target
 
 
 @app.command()
@@ -66,6 +118,19 @@ def list_groups(
     repo_path: str = typer.Argument(".", help="Path to repository"),
 ):
     """List available change groups."""
+    _do_list_groups(repo_path)
+
+
+@app.command("list")
+def list_cmd(
+    repo_path: str = typer.Argument(".", help="Path to repository"),
+):
+    """List available change groups (alias for list-groups)."""
+    _do_list_groups(repo_path)
+
+
+def _do_list_groups(repo_path: str) -> None:
+    """Shared implementation for list and list-groups commands."""
     console.print(f"[bold]Listing groups[/bold] in {repo_path}")
     
     try:
@@ -190,8 +255,7 @@ def inspect(
         tag = f"#{tag}"
     
     # Filter changes by tag
-    tag_enum = Tag(tag)
-    filtered_changes = [c for c in changes if tag_enum in c.tags]
+    filtered_changes = inspect_filter_by_tag(changes, tag)
     
     if not filtered_changes:
         console.print(f"[yellow]No changes found for {tag}[/yellow]")
@@ -202,17 +266,8 @@ def inspect(
     if tag_desc:
         console.print(f"[dim]{tag_desc}[/dim]")
     
-    # Calculate statistics for this tag
-    total_lines = sum(getattr(c, 'lines_changed', 0) for c in filtered_changes)
-    avg_risk = sum(getattr(c, 'risk_score', 0) for c in filtered_changes) / len(filtered_changes)
-    
-    stats_table = Table()
-    stats_table.add_column("Metric", style="cyan")
-    stats_table.add_column("Value", style="magenta")
-    stats_table.add_row("Files", str(len(filtered_changes)))
-    stats_table.add_row("Total Lines", str(total_lines))
-    stats_table.add_row("Avg Risk Score", f"{avg_risk:.2f}")
-    console.print(stats_table)
+    # Display statistics
+    display_statistics_table(filtered_changes, console)
     
     _display_changes(filtered_changes, config)
     
@@ -251,9 +306,6 @@ def filter(
     
     # Parse tags
     tag_list = [t.strip() for t in tags.split(',')]
-    # Add # prefix to each tag if not present
-    tag_list = [t if t.startswith("#") else f"#{t}" for t in tag_list]
-    # Add # prefix to each tag if not present
     tag_list = [t if t.startswith("#") else f"#{t}" for t in tag_list]
     tag_enums = []
     for t in tag_list:
@@ -357,55 +409,11 @@ def summary(
     config = Config(repo_path)
     
     # Build summary report
-    report_lines = []
-    report_lines.append("=" * 60)
-    report_lines.append("TAGI SUMMARY REPORT")
-    report_lines.append("=" * 60)
-    report_lines.append(f"Repository: {repo_path}")
-    report_lines.append(f"Total files changed: {len(changes)}")
-    report_lines.append("")
-    
-    # Overall statistics
-    total_lines = sum(getattr(c, 'lines_changed', 0) for c in changes)
-    avg_risk = sum(getattr(c, 'risk_score', 0) for c in changes) / len(changes)
-    report_lines.append("OVERALL STATISTICS")
-    report_lines.append("-" * 40)
-    report_lines.append(f"Total lines changed: {total_lines}")
-    report_lines.append(f"Average risk score: {avg_risk:.2f}")
-    report_lines.append("")
-    
-    # Changes by type
-    from collections import Counter
-    from tagi.models.change import ChangeType
-    by_type = Counter(c.change_type.value for c in changes)
-    report_lines.append("CHANGES BY TYPE")
-    report_lines.append("-" * 40)
-    for ct, count in sorted(by_type.items()):
-        report_lines.append(f"  {ct}: {count}")
-    report_lines.append("")
-    
-    # Tag distribution
-    tag_counts = Counter()
-    for change in changes:
-        for tag in change.tags:
-            tag_counts[tag.value] += 1
-    
-    report_lines.append("TAG DISTRIBUTION")
-    report_lines.append("-" * 40)
-    for tag, count in tag_counts.most_common():
-        desc = config.get_tag_description(tag)
-        if desc:
-            report_lines.append(f"  {tag} ({count}): {desc}")
-        else:
-            report_lines.append(f"  {tag}: {count}")
-    report_lines.append("")
-    
-    # File list
-    report_lines.append("FILES CHANGED")
-    report_lines.append("-" * 40)
-    for change in changes:
-        tags_str = ", ".join([t.value for t in change.tags])
-        report_lines.append(f"  [{change.change_type.value:8}] {change.path:40} ({tags_str})")
+    report_lines = build_report_header(repo_path, changes)
+    report_lines.extend(build_statistics_section(changes))
+    report_lines.extend(build_changes_by_type_section(changes))
+    report_lines.extend(build_tag_distribution_section(changes, config))
+    report_lines.extend(build_file_list_section(changes))
     
     report_lines.append("")
     report_lines.append("=" * 60)
@@ -471,42 +479,85 @@ def draft(
 
 @app.command()
 def send(
-    tag: str = typer.Argument(..., help="Tag to send (e.g., #small)"),
-    repo_path: str = typer.Argument(".", help="Path to repository"),
+    target: Optional[str] = typer.Argument(None, help="Tag to send (e.g., small) or repository path. If not specified, sends all changes"),
+    repo_path: str = typer.Option(".", "--repo-path", "--path", help="Path to repository"),
+    auto_order: bool = typer.Option(False, "--auto-order", "-a", help="Automatically order changes by complexity (simplest first)"),
     dry_run: bool = typer.Option(False, "--dry-run", help="Preview without executing"),
     push: bool = typer.Option(False, "--push", help="Push after commit"),
     template: str = typer.Option("default", "--template", "-t", help="Commit message template (default, conventional, detailed)"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose logging"),
 ):
     """Stage, commit, and optionally push changes."""
-    console.print(f"[bold]Sending[/bold] {tag}")
+    _configure_command_logging(verbose)
+
+    repo_path, tag = _resolve_send_target(target, repo_path)
+
+    global logger
+    if logger:
+        logger.debug(f"Send command called with tag={tag}, repo_path={repo_path}, auto_order={auto_order}, dry_run={dry_run}, push={push}")
+
+    if tag is None:
+        console.print("[bold]Sending[/bold] all changes")
+    else:
+        console.print(f"[bold]Sending[/bold] {tag}")
     
-    changes = scan_repo(repo_path)
-    changes = apply_tags(changes, repo_path)
-    groups = group_changes(changes)
+    try:
+        changes = scan_repo(repo_path)
+        changes = apply_tags(changes, repo_path)
+    except (ValueError, RuntimeError) as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(1)
+    except Exception as e:
+        console.print(f"[red]Unexpected error: {e}[/red]")
+        raise typer.Exit(1)
     
-    # Add # prefix if not present
-    if not tag.startswith("#"):
-        tag = f"#{tag}"
-    # Find group by tag
-    tag_enum = Tag(tag)
-    # Filter changes by tag (not just primary tag)
-    filtered_changes = [c for c in changes if tag_enum in c.tags]
+    if not changes:
+        console.print("[yellow]No changes found[/yellow]")
+        return
+    
+    if tag is None:
+        filtered_changes = changes
+    else:
+        tag = _ensure_tag_prefix(tag)
+        try:
+            tag_enum = Tag(tag)
+        except ValueError:
+            console.print(f"[red]Unknown tag: {tag}[/red]")
+            raise typer.Exit(1)
+        filtered_changes = [c for c in changes if tag_enum in c.tags]
+
+    if auto_order:
+        console.print("[bold]Sorting changes by complexity (simplest first)[/bold]")
+        filtered_changes = sort_by_complexity(filtered_changes)
     
     if not filtered_changes:
-        console.print(f"[yellow]No changes found for {tag}[/yellow]")
+        if tag is None:
+            console.print("[yellow]No changes found[/yellow]")
+        else:
+            console.print(f"[yellow]No changes found for {tag}[/yellow]")
         return
     
     # Create a temporary group for the filtered changes
     from tagi.models import ChangeGroup
     total_lines = sum(c.lines_changed for c in filtered_changes)
     avg_risk = sum(c.risk_score for c in filtered_changes) / len(filtered_changes) if filtered_changes else 0.0
+    
+    if tag is None:
+        group_name = "all"
+        group_tags = []
+    else:
+        group_name = tag
+        tag_enum = Tag(tag)
+        group_tags = [tag_enum]
+    
     group = ChangeGroup(
-        name=tag,
+        name=group_name,
         changes=filtered_changes,
-        tags=[tag_enum],
+        tags=group_tags,
         total_lines=total_lines,
         avg_risk=avg_risk
     )
+
     # Generate commit message
     message = generate_commit_message(group.changes, template=template, repo_path=repo_path)
     console.print("\n[bold cyan]Commit message:[/bold cyan]")
@@ -544,40 +595,38 @@ def publish(
     repo_path: str = typer.Argument(".", help="Path to repository"),
     dry_run: bool = typer.Option(False, "--dry-run", help="Preview without executing"),
     template: str = typer.Option("default", "--template", "-t", help="Commit message template (default, conventional, detailed)"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose logging"),
 ):
     """Create a PR or MR for the changes."""
+    _configure_command_logging(verbose)
+
     console.print(f"[bold]Publishing[/bold] {tag}")
-    
-    changes = scan_repo(repo_path)
-    changes = apply_tags(changes, repo_path)
-    groups = group_changes(changes)
-    
-    # Add # prefix if not present
-    if not tag.startswith("#"):
-        tag = f"#{tag}"
-    
-    # Collect all changes with this tag
-    tag_enum = Tag(tag)
-    filtered_changes = [c for c in changes if tag_enum in c.tags]
-    
+
+    try:
+        changes = scan_repo(repo_path)
+        changes = apply_tags(changes, repo_path)
+    except (ValueError, RuntimeError) as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(1)
+    except Exception as e:
+        console.print(f"[red]Unexpected error: {e}[/red]")
+        raise typer.Exit(1)
+
+    tag = _ensure_tag_prefix(tag)
+    try:
+        tag_enum = Tag(tag)
+    except ValueError:
+        console.print(f"[red]Unknown tag: {tag}[/red]")
+        raise typer.Exit(1)
+
+    filtered_changes = filter_changes_by_tag(changes, tag)
+
     if not filtered_changes:
         console.print(f"[yellow]No changes found for {tag}[/yellow]")
-    # Add # prefix if not present
-    if not tag.startswith("#"):
-        tag = f"#{tag}"
         return
-    
-    # Create a temporary group for the filtered changes
-    from tagi.models import ChangeGroup
-    total_lines = sum(c.lines_changed for c in filtered_changes)
-    avg_risk = sum(c.risk_score for c in filtered_changes) / len(filtered_changes) if filtered_changes else 0.0
-    group = ChangeGroup(
-        name=tag,
-        changes=filtered_changes,
-        tags=[tag_enum],
-        total_lines=total_lines,
-        avg_risk=avg_risk
-    )
+
+    # Create change group
+    group = create_publish_group(filtered_changes, tag)
     
     # Detect provider
     provider = detect_provider(repo_path)

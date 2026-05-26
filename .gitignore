@@ -1,4 +1,19 @@
 # Byte-compiled / optimized / DLL files
+.code2llm_cache/branch_grouper_1779810382570385717_2702.pkl
+.code2llm_cache/change_1779811320835248319_1458.pkl
+.code2llm_cache/cli_1779812479505396861_27032.pkl
+.code2llm_cache/commit_message_1779809443094439742_5584.pkl
+.code2llm_cache/dependency_graph_1779810400712577609_5250.pkl
+.code2llm_cache/detector_1779808727851858625_442.pkl
+.code2llm_cache/grouper_1779809459691615730_2248.pkl
+.code2llm_cache/hooks_1779810020665556932_3066.pkl
+.code2llm_cache/logger_1779809465287675064_1747.pkl
+.code2llm_cache/metrics_1779810407172645937_4492.pkl
+.code2llm_cache/metrics_1779811310790143885_6521.pkl
+.code2llm_cache/pyproject_1779811953922500198_1303.pkl
+.code2llm_cache/rules_1779809456102577675_622.pkl
+.code2llm_cache/sorter_1779811192423915625_3240.pkl
+.code2llm_cache/tags_1779811321149251584_3404.pkl
 .code2llm_cache/base_1779807720540219029_1860.pkl
 .code2llm_cache/cli_1779808664226186571_25353.pkl
 .code2llm_cache/commit_message_1779807736909391917_3993.pkl

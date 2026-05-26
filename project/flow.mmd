@@ -1,5 +1,5 @@
 flowchart TD
-%% generated in 0.00s
+%% generated in 0.01s
 
     %% Entry points (blue)
     classDef entry fill:#4dabf7,stroke:#1971c2,color:#fff
@@ -13,14 +13,14 @@ flowchart TD
         src__tagi__config__Config__get_tag_description["get_tag_description"]
         src__tagi__config__Config__get_template["get_template"]
         src__tagi__config__Config__should_ignore["should_ignore"]
-        src__tagi__planner__grouper__group_by_tag["group_by_tag"]
-        src__tagi__planner__grouper__group_by_risk["group_by_risk"]
         src__tagi__planner__preview__preview_plan["preview_plan"]
         src__tagi__planner__preview__preview_changes["preview_changes"]
-        src__tagi__planner__selector__select_changes_by_tag["select_changes_by_tag"]
         src__tagi__planner__selector__select_low_risk_changes["select_low_risk_changes"]
         src__tagi__planner__selector__select_small_changes["select_small_changes"]
-        ...["+65 more"]
+        src__tagi__planner__selector__select_by_tags["select_by_tags"]
+        src__tagi__planner__selector__select_safe_changes["select_safe_changes"]
+        src__tagi__providers__base__BaseProvider__is_authenticated["is_authenticated"]
+        ...["+82 more"]
     end
 
-    class src__tagi__config__Config___load_config,src__tagi__config__Config__get_tag_for_path,src__tagi__config__Config__get_custom_tags_for_pattern,src__tagi__config__Config__get_tag_color,src__tagi__config__Config__get_heuristics_for_path,src__tagi__config__Config__get_tag_description,src__tagi__config__Config__get_template,src__tagi__config__Config__should_ignore,src__tagi__planner__grouper__group_by_tag,src__tagi__planner__grouper__group_by_risk entry
+    class src__tagi__config__Config___load_config,src__tagi__config__Config__get_tag_for_path,src__tagi__config__Config__get_custom_tags_for_pattern,src__tagi__config__Config__get_tag_color,src__tagi__config__Config__get_heuristics_for_path,src__tagi__config__Config__get_tag_description,src__tagi__config__Config__get_template,src__tagi__config__Config__should_ignore,src__tagi__planner__preview__preview_plan,src__tagi__planner__preview__preview_changes entry

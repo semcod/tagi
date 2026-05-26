@@ -8,6 +8,9 @@
 ├── README.md
 ├── src
 │   └── tagi
+│       ├── analyzer
+│       │   ├── dependency_graph.py
+│       │   └── metrics.py
 │       ├── cli.py
 │       ├── composer
 │       │   ├── commit_message.py
@@ -20,9 +23,11 @@
 │       │   └── publish.py
 │       ├── heuristics
 │       │   ├── __init__.py
+│       │   ├── metrics.py
 │       │   ├── rules.py
 │       │   ├── scoring.py
 │       │   └── tags.py
+│       ├── hooks.py
 │       ├── __init__.py
 │       ├── llm
 │       │   ├── __init__.py
@@ -33,26 +38,34 @@
 │       │   ├── __init__.py
 │       │   └── plan.py
 │       ├── planner
+│       │   ├── branch_grouper.py
 │       │   ├── grouper.py
 │       │   ├── __init__.py
 │       │   ├── preview.py
-│       │   └── selector.py
+│       │   ├── selector.py
+│       │   └── sorter.py
 │       ├── providers
 │       │   ├── base.py
+│       │   ├── detector.py
 │       │   ├── github.py
 │       │   ├── gitlab.py
 │       │   └── __init__.py
-│       └── scanner
-│           ├── diff.py
-│           ├── files.py
-│           ├── __init__.py
-│           └── status.py
+│       ├── scanner
+│       │   ├── diff.py
+│       │   ├── files.py
+│       │   ├── __init__.py
+│       │   └── status.py
+│       └── utils
+│           └── logger.py
 ├── SUMD.md
 ├── SUMR.md
 ├── tagi.toml.example
 ├── testql-scenarios
 │   └── generated-cli-tests.testql.toon.yaml
 ├── tests
+│   ├── test_e2e.py
+│   ├── test_github_provider.py
+│   ├── test_gitlab_provider.py
 │   └── test_tagi.py
 ├── TODO
 │   ├── 1.md
@@ -63,4 +76,4 @@
 ├── uv.lock
 └── VERSION
 
-14 directories, 50 files
+16 directories, 61 files

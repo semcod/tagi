@@ -29,6 +29,8 @@ def generate_commit_message(changes: List[Change], template: str = "default", re
         message = generate_oneline_message(changes)
     elif template == "files":
         message = generate_files_message(changes)
+    elif template == "default":
+        message = generate_simple_message(changes)
     else:
         message = template.format(tag=tag, files=files_str, count=count)
     
