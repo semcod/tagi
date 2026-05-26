@@ -1,0 +1,20 @@
+{
+  "cwd": "/home/tom/github/semcod/tagi",
+  "env": {
+    "KORU_AUTOPILOT_INSTANCE": "jetbrains",
+    "VIRTUAL_ENV": "/home/tom/github/semcod/tagi/venv"
+  },
+  "git_sha": "eaada8e1536e",
+  "pid": 1004673,
+  "ppid": 869206,
+  "project": "/home/tom/github/semcod/tagi",
+  "python": "3.12.0",
+  "python_executable": "/home/tom/.pyenv/versions/3.12.0/bin/python3.12",
+  "schema": "koru.autopilot.daemon.v1",
+  "socket": "/run/user/1000/koru-autopilot-jetbrains.sock",
+  "socket_inode": 7781,
+  "started_at": "2026-05-26T19:56:31.447584+00:00",
+  "uid": 1000,
+  "uptime_seconds": 0.006470918655395508,
+  "version": "0.1.288"
+}

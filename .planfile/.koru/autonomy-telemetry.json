@@ -4,13 +4,15 @@
     "scan_after_idle_runs": 0,
     "scan_after_idle_tickets_applied": 0
   },
-  "cycle": 3,
+  "cycle": 7,
   "knobs": {
     "autopilot_skip_drive_idle_streak": 0,
     "scan_after_idle_min_interval_seconds": 60.0,
     "scan_after_idle_queue": true
   },
   "last_cycle": {
+    "autopilot_chat_activity_last_event": "drive.ack",
+    "autopilot_skipped_chat_activity": true,
     "autopilot_skipped_idle_streak": false,
     "environment_profile": {
       "control": {
@@ -58,17 +60,17 @@
   },
   "recent_decisions": [
     {
-      "action": "submit_verified(backend=os_injector)",
-      "at": "2026-05-26T19:38:05+00:00",
-      "blocked_by": "",
-      "cycle": 3,
-      "decided": "ticket_prompt",
-      "evidence": "backend=os_injector, diagnostics=skipped, wup=skipped",
-      "next_step": "wait for IDE response, then advance queue",
+      "action": "no_op",
+      "at": "2026-05-26T19:59:06+00:00",
+      "blocked_by": "chat_activity",
+      "cycle": 7,
+      "decided": "skip:chat_activity",
+      "evidence": "blocked_by=chat_activity, diagnostics=skipped, wup=skipped, chat_event=drive.ack",
+      "next_step": "wait for chat cooldown to expire",
       "observed": "queue=waiting_input ticket=PLF-001 streak=2",
-      "skip_because": "",
-      "skip_code": "ok"
+      "skip_because": "last chat event: drive.ack",
+      "skip_code": "chat_activity"
     }
   ],
-  "updated_at": "2026-05-26T19:38:05.322578+00:00"
+  "updated_at": "2026-05-26T19:59:06.778809+00:00"
 }
