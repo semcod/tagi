@@ -1,72 +1,164 @@
-# tagi | 14f 866L | python:11,shell:2,less:1 | 2026-05-26
-# stats: 24 func | 5 cls | 14 mod | CC̄=5.5 | critical:4 | cycles:0
-# alerts[5]: CC apply_tags=24; CC generate_commit_message=14; CC publish=11; CC send=10; CC _count_lines_changed=7
-# hotspots[5]: publish fan=17; send fan=15; scan fan=9; apply_tags fan=9; draft fan=8
+# tagi | 35f 2260L | python:32,shell:2,less:1 | 2026-05-26
+# stats: 53 func | 13 cls | 35 mod | CC̄=6.5 | critical:12 | cycles:0
+# alerts[5]: CC _infer_scope=20; CC apply_path_tags=17; CC filter=15; CC summary=15; CC inspect=14
+# hotspots[5]: summary fan=20; inspect fan=19; stats fan=18; publish fan=17; filter fan=16
 # evolution: baseline
 # Keys: M=modules, D=details, i=imports, e=exports, c=classes, f=functions, m=methods
-M[14]:
+M[35]:
   app.doql.less,29
   project.sh,48
-  src/tagi/__init__.py,2
-  src/tagi/cli.py,273
-  src/tagi/composer.py,59
-  src/tagi/config.py,64
-  src/tagi/executor.py,60
-  src/tagi/heuristics.py,123
-  src/tagi/models.py,48
-  src/tagi/planner.py,29
-  src/tagi/providers.py,70
-  src/tagi/scanner.py,47
-  tests/test_tagi.py,12
+  src/tagi/__init__.py,48
+  src/tagi/cli.py,709
+  src/tagi/composer/__init__.py,13
+  src/tagi/composer/commit_message.py,155
+  src/tagi/composer/summary.py,46
+  src/tagi/config.py,122
+  src/tagi/executor/__init__.py,10
+  src/tagi/executor/git.py,115
+  src/tagi/executor/publish.py,40
+  src/tagi/heuristics/__init__.py,14
+  src/tagi/heuristics/rules.py,16
+  src/tagi/heuristics/scoring.py,32
+  src/tagi/heuristics/tags.py,83
+  src/tagi/llm/__init__.py,8
+  src/tagi/llm/llx_adapter.py,25
+  src/tagi/models/__init__.py,15
+  src/tagi/models/change.py,38
+  src/tagi/models/group.py,17
+  src/tagi/models/plan.py,24
+  src/tagi/planner/__init__.py,19
+  src/tagi/planner/grouper.py,76
+  src/tagi/planner/preview.py,42
+  src/tagi/planner/selector.py,45
+  src/tagi/providers/__init__.py,12
+  src/tagi/providers/base.py,21
+  src/tagi/providers/github.py,80
+  src/tagi/providers/gitlab.py,88
+  src/tagi/scanner/__init__.py,14
+  src/tagi/scanner/diff.py,32
+  src/tagi/scanner/files.py,31
+  src/tagi/scanner/status.py,68
+  tests/test_tagi.py,123
   tree.sh,2
 D:
   src/tagi/__init__.py:
   src/tagi/cli.py:
-    e: scan,list_groups,inspect,draft,send,publish,_display_changes,_display_groups
-    scan(repo_path)
+    e: scan,list_groups,stats,inspect,filter,file,summary,draft,send,safe,publish,_display_changes,_format_tags,_display_groups,_display_changes_grouped
+    scan(repo_path;grouped)
     list_groups(repo_path)
-    inspect(tag;repo_path)
-    draft(tag;repo_path)
-    send(tag;repo_path;dry_run;push)
+    stats(repo_path)
+    inspect(tag;repo_path;diff)
+    filter(tags;repo_path;match_all)
+    file(file_path;repo_path)
+    summary(repo_path;output)
+    draft(tag;repo_path;template)
+    send(tag;repo_path;dry_run;push;template)
+    safe(repo_path)
     publish(tag;repo_path;dry_run)
-    _display_changes(changes)
+    _display_changes(changes;config)
+    _format_tags(tags;config)
     _display_groups(groups)
-  src/tagi/composer.py:
-    e: generate_commit_message,_build_title
-    generate_commit_message(group)
-    _build_title(tag;count)
+    _display_changes_grouped(changes)
+  src/tagi/composer/__init__.py:
+  src/tagi/composer/commit_message.py:
+    e: generate_commit_message,generate_conventional_message,generate_detailed_message,_infer_scope,generate_detailed_message
+    generate_commit_message(changes;template;repo_path)
+    generate_conventional_message(changes)
+    generate_detailed_message(changes)
+    _infer_scope(changes)
+    generate_detailed_message(changes)
+  src/tagi/composer/summary.py:
+    e: generate_summary,generate_file_list
+    generate_summary(changes)
+    generate_file_list(changes;max_files)
   src/tagi/config.py:
     e: Config
-    Config: __init__(1),_load_config(0),get_tag_for_path(1),get_custom_tags_for_pattern(1)  # Configuration loaded from tagi.toml.
-  src/tagi/executor.py:
-    e: stage_changes,commit_changes,push_changes
-    stage_changes(changes;repo_path;dry_run)
-    commit_changes(message;repo_path;dry_run)
-    push_changes(repo_path;dry_run)
-  src/tagi/heuristics.py:
-    e: apply_tags,_count_lines_changed,_calculate_risk_score
+    Config: __init__(1),_load_config(0),get_tag_for_path(1),get_custom_tags_for_pattern(1),get_tag_color(1),get_heuristics_for_path(1),get_tag_description(1),get_template(1),should_ignore(1)  # Configuration loaded from tagi.toml.
+  src/tagi/executor/__init__.py:
+  src/tagi/executor/git.py:
+    e: GitExecutor
+    GitExecutor: __init__(1),add(1),commit(2),push(3),status(0),get_current_branch(0),get_remote_url(1),has_staged_changes(0)  # Executor for git commands.
+  src/tagi/executor/publish.py:
+    e: PublishExecutor
+    PublishExecutor: __init__(1),stage_and_commit(3),publish(6),dry_run(2)  # Executor for publishing changes.
+  src/tagi/heuristics/__init__.py:
+  src/tagi/heuristics/rules.py:
+    e: get_custom_rules,get_custom_heuristics
+    get_custom_rules(repo_path)
+    get_custom_heuristics(repo_path)
+  src/tagi/heuristics/scoring.py:
+    e: calculate_risk_score
+    calculate_risk_score(change;tags)
+  src/tagi/heuristics/tags.py:
+    e: apply_tags,apply_path_tags
     apply_tags(changes;repo_path)
-    _count_lines_changed(file_path;repo_path)
-    _calculate_risk_score(change;tags)
-  src/tagi/models.py:
-    e: ChangeType,Tag,Change,ChangeGroup
+    apply_path_tags(change;lines_changed)
+  src/tagi/llm/__init__.py:
+  src/tagi/llm/llx_adapter.py:
+    e: LlxAdapter
+    LlxAdapter: __init__(1),is_available(0),improve_message(1)  # Adapter for LLX library for optional LLM integration.
+  src/tagi/models/__init__.py:
+  src/tagi/models/change.py:
+    e: ChangeType,Tag,Change
     ChangeType:  # Type of git change.
     Tag:  # Hashtag categories for changes.
     Change:  # Represents a single file change.
+  src/tagi/models/group.py:
+    e: ChangeGroup
     ChangeGroup:  # Group of related changes.
-  src/tagi/planner.py:
-    e: group_changes
+  src/tagi/models/plan.py:
+    e: PlanStep,Plan
+    PlanStep:  # A single step in an execution plan.
+    Plan:  # An execution plan for shipping changes.
+  src/tagi/planner/__init__.py:
+  src/tagi/planner/grouper.py:
+    e: group_changes,group_by_tag,group_by_risk,_get_primary_tag
     group_changes(changes)
-  src/tagi/providers.py:
-    e: create_pr,create_mr,detect_provider
-    create_pr(title;body;repo_path;dry_run)
-    create_mr(title;body;repo_path;dry_run)
-    detect_provider(repo_path)
-  src/tagi/scanner.py:
-    e: scan_repo,_parse_status
+    group_by_tag(changes;tag)
+    group_by_risk(changes;threshold)
+    _get_primary_tag(tags)
+  src/tagi/planner/preview.py:
+    e: preview_plan,preview_changes
+    preview_plan(changes;tag)
+    preview_changes(group)
+  src/tagi/planner/selector.py:
+    e: select_changes_by_tag,select_low_risk_changes,select_small_changes,select_by_tags,select_safe_changes
+    select_changes_by_tag(changes;tag)
+    select_low_risk_changes(changes;threshold)
+    select_small_changes(changes;max_lines)
+    select_by_tags(changes;tags;require_all)
+    select_safe_changes(changes)
+  src/tagi/providers/__init__.py:
+  src/tagi/providers/base.py:
+    e: BaseProvider
+    BaseProvider: __init__(1),is_authenticated(0),create_pr(3)  # Base class for Git hosting providers.
+  src/tagi/providers/github.py:
+    e: GitHubProvider
+    GitHubProvider: is_authenticated(0),get_auth_status(0),get_token(0),create_pr(4),detect_remote(0)  # GitHub provider using gh CLI.
+  src/tagi/providers/gitlab.py:
+    e: GitLabProvider
+    GitLabProvider: is_authenticated(0),get_auth_status(0),get_configured_host(0),create_pr(4),detect_remote(0)  # GitLab provider using glab CLI.
+  src/tagi/scanner/__init__.py:
+  src/tagi/scanner/diff.py:
+    e: get_diff,get_staged_diff
+    get_diff(file_path;repo_path)
+    get_staged_diff(file_path;repo_path)
+  src/tagi/scanner/files.py:
+    e: count_lines_changed
+    count_lines_changed(file_path;repo_path)
+  src/tagi/scanner/status.py:
+    e: scan_repo,parse_status
     scan_repo(repo_path)
-    _parse_status(status)
+    parse_status(status)
   tests/test_tagi.py:
-    e: test_placeholder,test_import
+    e: test_placeholder,test_import,test_change_creation,test_change_with_tags,test_multiple_tags,test_tag_values,test_changetype_values,test_change_with_metadata,test_config_loading,test_config_no_file
     test_placeholder()
     test_import()
+    test_change_creation()
+    test_change_with_tags()
+    test_multiple_tags()
+    test_tag_values()
+    test_changetype_values()
+    test_change_with_metadata()
+    test_config_loading()
+    test_config_no_file()

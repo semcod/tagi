@@ -25,8 +25,8 @@ class Config:
         self.custom_tag_definitions: Dict[str, str] = {}
         self.custom_templates: Dict[str, str] = {}
         self.ignore_patterns: List[str] = []
+        self.llm_enabled: bool = False
         self._load_config()
-    
     def _load_config(self):
         """Load configuration from tagi.toml if it exists."""
         config_path = Path(self.repo_path) / "tagi.toml"
@@ -69,6 +69,14 @@ class Config:
             # Load ignore patterns
             if "ignore" in data:
                 self.ignore_patterns = data["ignore"]
+            
+            # Load LLM settings
+            if "llm" in data:
+                self.llm_enabled = data["llm"].get("enabled", False)
+            
+            # Load LLM settings
+            if "llm" in data:
+                self.llm_enabled = data["llm"].get("enabled", False)
                 
         except Exception as e:
             print(f"Warning: Error loading tagi.toml: {e}")
