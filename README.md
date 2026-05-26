@@ -53,7 +53,7 @@ tagi publish #small
 - `list` — lista paczek/tagów,
 - `inspect` — podgląd paczki i ryzyka,
 - `draft` — propozycja opisu i planu,
-- `send` — po potwierdzeniu wykonuje `git add`, `git commit`, a push uruchamia opcjonalnie (np. flagą lub konfiguracją),
+- `send` — po potwierdzeniu wykonuje `git add` i `git commit`; push jest opcjonalny,
 - `publish` — rozszerzenie o PR/MR przez provider.
 
 ## Architektura (kierunek)
