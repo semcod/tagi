@@ -1,31 +1,27 @@
 # code2llm call graph | /home/tom/github/semcod/tagi
 # generated in 0.01s
-# nodes: 22 | edges: 28 | modules: 7
-# CC̄=5.0
+# nodes: 24 | edges: 27 | modules: 7
+# CC̄=4.0
 
 HUBS[20]:
   src.tagi.cli.publish
-    CC=16  in:0  out:41  total:41
+    CC=13  in:0  out:33  total:33
   src.tagi.cli.send
     CC=14  in:0  out:32  total:32
-  src.tagi.cli.filter
-    CC=19  in:0  out:29  total:29
-  src.tagi.scanner.status.scan_repo
-    CC=7  in:10  out:15  total:25
   src.tagi.heuristics.tags.apply_tags
     CC=11  in:10  out:15  total:25
+  src.tagi.scanner.status.scan_repo
+    CC=7  in:10  out:15  total:25
   src.tagi.cli.draft
     CC=10  in:0  out:22  total:22
-  src.tagi.heuristics.tags.apply_path_tags
-    CC=17  in:1  out:17  total:18
-  src.tagi.cli.scan
-    CC=6  in:0  out:15  total:15
   src.tagi.planner.grouper.group_changes
     CC=7  in:4  out:11  total:15
-  src.tagi.composer.commit_message.generate_detailed_message
-    CC=7  in:1  out:12  total:13
+  src.tagi.cli.scan
+    CC=6  in:0  out:15  total:15
   src.tagi.cli._display_changes_grouped
     CC=5  in:1  out:12  total:13
+  src.tagi.composer.commit_message.generate_detailed_message
+    CC=7  in:1  out:12  total:13
   src.tagi.cli.list_groups
     CC=4  in:0  out:13  total:13
   src.tagi.composer.commit_message.generate_commit_message
@@ -34,38 +30,42 @@ HUBS[20]:
     CC=2  in:3  out:7  total:10
   src.tagi.cli._display_groups
     CC=2  in:1  out:8  total:9
-  src.tagi.composer.commit_message._infer_scope
-    CC=20  in:1  out:8  total:9
   src.tagi.scanner.files.count_lines_changed
     CC=7  in:1  out:7  total:8
   src.tagi.cli._format_tags
     CC=5  in:4  out:4  total:8
+  src.tagi.cli.create_pr
+    CC=2  in:1  out:5  total:6
+  src.tagi.cli.create_mr
+    CC=2  in:1  out:5  total:6
+  src.tagi.heuristics.tags.apply_path_tags
+    CC=4  in:1  out:3  total:4
+  src.tagi.cli._create_pr_for_provider
+    CC=3  in:1  out:2  total:3
   src.tagi.heuristics.scoring.calculate_risk_score
     CC=7  in:1  out:2  total:3
-  src.tagi.composer.commit_message.generate_conventional_message
-    CC=12  in:1  out:2  total:3
 
 MODULES:
-  src.tagi.cli  [10 funcs]
+  src.tagi.cli  [12 funcs]
+    _create_pr_for_provider  CC=3  out:2
     _display_changes  CC=2  out:7
     _display_changes_grouped  CC=5  out:12
     _display_groups  CC=2  out:8
     _format_tags  CC=5  out:4
+    create_mr  CC=2  out:5
+    create_pr  CC=2  out:5
     draft  CC=10  out:22
-    filter  CC=19  out:29
     list_groups  CC=4  out:13
-    publish  CC=16  out:41
-    scan  CC=6  out:15
-    send  CC=14  out:32
+    publish  CC=13  out:33
   src.tagi.composer.commit_message  [4 funcs]
-    _infer_scope  CC=20  out:8
+    _infer_scope  CC=7  out:2
     generate_commit_message  CC=11  out:9
     generate_conventional_message  CC=12  out:2
     generate_detailed_message  CC=7  out:12
   src.tagi.heuristics.scoring  [1 funcs]
     calculate_risk_score  CC=7  out:2
   src.tagi.heuristics.tags  [2 funcs]
-    apply_path_tags  CC=17  out:17
+    apply_path_tags  CC=4  out:3
     apply_tags  CC=11  out:15
   src.tagi.planner.grouper  [2 funcs]
     _get_primary_tag  CC=4  out:0
@@ -87,13 +87,12 @@ EDGES:
   src.tagi.cli.list_groups → src.tagi.scanner.status.scan_repo
   src.tagi.cli.list_groups → src.tagi.heuristics.tags.apply_tags
   src.tagi.cli.list_groups → src.tagi.planner.grouper.group_changes
-  src.tagi.cli.filter → src.tagi.cli._display_changes
-  src.tagi.cli.filter → src.tagi.scanner.status.scan_repo
-  src.tagi.cli.filter → src.tagi.heuristics.tags.apply_tags
   src.tagi.cli.draft → src.tagi.composer.commit_message.generate_commit_message
   src.tagi.cli.send → src.tagi.scanner.status.scan_repo
   src.tagi.cli.send → src.tagi.heuristics.tags.apply_tags
   src.tagi.cli.send → src.tagi.planner.grouper.group_changes
+  src.tagi.cli._create_pr_for_provider → src.tagi.cli.create_pr
+  src.tagi.cli._create_pr_for_provider → src.tagi.cli.create_mr
   src.tagi.cli.publish → src.tagi.scanner.status.scan_repo
   src.tagi.cli.publish → src.tagi.heuristics.tags.apply_tags
   src.tagi.cli.publish → src.tagi.planner.grouper.group_changes

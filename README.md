@@ -3,7 +3,7 @@
 
 ## AI Cost Tracking
 
-![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-0.15.1-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
+![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-0.46.1-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
 ![AI Cost](https://img.shields.io/badge/AI%20Cost-$0.03-orange) ![Human Time](https://img.shields.io/badge/Human%20Time-3.1h-blue) ![Model](https://img.shields.io/badge/Model-openrouter%2Fqwen%2Fqwen3--coder--next-lightgrey)
 
 - 🤖 **LLM usage:** $0.0325 (4 commits)
@@ -56,16 +56,22 @@ Generated on 2026-05-26 using [openrouter/qwen/qwen3-coder-next](https://openrou
 ## Komendy
 
 ```bash
-tagi scan <path> [--grouped]
+tagi scan <path> [--grouped] [--by-branch]
 tagi list-groups <path>
 tagi stats <path>
-tagi filter <tags> <path> [--all]
+tagi filter <tags> <path> [--all] [--min-risk FLOAT] [--max-risk FLOAT] [--min-complexity FLOAT] [--max-complexity FLOAT] [--min-impact FLOAT] [--max-impact FLOAT]
 tagi file <file_path> <path>
 tagi inspect <tag> <path> [--diff]
 tagi summary <path> [--output FILE]
+tagi safe <path>
+tagi init <path>
+tagi auth <path> [--provider PROVIDER]
+tagi hooks <path> [--install] [--uninstall] [--list]
+tagi deps <path> [--cycles] [--critical]
+tagi metrics <path> [--output FILE] [--report]
 tagi draft <tag> <path> [--template TEMPLATE]
-tagi send <tag> <path> [--dry-run] [--push] [--template TEMPLATE]
-tagi publish <tag> <path> [--dry-run]
+tagi send <path> [tags...] [--dry-run] [--push] [--template TEMPLATE] [--interactive] [--auto-order]
+tagi publish <tag> <path> [--dry-run] [--template TEMPLATE]
 ```
 
 - `scan` — analiza zmian w repozytorium (z opcją `--grouped` do grupowania po tagach)
@@ -75,9 +81,15 @@ tagi publish <tag> <path> [--dry-run]
 - `file` — szczegóły pojedynczego pliku (wszystkie tagi, linie zmienione, score ryzyka)
 - `inspect` — podgląd paczki i ryzyka (z opcją `--diff` do pokazania zmian)
 - `summary` — generuj kompleksowy raport podsumowujący (opcjonalnie zapisz do pliku)
-- `draft` — propozycja opisu commita z wyborem szablonu (default, conventional, detailed)
-- `send` — po potwierdzeniu wykonuje `git add` i `git commit`; push jest opcjonalny,
-- `publish` — rozszerzenie o PR/MR przez provider z auto-detection (GitHub/GitLab).
+- `safe` — pokaż bezpieczne zmiany do wysłania najpierw (niskie ryzyko, małe, nie risky/deps/config)
+- `init` — wygeneruj plik konfiguracyjny `tagi.toml.example`
+- `auth` — sprawdź status autoryzacji GitHub/GitLab (opcjonalnie dla konkretnego providera)
+- `hooks` — zarządzaj integracją git hooks (instalacja, odinstalowanie, lista, status)
+- `deps` — analizuj graf zależności zmian Python (cykle, ścieżka krytyczna, kolejność)
+- `metrics` — zbieraj i wyświetlaj metryki o zmianach (eksport JSON, raport)
+- `draft` — propozycja opisu commita z wyborem szablonu
+- `send` — po potwierdzeniu wykonuje `git add` i `git commit`; push jest opcjonalny (z trybem interaktywnym); akceptuje wiele tagów w kolejności priorytetu, np. `tagi send . small docs`; bez tagów lub z flagą --auto-order sortuje automatycznie od najprostszych do najtrudniejszych
+- `publish` — rozszerzenie o PR/MR przez provider z auto-detection (GitHub/GitLab)
 
 ## Architektura (kierunek)
 
@@ -128,19 +140,19 @@ tagi scan /path/to/repo --grouped
 tagi stats /path/to/repo
 
 # Filtrowanie po jednym tagu
-tagi filter "#small" /path/to/repo
+tagi filter "small" /path/to/repo
 
 # Filtrowanie po wielu tagach (OR logic - pasuje do dowolnego)
-tagi filter "#small,#docs" /path/to/repo
+tagi filter "small,docs" /path/to/repo
 
 # Filtrowanie po wielu tagach (AND logic - wymaga wszystkich)
-tagi filter "#config,#small" /path/to/repo --all
+tagi filter "config,small" /path/to/repo --all
 
 # Szczegóły pojedynczego pliku
 tagi file README.md /path/to/repo
 
 # Podgląd tagu ze statystykami
-tagi inspect #docs /path/to/repo
+tagi inspect docs /path/to/repo
 
 # Pokaż bezpieczne zmiany do wysłania najpierw
 tagi safe /path/to/repo
@@ -158,13 +170,22 @@ tagi list-groups /path/to/repo
 tagi inspect #small /path/to/repo --diff
 
 # Draft z konwencjonalnym formatem
-tagi draft #small /path/to/repo --template conventional
+tagi draft small /path/to/repo --template conventional
 
-# Wysłanie z pushem
-tagi send #small /path/to/repo --push --template detailed
+# Draft z prostym formatem
+tagi draft small /path/to/repo --template simple
 
-# Publikacja PR/MR
-tagi publish #small /path/to/repo
+# Draft z formatem jednej linii
+tagi draft small /path/to/repo --template oneline
+
+# Draft z formatem skupionym na plikach
+tagi draft small /path/to/repo --template files
+
+# Wysłanie z pushem (szablon detailed)
+tagi send small /path/to/repo --push --template detailed
+
+# Opublikuj PR/MR (szablon conventional)
+tagi publish small /path/to/repo --template conventional
 ```
 
 ## Konfiguracja

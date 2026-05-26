@@ -5,6 +5,14 @@ flowchart TD
     classDef entry fill:#4dabf7,stroke:#1971c2,color:#fff
 
     subgraph Core
+        src__tagi__config__Config___load_config["_load_config"]
+        src__tagi__config__Config__get_tag_for_path["get_tag_for_path"]
+        src__tagi__config__Config__get_custom_tags_for_pattern["get_custom_tags_for_pattern"]
+        src__tagi__config__Config__get_tag_color["get_tag_color"]
+        src__tagi__config__Config__get_heuristics_for_path["get_heuristics_for_path"]
+        src__tagi__config__Config__get_tag_description["get_tag_description"]
+        src__tagi__config__Config__get_template["get_template"]
+        src__tagi__config__Config__should_ignore["should_ignore"]
         src__tagi__planner__grouper__group_by_tag["group_by_tag"]
         src__tagi__planner__grouper__group_by_risk["group_by_risk"]
         src__tagi__planner__preview__preview_plan["preview_plan"]
@@ -12,15 +20,7 @@ flowchart TD
         src__tagi__planner__selector__select_changes_by_tag["select_changes_by_tag"]
         src__tagi__planner__selector__select_low_risk_changes["select_low_risk_changes"]
         src__tagi__planner__selector__select_small_changes["select_small_changes"]
-        src__tagi__planner__selector__select_by_tags["select_by_tags"]
-        src__tagi__planner__selector__select_safe_changes["select_safe_changes"]
-        src__tagi__scanner__diff__get_staged_diff["get_staged_diff"]
-        src__tagi__heuristics__rules__get_custom_rules["get_custom_rules"]
-        src__tagi__heuristics__rules__get_custom_heuristics["get_custom_heuristics"]
-        src__tagi__composer__summary__generate_summary["generate_summary"]
-        src__tagi__composer__summary__generate_file_list["generate_file_list"]
-        src__tagi__executor__git__GitExecutor__add["add"]
-        ...["+53 more"]
+        ...["+65 more"]
     end
 
-    class src__tagi__planner__grouper__group_by_tag,src__tagi__planner__grouper__group_by_risk,src__tagi__planner__preview__preview_plan,src__tagi__planner__preview__preview_changes,src__tagi__planner__selector__select_changes_by_tag,src__tagi__planner__selector__select_low_risk_changes,src__tagi__planner__selector__select_small_changes,src__tagi__planner__selector__select_by_tags,src__tagi__planner__selector__select_safe_changes,src__tagi__scanner__diff__get_staged_diff entry
+    class src__tagi__config__Config___load_config,src__tagi__config__Config__get_tag_for_path,src__tagi__config__Config__get_custom_tags_for_pattern,src__tagi__config__Config__get_tag_color,src__tagi__config__Config__get_heuristics_for_path,src__tagi__config__Config__get_tag_description,src__tagi__config__Config__get_template,src__tagi__config__Config__should_ignore,src__tagi__planner__grouper__group_by_tag,src__tagi__planner__grouper__group_by_risk entry

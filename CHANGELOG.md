@@ -6,6 +6,255 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [0.46.1] - 2026-05-26
+
+### Docs
+- Update CHANGELOG.md
+- Update README.md
+- Update SUMD.md
+- Update SUMR.md
+- Update TODO.md
+- Update docs/configuration.md
+- Update docs/provider-detection.md
+- Update docs/troubleshooting.md
+- Update project/README.md
+- Update project/context.md
+
+### Test
+- Update tests/test_e2e.py
+- Update tests/test_github_provider.py
+- Update tests/test_gitlab_provider.py
+- Update tests/test_tagi.py
+
+### Other
+- Update .code2llm_cache/base_1779807720540219029_1860.pkl
+- Update .code2llm_cache/cli_1779808664226186571_25353.pkl
+- Update .code2llm_cache/commit_message_1779807736909391917_3993.pkl
+- Update .code2llm_cache/github_1779807716162172788_1683.pkl
+- Update .code2llm_cache/gitlab_1779807716300174246_2042.pkl
+- Update .code2llm_cache/pyproject_1779808656210101900_1303.pkl
+- Update .code2llm_cache/tags_1779807741800443576_3256.pkl
+- Update .code2llm_cache/tree_1779807016792786926_2024.pkl
+- Update VERSION
+- Update app.doql.less
+- ... and 19 more files
+
+## [0.47.0] - 2026-05-26
+
+### Features
+- Added numerical vector metrics to Change model (ChangeMetrics)
+- Metrics include: risk, complexity, impact, stability, test coverage impact, dependency depth
+- Added filter command options for metric-based filtering
+- Metrics are automatically calculated for all changes
+- Added to_vector() method for vector-based comparison
+
+## [0.46.0] - 2026-05-26
+
+### Improvements
+- Enhanced dry-run mode to show detailed execution plan
+- Dry-run now displays files to commit, risk scores, and tags for each group
+- Added dry-run summary showing total changes, number of commits, and push status
+
+## [0.45.0] - 2026-05-26
+
+### Features
+- Added automatic heuristic-based change sorting (simplest to most complex)
+- Added --auto-order/-a flag to send command for complexity-based ordering
+- Changes are sorted by risk score, lines changed, and change type
+- Groups changes into complexity tiers when no tags are specified
+
+## [0.44.0] - 2026-05-26
+
+### Features
+- Added priority-based sending with multiple tags in order
+- Send command now accepts list of tags (e.g., `tagi send small docs /path`)
+- Changes are processed in tag priority order, avoiding duplicates
+- Shows summary of total changes committed across all tags
+
+## [0.43.0] - 2026-05-26
+
+### Docs
+- Updated README with new commands (hooks, deps, metrics)
+- Added descriptions for all new CLI features
+
+## [0.42.0] - 2026-05-26
+
+### Testing
+- Added end-to-end tests for send/publish workflow (test_e2e.py)
+- Tests cover scanning, tagging, grouping, commit message generation, and tag filtering
+- Fixed integration tests to handle missing CLI tools gracefully
+
+## [0.41.0] - 2026-05-26
+
+### Testing
+- Added integration tests for GitHub provider (test_github_provider.py)
+- Added integration tests for GitLab provider (test_gitlab_provider.py)
+- Tests cover remote detection, authentication status, and provider initialization
+
+## [0.40.0] - 2026-05-26
+
+### Features
+- Added metrics and analytics module with MetricsCollector
+- Added metrics CLI command for collecting and reporting change metrics
+- Added support for JSON export and human-readable reports
+
+## [0.39.0] - 2026-05-26
+
+### Features
+- Added dependency graph analysis with dependency_graph module
+- Added deps CLI command for analyzing Python import dependencies
+- Added support for detecting circular dependencies, critical path, and dependency order
+
+## [0.38.0] - 2026-05-26
+
+### Features
+- Added branch-based change grouping with branch_grouper module
+- Added --by-branch/-b option to scan command
+- Added _display_changes_by_branch helper for branch group display
+
+## [0.37.0] - 2026-05-26
+
+### Features
+- Added git hooks integration with hooks module
+- Added hooks CLI command (install, uninstall, list, status check)
+- Added pre-commit hook support for automatic tagging
+
+## [0.36.0] - 2026-05-26
+
+### Features
+- Added interactive mode to send command (--interactive/-i flag)
+- Users can now select which changes to include before committing
+- Marked summary command as completed (already implemented)
+- Marked custom tag definitions as completed (supported via [heuristics])
+
+## [0.35.0] - 2026-05-26
+
+### Testing
+- Added comprehensive tag filtering tests (OR/AND logic, no match, all match)
+- Fixed missing imports (List, Change) in cli.py
+- Added missing _ensure_tag_prefix function to cli.py
+- All 32 tests passing
+
+## [0.34.0] - 2026-05-26
+
+### Testing
+- Added tests for auto-prefix functionality (_ensure_tag_prefix)
+- Added tests for Tag enum creation with/without prefix
+- Added tests for tag filtering with prefix
+
+## [0.33.0] - 2026-05-26
+
+### Docs
+- Added comprehensive troubleshooting guide (docs/troubleshooting.md)
+- Covers general issues, provider issues, configuration, tags, commits, performance
+
+## [0.32.0] - 2026-05-26
+
+### Docs
+- Added custom configuration documentation (docs/configuration.md)
+- Documented all configuration sections: rules, colors, heuristics, tag_definitions
+- Added troubleshooting for configuration issues
+
+## [0.31.0] - 2026-05-26
+
+### Docs
+- Added provider detection documentation (docs/provider-detection.md)
+- Documented detection mechanism, supported providers, and troubleshooting
+
+## [0.30.0] - 2026-05-26
+
+### Refactoring
+- Improved error handling across all CLI commands (send, publish, init, auth)
+- Added consistent try/except blocks with ValueError, RuntimeError, and generic Exception handling
+- Added file operation error handling for init command (PermissionError, OSError)
+
+## [0.29.0] - 2026-05-26
+
+### Docs
+- Updated README with all available commands (safe, init, auth)
+- Added examples for all commit message templates (simple, oneline, files)
+- Updated command descriptions with template options
+
+## [0.28.0] - 2026-05-26
+
+### Refactoring
+- Added logging framework with setup_logger utility
+- Integrated logger into CLI with verbose support
+- Added utils/logger.py module for logging configuration
+
+## [0.27.0] - 2026-05-26
+
+### Refactoring
+- Added type hints to heuristics/rules.py
+- Improved type hints in planner/grouper.py (Dict instead of dict)
+
+## [0.26.0] - 2026-05-26
+
+### Features
+- Added more commit message templates: simple, oneline, files
+- Added template parameter support in CLI for all new templates
+
+## [0.25.0] - 2026-05-26
+
+### Improvements
+- Improved error messages for failed PR/MR creation with helpful suggestions
+- Added better error handling for missing CLI tools and authentication issues
+- Marked diff preview in inspect as completed (already implemented)
+
+## [0.24.0] - 2026-05-26
+
+### Features
+- Added `auth` command to check GitHub/GitLab authentication status
+- Supports checking specific provider with --provider option
+
+## [0.23.0] - 2026-05-26
+
+### Features
+- Added `init` command to generate tagi.toml.example configuration file
+
+## [0.22.0] - 2026-05-26
+
+### Features
+- Added `safe` command to show safe changes (low risk, small, not risky/deps/config)
+- Marked list-groups as completed (already exists as list-groups)
+
+## [0.21.0] - 2026-05-26
+
+### Docs
+- Updated README.md examples to use tags without # prefix
+- Added more usage examples for send and publish commands
+
+## [0.20.0] - 2026-05-26
+
+### Refactoring
+- Consolidated tag prefix logic into _ensure_tag_prefix helper function
+- Extracted provider detection to separate providers/detector.py module
+- Removed duplicate detect_provider function from cli.py
+
+## [0.19.0] - 2026-05-26
+
+### Refactoring
+- Fixed duplication in heuristics/rules.py by extracting _get_config_attr helper
+- Fixed duplication in planner/grouper.py by using selector.select_changes_by_tag
+- Fixed duplication in cli.py create_pr/create_mr by extracting _create_pr_for_cli helper
+
+## [0.18.0] - 2026-05-26
+
+### Refactoring
+- Refactored inspect function to reduce CC by extracting _find_change_by_tag, _calculate_tag_metrics, and _display_tag_metrics helpers
+
+## [0.17.0] - 2026-05-26
+
+### Refactoring
+- Refactored summary function to reduce CC by extracting _build_summary_header, _build_summary_statistics, _build_summary_by_type, _build_summary_tag_distribution, and _build_summary_file_list helpers
+
+## [0.16.0] - 2026-05-26
+
+### Refactoring
+- Refactored filter function to reduce CC by extracting _parse_tags and _filter_changes_by_tags helpers
+- Refactored publish function to reduce CC by extracting _parse_commit_message, _display_pr_preview, and _create_pr_for_provider helpers
+- Removed duplicate # prefix logic in filter function
+
 ## [0.15.1] - 2026-05-26
 
 ### Docs

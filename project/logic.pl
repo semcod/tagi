@@ -1,13 +1,13 @@
 % ── Project Metadata ─────────────────────────────────────
-project_metadata('tagi', '0.13.0', 'python').
+project_metadata('tagi', '0.18.0', 'python').
 
 % ── Project Files ────────────────────────────────────────
 project_file('app.doql.less', 29, 'less').
 project_file('project.sh', 48, 'shell').
 project_file('src/tagi/__init__.py', 48, 'python').
-project_file('src/tagi/cli.py', 743, 'python').
+project_file('src/tagi/cli.py', 793, 'python').
 project_file('src/tagi/composer/__init__.py', 13, 'python').
-project_file('src/tagi/composer/commit_message.py', 164, 'python').
+project_file('src/tagi/composer/commit_message.py', 134, 'python').
 project_file('src/tagi/composer/summary.py', 46, 'python').
 project_file('src/tagi/config.py', 130, 'python').
 project_file('src/tagi/executor/__init__.py', 10, 'python').
@@ -16,7 +16,7 @@ project_file('src/tagi/executor/publish.py', 40, 'python').
 project_file('src/tagi/heuristics/__init__.py', 14, 'python').
 project_file('src/tagi/heuristics/rules.py', 16, 'python').
 project_file('src/tagi/heuristics/scoring.py', 32, 'python').
-project_file('src/tagi/heuristics/tags.py', 85, 'python').
+project_file('src/tagi/heuristics/tags.py', 84, 'python').
 project_file('src/tagi/llm/__init__.py', 8, 'python').
 project_file('src/tagi/llm/llx_adapter.py', 56, 'python').
 project_file('src/tagi/models/__init__.py', 15, 'python').
@@ -28,9 +28,9 @@ project_file('src/tagi/planner/grouper.py', 76, 'python').
 project_file('src/tagi/planner/preview.py', 42, 'python').
 project_file('src/tagi/planner/selector.py', 45, 'python').
 project_file('src/tagi/providers/__init__.py', 12, 'python').
-project_file('src/tagi/providers/base.py', 23, 'python').
-project_file('src/tagi/providers/github.py', 86, 'python').
-project_file('src/tagi/providers/gitlab.py', 94, 'python').
+project_file('src/tagi/providers/base.py', 59, 'python').
+project_file('src/tagi/providers/github.py', 48, 'python').
+project_file('src/tagi/providers/gitlab.py', 56, 'python').
 project_file('src/tagi/scanner/__init__.py', 14, 'python').
 project_file('src/tagi/scanner/diff.py', 32, 'python').
 project_file('src/tagi/scanner/files.py', 31, 'python').
@@ -42,13 +42,24 @@ project_file('tree.sh', 2, 'shell').
 python_function('src/tagi/cli.py', 'scan', 2, 6, 9).
 python_function('src/tagi/cli.py', 'list_groups', 1, 4, 9).
 python_function('src/tagi/cli.py', 'stats', 1, 12, 18).
-python_function('src/tagi/cli.py', 'inspect', 3, 15, 20).
-python_function('src/tagi/cli.py', 'filter', 3, 19, 17).
+python_function('src/tagi/cli.py', '_find_change_by_tag', 2, 4, 2).
+python_function('src/tagi/cli.py', '_calculate_tag_metrics', 1, 4, 2).
+python_function('src/tagi/cli.py', '_display_tag_metrics', 2, 1, 7).
+python_function('src/tagi/cli.py', 'inspect', 3, 11, 19).
+python_function('src/tagi/cli.py', 'filter', 3, 6, 12).
 python_function('src/tagi/cli.py', 'file', 2, 7, 14).
-python_function('src/tagi/cli.py', 'summary', 2, 15, 20).
+python_function('src/tagi/cli.py', '_build_summary_header', 2, 1, 0).
+python_function('src/tagi/cli.py', '_build_summary_statistics', 1, 3, 3).
+python_function('src/tagi/cli.py', '_build_summary_by_type', 1, 3, 4).
+python_function('src/tagi/cli.py', '_build_summary_tag_distribution', 2, 5, 4).
+python_function('src/tagi/cli.py', '_build_summary_file_list', 1, 3, 2).
+python_function('src/tagi/cli.py', 'summary', 2, 5, 19).
 python_function('src/tagi/cli.py', 'draft', 3, 10, 14).
 python_function('src/tagi/cli.py', 'send', 5, 14, 17).
-python_function('src/tagi/cli.py', 'publish', 4, 16, 21).
+python_function('src/tagi/cli.py', '_parse_commit_message', 1, 2, 3).
+python_function('src/tagi/cli.py', '_display_pr_preview', 3, 1, 1).
+python_function('src/tagi/cli.py', '_create_pr_for_provider', 4, 3, 2).
+python_function('src/tagi/cli.py', 'publish', 4, 13, 20).
 python_function('src/tagi/cli.py', '_display_changes', 2, 2, 5).
 python_function('src/tagi/cli.py', '_format_tags', 2, 5, 4).
 python_function('src/tagi/cli.py', '_display_groups', 1, 2, 7).
@@ -59,15 +70,14 @@ python_function('src/tagi/cli.py', 'create_mr', 3, 2, 5).
 python_function('src/tagi/composer/commit_message.py', 'generate_commit_message', 4, 11, 9).
 python_function('src/tagi/composer/commit_message.py', 'generate_conventional_message', 1, 12, 2).
 python_function('src/tagi/composer/commit_message.py', 'generate_detailed_message', 1, 7, 5).
-python_function('src/tagi/composer/commit_message.py', '_infer_scope', 1, 20, 2).
-python_function('src/tagi/composer/commit_message.py', 'generate_detailed_message', 1, 7, 5).
+python_function('src/tagi/composer/commit_message.py', '_infer_scope', 1, 7, 2).
 python_function('src/tagi/composer/summary.py', 'generate_summary', 1, 11, 4).
 python_function('src/tagi/composer/summary.py', 'generate_file_list', 2, 5, 3).
 python_function('src/tagi/heuristics/rules.py', 'get_custom_rules', 1, 1, 1).
 python_function('src/tagi/heuristics/rules.py', 'get_custom_heuristics', 1, 1, 1).
 python_function('src/tagi/heuristics/scoring.py', 'calculate_risk_score', 2, 7, 1).
 python_function('src/tagi/heuristics/tags.py', 'apply_tags', 2, 11, 9).
-python_function('src/tagi/heuristics/tags.py', 'apply_path_tags', 2, 17, 3).
+python_function('src/tagi/heuristics/tags.py', 'apply_path_tags', 2, 4, 3).
 python_function('src/tagi/planner/grouper.py', 'group_changes', 1, 7, 8).
 python_function('src/tagi/planner/grouper.py', 'group_by_tag', 2, 3, 0).
 python_function('src/tagi/planner/grouper.py', 'group_by_risk', 2, 5, 0).
@@ -143,19 +153,24 @@ python_class('src/tagi/models/plan.py', 'Plan').
 python_class('src/tagi/providers/base.py', 'BaseProvider').
 python_method('BaseProvider', '__init__', 1, 1, 0).
 python_method('BaseProvider', 'is_authenticated', 0, 1, 0).
+python_method('BaseProvider', 'get_auth_status', 0, 1, 0).
 python_method('BaseProvider', 'create_pr', 6, 1, 0).
+python_method('BaseProvider', 'detect_remote', 0, 1, 0).
+python_method('BaseProvider', '_run_command', 1, 1, 1).
+python_method('BaseProvider', '_get_git_remote_url', 0, 2, 2).
+python_method('BaseProvider', '_check_git_remote_for_provider', 1, 2, 2).
 python_class('src/tagi/providers/github.py', 'GitHubProvider').
 python_method('GitHubProvider', 'is_authenticated', 0, 1, 1).
 python_method('GitHubProvider', 'get_auth_status', 0, 2, 1).
 python_method('GitHubProvider', 'get_token', 0, 2, 2).
 python_method('GitHubProvider', 'create_pr', 6, 4, 4).
-python_method('GitHubProvider', 'detect_remote', 0, 2, 2).
+python_method('GitHubProvider', 'detect_remote', 0, 1, 1).
 python_class('src/tagi/providers/gitlab.py', 'GitLabProvider').
 python_method('GitLabProvider', 'is_authenticated', 0, 1, 1).
 python_method('GitLabProvider', 'get_auth_status', 0, 2, 1).
 python_method('GitLabProvider', 'get_configured_host', 0, 4, 3).
 python_method('GitLabProvider', 'create_pr', 6, 4, 4).
-python_method('GitLabProvider', 'detect_remote', 0, 2, 2).
+python_method('GitLabProvider', 'detect_remote', 0, 1, 1).
 
 % ── Dependencies ─────────────────────────────────────────
 

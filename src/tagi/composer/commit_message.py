@@ -23,6 +23,12 @@ def generate_commit_message(changes: List[Change], template: str = "default", re
         message = generate_conventional_message(changes)
     elif template == "detailed":
         message = generate_detailed_message(changes)
+    elif template == "simple":
+        message = generate_simple_message(changes)
+    elif template == "oneline":
+        message = generate_oneline_message(changes)
+    elif template == "files":
+        message = generate_files_message(changes)
     else:
         message = template.format(tag=tag, files=files_str, count=count)
     
@@ -104,6 +110,50 @@ def generate_detailed_message(changes: List[Change]) -> str:
     for change in changes:
         tags_str = ", ".join([t.value for t in change.tags])
         lines.append(f"  [{change.change_type.value:8}] {change.path:40} ({tags_str})")
+    
+    return "\n".join(lines)
+
+
+def generate_simple_message(changes: List[Change]) -> str:
+    """Generate a simple commit message."""
+    if not changes:
+        return "Empty commit"
+    
+    tag = changes[0].tags[0].value if changes and changes[0].tags else "small"
+    files = [c.path for c in changes]
+    
+    if len(files) == 1:
+        return f"{tag}: {files[0]}"
+    else:
+        return f"{tag}: {len(files)} files ({', '.join(files[:3])}{'...' if len(files) > 3 else ''})"
+
+
+def generate_oneline_message(changes: List[Change]) -> str:
+    """Generate a one-line commit message."""
+    if not changes:
+        return "empty commit"
+    
+    tag = changes[0].tags[0].value if changes and changes[0].tags else "small"
+    count = len(changes)
+    files_str = ", ".join([c.path for c in changes[:3]])
+    if count > 3:
+        files_str += f" and {count - 3} more"
+    
+    return f"{tag}: {files_str}"
+
+
+def generate_files_message(changes: List[Change]) -> str:
+    """Generate a file-focused commit message."""
+    if not changes:
+        return "Empty commit"
+    
+    lines = []
+    lines.append(f"Changes ({len(changes)} files):")
+    lines.append("")
+    
+    for change in changes:
+        tags_str = " ".join([t.value for t in change.tags])
+        lines.append(f"  {change.change_type.value:8} {change.path:40} [{tags_str}]")
     
     return "\n".join(lines)
 

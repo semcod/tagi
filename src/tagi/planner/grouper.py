@@ -1,7 +1,7 @@
 """Grouper module for organizing changes into groups."""
 
 from collections import defaultdict
-from typing import List
+from typing import List, Dict
 
 from tagi.models import Change, ChangeGroup, Tag
 
@@ -38,10 +38,11 @@ def group_changes(changes: List[Change]) -> List[ChangeGroup]:
 
 def group_by_tag(changes: List[Change], tag: Tag) -> List[Change]:
     """Filter changes by a specific tag."""
-    return [c for c in changes if tag in c.tags]
+    from tagi.planner.selector import select_changes_by_tag
+    return select_changes_by_tag(changes, tag)
 
 
-def group_by_risk(changes: List[Change], threshold: float = 0.5) -> dict:
+def group_by_risk(changes: List[Change], threshold: float = 0.5) -> Dict[str, List[Change]]:
     """Group changes by risk level."""
     low_risk = [c for c in changes if c.risk_score < threshold]
     high_risk = [c for c in changes if c.risk_score >= threshold]

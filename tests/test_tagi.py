@@ -14,6 +14,179 @@ from tagi.executor.git import GitExecutor
 from tagi.executor.publish import PublishExecutor
 
 
+def test_auto_prefix_with_hash():
+    """Test that _ensure_tag_prefix handles tags with # prefix."""
+    from tagi.cli import _ensure_tag_prefix
+    
+    # Tag already has prefix
+    result = _ensure_tag_prefix("#small")
+    assert result == "#small"
+    
+    # Tag with different case
+    result = _ensure_tag_prefix("#SMALL")
+    assert result == "#SMALL"
+
+
+def test_auto_prefix_without_hash():
+    """Test that _ensure_tag_prefix adds # prefix when missing."""
+    from tagi.cli import _ensure_tag_prefix
+    
+    # Tag without prefix
+    result = _ensure_tag_prefix("small")
+    assert result == "#small"
+    
+    # Tag without prefix (different case)
+    result = _ensure_tag_prefix("docs")
+    assert result == "#docs"
+    
+    # Tag without prefix (multi-word)
+    result = _ensure_tag_prefix("feature")
+    assert result == "#feature"
+
+
+def test_auto_prefix_empty_string():
+    """Test that _ensure_tag_prefix handles empty string."""
+    from tagi.cli import _ensure_tag_prefix
+    
+    result = _ensure_tag_prefix("")
+    assert result == "#"
+
+
+def test_tag_enum_creation_with_prefix():
+    """Test Tag enum creation with # prefix."""
+    tag = Tag("#small")
+    assert tag.value == "#small"
+    assert tag == Tag.SMALL
+
+
+def test_tag_enum_creation_without_prefix():
+    """Test Tag enum creation without # prefix fails."""
+    try:
+        tag = Tag("small")
+        assert False, "Should have raised ValueError"
+    except ValueError:
+        pass  # Expected
+
+
+def test_tag_with_prefix_in_filter():
+    """Test that tags work with # prefix in filtering."""
+    changes = [
+        Change(path="test.py", change_type=ChangeType.MODIFIED),
+    ]
+    changes[0].tags = [Tag.SMALL]
+    
+    # Filter with prefix
+    tag_enum = Tag("#small")
+    filtered = [c for c in changes if tag_enum in c.tags]
+    assert len(filtered) == 1
+
+
+def test_tag_filtering_case_sensitive():
+    """Test that tag filtering is case-sensitive."""
+    changes = [
+        Change(path="test.py", change_type=ChangeType.MODIFIED),
+    ]
+    changes[0].tags = [Tag.SMALL]
+    
+    # Filter with different case should not match
+    try:
+        tag_enum = Tag("#SMALL")
+        filtered = [c for c in changes if tag_enum in c.tags]
+        # Tag.SMALL is "#small", not "#SMALL"
+        assert len(filtered) == 0
+    except ValueError:
+        pass  # Tag enum is case-sensitive
+
+
+def test_tag_filtering_single_tag():
+    """Test filtering changes by a single tag."""
+    changes = [
+        Change(path="test.py", change_type=ChangeType.MODIFIED),
+        Change(path="README.md", change_type=ChangeType.MODIFIED),
+        Change(path="config.yaml", change_type=ChangeType.MODIFIED),
+    ]
+    changes[0].tags = [Tag.SMALL, Tag.TESTS]
+    changes[1].tags = [Tag.DOCS, Tag.SMALL]
+    changes[2].tags = [Tag.CONFIG]
+    
+    # Filter by SMALL tag
+    tag_enum = Tag("#small")
+    filtered = [c for c in changes if tag_enum in c.tags]
+    assert len(filtered) == 2
+    assert filtered[0].path == "test.py"
+    assert filtered[1].path == "README.md"
+
+
+def test_tag_filtering_multiple_tags_or():
+    """Test filtering changes with OR logic (any tag matches)."""
+    changes = [
+        Change(path="test.py", change_type=ChangeType.MODIFIED),
+        Change(path="README.md", change_type=ChangeType.MODIFIED),
+        Change(path="config.yaml", change_type=ChangeType.MODIFIED),
+    ]
+    changes[0].tags = [Tag.SMALL, Tag.TESTS]
+    changes[1].tags = [Tag.DOCS, Tag.SMALL]
+    changes[2].tags = [Tag.CONFIG]
+    
+    # Filter by TESTS or DOCS (OR logic)
+    tags_to_match = [Tag.TESTS, Tag.DOCS]
+    filtered = [c for c in changes if any(tag in c.tags for tag in tags_to_match)]
+    assert len(filtered) == 2
+    assert filtered[0].path == "test.py"
+    assert filtered[1].path == "README.md"
+
+
+def test_tag_filtering_multiple_tags_and():
+    """Test filtering changes with AND logic (all tags must match)."""
+    changes = [
+        Change(path="test.py", change_type=ChangeType.MODIFIED),
+        Change(path="README.md", change_type=ChangeType.MODIFIED),
+        Change(path="config.yaml", change_type=ChangeType.MODIFIED),
+    ]
+    changes[0].tags = [Tag.SMALL, Tag.TESTS]
+    changes[1].tags = [Tag.DOCS, Tag.SMALL]
+    changes[2].tags = [Tag.SMALL, Tag.TESTS, Tag.RISKY]
+    
+    # Filter by SMALL AND TESTS (AND logic)
+    tags_to_match = [Tag.SMALL, Tag.TESTS]
+    filtered = [c for c in changes if all(tag in c.tags for tag in tags_to_match)]
+    assert len(filtered) == 2
+    assert filtered[0].path == "test.py"
+    assert filtered[1].path == "config.yaml"
+
+
+def test_tag_filtering_no_match():
+    """Test filtering when no changes match the tags."""
+    changes = [
+        Change(path="test.py", change_type=ChangeType.MODIFIED),
+        Change(path="README.md", change_type=ChangeType.MODIFIED),
+    ]
+    changes[0].tags = [Tag.SMALL, Tag.TESTS]
+    changes[1].tags = [Tag.DOCS, Tag.SMALL]
+    
+    # Filter by RISKY tag (no matches)
+    tag_enum = Tag("#risky")
+    filtered = [c for c in changes if tag_enum in c.tags]
+    assert len(filtered) == 0
+
+
+def test_tag_filtering_all_tags_match():
+    """Test filtering when all changes match the tag."""
+    changes = [
+        Change(path="test.py", change_type=ChangeType.MODIFIED),
+        Change(path="README.md", change_type=ChangeType.MODIFIED),
+        Change(path="config.yaml", change_type=ChangeType.MODIFIED),
+    ]
+    changes[0].tags = [Tag.SMALL, Tag.TESTS]
+    changes[1].tags = [Tag.DOCS, Tag.SMALL]
+    changes[2].tags = [Tag.CONFIG, Tag.SMALL]
+    
+    # Filter by SMALL tag (all match)
+    tag_enum = Tag("#small")
+    filtered = [c for c in changes if tag_enum in c.tags]
+    assert len(filtered) == 3
+
+
 def test_placeholder():
     """Placeholder test to verify the test setup works."""
     assert True

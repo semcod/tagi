@@ -6,6 +6,7 @@ from tagi.config import Config
 from tagi.models import Change, ChangeType, Tag
 from tagi.scanner.files import count_lines_changed
 from .scoring import calculate_risk_score
+from .metrics import calculate_metrics
 
 
 def apply_tags(changes: List[Change], repo_path: str = ".") -> List[Change]:
@@ -41,6 +42,9 @@ def apply_tags(changes: List[Change], repo_path: str = ".") -> List[Change]:
         # Tag based on change type
         if change.change_type == ChangeType.ADDED:
             tags.append(Tag.NEW)
+        
+        # Calculate numerical metrics
+        change.metrics = calculate_metrics(change, repo_path)
         
         # Size-based tagging (can coexist with other tags)
         if lines_changed > 100:

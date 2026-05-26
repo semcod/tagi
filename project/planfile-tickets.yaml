@@ -1,8 +1,26 @@
 source: code2llm
-# generated in 0.02s
+# generated in 0.03s
 schema: code2llm.planfile_tickets.v1
 project_root: /home/tom/github/semcod/tagi
 tickets:
+- signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: publish'
+  description: 'code2llm reports `God Function: publish` in `src/tagi/cli.py:569`.
+
+
+    Function ''publish'' is oversized: CC=13, fan-out=20, mutations=16.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: high
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - src/tagi/cli.py
+  dedupe_key: 'code2llm:smell:god_function:src/tagi/cli.py:569:God Function: publish'
 - signal: code2llm_smell_god_function
   title: 'Address code smell: God Function: stats'
   description: 'code2llm reports `God Function: stats` in `src/tagi/cli.py:87`.
@@ -23,7 +41,7 @@ tickets:
   dedupe_key: 'code2llm:smell:god_function:src/tagi/cli.py:87:God Function: stats'
 - signal: code2llm_smell_shotgun_surgery
   title: 'Address code smell: Shotgun Surgery: avg_risk'
-  description: 'code2llm reports `Shotgun Surgery: avg_risk` in `src/tagi/composer/summary.py:8`.
+  description: 'code2llm reports `Shotgun Surgery: avg_risk` in `src/tagi/cli.py:475`.
 
 
     Mutation of variable ''avg_risk'' spans 8 functions. Changing this logic requires
@@ -38,12 +56,12 @@ tickets:
   - code-smell
   - shotgun-surgery
   files:
-  - src/tagi/composer/summary.py
-  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/composer/summary.py:8:Shotgun
-    Surgery: avg_risk'
+  - src/tagi/cli.py
+  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/cli.py:475:Shotgun Surgery:
+    avg_risk'
 - signal: code2llm_smell_shotgun_surgery
   title: 'Address code smell: Shotgun Surgery: changes'
-  description: 'code2llm reports `Shotgun Surgery: changes` in `src/tagi/cli.py:418`.
+  description: 'code2llm reports `Shotgun Surgery: changes` in `src/tagi/scanner/status.py:11`.
 
 
     Mutation of variable ''changes'' spans 12 functions. Changing this logic requires
@@ -58,12 +76,12 @@ tickets:
   - code-smell
   - shotgun-surgery
   files:
-  - src/tagi/cli.py
-  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/cli.py:418:Shotgun Surgery:
-    changes'
+  - src/tagi/scanner/status.py
+  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/scanner/status.py:11:Shotgun
+    Surgery: changes'
 - signal: code2llm_smell_shotgun_surgery
   title: 'Address code smell: Shotgun Surgery: config'
-  description: 'code2llm reports `Shotgun Surgery: config` in `src/tagi/heuristics/rules.py:6`.
+  description: 'code2llm reports `Shotgun Surgery: config` in `src/tagi/scanner/status.py:11`.
 
 
     Mutation of variable ''config'' spans 10 functions. Changing this logic requires
@@ -78,12 +96,12 @@ tickets:
   - code-smell
   - shotgun-surgery
   files:
-  - src/tagi/heuristics/rules.py
-  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/heuristics/rules.py:6:Shotgun
+  - src/tagi/scanner/status.py
+  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/scanner/status.py:11:Shotgun
     Surgery: config'
 - signal: code2llm_smell_shotgun_surgery
   title: 'Address code smell: Shotgun Surgery: filtered_changes'
-  description: 'code2llm reports `Shotgun Surgery: filtered_changes` in `src/tagi/cli.py:418`.
+  description: 'code2llm reports `Shotgun Surgery: filtered_changes` in `src/tagi/cli.py:475`.
 
 
     Mutation of variable ''filtered_changes'' spans 5 functions. Changing this logic
@@ -99,11 +117,11 @@ tickets:
   - shotgun-surgery
   files:
   - src/tagi/cli.py
-  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/cli.py:418:Shotgun Surgery:
+  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/cli.py:475:Shotgun Surgery:
     filtered_changes'
 - signal: code2llm_smell_shotgun_surgery
   title: 'Address code smell: Shotgun Surgery: groups'
-  description: 'code2llm reports `Shotgun Surgery: groups` in `src/tagi/cli.py:418`.
+  description: 'code2llm reports `Shotgun Surgery: groups` in `src/tagi/cli.py:475`.
 
 
     Mutation of variable ''groups'' spans 5 functions. Changing this logic requires
@@ -119,14 +137,14 @@ tickets:
   - shotgun-surgery
   files:
   - src/tagi/cli.py
-  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/cli.py:418:Shotgun Surgery:
+  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/cli.py:475:Shotgun Surgery:
     groups'
 - signal: code2llm_smell_shotgun_surgery
   title: 'Address code smell: Shotgun Surgery: lines'
-  description: 'code2llm reports `Shotgun Surgery: lines` in `src/tagi/composer/summary.py:8`.
+  description: 'code2llm reports `Shotgun Surgery: lines` in `src/tagi/planner/preview.py:28`.
 
 
-    Mutation of variable ''lines'' spans 5 functions. Changing this logic requires
+    Mutation of variable ''lines'' spans 9 functions. Changing this logic requires
     work in many places.
 
 
@@ -138,12 +156,12 @@ tickets:
   - code-smell
   - shotgun-surgery
   files:
-  - src/tagi/composer/summary.py
-  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/composer/summary.py:8:Shotgun
+  - src/tagi/planner/preview.py
+  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/planner/preview.py:28:Shotgun
     Surgery: lines'
 - signal: code2llm_smell_shotgun_surgery
   title: 'Address code smell: Shotgun Surgery: table'
-  description: 'code2llm reports `Shotgun Surgery: table` in `src/tagi/cli.py:618`.
+  description: 'code2llm reports `Shotgun Surgery: table` in `src/tagi/cli.py:704`.
 
 
     Mutation of variable ''table'' spans 5 functions. Changing this logic requires
@@ -159,11 +177,11 @@ tickets:
   - shotgun-surgery
   files:
   - src/tagi/cli.py
-  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/cli.py:618:Shotgun Surgery:
+  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/cli.py:704:Shotgun Surgery:
     table'
 - signal: code2llm_smell_shotgun_surgery
   title: 'Address code smell: Shotgun Surgery: tag'
-  description: 'code2llm reports `Shotgun Surgery: tag` in `src/tagi/cli.py:418`.
+  description: 'code2llm reports `Shotgun Surgery: tag` in `src/tagi/composer/commit_message.py:9`.
 
 
     Mutation of variable ''tag'' spans 5 functions. Changing this logic requires work
@@ -178,12 +196,12 @@ tickets:
   - code-smell
   - shotgun-surgery
   files:
-  - src/tagi/cli.py
-  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/cli.py:418:Shotgun Surgery:
-    tag'
+  - src/tagi/composer/commit_message.py
+  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/composer/commit_message.py:9:Shotgun
+    Surgery: tag'
 - signal: code2llm_smell_shotgun_surgery
   title: 'Address code smell: Shotgun Surgery: tag_enum'
-  description: 'code2llm reports `Shotgun Surgery: tag_enum` in `src/tagi/cli.py:418`.
+  description: 'code2llm reports `Shotgun Surgery: tag_enum` in `src/tagi/cli.py:475`.
 
 
     Mutation of variable ''tag_enum'' spans 5 functions. Changing this logic requires
@@ -199,11 +217,11 @@ tickets:
   - shotgun-surgery
   files:
   - src/tagi/cli.py
-  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/cli.py:418:Shotgun Surgery:
+  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/cli.py:475:Shotgun Surgery:
     tag_enum'
 - signal: code2llm_smell_shotgun_surgery
   title: 'Address code smell: Shotgun Surgery: tags_str'
-  description: 'code2llm reports `Shotgun Surgery: tags_str` in `src/tagi/composer/commit_message.py:137`.
+  description: 'code2llm reports `Shotgun Surgery: tags_str` in `src/tagi/planner/preview.py:28`.
 
 
     Mutation of variable ''tags_str'' spans 7 functions. Changing this logic requires
@@ -218,12 +236,12 @@ tickets:
   - code-smell
   - shotgun-surgery
   files:
-  - src/tagi/composer/commit_message.py
-  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/composer/commit_message.py:137:Shotgun
+  - src/tagi/planner/preview.py
+  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/planner/preview.py:28:Shotgun
     Surgery: tags_str'
 - signal: code2llm_smell_shotgun_surgery
   title: 'Address code smell: Shotgun Surgery: total_lines'
-  description: 'code2llm reports `Shotgun Surgery: total_lines` in `src/tagi/composer/summary.py:8`.
+  description: 'code2llm reports `Shotgun Surgery: total_lines` in `src/tagi/cli.py:475`.
 
 
     Mutation of variable ''total_lines'' spans 8 functions. Changing this logic requires
@@ -238,26 +256,9 @@ tickets:
   - code-smell
   - shotgun-surgery
   files:
-  - src/tagi/composer/summary.py
-  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/composer/summary.py:8:Shotgun
-    Surgery: total_lines'
-- signal: code2llm_cc
-  title: 'Reduce cyclomatic complexity: src.tagi.cli.filter (CC=19)'
-  description: 'code2llm reports `src.tagi.cli.filter` at `src/tagi/cli.py:228` with
-    cyclomatic complexity 19 (limit 15).
-
-
-    Extract smaller functions, flatten conditionals, or split strategy branches. Re-run
-    code2llm after the change and keep tests green.'
-  priority: normal
-  labels:
-  - llm-ready
-  - code2llm
-  - complexity
-  - refactor
-  files:
   - src/tagi/cli.py
-  dedupe_key: code2llm:cc:src/tagi/cli.py:src.tagi.cli.filter
+  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/cli.py:475:Shotgun Surgery:
+    total_lines'
 - signal: code2llm_cc
   title: 'Reduce cyclomatic complexity: src.tagi.cli.inspect (CC=15)'
   description: 'code2llm reports `src.tagi.cli.inspect` at `src/tagi/cli.py:161` with
@@ -275,124 +276,14 @@ tickets:
   files:
   - src/tagi/cli.py
   dedupe_key: code2llm:cc:src/tagi/cli.py:src.tagi.cli.inspect
-- signal: code2llm_cc
-  title: 'Reduce cyclomatic complexity: src.tagi.cli.publish (CC=16)'
-  description: 'code2llm reports `src.tagi.cli.publish` at `src/tagi/cli.py:536` with
-    cyclomatic complexity 16 (limit 15).
-
-
-    Extract smaller functions, flatten conditionals, or split strategy branches. Re-run
-    code2llm after the change and keep tests green.'
-  priority: normal
-  labels:
-  - llm-ready
-  - code2llm
-  - complexity
-  - refactor
-  files:
-  - src/tagi/cli.py
-  dedupe_key: code2llm:cc:src/tagi/cli.py:src.tagi.cli.publish
-- signal: code2llm_cc
-  title: 'Reduce cyclomatic complexity: src.tagi.cli.summary (CC=15)'
-  description: 'code2llm reports `src.tagi.cli.summary` at `src/tagi/cli.py:329` with
-    cyclomatic complexity 15 (limit 15).
-
-
-    Extract smaller functions, flatten conditionals, or split strategy branches. Re-run
-    code2llm after the change and keep tests green.'
-  priority: normal
-  labels:
-  - llm-ready
-  - code2llm
-  - complexity
-  - refactor
-  files:
-  - src/tagi/cli.py
-  dedupe_key: code2llm:cc:src/tagi/cli.py:src.tagi.cli.summary
-- signal: code2llm_cc
-  title: 'Reduce cyclomatic complexity: src.tagi.composer.commit_message._infer_scope
-    (CC=20)'
-  description: 'code2llm reports `src.tagi.composer.commit_message._infer_scope` at
-    `src/tagi/composer/commit_message.py:111` with cyclomatic complexity 20 (limit
-    15).
-
-
-    Extract smaller functions, flatten conditionals, or split strategy branches. Re-run
-    code2llm after the change and keep tests green.'
-  priority: normal
-  labels:
-  - llm-ready
-  - code2llm
-  - complexity
-  - refactor
-  files:
-  - src/tagi/composer/commit_message.py
-  dedupe_key: code2llm:cc:src/tagi/composer/commit_message.py:src.tagi.composer.commit_message._infer_scope
-- signal: code2llm_cc
-  title: 'Reduce cyclomatic complexity: src.tagi.heuristics.tags.apply_path_tags (CC=17)'
-  description: 'code2llm reports `src.tagi.heuristics.tags.apply_path_tags` at `src/tagi/heuristics/tags.py:62`
-    with cyclomatic complexity 17 (limit 15).
-
-
-    Extract smaller functions, flatten conditionals, or split strategy branches. Re-run
-    code2llm after the change and keep tests green.'
-  priority: normal
-  labels:
-  - llm-ready
-  - code2llm
-  - complexity
-  - refactor
-  files:
-  - src/tagi/heuristics/tags.py
-  dedupe_key: code2llm:cc:src/tagi/heuristics/tags.py:src.tagi.heuristics.tags.apply_path_tags
 - signal: code2llm_smell_data_clump
-  title: 'Address code smell: Data Clump: title, body, repo_path'
-  description: 'code2llm reports `Data Clump: title, body, repo_path` in `src/tagi/cli.py:717`.
+  title: 'Address code smell: Data Clump: labels, body, base, draft, self, title,
+    branch'
+  description: 'code2llm reports `Data Clump: labels, body, base, draft, self, title,
+    branch` in `src/tagi/providers/base.py:26`.
 
 
-    Arguments (title, body, repo_path) are used together in multiple functions: src.tagi.cli.create_pr,
-    src.tagi.cli.create_mr.
-
-
-    Make the smallest refactor that removes the smell and run local tests.'
-  priority: normal
-  labels:
-  - llm-ready
-  - code2llm
-  - code-smell
-  - data-clump
-  files:
-  - src/tagi/cli.py
-  dedupe_key: 'code2llm:smell:data_clump:src/tagi/cli.py:717:Data Clump: title, body,
-    repo_path'
-- signal: code2llm_smell_data_clump
-  title: 'Address code smell: Data Clump: title, body, repo_path'
-  description: 'code2llm reports `Data Clump: title, body, repo_path` in `src/tagi/cli.py:729`.
-
-
-    Arguments (title, body, repo_path) are used together in multiple functions: src.tagi.cli.create_pr,
-    src.tagi.cli.create_mr.
-
-
-    Make the smallest refactor that removes the smell and run local tests.'
-  priority: normal
-  labels:
-  - llm-ready
-  - code2llm
-  - code-smell
-  - data-clump
-  files:
-  - src/tagi/cli.py
-  dedupe_key: 'code2llm:smell:data_clump:src/tagi/cli.py:729:Data Clump: title, body,
-    repo_path'
-- signal: code2llm_smell_data_clump
-  title: 'Address code smell: Data Clump: title, branch, body, labels, self, draft,
-    base'
-  description: 'code2llm reports `Data Clump: title, branch, body, labels, self, draft,
-    base` in `src/tagi/providers/base.py:19`.
-
-
-    Arguments (title, branch, body, labels, self, draft, base) are used together in
+    Arguments (labels, body, base, draft, self, title, branch) are used together in
     multiple functions: src.tagi.providers.base.BaseProvider.create_pr, src.tagi.providers.gitlab.GitLabProvider.create_pr,
     src.tagi.providers.github.GitHubProvider.create_pr.
 
@@ -406,16 +297,16 @@ tickets:
   - data-clump
   files:
   - src/tagi/providers/base.py
-  dedupe_key: 'code2llm:smell:data_clump:src/tagi/providers/base.py:19:Data Clump:
-    title, branch, body, labels, self, draft, base'
+  dedupe_key: 'code2llm:smell:data_clump:src/tagi/providers/base.py:26:Data Clump:
+    labels, body, base, draft, self, title, branch'
 - signal: code2llm_smell_data_clump
-  title: 'Address code smell: Data Clump: title, branch, body, labels, self, draft,
-    base'
-  description: 'code2llm reports `Data Clump: title, branch, body, labels, self, draft,
-    base` in `src/tagi/providers/gitlab.py:62`.
+  title: 'Address code smell: Data Clump: labels, body, base, draft, self, title,
+    branch'
+  description: 'code2llm reports `Data Clump: labels, body, base, draft, self, title,
+    branch` in `src/tagi/providers/gitlab.py:40`.
 
 
-    Arguments (title, branch, body, labels, self, draft, base) are used together in
+    Arguments (labels, body, base, draft, self, title, branch) are used together in
     multiple functions: src.tagi.providers.base.BaseProvider.create_pr, src.tagi.providers.gitlab.GitLabProvider.create_pr,
     src.tagi.providers.github.GitHubProvider.create_pr.
 
@@ -429,16 +320,16 @@ tickets:
   - data-clump
   files:
   - src/tagi/providers/gitlab.py
-  dedupe_key: 'code2llm:smell:data_clump:src/tagi/providers/gitlab.py:62:Data Clump:
-    title, branch, body, labels, self, draft, base'
+  dedupe_key: 'code2llm:smell:data_clump:src/tagi/providers/gitlab.py:40:Data Clump:
+    labels, body, base, draft, self, title, branch'
 - signal: code2llm_smell_data_clump
-  title: 'Address code smell: Data Clump: title, branch, body, labels, self, draft,
-    base'
-  description: 'code2llm reports `Data Clump: title, branch, body, labels, self, draft,
-    base` in `src/tagi/providers/github.py:54`.
+  title: 'Address code smell: Data Clump: labels, body, base, draft, self, title,
+    branch'
+  description: 'code2llm reports `Data Clump: labels, body, base, draft, self, title,
+    branch` in `src/tagi/providers/github.py:32`.
 
 
-    Arguments (title, branch, body, labels, self, draft, base) are used together in
+    Arguments (labels, body, base, draft, self, title, branch) are used together in
     multiple functions: src.tagi.providers.base.BaseProvider.create_pr, src.tagi.providers.gitlab.GitLabProvider.create_pr,
     src.tagi.providers.github.GitHubProvider.create_pr.
 
@@ -452,11 +343,70 @@ tickets:
   - data-clump
   files:
   - src/tagi/providers/github.py
-  dedupe_key: 'code2llm:smell:data_clump:src/tagi/providers/github.py:54:Data Clump:
-    title, branch, body, labels, self, draft, base'
+  dedupe_key: 'code2llm:smell:data_clump:src/tagi/providers/github.py:32:Data Clump:
+    labels, body, base, draft, self, title, branch'
+- signal: code2llm_smell_data_clump
+  title: 'Address code smell: Data Clump: repo_path, title, body'
+  description: 'code2llm reports `Data Clump: repo_path, title, body` in `src/tagi/cli.py:741`.
+
+
+    Arguments (repo_path, title, body) are used together in multiple functions: src.tagi.cli.create_pr,
+    src.tagi.cli.create_mr.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - data-clump
+  files:
+  - src/tagi/cli.py
+  dedupe_key: 'code2llm:smell:data_clump:src/tagi/cli.py:741:Data Clump: repo_path,
+    title, body'
+- signal: code2llm_smell_data_clump
+  title: 'Address code smell: Data Clump: repo_path, title, body'
+  description: 'code2llm reports `Data Clump: repo_path, title, body` in `src/tagi/cli.py:753`.
+
+
+    Arguments (repo_path, title, body) are used together in multiple functions: src.tagi.cli.create_pr,
+    src.tagi.cli.create_mr.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - data-clump
+  files:
+  - src/tagi/cli.py
+  dedupe_key: 'code2llm:smell:data_clump:src/tagi/cli.py:753:Data Clump: repo_path,
+    title, body'
+- signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: _build_summary_tag_distribution'
+  description: 'code2llm reports `God Function: _build_summary_tag_distribution` in
+    `src/tagi/cli.py:351`.
+
+
+    Function ''_build_summary_tag_distribution'' is oversized: CC=5, fan-out=4, mutations=7.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - src/tagi/cli.py
+  dedupe_key: 'code2llm:smell:god_function:src/tagi/cli.py:351:God Function: _build_summary_tag_distribution'
 - signal: code2llm_smell_god_function
   title: 'Address code smell: God Function: _display_changes_grouped'
-  description: 'code2llm reports `God Function: _display_changes_grouped` in `src/tagi/cli.py:680`.
+  description: 'code2llm reports `God Function: _display_changes_grouped` in `src/tagi/cli.py:704`.
 
 
     Function ''_display_changes_grouped'' is oversized: CC=5, fan-out=10, mutations=8.
@@ -471,10 +421,10 @@ tickets:
   - god-function
   files:
   - src/tagi/cli.py
-  dedupe_key: 'code2llm:smell:god_function:src/tagi/cli.py:680:God Function: _display_changes_grouped'
+  dedupe_key: 'code2llm:smell:god_function:src/tagi/cli.py:704:God Function: _display_changes_grouped'
 - signal: code2llm_smell_god_function
   title: 'Address code smell: God Function: _format_tags'
-  description: 'code2llm reports `God Function: _format_tags` in `src/tagi/cli.py:632`.
+  description: 'code2llm reports `God Function: _format_tags` in `src/tagi/cli.py:656`.
 
 
     Function ''_format_tags'' is oversized: CC=5, fan-out=4, mutations=7.
@@ -489,7 +439,7 @@ tickets:
   - god-function
   files:
   - src/tagi/cli.py
-  dedupe_key: 'code2llm:smell:god_function:src/tagi/cli.py:632:God Function: _format_tags'
+  dedupe_key: 'code2llm:smell:god_function:src/tagi/cli.py:656:God Function: _format_tags'
 - signal: code2llm_smell_god_function
   title: 'Address code smell: God Function: _load_config'
   description: 'code2llm reports `God Function: _load_config` in `src/tagi/config.py:30`.
@@ -548,7 +498,7 @@ tickets:
     calculate_risk_score'
 - signal: code2llm_smell_god_function
   title: 'Address code smell: God Function: draft'
-  description: 'code2llm reports `God Function: draft` in `src/tagi/cli.py:418`.
+  description: 'code2llm reports `God Function: draft` in `src/tagi/cli.py:426`.
 
 
     Function ''draft'' is oversized: CC=10, fan-out=14, mutations=10.
@@ -563,10 +513,10 @@ tickets:
   - god-function
   files:
   - src/tagi/cli.py
-  dedupe_key: 'code2llm:smell:god_function:src/tagi/cli.py:418:God Function: draft'
+  dedupe_key: 'code2llm:smell:god_function:src/tagi/cli.py:426:God Function: draft'
 - signal: code2llm_smell_god_function
   title: 'Address code smell: God Function: file'
-  description: 'code2llm reports `God Function: file` in `src/tagi/cli.py:283`.
+  description: 'code2llm reports `God Function: file` in `src/tagi/cli.py:270`.
 
 
     Function ''file'' is oversized: CC=7, fan-out=14, mutations=13.
@@ -581,7 +531,25 @@ tickets:
   - god-function
   files:
   - src/tagi/cli.py
-  dedupe_key: 'code2llm:smell:god_function:src/tagi/cli.py:283:God Function: file'
+  dedupe_key: 'code2llm:smell:god_function:src/tagi/cli.py:270:God Function: file'
+- signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: filter'
+  description: 'code2llm reports `God Function: filter` in `src/tagi/cli.py:228`.
+
+
+    Function ''filter'' is oversized: CC=6, fan-out=12, mutations=6.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - src/tagi/cli.py
+  dedupe_key: 'code2llm:smell:god_function:src/tagi/cli.py:228:God Function: filter'
 - signal: code2llm_smell_god_function
   title: 'Address code smell: God Function: generate_commit_message'
   description: 'code2llm reports `God Function: generate_commit_message` in `src/tagi/composer/commit_message.py:9`.
@@ -623,10 +591,10 @@ tickets:
     Function: generate_conventional_message'
 - signal: code2llm_smell_god_function
   title: 'Address code smell: God Function: generate_detailed_message'
-  description: 'code2llm reports `God Function: generate_detailed_message` in `src/tagi/composer/commit_message.py:137`.
+  description: 'code2llm reports `God Function: generate_detailed_message` in `src/tagi/composer/commit_message.py:82`.
 
 
-    Function ''generate_detailed_message'' is oversized: CC=7, fan-out=5, mutations=22.
+    Function ''generate_detailed_message'' is oversized: CC=7, fan-out=5, mutations=11.
 
 
     Make the smallest refactor that removes the smell and run local tests.'
@@ -638,7 +606,7 @@ tickets:
   - god-function
   files:
   - src/tagi/composer/commit_message.py
-  dedupe_key: 'code2llm:smell:god_function:src/tagi/composer/commit_message.py:137:God
+  dedupe_key: 'code2llm:smell:god_function:src/tagi/composer/commit_message.py:82:God
     Function: generate_detailed_message'
 - signal: code2llm_smell_god_function
   title: 'Address code smell: God Function: generate_summary'
@@ -737,7 +705,7 @@ tickets:
     scan_repo'
 - signal: code2llm_smell_god_function
   title: 'Address code smell: God Function: send'
-  description: 'code2llm reports `God Function: send` in `src/tagi/cli.py:467`.
+  description: 'code2llm reports `God Function: send` in `src/tagi/cli.py:475`.
 
 
     Function ''send'' is oversized: CC=14, fan-out=17, mutations=12.
@@ -752,6 +720,24 @@ tickets:
   - god-function
   files:
   - src/tagi/cli.py
-  dedupe_key: 'code2llm:smell:god_function:src/tagi/cli.py:467:God Function: send'
+  dedupe_key: 'code2llm:smell:god_function:src/tagi/cli.py:475:God Function: send'
+- signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: summary'
+  description: 'code2llm reports `God Function: summary` in `src/tagi/cli.py:380`.
+
+
+    Function ''summary'' is oversized: CC=5, fan-out=19, mutations=12.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - src/tagi/cli.py
+  dedupe_key: 'code2llm:smell:god_function:src/tagi/cli.py:380:God Function: summary'
 applied: []
 skipped: []

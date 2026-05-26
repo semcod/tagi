@@ -23,6 +23,12 @@ from tagi.scanner.diff import get_diff
 app = typer.Typer(help="tagi - Git change orchestrator")
 console = Console()
 
+def _ensure_tag_prefix(tag: str) -> str:
+    """Ensure tag has # prefix."""
+    if not tag.startswith("#"):
+        return f"#{tag}"
+    return tag
+
 
 @app.command()
 def scan(
