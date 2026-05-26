@@ -125,8 +125,33 @@ src/tagi/
   llm/
     llx_adapter.py
 
+## System priorytetyzacji
+
+`tagi` automatycznie priorytetyzuje zmiany na podstawie heurystyk ryzyka i złożoności:
+
+### Hierarchia tagów (od najwyższego priorytetu)
+```
+#risky > #large > #deps > #config > #new > #tests > #docs > #feature > #refactor > #small
+```
+
+### Algorytm priorytetyzacji
+- **Risk score** (0-1) - wyższy = większe ryzyko
+- **Lines changed** - więcej linii = większa złożoność  
+- **Change type** - MODIFIED < ADDED < DELETED
+- **Tag priority** - według hierarchii powyżej
+
+### Przykład automatycznej priorytetyzacji
+```bash
+# Zmiany zostaną automatycznie posortowane:
+# 1. config.yaml (risk: 0.1, lines: 2) → #config
+# 2. test.py (risk: 0.2, lines: 5) → #small  
+# 3. test_file.py (risk: 0.3, lines: 20) → #tests
+# 4. big.py (risk: 0.8, lines: 100) → #risky (najwyższy priorytet!)
+```
+
 ## Przykłady użycia
 
+### Podstawowe operacje
 ```bash
 # Podstawowe skanowanie
 tagi scan /path/to/repo
@@ -136,7 +161,10 @@ tagi scan /path/to/repo --grouped
 
 # Statystyki zmian
 tagi stats /path/to/repo
+```
 
+### Filtrowanie i analiza
+```bash
 # Filtrowanie po jednym tagu
 tagi filter "small" /path/to/repo
 
@@ -146,6 +174,9 @@ tagi filter "small,docs" /path/to/repo
 # Filtrowanie po wielu tagach (AND logic - wymaga wszystkich)
 tagi filter "config,small" /path/to/repo --all
 
+# Filtrowanie po zakresie ryzyka
+tagi filter "all" /path/to/repo --min-risk 0.5 --max-risk 0.8
+
 # Szczegóły pojedynczego pliku
 tagi file README.md /path/to/repo
 
@@ -154,7 +185,10 @@ tagi inspect docs /path/to/repo
 
 # Pokaż bezpieczne zmiany do wysłania najpierw
 tagi safe /path/to/repo
+```
 
+### Raporty i podsumowania
+```bash
 # Generuj raport podsumowujący
 tagi summary /path/to/repo
 
@@ -166,7 +200,10 @@ tagi list-groups /path/to/repo
 
 # Inspekcja z podglądem diffów
 tagi inspect #small /path/to/repo --diff
+```
 
+### Tworzenie commitów
+```bash
 # Draft z konwencjonalnym formatem
 tagi draft small /path/to/repo --template conventional
 
@@ -178,12 +215,47 @@ tagi draft small /path/to/repo --template oneline
 
 # Draft z formatem skupionym na plikach
 tagi draft small /path/to/repo --template files
+```
 
-# Wysłanie z pushem (szablon detailed)
+### Wysyłanie z priorytetyzacją
+```bash
+# Wysłanie pojedynczej grupy z pushem
 tagi send small /path/to/repo --push --template detailed
 
+# Wysłanie wielu grup w określonej kolejności
+tagi send /path/to/repo small docs tests --push
+
+# Automatyczna priorytetyzacja (od najbezpieczniejszych)
+tagi send /path/to/repo --auto-order --push
+
+# Wysyłanie tylko bezpiecznych zmian
+tagi send /path/to/repo $(tagi safe /path/to/repo --tags-only) --push
+```
+
+### Publikacja PR/MR
+```bash
 # Opublikuj PR/MR (szablon conventional)
 tagi publish small /path/to/repo --template conventional
+
+# Publikacja z automatycznym wykrywaniem providera
+tagi publish risky /path/to/repo --dry-run
+```
+
+### Przepływy pracy (workflows)
+```bash
+# Workflow 1: Bezpieczne zmiany najpierw
+tagi safe /path/to/repo
+tagi send /path/to/repo $(tagi safe /path/to/repo --tags-only) --push
+
+# Workflow 2: Priorytetyzacja od ryzykownych
+tagi scan /path/to/repo --grouped
+tagi send /path/to/repo risky large --push
+
+# Workflow 3: Pełny cykl development
+tagi scan /path/to/repo
+tagi summary /path/to/repo --output dev-report.txt
+tagi send /path/to/repo small docs --push
+tagi publish /path/to/repo feature --template detailed
 ```
 
 ## Konfiguracja
