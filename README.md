@@ -84,21 +84,36 @@ tagi publish <tag> <path> [--dry-run]
 ```text
 src/tagi/
   scanner/
+  cli.py
+  config.py
+  models/
+    change.py
+    group.py
+    plan.py
+  scanner/
+    status.py
+    diff.py
+    files.py
   heuristics/
+    tags.py
+    scoring.py
+    rules.py
   planner/
+    grouper.py
+    selector.py
+    preview.py
   composer/
+    commit_message.py
+    summary.py
   executor/
+    git.py
+    publish.py
   providers/
+    base.py
+    github.py
+    gitlab.py
   llm/
-```
-
-- `scanner`: odczyt stanu repo,
-- `heuristics`: tagi, scoring, ryzyko,
-- `planner`: budowa paczek i preview,
-- `composer`: generowanie i formatowanie opisów commitów,
-- `executor`: cienka warstwa uruchamiająca `git`/`gh`/`glab`,
-- `providers`: integracje GitHub/GitLab,
-- `llm`: opcjonalna redakcja komunikatów.
+    llx_adapter.py
 
 ## Przykłady użycia
 
@@ -126,6 +141,9 @@ tagi file README.md /path/to/repo
 
 # Podgląd tagu ze statystykami
 tagi inspect #docs /path/to/repo
+
+# Pokaż bezpieczne zmiany do wysłania najpierw
+tagi safe /path/to/repo
 
 # Generuj raport podsumowujący
 tagi summary /path/to/repo
