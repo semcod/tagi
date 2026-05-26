@@ -1,4 +1,15 @@
 # Byte-compiled / optimized / DLL files
+.code2llm_cache/base_1779802739508353087_645.pkl
+.code2llm_cache/cli_1779806974820276071_24915.pkl
+.code2llm_cache/commit_message_1779802864864699922_4914.pkl
+.code2llm_cache/config_1779802844828755285_4314.pkl
+.code2llm_cache/github_1779802743928400771_2537.pkl
+.code2llm_cache/gitlab_1779802746214425433_2895.pkl
+.code2llm_cache/llx_adapter_1779802774983735825_1955.pkl
+.code2llm_cache/pyproject_1779806977595373045_1303.pkl
+.code2llm_cache/scoring_1779802847615519629_777.pkl
+.code2llm_cache/tags_1779802838069416599_3475.pkl
+.code2llm_cache/tree_1779802672332628535_2006.pkl
 .code2llm_cache/__init___1779800615590949571_38.pkl
 .code2llm_cache/cli_1779800820729188454_8260.pkl
 .code2llm_cache/composer_1779800740358318524_2153.pkl

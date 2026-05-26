@@ -6,6 +6,12 @@ from pathlib import Path
 
 from tagi.models import Change, ChangeType, Tag
 from tagi.config import Config
+from tagi.planner.grouper import group_changes, group_by_tag, group_by_risk
+from tagi.planner.selector import select_by_tags, select_safe_changes
+from tagi.composer.commit_message import generate_conventional_message
+from tagi.composer.summary import generate_summary
+from tagi.executor.git import GitExecutor
+from tagi.executor.publish import PublishExecutor
 
 
 def test_placeholder():
@@ -120,3 +126,130 @@ def test_config_no_file():
         assert config.get_tag_for_path("test.py") is None
         assert config.get_tag_color("#test") is None
         assert config.get_heuristics_for_path("test.py") == []
+
+
+def test_planner_grouper():
+    """Test planner grouper functionality."""
+    changes = [
+        Change(path="test.py", change_type=ChangeType.MODIFIED),
+        Change(path="README.md", change_type=ChangeType.MODIFIED),
+    ]
+    changes[0].tags = [Tag.SMALL]
+    changes[0].lines_changed = 5
+    changes[0].risk_score = 0.1
+    changes[1].tags = [Tag.DOCS]
+    changes[1].lines_changed = 10
+    changes[1].risk_score = 0.2
+    
+    groups = group_changes(changes)
+    assert len(groups) == 2
+    assert all(hasattr(g, 'name') for g in groups)  # Groups have name attribute
+
+
+def test_planner_group_by_risk():
+    """Test risk-based grouping."""
+    changes = [
+        Change(path="safe.py", change_type=ChangeType.MODIFIED),
+        Change(path="risky.py", change_type=ChangeType.MODIFIED),
+    ]
+    changes[0].risk_score = 0.2
+    changes[1].risk_score = 0.8
+    
+    risk_groups = group_by_risk(changes, threshold=0.5)
+    assert "low_risk" in risk_groups
+    assert "high_risk" in risk_groups
+    assert len(risk_groups["low_risk"]) == 1
+    assert len(risk_groups["high_risk"]) == 1
+
+
+def test_planner_selector_by_tags():
+    """Test tag-based selection."""
+    changes = [
+        Change(path="test.py", change_type=ChangeType.MODIFIED),
+        Change(path="README.md", change_type=ChangeType.MODIFIED),
+    ]
+    changes[0].tags = [Tag.SMALL, Tag.TESTS]
+    changes[1].tags = [Tag.DOCS]
+    
+    # OR logic
+    selected = select_by_tags(changes, [Tag.SMALL, Tag.DOCS], require_all=False)
+    assert len(selected) == 2
+    
+    # AND logic
+    selected = select_by_tags(changes, [Tag.SMALL, Tag.TESTS], require_all=True)
+    assert len(selected) == 1
+
+
+def test_planner_select_safe():
+    """Test safe changes selection."""
+    changes = [
+        Change(path="safe.py", change_type=ChangeType.MODIFIED),
+        Change(path="risky.py", change_type=ChangeType.MODIFIED),
+    ]
+    changes[0].tags = [Tag.SMALL]
+    changes[0].lines_changed = 5
+    changes[0].risk_score = 0.1
+    changes[1].tags = [Tag.RISKY]
+    changes[1].lines_changed = 10
+    changes[1].risk_score = 0.8
+    
+    safe = select_safe_changes(changes)
+    assert len(safe) == 1
+    assert safe[0].path == "safe.py"
+
+
+def test_composer_conventional():
+    """Test conventional commits generation."""
+    changes = [
+        Change(path="test.py", change_type=ChangeType.MODIFIED),
+    ]
+    changes[0].tags = [Tag.FEATURE]
+    
+    message = generate_conventional_message(changes)
+    assert message.startswith("feat")
+
+
+def test_composer_summary():
+    """Test summary generation."""
+    changes = [
+        Change(path="test.py", change_type=ChangeType.MODIFIED),
+    ]
+    changes[0].lines_changed = 10
+    changes[0].risk_score = 0.2
+    
+    summary = generate_summary(changes)
+    assert "1 files" in summary
+    assert "10 lines" in summary
+
+
+def test_executor_git_executor():
+    """Test GitExecutor initialization."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Initialize a git repo
+        os.system(f"cd {tmpdir} && git init > /dev/null 2>&1")
+        
+        executor = GitExecutor(tmpdir)
+        assert executor.repo_path == tmpdir
+        branch = executor.get_current_branch()
+        assert branch in ["main", "master"]
+
+
+def test_executor_publish_executor():
+    """Test PublishExecutor initialization."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        executor = PublishExecutor(tmpdir)
+        assert executor.repo_path == tmpdir
+        assert executor.git is not None
+
+
+def test_executor_dry_run():
+    """Test dry run functionality."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        executor = PublishExecutor(tmpdir)
+        dry_run = executor.dry_run(["test.py"], "test message")
+        
+        assert "files" in dry_run
+        assert "message" in dry_run
+        assert "commands" in dry_run
+        assert "git add test.py" in dry_run["commands"]
+        assert "git commit -m 'test message'" in dry_run["commands"]

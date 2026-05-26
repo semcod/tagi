@@ -3,7 +3,7 @@
 
 ## AI Cost Tracking
 
-![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-0.3.1-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
+![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-0.15.1-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
 ![AI Cost](https://img.shields.io/badge/AI%20Cost-$0.03-orange) ![Human Time](https://img.shields.io/badge/Human%20Time-3.1h-blue) ![Model](https://img.shields.io/badge/Model-openrouter%2Fqwen%2Fqwen3--coder--next-lightgrey)
 
 - 🤖 **LLM usage:** $0.0325 (4 commits)
@@ -71,13 +71,13 @@ tagi publish <tag> <path> [--dry-run]
 - `scan` — analiza zmian w repozytorium (z opcją `--grouped` do grupowania po tagach)
 - `list-groups` — lista paczek i tagów
 - `stats` — statystyki zmian (liczba plików, linii, rozkład typów i tagów)
-- `filter` — filtrowanie plików po tagach (comma-separated, np. `#small,#docs`; `--all` wymaga wszystkich tagów)
+- `filter` — filtrowanie plików po tagach (comma-separated, np. `small,docs`; `--all` wymaga wszystkich tagów)
 - `file` — szczegóły pojedynczego pliku (wszystkie tagi, linie zmienione, score ryzyka)
 - `inspect` — podgląd paczki i ryzyka (z opcją `--diff` do pokazania zmian)
 - `summary` — generuj kompleksowy raport podsumowujący (opcjonalnie zapisz do pliku)
 - `draft` — propozycja opisu commita z wyborem szablonu (default, conventional, detailed)
 - `send` — po potwierdzeniu wykonuje `git add` i `git commit`; push jest opcjonalny,
-- `publish` — rozszerzenie o PR/MR przez provider.
+- `publish` — rozszerzenie o PR/MR przez provider z auto-detection (GitHub/GitLab).
 
 ## Architektura (kierunek)
 

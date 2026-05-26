@@ -113,51 +113,21 @@ def _infer_scope(changes: List[Change]) -> str:
     if not changes:
         return ""
     
-    # Check for common patterns
     paths = [c.path.lower() for c in changes]
     
-    if any("test" in p for p in paths):
-        return "tests"
-    elif any("doc" in p for p in paths):
-        return "docs"
-    elif any("config" in p for p in paths):
-        return "config"
-    elif any("api" in p for p in paths):
-        return "api"
-    elif any("cli" in p for p in paths):
-        return "cli"
-    elif any("ui" in p or "web" in p or "frontend" in p for p in paths):
-        return "ui"
-    elif any("db" in p or "database" in p for p in paths):
-        return "db"
-    else:
-        return "general"
-
-
-def generate_detailed_message(changes: List[Change]) -> str:
-    """Generate a detailed commit message."""
-    if not changes:
-        return "Empty commit"
+    # Check for common patterns using a mapping
+    scope_patterns = [
+        (["test"], "tests"),
+        (["doc"], "docs"),
+        (["config"], "config"),
+        (["api"], "api"),
+        (["cli"], "cli"),
+        (["ui", "web", "frontend"], "ui"),
+        (["db", "database"], "db"),
+    ]
     
-    lines = []
-    lines.append(f"Commit: {len(changes)} files changed")
-    lines.append("")
+    for patterns, scope in scope_patterns:
+        if any(pattern in p for p in paths for pattern in patterns):
+            return scope
     
-    # Group by tag
-    from collections import Counter
-    tag_counts = Counter()
-    for change in changes:
-        for tag in change.tags:
-            tag_counts[tag.value] += 1
-    
-    lines.append("Tags:")
-    for tag, count in tag_counts.most_common():
-        lines.append(f"  - {tag}: {count}")
-    lines.append("")
-    
-    lines.append("Files:")
-    for change in changes:
-        tags_str = ", ".join([t.value for t in change.tags])
-        lines.append(f"  [{change.change_type.value:8}] {change.path:40} ({tags_str})")
-    
-    return "\n".join(lines)
+    return "general"

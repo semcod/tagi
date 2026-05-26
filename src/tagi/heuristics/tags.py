@@ -64,21 +64,20 @@ def apply_path_tags(change: Change, lines_changed: int) -> List[Tag]:
     tags = []
     path_lower = change.path.lower()
     
-    if any(dep in path_lower for dep in ['requirements', 'package.json', 'poetry.lock', 'pyproject.toml', 'cargo.toml', 'go.mod', 'yarn.lock', 'pnpm-lock.yaml', 'package-lock.json', 'gemfile', 'composer.json']):
-        tags.append(Tag.DEPS)
-    if any(doc in path_lower for doc in ['readme', 'doc', 'md', 'rst', 'changelog', 'contributing', 'license', 'authors', 'change']):
-        tags.append(Tag.DOCS)
-    if any(test in path_lower for test in ['test_', '_test.py', 'tests/', '__tests__', 'spec.', '.spec.', 'mock_', 'fixture']):
-        tags.append(Tag.TESTS)
-    if any(config in path_lower for config in ['config', '.env', 'settings', 'yaml', 'toml', 'json', 'ini', 'cfg', 'conf']):
-        tags.append(Tag.CONFIG)
-    if any(risky in path_lower for risky in ['auth', 'migration', 'infra', 'deploy', 'security', 'password', 'secret', 'key', 'token', 'credential', 'private']):
-        tags.append(Tag.RISKY)
-    if any(ref in path_lower for ref in ['refactor', 'cleanup', 'deprecate', 'remove', 'delete', 'simplify']):
-        tags.append(Tag.REFACTOR)
-    if any(feat in path_lower for feat in ['feature', 'add', 'new', 'implement', 'create', 'introduce']):
-        tags.append(Tag.FEATURE)
-    if any(fix in path_lower for fix in ['fix', 'bug', 'patch', 'hotfix', 'correct', 'repair']):
-        tags.append(Tag.RISKY)
+    # Pattern mapping for tag detection
+    tag_patterns = [
+        (['requirements', 'package.json', 'poetry.lock', 'pyproject.toml', 'cargo.toml', 'go.mod', 'yarn.lock', 'pnpm-lock.yaml', 'package-lock.json', 'gemfile', 'composer.json'], Tag.DEPS),
+        (['readme', 'doc', 'md', 'rst', 'changelog', 'contributing', 'license', 'authors', 'change'], Tag.DOCS),
+        (['test_', '_test.py', 'tests/', '__tests__', 'spec.', '.spec.', 'mock_', 'fixture'], Tag.TESTS),
+        (['config', '.env', 'settings', 'yaml', 'toml', 'json', 'ini', 'cfg', 'conf'], Tag.CONFIG),
+        (['auth', 'migration', 'infra', 'deploy', 'security', 'password', 'secret', 'key', 'token', 'credential', 'private'], Tag.RISKY),
+        (['refactor', 'cleanup', 'deprecate', 'remove', 'delete', 'simplify'], Tag.REFACTOR),
+        (['feature', 'add', 'new', 'implement', 'create', 'introduce'], Tag.FEATURE),
+        (['fix', 'bug', 'patch', 'hotfix', 'correct', 'repair'], Tag.RISKY),
+    ]
+    
+    for patterns, tag in tag_patterns:
+        if any(pattern in path_lower for pattern in patterns):
+            tags.append(tag)
     
     return tags

@@ -1,37 +1,41 @@
-# redup/duplication | 7 groups | 31f 2027L | 2026-05-26
+# redup/duplication | 8 groups | 31f 2125L | 2026-05-26
 
 SUMMARY:
   files_scanned: 31
-  total_lines:   2027
-  dup_groups:    7
-  dup_fragments: 14
-  saved_lines:   86
-  scan_ms:       3337
+  total_lines:   2125
+  dup_groups:    8
+  dup_fragments: 16
+  saved_lines:   101
+  scan_ms:       2212
 
-HOTSPOTS[6] (files with most duplication):
-  src/tagi/composer/commit_message.py  dup=54L  groups=1  frags=2  (2.7%)
-  src/tagi/providers/github.py  dup=52L  groups=4  frags=4  (2.6%)
-  src/tagi/providers/gitlab.py  dup=52L  groups=4  frags=4  (2.6%)
+HOTSPOTS[7] (files with most duplication):
+  src/tagi/providers/github.py  dup=57L  groups=4  frags=4  (2.7%)
+  src/tagi/providers/gitlab.py  dup=57L  groups=4  frags=4  (2.7%)
+  src/tagi/composer/commit_message.py  dup=54L  groups=1  frags=2  (2.5%)
+  src/tagi/cli.py  dup=20L  groups=1  frags=2  (0.9%)
   src/tagi/heuristics/rules.py  dup=8L  groups=1  frags=2  (0.4%)
   src/tagi/planner/grouper.py  dup=3L  groups=1  frags=1  (0.1%)
   src/tagi/planner/selector.py  dup=3L  groups=1  frags=1  (0.1%)
 
-DUPLICATES[7] (ranked by impact):
+DUPLICATES[8] (ranked by impact):
   [48a8d96c93ee3c7e]   EXAC  generate_detailed_message  L=27 N=2 saved=27 sim=1.00
-      src/tagi/composer/commit_message.py:73-99  (generate_detailed_message)
-      src/tagi/composer/commit_message.py:128-154  (generate_detailed_message)
+      src/tagi/composer/commit_message.py:82-108  (generate_detailed_message)
+      src/tagi/composer/commit_message.py:137-163  (generate_detailed_message)
+  [e460903dfc60ed19]   STRU  create_pr  L=18 N=2 saved=18 sim=1.00
+      src/tagi/providers/github.py:54-71  (create_pr)
+      src/tagi/providers/gitlab.py:62-79  (create_pr)
   [b048741afab7a608]   STRU  get_auth_status  L=15 N=2 saved=15 sim=1.00
-      src/tagi/providers/github.py:23-37  (get_auth_status)
-      src/tagi/providers/gitlab.py:23-37  (get_auth_status)
-  [5eac04de6a0b4b4f]   STRU  create_pr  L=13 N=2 saved=13 sim=1.00
-      src/tagi/providers/github.py:53-65  (create_pr)
-      src/tagi/providers/gitlab.py:61-73  (create_pr)
+      src/tagi/providers/github.py:24-38  (get_auth_status)
+      src/tagi/providers/gitlab.py:24-38  (get_auth_status)
   [09623779eb49815a]   STRU  detect_remote  L=13 N=2 saved=13 sim=1.00
-      src/tagi/providers/github.py:67-79  (detect_remote)
-      src/tagi/providers/gitlab.py:75-87  (detect_remote)
+      src/tagi/providers/github.py:73-85  (detect_remote)
+      src/tagi/providers/gitlab.py:81-93  (detect_remote)
   [54431033838505c0]   STRU  is_authenticated  L=11 N=2 saved=11 sim=1.00
-      src/tagi/providers/github.py:11-21  (is_authenticated)
-      src/tagi/providers/gitlab.py:11-21  (is_authenticated)
+      src/tagi/providers/github.py:12-22  (is_authenticated)
+      src/tagi/providers/gitlab.py:12-22  (is_authenticated)
+  [59cf75b9ca253237]   STRU  create_pr  L=10 N=2 saved=10 sim=1.00
+      src/tagi/cli.py:717-726  (create_pr)
+      src/tagi/cli.py:729-738  (create_mr)
   [bd7df8cd1b30b067]   STRU  get_custom_rules  L=4 N=2 saved=4 sim=1.00
       src/tagi/heuristics/rules.py:6-9  (get_custom_rules)
       src/tagi/heuristics/rules.py:12-15  (get_custom_heuristics)
@@ -39,15 +43,15 @@ DUPLICATES[7] (ranked by impact):
       src/tagi/planner/grouper.py:39-41  (group_by_tag)
       src/tagi/planner/selector.py:8-10  (select_changes_by_tag)
 
-REFACTOR[7] (ranked by priority):
+REFACTOR[8] (ranked by priority):
   [1] ○ extract_function   → src/tagi/composer/utils/generate_detailed_message.py
       WHY: 2 occurrences of 27-line block across 1 files — saves 27 lines
       FILES: src/tagi/composer/commit_message.py
-  [2] ○ extract_function   → src/tagi/providers/utils/get_auth_status.py
-      WHY: 2 occurrences of 15-line block across 2 files — saves 15 lines
+  [2] ○ extract_function   → src/tagi/providers/utils/create_pr.py
+      WHY: 2 occurrences of 18-line block across 2 files — saves 18 lines
       FILES: src/tagi/providers/github.py, src/tagi/providers/gitlab.py
-  [3] ○ extract_function   → src/tagi/providers/utils/create_pr.py
-      WHY: 2 occurrences of 13-line block across 2 files — saves 13 lines
+  [3] ○ extract_function   → src/tagi/providers/utils/get_auth_status.py
+      WHY: 2 occurrences of 15-line block across 2 files — saves 15 lines
       FILES: src/tagi/providers/github.py, src/tagi/providers/gitlab.py
   [4] ○ extract_function   → src/tagi/providers/utils/detect_remote.py
       WHY: 2 occurrences of 13-line block across 2 files — saves 13 lines
@@ -55,34 +59,40 @@ REFACTOR[7] (ranked by priority):
   [5] ○ extract_function   → src/tagi/providers/utils/is_authenticated.py
       WHY: 2 occurrences of 11-line block across 2 files — saves 11 lines
       FILES: src/tagi/providers/github.py, src/tagi/providers/gitlab.py
-  [6] ○ extract_function   → src/tagi/heuristics/utils/get_custom_rules.py
+  [6] ○ extract_function   → src/tagi/utils/create_pr.py
+      WHY: 2 occurrences of 10-line block across 1 files — saves 10 lines
+      FILES: src/tagi/cli.py
+  [7] ○ extract_function   → src/tagi/heuristics/utils/get_custom_rules.py
       WHY: 2 occurrences of 4-line block across 1 files — saves 4 lines
       FILES: src/tagi/heuristics/rules.py
-  [7] ○ extract_function   → src/tagi/planner/utils/group_by_tag.py
+  [8] ○ extract_function   → src/tagi/planner/utils/group_by_tag.py
       WHY: 2 occurrences of 3-line block across 2 files — saves 3 lines
       FILES: src/tagi/planner/grouper.py, src/tagi/planner/selector.py
 
-QUICK_WINS[5] (low risk, high savings — do first):
+QUICK_WINS[6] (low risk, high savings — do first):
   [1] extract_function   saved=27L  → src/tagi/composer/utils/generate_detailed_message.py
       FILES: commit_message.py
-  [2] extract_function   saved=15L  → src/tagi/providers/utils/get_auth_status.py
+  [2] extract_function   saved=18L  → src/tagi/providers/utils/create_pr.py
       FILES: github.py, gitlab.py
-  [3] extract_function   saved=13L  → src/tagi/providers/utils/create_pr.py
+  [3] extract_function   saved=15L  → src/tagi/providers/utils/get_auth_status.py
       FILES: github.py, gitlab.py
   [4] extract_function   saved=13L  → src/tagi/providers/utils/detect_remote.py
       FILES: github.py, gitlab.py
   [5] extract_function   saved=11L  → src/tagi/providers/utils/is_authenticated.py
       FILES: github.py, gitlab.py
+  [6] extract_function   saved=10L  → src/tagi/utils/create_pr.py
+      FILES: cli.py
 
-EFFORT_ESTIMATE (total ≈ 2.9h):
+EFFORT_ESTIMATE (total ≈ 3.4h):
   medium generate_detailed_message           saved=27L  ~54min
+  medium create_pr                           saved=18L  ~36min
   medium get_auth_status                     saved=15L  ~30min
-  easy   create_pr                           saved=13L  ~26min
   easy   detect_remote                       saved=13L  ~26min
   easy   is_authenticated                    saved=11L  ~22min
+  easy   create_pr                           saved=10L  ~20min
   easy   get_custom_rules                    saved=4L  ~8min
   easy   group_by_tag                        saved=3L  ~6min
 
 METRICS-TARGET:
-  dup_groups:  7 → 0
-  saved_lines: 86 lines recoverable
+  dup_groups:  8 → 0
+  saved_lines: 101 lines recoverable

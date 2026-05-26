@@ -20,7 +20,7 @@ Orchestrator for Git change shipments
 ## Metadata
 
 - **name**: `tagi`
-- **version**: `0.5.0`
+- **version**: `0.13.0`
 - **python_requires**: `>=3.10`
 - **license**: Apache-2.0
 - **ai_model**: `openrouter/qwen/qwen3-coder-next`
@@ -40,7 +40,7 @@ SUMD (description) → DOQL/source (code) → taskfile (automation) → testql (
 
 app {
   name: tagi;
-  version: 0.5.0;
+  version: 0.13.0;
 }
 
 dependencies {
@@ -104,7 +104,7 @@ ASSERT_EXIT_CODE 0
 ```yaml
 project:
   name: tagi
-  version: 0.5.0
+  version: 0.13.0
   env: local
 ```
 
@@ -166,30 +166,30 @@ pip install -e .[dev]
 ### `project/map.toon.yaml`
 
 ```toon markpact:analysis path=project/map.toon.yaml
-# tagi | 35f 2260L | python:32,shell:2,less:1 | 2026-05-26
-# stats: 53 func | 13 cls | 35 mod | CC̄=6.5 | critical:12 | cycles:0
-# alerts[5]: CC _infer_scope=20; CC apply_path_tags=17; CC filter=15; CC summary=15; CC inspect=14
-# hotspots[5]: summary fan=20; inspect fan=19; stats fan=18; publish fan=17; filter fan=16
+# tagi | 35f 2491L | python:32,shell:2,less:1 | 2026-05-26
+# stats: 64 func | 13 cls | 35 mod | CC̄=6.2 | critical:14 | cycles:0
+# alerts[5]: CC _infer_scope=20; CC filter=19; CC apply_path_tags=17; CC publish=16; CC inspect=15
+# hotspots[5]: publish fan=21; inspect fan=20; summary fan=20; stats fan=18; filter fan=17
 # evolution: baseline
 # Keys: M=modules, D=details, i=imports, e=exports, c=classes, f=functions, m=methods
 M[35]:
   app.doql.less,29
   project.sh,48
   src/tagi/__init__.py,48
-  src/tagi/cli.py,709
+  src/tagi/cli.py,743
   src/tagi/composer/__init__.py,13
-  src/tagi/composer/commit_message.py,155
+  src/tagi/composer/commit_message.py,164
   src/tagi/composer/summary.py,46
-  src/tagi/config.py,122
+  src/tagi/config.py,130
   src/tagi/executor/__init__.py,10
   src/tagi/executor/git.py,115
   src/tagi/executor/publish.py,40
   src/tagi/heuristics/__init__.py,14
   src/tagi/heuristics/rules.py,16
   src/tagi/heuristics/scoring.py,32
-  src/tagi/heuristics/tags.py,83
+  src/tagi/heuristics/tags.py,85
   src/tagi/llm/__init__.py,8
-  src/tagi/llm/llx_adapter.py,25
+  src/tagi/llm/llx_adapter.py,56
   src/tagi/models/__init__.py,15
   src/tagi/models/change.py,38
   src/tagi/models/group.py,17
@@ -199,19 +199,19 @@ M[35]:
   src/tagi/planner/preview.py,42
   src/tagi/planner/selector.py,45
   src/tagi/providers/__init__.py,12
-  src/tagi/providers/base.py,21
-  src/tagi/providers/github.py,80
-  src/tagi/providers/gitlab.py,88
+  src/tagi/providers/base.py,23
+  src/tagi/providers/github.py,86
+  src/tagi/providers/gitlab.py,94
   src/tagi/scanner/__init__.py,14
   src/tagi/scanner/diff.py,32
   src/tagi/scanner/files.py,31
   src/tagi/scanner/status.py,68
-  tests/test_tagi.py,123
+  tests/test_tagi.py,256
   tree.sh,2
 D:
   src/tagi/__init__.py:
   src/tagi/cli.py:
-    e: scan,list_groups,stats,inspect,filter,file,summary,draft,send,safe,publish,_display_changes,_format_tags,_display_groups,_display_changes_grouped
+    e: scan,list_groups,stats,inspect,filter,file,summary,draft,send,publish,_display_changes,_format_tags,_display_groups,_display_changes_grouped,detect_provider,create_pr,create_mr
     scan(repo_path;grouped)
     list_groups(repo_path)
     stats(repo_path)
@@ -221,16 +221,18 @@ D:
     summary(repo_path;output)
     draft(tag;repo_path;template)
     send(tag;repo_path;dry_run;push;template)
-    safe(repo_path)
-    publish(tag;repo_path;dry_run)
+    publish(tag;repo_path;dry_run;template)
     _display_changes(changes;config)
     _format_tags(tags;config)
     _display_groups(groups)
     _display_changes_grouped(changes)
+    detect_provider(repo_path)
+    create_pr(title;body;repo_path)
+    create_mr(title;body;repo_path)
   src/tagi/composer/__init__.py:
   src/tagi/composer/commit_message.py:
     e: generate_commit_message,generate_conventional_message,generate_detailed_message,_infer_scope,generate_detailed_message
-    generate_commit_message(changes;template;repo_path)
+    generate_commit_message(changes;template;repo_path;use_llm)
     generate_conventional_message(changes)
     generate_detailed_message(changes)
     _infer_scope(changes)
@@ -264,7 +266,7 @@ D:
   src/tagi/llm/__init__.py:
   src/tagi/llm/llx_adapter.py:
     e: LlxAdapter
-    LlxAdapter: __init__(1),is_available(0),improve_message(1)  # Adapter for LLX library for optional LLM integration.
+    LlxAdapter: __init__(2),is_available(0),improve_message(2),improve_description(2)  # Adapter for LLX library for optional LLM integration.
   src/tagi/models/__init__.py:
   src/tagi/models/change.py:
     e: ChangeType,Tag,Change
@@ -299,13 +301,13 @@ D:
   src/tagi/providers/__init__.py:
   src/tagi/providers/base.py:
     e: BaseProvider
-    BaseProvider: __init__(1),is_authenticated(0),create_pr(3)  # Base class for Git hosting providers.
+    BaseProvider: __init__(1),is_authenticated(0),create_pr(6)  # Base class for Git hosting providers.
   src/tagi/providers/github.py:
     e: GitHubProvider
-    GitHubProvider: is_authenticated(0),get_auth_status(0),get_token(0),create_pr(4),detect_remote(0)  # GitHub provider using gh CLI.
+    GitHubProvider: is_authenticated(0),get_auth_status(0),get_token(0),create_pr(6),detect_remote(0)  # GitHub provider using gh CLI.
   src/tagi/providers/gitlab.py:
     e: GitLabProvider
-    GitLabProvider: is_authenticated(0),get_auth_status(0),get_configured_host(0),create_pr(4),detect_remote(0)  # GitLab provider using glab CLI.
+    GitLabProvider: is_authenticated(0),get_auth_status(0),get_configured_host(0),create_pr(6),detect_remote(0)  # GitLab provider using glab CLI.
   src/tagi/scanner/__init__.py:
   src/tagi/scanner/diff.py:
     e: get_diff,get_staged_diff
@@ -319,7 +321,7 @@ D:
     scan_repo(repo_path)
     parse_status(status)
   tests/test_tagi.py:
-    e: test_placeholder,test_import,test_change_creation,test_change_with_tags,test_multiple_tags,test_tag_values,test_changetype_values,test_change_with_metadata,test_config_loading,test_config_no_file
+    e: test_placeholder,test_import,test_change_creation,test_change_with_tags,test_multiple_tags,test_tag_values,test_changetype_values,test_change_with_metadata,test_config_loading,test_config_no_file,test_planner_grouper,test_planner_group_by_risk,test_planner_selector_by_tags,test_planner_select_safe,test_composer_conventional,test_composer_summary,test_executor_git_executor,test_executor_publish_executor,test_executor_dry_run
     test_placeholder()
     test_import()
     test_change_creation()
@@ -330,32 +332,41 @@ D:
     test_change_with_metadata()
     test_config_loading()
     test_config_no_file()
+    test_planner_grouper()
+    test_planner_group_by_risk()
+    test_planner_selector_by_tags()
+    test_planner_select_safe()
+    test_composer_conventional()
+    test_composer_summary()
+    test_executor_git_executor()
+    test_executor_publish_executor()
+    test_executor_dry_run()
 ```
 
 ### `project/logic.pl`
 
 ```prolog markpact:analysis path=project/logic.pl
 % ── Project Metadata ─────────────────────────────────────
-project_metadata('tagi', '0.5.0', 'python').
+project_metadata('tagi', '0.13.0', 'python').
 
 % ── Project Files ────────────────────────────────────────
 project_file('app.doql.less', 29, 'less').
 project_file('project.sh', 48, 'shell').
 project_file('src/tagi/__init__.py', 48, 'python').
-project_file('src/tagi/cli.py', 709, 'python').
+project_file('src/tagi/cli.py', 743, 'python').
 project_file('src/tagi/composer/__init__.py', 13, 'python').
-project_file('src/tagi/composer/commit_message.py', 155, 'python').
+project_file('src/tagi/composer/commit_message.py', 164, 'python').
 project_file('src/tagi/composer/summary.py', 46, 'python').
-project_file('src/tagi/config.py', 122, 'python').
+project_file('src/tagi/config.py', 130, 'python').
 project_file('src/tagi/executor/__init__.py', 10, 'python').
 project_file('src/tagi/executor/git.py', 115, 'python').
 project_file('src/tagi/executor/publish.py', 40, 'python').
 project_file('src/tagi/heuristics/__init__.py', 14, 'python').
 project_file('src/tagi/heuristics/rules.py', 16, 'python').
 project_file('src/tagi/heuristics/scoring.py', 32, 'python').
-project_file('src/tagi/heuristics/tags.py', 83, 'python').
+project_file('src/tagi/heuristics/tags.py', 85, 'python').
 project_file('src/tagi/llm/__init__.py', 8, 'python').
-project_file('src/tagi/llm/llx_adapter.py', 25, 'python').
+project_file('src/tagi/llm/llx_adapter.py', 56, 'python').
 project_file('src/tagi/models/__init__.py', 15, 'python').
 project_file('src/tagi/models/change.py', 38, 'python').
 project_file('src/tagi/models/group.py', 17, 'python').
@@ -365,34 +376,36 @@ project_file('src/tagi/planner/grouper.py', 76, 'python').
 project_file('src/tagi/planner/preview.py', 42, 'python').
 project_file('src/tagi/planner/selector.py', 45, 'python').
 project_file('src/tagi/providers/__init__.py', 12, 'python').
-project_file('src/tagi/providers/base.py', 21, 'python').
-project_file('src/tagi/providers/github.py', 80, 'python').
-project_file('src/tagi/providers/gitlab.py', 88, 'python').
+project_file('src/tagi/providers/base.py', 23, 'python').
+project_file('src/tagi/providers/github.py', 86, 'python').
+project_file('src/tagi/providers/gitlab.py', 94, 'python').
 project_file('src/tagi/scanner/__init__.py', 14, 'python').
 project_file('src/tagi/scanner/diff.py', 32, 'python').
 project_file('src/tagi/scanner/files.py', 31, 'python').
 project_file('src/tagi/scanner/status.py', 68, 'python').
-project_file('tests/test_tagi.py', 123, 'python').
+project_file('tests/test_tagi.py', 256, 'python').
 project_file('tree.sh', 2, 'shell').
 
 % ── Python Functions ─────────────────────────────────────
 python_function('src/tagi/cli.py', 'scan', 2, 6, 9).
 python_function('src/tagi/cli.py', 'list_groups', 1, 4, 9).
 python_function('src/tagi/cli.py', 'stats', 1, 12, 18).
-python_function('src/tagi/cli.py', 'inspect', 3, 14, 19).
-python_function('src/tagi/cli.py', 'filter', 3, 15, 16).
+python_function('src/tagi/cli.py', 'inspect', 3, 15, 20).
+python_function('src/tagi/cli.py', 'filter', 3, 19, 17).
 python_function('src/tagi/cli.py', 'file', 2, 7, 14).
 python_function('src/tagi/cli.py', 'summary', 2, 15, 20).
-python_function('src/tagi/cli.py', 'draft', 3, 6, 10).
-python_function('src/tagi/cli.py', 'send', 5, 10, 15).
-python_function('src/tagi/cli.py', 'safe', 1, 5, 11).
-python_function('src/tagi/cli.py', 'publish', 3, 11, 17).
+python_function('src/tagi/cli.py', 'draft', 3, 10, 14).
+python_function('src/tagi/cli.py', 'send', 5, 14, 17).
+python_function('src/tagi/cli.py', 'publish', 4, 16, 21).
 python_function('src/tagi/cli.py', '_display_changes', 2, 2, 5).
 python_function('src/tagi/cli.py', '_format_tags', 2, 5, 4).
 python_function('src/tagi/cli.py', '_display_groups', 1, 2, 7).
 python_function('src/tagi/cli.py', '_display_changes_grouped', 1, 5, 10).
-python_function('src/tagi/composer/commit_message.py', 'generate_commit_message', 3, 7, 7).
-python_function('src/tagi/composer/commit_message.py', 'generate_conventional_message', 1, 13, 2).
+python_function('src/tagi/cli.py', 'detect_provider', 1, 3, 3).
+python_function('src/tagi/cli.py', 'create_pr', 3, 2, 5).
+python_function('src/tagi/cli.py', 'create_mr', 3, 2, 5).
+python_function('src/tagi/composer/commit_message.py', 'generate_commit_message', 4, 11, 9).
+python_function('src/tagi/composer/commit_message.py', 'generate_conventional_message', 1, 12, 2).
 python_function('src/tagi/composer/commit_message.py', 'generate_detailed_message', 1, 7, 5).
 python_function('src/tagi/composer/commit_message.py', '_infer_scope', 1, 20, 2).
 python_function('src/tagi/composer/commit_message.py', 'generate_detailed_message', 1, 7, 5).
@@ -401,7 +414,7 @@ python_function('src/tagi/composer/summary.py', 'generate_file_list', 2, 5, 3).
 python_function('src/tagi/heuristics/rules.py', 'get_custom_rules', 1, 1, 1).
 python_function('src/tagi/heuristics/rules.py', 'get_custom_heuristics', 1, 1, 1).
 python_function('src/tagi/heuristics/scoring.py', 'calculate_risk_score', 2, 7, 1).
-python_function('src/tagi/heuristics/tags.py', 'apply_tags', 2, 11, 8).
+python_function('src/tagi/heuristics/tags.py', 'apply_tags', 2, 11, 9).
 python_function('src/tagi/heuristics/tags.py', 'apply_path_tags', 2, 17, 3).
 python_function('src/tagi/planner/grouper.py', 'group_changes', 1, 7, 8).
 python_function('src/tagi/planner/grouper.py', 'group_by_tag', 2, 3, 0).
@@ -429,11 +442,20 @@ python_function('tests/test_tagi.py', 'test_changetype_values', 0, 5, 0).
 python_function('tests/test_tagi.py', 'test_change_with_metadata', 0, 5, 1).
 python_function('tests/test_tagi.py', 'test_config_loading', 0, 4, 7).
 python_function('tests/test_tagi.py', 'test_config_no_file', 0, 4, 5).
+python_function('tests/test_tagi.py', 'test_planner_grouper', 0, 3, 5).
+python_function('tests/test_tagi.py', 'test_planner_group_by_risk', 0, 5, 3).
+python_function('tests/test_tagi.py', 'test_planner_selector_by_tags', 0, 3, 3).
+python_function('tests/test_tagi.py', 'test_planner_select_safe', 0, 3, 3).
+python_function('tests/test_tagi.py', 'test_composer_conventional', 0, 2, 3).
+python_function('tests/test_tagi.py', 'test_composer_summary', 0, 3, 2).
+python_function('tests/test_tagi.py', 'test_executor_git_executor', 0, 3, 4).
+python_function('tests/test_tagi.py', 'test_executor_publish_executor', 0, 3, 2).
+python_function('tests/test_tagi.py', 'test_executor_dry_run', 0, 6, 3).
 
 % ── Python Classes ───────────────────────────────────────
 python_class('src/tagi/config.py', 'Config').
 python_method('Config', '__init__', 1, 1, 1).
-python_method('Config', '_load_config', 0, 11, 5).
+python_method('Config', '_load_config', 0, 13, 6).
 python_method('Config', 'get_tag_for_path', 1, 3, 2).
 python_method('Config', 'get_custom_tags_for_pattern', 1, 1, 1).
 python_method('Config', 'get_tag_color', 1, 1, 1).
@@ -456,9 +478,10 @@ python_method('PublishExecutor', 'stage_and_commit', 3, 2, 2).
 python_method('PublishExecutor', 'publish', 6, 3, 2).
 python_method('PublishExecutor', 'dry_run', 2, 1, 1).
 python_class('src/tagi/llm/llx_adapter.py', 'LlxAdapter').
-python_method('LlxAdapter', '__init__', 1, 1, 0).
+python_method('LlxAdapter', '__init__', 2, 2, 1).
 python_method('LlxAdapter', 'is_available', 0, 2, 0).
-python_method('LlxAdapter', 'improve_message', 1, 3, 1).
+python_method('LlxAdapter', 'improve_message', 2, 4, 1).
+python_method('LlxAdapter', 'improve_description', 2, 4, 1).
 python_class('src/tagi/models/change.py', 'ChangeType').
 python_class('src/tagi/models/change.py', 'Tag').
 python_class('src/tagi/models/change.py', 'Change').
@@ -468,18 +491,18 @@ python_class('src/tagi/models/plan.py', 'Plan').
 python_class('src/tagi/providers/base.py', 'BaseProvider').
 python_method('BaseProvider', '__init__', 1, 1, 0).
 python_method('BaseProvider', 'is_authenticated', 0, 1, 0).
-python_method('BaseProvider', 'create_pr', 3, 1, 0).
+python_method('BaseProvider', 'create_pr', 6, 1, 0).
 python_class('src/tagi/providers/github.py', 'GitHubProvider').
 python_method('GitHubProvider', 'is_authenticated', 0, 1, 1).
 python_method('GitHubProvider', 'get_auth_status', 0, 2, 1).
 python_method('GitHubProvider', 'get_token', 0, 2, 2).
-python_method('GitHubProvider', 'create_pr', 4, 2, 1).
+python_method('GitHubProvider', 'create_pr', 6, 4, 4).
 python_method('GitHubProvider', 'detect_remote', 0, 2, 2).
 python_class('src/tagi/providers/gitlab.py', 'GitLabProvider').
 python_method('GitLabProvider', 'is_authenticated', 0, 1, 1).
 python_method('GitLabProvider', 'get_auth_status', 0, 2, 1).
 python_method('GitLabProvider', 'get_configured_host', 0, 4, 3).
-python_method('GitLabProvider', 'create_pr', 4, 2, 1).
+python_method('GitLabProvider', 'create_pr', 6, 4, 4).
 python_method('GitLabProvider', 'detect_remote', 0, 2, 2).
 
 % ── Dependencies ─────────────────────────────────────────
@@ -516,94 +539,94 @@ sumd_interface('cli', '').
 
 ## Call Graph
 
-*23 nodes · 32 edges · 7 modules · CC̄=4.7*
+*22 nodes · 28 edges · 7 modules · CC̄=5.0*
 
 ### Hubs (by degree)
 
 | Function | CC | in | out | total |
 |----------|----|----|-----|-------|
-| `publish` *(in src.tagi.cli)* | 11 ⚠ | 0 | 34 | **34** |
-| `send` *(in src.tagi.cli)* | 10 ⚠ | 0 | 33 | **33** |
-| `filter` *(in src.tagi.cli)* | 15 ⚠ | 0 | 27 | **27** |
-| `scan_repo` *(in src.tagi.scanner.status)* | 7 | 11 | 15 | **26** |
-| `apply_tags` *(in src.tagi.heuristics.tags)* | 11 ⚠ | 11 | 14 | **25** |
-| `safe` *(in src.tagi.cli)* | 5 | 0 | 22 | **22** |
+| `publish` *(in src.tagi.cli)* | 16 ⚠ | 0 | 41 | **41** |
+| `send` *(in src.tagi.cli)* | 14 ⚠ | 0 | 32 | **32** |
+| `filter` *(in src.tagi.cli)* | 19 ⚠ | 0 | 29 | **29** |
+| `scan_repo` *(in src.tagi.scanner.status)* | 7 | 10 | 15 | **25** |
+| `apply_tags` *(in src.tagi.heuristics.tags)* | 11 ⚠ | 10 | 15 | **25** |
+| `draft` *(in src.tagi.cli)* | 10 ⚠ | 0 | 22 | **22** |
 | `apply_path_tags` *(in src.tagi.heuristics.tags)* | 17 ⚠ | 1 | 17 | **18** |
-| `draft` *(in src.tagi.cli)* | 6 | 0 | 17 | **17** |
+| `scan` *(in src.tagi.cli)* | 6 | 0 | 15 | **15** |
 
 ```toon markpact:analysis path=project/calls.toon.yaml
 # code2llm call graph | /home/tom/github/semcod/tagi
 # generated in 0.01s
-# nodes: 23 | edges: 32 | modules: 7
-# CC̄=4.7
+# nodes: 22 | edges: 28 | modules: 7
+# CC̄=5.0
 
 HUBS[20]:
   src.tagi.cli.publish
-    CC=11  in:0  out:34  total:34
+    CC=16  in:0  out:41  total:41
   src.tagi.cli.send
-    CC=10  in:0  out:33  total:33
+    CC=14  in:0  out:32  total:32
   src.tagi.cli.filter
-    CC=15  in:0  out:27  total:27
+    CC=19  in:0  out:29  total:29
   src.tagi.scanner.status.scan_repo
-    CC=7  in:11  out:15  total:26
+    CC=7  in:10  out:15  total:25
   src.tagi.heuristics.tags.apply_tags
-    CC=11  in:11  out:14  total:25
-  src.tagi.cli.safe
-    CC=5  in:0  out:22  total:22
+    CC=11  in:10  out:15  total:25
+  src.tagi.cli.draft
+    CC=10  in:0  out:22  total:22
   src.tagi.heuristics.tags.apply_path_tags
     CC=17  in:1  out:17  total:18
-  src.tagi.cli.draft
-    CC=6  in:0  out:17  total:17
   src.tagi.cli.scan
     CC=6  in:0  out:15  total:15
   src.tagi.planner.grouper.group_changes
     CC=7  in:4  out:11  total:15
-  src.tagi.cli.list_groups
-    CC=4  in:0  out:13  total:13
   src.tagi.composer.commit_message.generate_detailed_message
     CC=7  in:1  out:12  total:13
   src.tagi.cli._display_changes_grouped
     CC=5  in:1  out:12  total:13
-  src.tagi.cli._display_changes
-    CC=2  in:4  out:7  total:11
+  src.tagi.cli.list_groups
+    CC=4  in:0  out:13  total:13
   src.tagi.composer.commit_message.generate_commit_message
-    CC=7  in:3  out:7  total:10
-  src.tagi.composer.commit_message._infer_scope
-    CC=20  in:1  out:8  total:9
+    CC=11  in:3  out:9  total:12
+  src.tagi.cli._display_changes
+    CC=2  in:3  out:7  total:10
   src.tagi.cli._display_groups
     CC=2  in:1  out:8  total:9
+  src.tagi.composer.commit_message._infer_scope
+    CC=20  in:1  out:8  total:9
   src.tagi.scanner.files.count_lines_changed
     CC=7  in:1  out:7  total:8
   src.tagi.cli._format_tags
     CC=5  in:4  out:4  total:8
+  src.tagi.heuristics.scoring.calculate_risk_score
+    CC=7  in:1  out:2  total:3
   src.tagi.composer.commit_message.generate_conventional_message
-    CC=13  in:1  out:2  total:3
+    CC=12  in:1  out:2  total:3
 
 MODULES:
-  src.tagi.cli  [11 funcs]
+  src.tagi.cli  [10 funcs]
     _display_changes  CC=2  out:7
     _display_changes_grouped  CC=5  out:12
     _display_groups  CC=2  out:8
     _format_tags  CC=5  out:4
-    draft  CC=6  out:17
-    filter  CC=15  out:27
+    draft  CC=10  out:22
+    filter  CC=19  out:29
     list_groups  CC=4  out:13
-    publish  CC=11  out:34
-    safe  CC=5  out:22
+    publish  CC=16  out:41
     scan  CC=6  out:15
+    send  CC=14  out:32
   src.tagi.composer.commit_message  [4 funcs]
     _infer_scope  CC=20  out:8
-    generate_commit_message  CC=7  out:7
-    generate_conventional_message  CC=13  out:2
+    generate_commit_message  CC=11  out:9
+    generate_conventional_message  CC=12  out:2
     generate_detailed_message  CC=7  out:12
+  src.tagi.heuristics.scoring  [1 funcs]
+    calculate_risk_score  CC=7  out:2
   src.tagi.heuristics.tags  [2 funcs]
     apply_path_tags  CC=17  out:17
-    apply_tags  CC=11  out:14
+    apply_tags  CC=11  out:15
   src.tagi.planner.grouper  [2 funcs]
     _get_primary_tag  CC=4  out:0
     group_changes  CC=7  out:11
-  src.tagi.planner.selector  [1 funcs]
-    select_safe_changes  CC=8  out:2
   src.tagi.scanner.files  [1 funcs]
     count_lines_changed  CC=7  out:7
   src.tagi.scanner.status  [2 funcs]
@@ -611,13 +634,8 @@ MODULES:
     scan_repo  CC=7  out:15
 
 EDGES:
-  src.tagi.scanner.status.scan_repo → src.tagi.scanner.status.parse_status
-  src.tagi.heuristics.tags.apply_tags → src.tagi.scanner.files.count_lines_changed
-  src.tagi.heuristics.tags.apply_tags → src.tagi.heuristics.tags.apply_path_tags
-  src.tagi.composer.commit_message.generate_commit_message → src.tagi.composer.commit_message.generate_conventional_message
-  src.tagi.composer.commit_message.generate_commit_message → src.tagi.composer.commit_message.generate_detailed_message
-  src.tagi.composer.commit_message.generate_conventional_message → src.tagi.composer.commit_message._infer_scope
   src.tagi.planner.grouper.group_changes → src.tagi.planner.grouper._get_primary_tag
+  src.tagi.scanner.status.scan_repo → src.tagi.scanner.status.parse_status
   src.tagi.cli.scan → src.tagi.scanner.status.scan_repo
   src.tagi.cli.scan → src.tagi.heuristics.tags.apply_tags
   src.tagi.cli.scan → src.tagi.cli._display_changes_grouped
@@ -630,19 +648,20 @@ EDGES:
   src.tagi.cli.filter → src.tagi.scanner.status.scan_repo
   src.tagi.cli.filter → src.tagi.heuristics.tags.apply_tags
   src.tagi.cli.draft → src.tagi.composer.commit_message.generate_commit_message
-  src.tagi.cli.draft → src.tagi.scanner.status.scan_repo
   src.tagi.cli.send → src.tagi.scanner.status.scan_repo
   src.tagi.cli.send → src.tagi.heuristics.tags.apply_tags
   src.tagi.cli.send → src.tagi.planner.grouper.group_changes
-  src.tagi.cli.safe → src.tagi.planner.selector.select_safe_changes
-  src.tagi.cli.safe → src.tagi.cli._display_changes
-  src.tagi.cli.safe → src.tagi.scanner.status.scan_repo
-  src.tagi.cli.safe → src.tagi.heuristics.tags.apply_tags
   src.tagi.cli.publish → src.tagi.scanner.status.scan_repo
   src.tagi.cli.publish → src.tagi.heuristics.tags.apply_tags
   src.tagi.cli.publish → src.tagi.planner.grouper.group_changes
   src.tagi.cli._display_changes → src.tagi.cli._format_tags
   src.tagi.cli._display_groups → src.tagi.cli._format_tags
+  src.tagi.heuristics.tags.apply_tags → src.tagi.scanner.files.count_lines_changed
+  src.tagi.heuristics.tags.apply_tags → src.tagi.heuristics.scoring.calculate_risk_score
+  src.tagi.heuristics.tags.apply_tags → src.tagi.heuristics.tags.apply_path_tags
+  src.tagi.composer.commit_message.generate_commit_message → src.tagi.composer.commit_message.generate_conventional_message
+  src.tagi.composer.commit_message.generate_commit_message → src.tagi.composer.commit_message.generate_detailed_message
+  src.tagi.composer.commit_message.generate_conventional_message → src.tagi.composer.commit_message._infer_scope
 ```
 
 ## Test Contracts

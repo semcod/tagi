@@ -9,6 +9,7 @@ from rich.console import Console
 from rich.table import Table
 
 from tagi.composer.commit_message import generate_commit_message
+from tagi.executor.git import GitExecutor
 from tagi.executor.publish import PublishExecutor
 from tagi.heuristics.tags import apply_tags
 from tagi.heuristics.scoring import calculate_risk_score
@@ -178,6 +179,10 @@ def inspect(
     from tagi.config import Config
     config = Config(repo_path)
     
+    # Add # prefix if not present
+    if not tag.startswith("#"):
+        tag = f"#{tag}"
+    
     # Filter changes by tag
     tag_enum = Tag(tag)
     filtered_changes = [c for c in changes if tag_enum in c.tags]
@@ -240,6 +245,10 @@ def filter(
     
     # Parse tags
     tag_list = [t.strip() for t in tags.split(',')]
+    # Add # prefix to each tag if not present
+    tag_list = [t if t.startswith("#") else f"#{t}" for t in tag_list]
+    # Add # prefix to each tag if not present
+    tag_list = [t if t.startswith("#") else f"#{t}" for t in tag_list]
     tag_enums = []
     for t in tag_list:
         try:
@@ -425,19 +434,31 @@ def draft(
         console.print(f"[red]Unexpected error: {e}[/red]")
         raise typer.Exit(1)
     
-    # Find group by tag
-    tag_enum = Tag(tag)
-    group = None
-    for g in groups:
-        if tag_enum in g.tags:
-            group = g
-            break
+    # Add # prefix if not present
+    if not tag.startswith("#"):
+        tag = f"#{tag}"
     
-    if not group:
-        console.print(f"[yellow]No group found for {tag}[/yellow]")
+    # Collect all changes with this tag
+    tag_enum = Tag(tag)
+    filtered_changes = [c for c in changes if tag_enum in c.tags]
+    
+    if not filtered_changes:
+        console.print(f"[yellow]No changes found for {tag}[/yellow]")
         return
     
-    message = generate_commit_message(group, template=template)
+    # Create a temporary group for the filtered changes
+    from tagi.models import ChangeGroup
+    total_lines = sum(c.lines_changed for c in filtered_changes)
+    avg_risk = sum(c.risk_score for c in filtered_changes) / len(filtered_changes) if filtered_changes else 0.0
+    group = ChangeGroup(
+        name=tag,
+        changes=filtered_changes,
+        tags=[tag_enum],
+        total_lines=total_lines,
+        avg_risk=avg_risk
+    )
+    
+    message = generate_commit_message(group.changes, template=template, repo_path=repo_path)
     console.print("\n[bold cyan]Commit message draft:[/bold cyan]")
     console.print(message)
 
@@ -457,42 +478,47 @@ def send(
     changes = apply_tags(changes, repo_path)
     groups = group_changes(changes)
     
+    # Add # prefix if not present
+    if not tag.startswith("#"):
+        tag = f"#{tag}"
     # Find group by tag
     tag_enum = Tag(tag)
-    group = None
-    for g in groups:
-        if tag_enum in g.tags:
-            group = g
-            break
+    # Filter changes by tag (not just primary tag)
+    filtered_changes = [c for c in changes if tag_enum in c.tags]
     
-    if not group:
-        console.print(f"[yellow]No group found for {tag}[/yellow]")
+    if not filtered_changes:
+        console.print(f"[yellow]No changes found for {tag}[/yellow]")
         return
     
+    # Create a temporary group for the filtered changes
+    from tagi.models import ChangeGroup
+    total_lines = sum(c.lines_changed for c in filtered_changes)
+    avg_risk = sum(c.risk_score for c in filtered_changes) / len(filtered_changes) if filtered_changes else 0.0
+    group = ChangeGroup(
+        name=tag,
+        changes=filtered_changes,
+        tags=[tag_enum],
+        total_lines=total_lines,
+        avg_risk=avg_risk
+    )
     # Generate commit message
-    message = generate_commit_message(group, template=template)
+    message = generate_commit_message(group.changes, template=template, repo_path=repo_path)
     console.print("\n[bold cyan]Commit message:[/bold cyan]")
     console.print(message)
     
     if dry_run:
         console.print("\n[yellow][DRY-RUN] No changes will be made[/yellow]")
         return
+    # Stage and commit changes
+    executor = PublishExecutor(repo_path)
+    files = [c.path for c in group.changes]
     
-    # Confirm
-    if not typer.confirm("\nProceed with staging and committing?"):
-        console.print("[yellow]Aborted[/yellow]")
-        return
-    
-    # Stage changes
-    console.print(f"\n[bold]Staging[/bold] {len(group.changes)} files...")
-    if not stage_changes(group.changes, repo_path):
-        console.print("[red]Error staging changes[/red]")
-        raise typer.Exit(1)
-    
-    # Commit
-    console.print("[bold]Committing[/bold]...")
-    if not commit_changes(message, repo_path):
-        console.print("[red]Error committing[/red]")
+    try:
+        if not executor.stage_and_commit(files, message):
+            console.print("[red]Error staging and committing changes[/red]")
+            raise typer.Exit(1)
+    except RuntimeError as e:
+        console.print(f"[red]Error: {e}[/red]")
         raise typer.Exit(1)
     
     console.print("[green]✓ Changes committed[/green]")
@@ -500,10 +526,10 @@ def send(
     # Push if requested
     if push:
         console.print("[bold]Pushing[/bold]...")
-        if not push_changes(repo_path):
-            console.print("[red]Error pushing[/red]")
-            raise typer.Exit(1)
-        console.print("[green]✓ Changes pushed[/green]")
+        if not executor.git.push():
+            console.print("[yellow]Push failed, but changes are committed[/yellow]")
+        else:
+            console.print("[green]✓ Changes pushed[/green]")
 
 
 @app.command()
@@ -511,6 +537,7 @@ def publish(
     tag: str = typer.Argument(..., help="Tag to publish (e.g., #small)"),
     repo_path: str = typer.Argument(".", help="Path to repository"),
     dry_run: bool = typer.Option(False, "--dry-run", help="Preview without executing"),
+    template: str = typer.Option("default", "--template", "-t", help="Commit message template (default, conventional, detailed)"),
 ):
     """Create a PR or MR for the changes."""
     console.print(f"[bold]Publishing[/bold] {tag}")
@@ -519,17 +546,32 @@ def publish(
     changes = apply_tags(changes, repo_path)
     groups = group_changes(changes)
     
-    # Find group by tag
-    tag_enum = Tag(tag)
-    group = None
-    for g in groups:
-        if tag_enum in g.tags:
-            group = g
-            break
+    # Add # prefix if not present
+    if not tag.startswith("#"):
+        tag = f"#{tag}"
     
-    if not group:
-        console.print(f"[yellow]No group found for {tag}[/yellow]")
+    # Collect all changes with this tag
+    tag_enum = Tag(tag)
+    filtered_changes = [c for c in changes if tag_enum in c.tags]
+    
+    if not filtered_changes:
+        console.print(f"[yellow]No changes found for {tag}[/yellow]")
+    # Add # prefix if not present
+    if not tag.startswith("#"):
+        tag = f"#{tag}"
         return
+    
+    # Create a temporary group for the filtered changes
+    from tagi.models import ChangeGroup
+    total_lines = sum(c.lines_changed for c in filtered_changes)
+    avg_risk = sum(c.risk_score for c in filtered_changes) / len(filtered_changes) if filtered_changes else 0.0
+    group = ChangeGroup(
+        name=tag,
+        changes=filtered_changes,
+        tags=[tag_enum],
+        total_lines=total_lines,
+        avg_risk=avg_risk
+    )
     
     # Detect provider
     provider = detect_provider(repo_path)
@@ -541,7 +583,7 @@ def publish(
     console.print(f"[bold]Detected provider:[/bold] {provider}")
     
     # Generate commit message
-    message = generate_commit_message(group, template=template)
+    message = generate_commit_message(group.changes, template=template, repo_path=repo_path)
     title = message.split('\n')[0]  # First line as title
     body = '\n'.join(message.split('\n')[1:])  # Rest as body
     
@@ -659,6 +701,41 @@ def _display_changes_grouped(changes):
             table.add_row(change.path, change.change_type.value)
         
         console.print(table)
+
+
+def detect_provider(repo_path: str = ".") -> str:
+    """Detect the Git hosting provider from remotes."""
+    github = GitHubProvider(repo_path)
+    gitlab = GitLabProvider(repo_path)
+    if github.detect_remote():
+        return "github"
+    if gitlab.detect_remote():
+        return "gitlab"
+    return ""
+
+
+def create_pr(title: str, body: str, repo_path: str = ".") -> bool:
+    """Create a pull request using GitHub CLI."""
+    provider = GitHubProvider(repo_path)
+    executor = GitExecutor(repo_path)
+    branch = executor.get_current_branch()
+    try:
+        result = provider.create_pr(title, body, branch)
+        return bool(result)
+    except RuntimeError:
+        return False
+
+
+def create_mr(title: str, body: str, repo_path: str = ".") -> bool:
+    """Create a merge request using GitLab CLI."""
+    provider = GitLabProvider(repo_path)
+    executor = GitExecutor(repo_path)
+    branch = executor.get_current_branch()
+    try:
+        result = provider.create_pr(title, body, branch)
+        return bool(result)
+    except RuntimeError:
+        return False
 
 
 if __name__ == "__main__":

@@ -1,41 +1,49 @@
-# code2llm/evolution | 79 func | 19f | 2026-05-26
+# code2llm/evolution | 82 func | 19f | 2026-05-26
 # generated in 0.00s
 
-NEXT[6] (ranked by impact):
+NEXT[8] (ranked by impact):
   [1] !! SPLIT           src/tagi/cli.py
-      WHY: 708L, 0 classes, max CC=15
-      EFFORT: ~4h  IMPACT: 10620
+      WHY: 742L, 0 classes, max CC=19
+      EFFORT: ~4h  IMPACT: 14098
 
-  [2] !  SPLIT-FUNC      summary  CC=15  fan=20
+  [2] !  SPLIT-FUNC      publish  CC=16  fan=21
+      WHY: CC=16 exceeds 15
+      EFFORT: ~1h  IMPACT: 336
+
+  [3] !  SPLIT-FUNC      filter  CC=19  fan=17
+      WHY: CC=19 exceeds 15
+      EFFORT: ~1h  IMPACT: 323
+
+  [4] !  SPLIT-FUNC      inspect  CC=15  fan=20
       WHY: CC=15 exceeds 15
       EFFORT: ~1h  IMPACT: 300
 
-  [3] !  SPLIT-FUNC      filter  CC=15  fan=16
+  [5] !  SPLIT-FUNC      summary  CC=15  fan=20
       WHY: CC=15 exceeds 15
-      EFFORT: ~1h  IMPACT: 240
+      EFFORT: ~1h  IMPACT: 300
 
-  [4] !  SPLIT-FUNC      apply_path_tags  CC=17  fan=3
+  [6] !  SPLIT-FUNC      apply_path_tags  CC=17  fan=3
       WHY: CC=17 exceeds 15
       EFFORT: ~1h  IMPACT: 51
 
-  [5] !  SPLIT-FUNC      _infer_scope  CC=20  fan=2
+  [7] !  SPLIT-FUNC      _infer_scope  CC=20  fan=2
       WHY: CC=20 exceeds 15
       EFFORT: ~1h  IMPACT: 40
 
-  [6] !! SPLIT           goal.yaml
+  [8] !! SPLIT           goal.yaml
       WHY: 511L, 0 classes, max CC=0
       EFFORT: ~4h  IMPACT: 0
 
 
 RISKS[2]:
-  ⚠ Splitting src/tagi/cli.py may break 15 import paths
+  ⚠ Splitting src/tagi/cli.py may break 17 import paths
   ⚠ Splitting goal.yaml may break 0 import paths
 
 METRICS-TARGET:
-  CC̄:          4.7 → ≤3.3
+  CC̄:          5.0 → ≤3.5
   max-CC:      20 → ≤10
   god-modules: 2 → 0
-  high-CC(≥15): 4 → ≤2
+  high-CC(≥15): 6 → ≤3
   hub-types:   0 → ≤0
 
 PATTERNS (language parser shared logic):
@@ -63,4 +71,4 @@ PATTERNS (language parser shared logic):
     - Standardized FunctionInfo/ClassInfo models
 
 HISTORY:
-  prev CC̄=5.4 → now CC̄=4.7
+  prev CC̄=4.7 → now CC̄=5.0

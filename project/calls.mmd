@@ -1,37 +1,31 @@
 flowchart LR
 %% generated in 0.00s
     subgraph src__tagi
-        src__tagi__cli__scan["scan"]
-        src__tagi__scanner__files__count_lines_changed["count_lines_changed"]
-        src__tagi__scanner__status__parse_status["parse_status"]
-        src__tagi__composer__commit_message__generate_conventional_message["generate_conventional_message"]
-        src__tagi__heuristics__tags__apply_tags["apply_tags"]
-        src__tagi__cli__publish["publish"]
-        src__tagi__cli__send["send"]
-        src__tagi__composer__commit_message___infer_scope["_infer_scope"]
-        src__tagi__planner__selector__select_safe_changes["select_safe_changes"]
-        src__tagi__cli__safe["safe"]
-        src__tagi__planner__grouper__group_changes["group_changes"]
-        src__tagi__cli__list_groups["list_groups"]
-        src__tagi__composer__commit_message__generate_commit_message["generate_commit_message"]
-        src__tagi__composer__commit_message__generate_detailed_message["generate_detailed_message"]
-        src__tagi__cli__filter["filter"]
-        src__tagi__cli___display_changes_grouped["_display_changes_grouped"]
         src__tagi__cli__draft["draft"]
         src__tagi__heuristics__tags__apply_path_tags["apply_path_tags"]
+        src__tagi__scanner__files__count_lines_changed["count_lines_changed"]
         src__tagi__cli___display_groups["_display_groups"]
+        src__tagi__cli__scan["scan"]
+        src__tagi__composer__commit_message__generate_detailed_message["generate_detailed_message"]
         src__tagi__planner__grouper___get_primary_tag["_get_primary_tag"]
-        src__tagi__cli___display_changes["_display_changes"]
+        src__tagi__cli___display_changes_grouped["_display_changes_grouped"]
         src__tagi__scanner__status__scan_repo["scan_repo"]
         src__tagi__cli___format_tags["_format_tags"]
+        src__tagi__heuristics__scoring__calculate_risk_score["calculate_risk_score"]
+        src__tagi__composer__commit_message__generate_commit_message["generate_commit_message"]
+        src__tagi__composer__commit_message___infer_scope["_infer_scope"]
+        src__tagi__cli__filter["filter"]
+        src__tagi__cli__list_groups["list_groups"]
+        src__tagi__cli__publish["publish"]
+        src__tagi__composer__commit_message__generate_conventional_message["generate_conventional_message"]
+        src__tagi__cli__send["send"]
+        src__tagi__heuristics__tags__apply_tags["apply_tags"]
+        src__tagi__cli___display_changes["_display_changes"]
+        src__tagi__planner__grouper__group_changes["group_changes"]
+        src__tagi__scanner__status__parse_status["parse_status"]
     end
-    src__tagi__scanner__status__scan_repo --> src__tagi__scanner__status__parse_status
-    src__tagi__heuristics__tags__apply_tags --> src__tagi__scanner__files__count_lines_changed
-    src__tagi__heuristics__tags__apply_tags --> src__tagi__heuristics__tags__apply_path_tags
-    src__tagi__composer__commit_message__generate_commit_message --> src__tagi__composer__commit_message__generate_conventional_message
-    src__tagi__composer__commit_message__generate_commit_message --> src__tagi__composer__commit_message__generate_detailed_message
-    src__tagi__composer__commit_message__generate_conventional_message --> src__tagi__composer__commit_message___infer_scope
     src__tagi__planner__grouper__group_changes --> src__tagi__planner__grouper___get_primary_tag
+    src__tagi__scanner__status__scan_repo --> src__tagi__scanner__status__parse_status
     src__tagi__cli__scan --> src__tagi__scanner__status__scan_repo
     src__tagi__cli__scan --> src__tagi__heuristics__tags__apply_tags
     src__tagi__cli__scan --> src__tagi__cli___display_changes_grouped
@@ -44,16 +38,17 @@ flowchart LR
     src__tagi__cli__filter --> src__tagi__scanner__status__scan_repo
     src__tagi__cli__filter --> src__tagi__heuristics__tags__apply_tags
     src__tagi__cli__draft --> src__tagi__composer__commit_message__generate_commit_message
-    src__tagi__cli__draft --> src__tagi__scanner__status__scan_repo
     src__tagi__cli__send --> src__tagi__scanner__status__scan_repo
     src__tagi__cli__send --> src__tagi__heuristics__tags__apply_tags
     src__tagi__cli__send --> src__tagi__planner__grouper__group_changes
-    src__tagi__cli__safe --> src__tagi__planner__selector__select_safe_changes
-    src__tagi__cli__safe --> src__tagi__cli___display_changes
-    src__tagi__cli__safe --> src__tagi__scanner__status__scan_repo
-    src__tagi__cli__safe --> src__tagi__heuristics__tags__apply_tags
     src__tagi__cli__publish --> src__tagi__scanner__status__scan_repo
     src__tagi__cli__publish --> src__tagi__heuristics__tags__apply_tags
     src__tagi__cli__publish --> src__tagi__planner__grouper__group_changes
     src__tagi__cli___display_changes --> src__tagi__cli___format_tags
     src__tagi__cli___display_groups --> src__tagi__cli___format_tags
+    src__tagi__heuristics__tags__apply_tags --> src__tagi__scanner__files__count_lines_changed
+    src__tagi__heuristics__tags__apply_tags --> src__tagi__heuristics__scoring__calculate_risk_score
+    src__tagi__heuristics__tags__apply_tags --> src__tagi__heuristics__tags__apply_path_tags
+    src__tagi__composer__commit_message__generate_commit_message --> src__tagi__composer__commit_message__generate_conventional_message
+    src__tagi__composer__commit_message__generate_commit_message --> src__tagi__composer__commit_message__generate_detailed_message
+    src__tagi__composer__commit_message__generate_conventional_message --> src__tagi__composer__commit_message___infer_scope

@@ -5,22 +5,22 @@ flowchart TD
     classDef entry fill:#4dabf7,stroke:#1971c2,color:#fff
 
     subgraph Core
+        src__tagi__planner__grouper__group_by_tag["group_by_tag"]
+        src__tagi__planner__grouper__group_by_risk["group_by_risk"]
+        src__tagi__planner__preview__preview_plan["preview_plan"]
+        src__tagi__planner__preview__preview_changes["preview_changes"]
+        src__tagi__planner__selector__select_changes_by_tag["select_changes_by_tag"]
+        src__tagi__planner__selector__select_low_risk_changes["select_low_risk_changes"]
+        src__tagi__planner__selector__select_small_changes["select_small_changes"]
+        src__tagi__planner__selector__select_by_tags["select_by_tags"]
+        src__tagi__planner__selector__select_safe_changes["select_safe_changes"]
         src__tagi__scanner__diff__get_staged_diff["get_staged_diff"]
-        src__tagi__heuristics__scoring__calculate_risk_score["calculate_risk_score"]
         src__tagi__heuristics__rules__get_custom_rules["get_custom_rules"]
         src__tagi__heuristics__rules__get_custom_heuristics["get_custom_heuristics"]
-        src__tagi__heuristics__tags__apply_path_tags{{apply_path_tags CC=17}}
-        src__tagi__llm__llx_adapter__LlxAdapter__is_available["is_available"]
-        src__tagi__llm__llx_adapter__LlxAdapter__improve_message["improve_message"]
         src__tagi__composer__summary__generate_summary["generate_summary"]
         src__tagi__composer__summary__generate_file_list["generate_file_list"]
         src__tagi__executor__git__GitExecutor__add["add"]
-        src__tagi__executor__git__GitExecutor__commit["commit"]
-        src__tagi__executor__git__GitExecutor__push["push"]
-        src__tagi__executor__git__GitExecutor__status["status"]
-        src__tagi__executor__git__GitExecutor__get_current_branch["get_current_branch"]
-        src__tagi__executor__git__GitExecutor__get_remote_url["get_remote_url"]
-        ...["+48 more"]
+        ...["+53 more"]
     end
 
-    class src__tagi__scanner__diff__get_staged_diff,src__tagi__heuristics__scoring__calculate_risk_score,src__tagi__heuristics__rules__get_custom_rules,src__tagi__heuristics__rules__get_custom_heuristics,src__tagi__llm__llx_adapter__LlxAdapter__is_available,src__tagi__llm__llx_adapter__LlxAdapter__improve_message,src__tagi__composer__summary__generate_summary,src__tagi__composer__summary__generate_file_list,src__tagi__executor__git__GitExecutor__add,src__tagi__executor__git__GitExecutor__commit entry
+    class src__tagi__planner__grouper__group_by_tag,src__tagi__planner__grouper__group_by_risk,src__tagi__planner__preview__preview_plan,src__tagi__planner__preview__preview_changes,src__tagi__planner__selector__select_changes_by_tag,src__tagi__planner__selector__select_low_risk_changes,src__tagi__planner__selector__select_small_changes,src__tagi__planner__selector__select_by_tags,src__tagi__planner__selector__select_safe_changes,src__tagi__scanner__diff__get_staged_diff entry

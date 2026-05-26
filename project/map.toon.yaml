@@ -1,27 +1,27 @@
-# tagi | 35f 2260L | python:32,shell:2,less:1 | 2026-05-26
-# stats: 53 func | 13 cls | 35 mod | CC̄=6.5 | critical:12 | cycles:0
-# alerts[5]: CC _infer_scope=20; CC apply_path_tags=17; CC filter=15; CC summary=15; CC inspect=14
-# hotspots[5]: summary fan=20; inspect fan=19; stats fan=18; publish fan=17; filter fan=16
+# tagi | 35f 2491L | python:32,shell:2,less:1 | 2026-05-26
+# stats: 64 func | 13 cls | 35 mod | CC̄=6.2 | critical:14 | cycles:0
+# alerts[5]: CC _infer_scope=20; CC filter=19; CC apply_path_tags=17; CC publish=16; CC inspect=15
+# hotspots[5]: publish fan=21; inspect fan=20; summary fan=20; stats fan=18; filter fan=17
 # evolution: baseline
 # Keys: M=modules, D=details, i=imports, e=exports, c=classes, f=functions, m=methods
 M[35]:
   app.doql.less,29
   project.sh,48
   src/tagi/__init__.py,48
-  src/tagi/cli.py,709
+  src/tagi/cli.py,743
   src/tagi/composer/__init__.py,13
-  src/tagi/composer/commit_message.py,155
+  src/tagi/composer/commit_message.py,164
   src/tagi/composer/summary.py,46
-  src/tagi/config.py,122
+  src/tagi/config.py,130
   src/tagi/executor/__init__.py,10
   src/tagi/executor/git.py,115
   src/tagi/executor/publish.py,40
   src/tagi/heuristics/__init__.py,14
   src/tagi/heuristics/rules.py,16
   src/tagi/heuristics/scoring.py,32
-  src/tagi/heuristics/tags.py,83
+  src/tagi/heuristics/tags.py,85
   src/tagi/llm/__init__.py,8
-  src/tagi/llm/llx_adapter.py,25
+  src/tagi/llm/llx_adapter.py,56
   src/tagi/models/__init__.py,15
   src/tagi/models/change.py,38
   src/tagi/models/group.py,17
@@ -31,19 +31,19 @@ M[35]:
   src/tagi/planner/preview.py,42
   src/tagi/planner/selector.py,45
   src/tagi/providers/__init__.py,12
-  src/tagi/providers/base.py,21
-  src/tagi/providers/github.py,80
-  src/tagi/providers/gitlab.py,88
+  src/tagi/providers/base.py,23
+  src/tagi/providers/github.py,86
+  src/tagi/providers/gitlab.py,94
   src/tagi/scanner/__init__.py,14
   src/tagi/scanner/diff.py,32
   src/tagi/scanner/files.py,31
   src/tagi/scanner/status.py,68
-  tests/test_tagi.py,123
+  tests/test_tagi.py,256
   tree.sh,2
 D:
   src/tagi/__init__.py:
   src/tagi/cli.py:
-    e: scan,list_groups,stats,inspect,filter,file,summary,draft,send,safe,publish,_display_changes,_format_tags,_display_groups,_display_changes_grouped
+    e: scan,list_groups,stats,inspect,filter,file,summary,draft,send,publish,_display_changes,_format_tags,_display_groups,_display_changes_grouped,detect_provider,create_pr,create_mr
     scan(repo_path;grouped)
     list_groups(repo_path)
     stats(repo_path)
@@ -53,16 +53,18 @@ D:
     summary(repo_path;output)
     draft(tag;repo_path;template)
     send(tag;repo_path;dry_run;push;template)
-    safe(repo_path)
-    publish(tag;repo_path;dry_run)
+    publish(tag;repo_path;dry_run;template)
     _display_changes(changes;config)
     _format_tags(tags;config)
     _display_groups(groups)
     _display_changes_grouped(changes)
+    detect_provider(repo_path)
+    create_pr(title;body;repo_path)
+    create_mr(title;body;repo_path)
   src/tagi/composer/__init__.py:
   src/tagi/composer/commit_message.py:
     e: generate_commit_message,generate_conventional_message,generate_detailed_message,_infer_scope,generate_detailed_message
-    generate_commit_message(changes;template;repo_path)
+    generate_commit_message(changes;template;repo_path;use_llm)
     generate_conventional_message(changes)
     generate_detailed_message(changes)
     _infer_scope(changes)
@@ -96,7 +98,7 @@ D:
   src/tagi/llm/__init__.py:
   src/tagi/llm/llx_adapter.py:
     e: LlxAdapter
-    LlxAdapter: __init__(1),is_available(0),improve_message(1)  # Adapter for LLX library for optional LLM integration.
+    LlxAdapter: __init__(2),is_available(0),improve_message(2),improve_description(2)  # Adapter for LLX library for optional LLM integration.
   src/tagi/models/__init__.py:
   src/tagi/models/change.py:
     e: ChangeType,Tag,Change
@@ -131,13 +133,13 @@ D:
   src/tagi/providers/__init__.py:
   src/tagi/providers/base.py:
     e: BaseProvider
-    BaseProvider: __init__(1),is_authenticated(0),create_pr(3)  # Base class for Git hosting providers.
+    BaseProvider: __init__(1),is_authenticated(0),create_pr(6)  # Base class for Git hosting providers.
   src/tagi/providers/github.py:
     e: GitHubProvider
-    GitHubProvider: is_authenticated(0),get_auth_status(0),get_token(0),create_pr(4),detect_remote(0)  # GitHub provider using gh CLI.
+    GitHubProvider: is_authenticated(0),get_auth_status(0),get_token(0),create_pr(6),detect_remote(0)  # GitHub provider using gh CLI.
   src/tagi/providers/gitlab.py:
     e: GitLabProvider
-    GitLabProvider: is_authenticated(0),get_auth_status(0),get_configured_host(0),create_pr(4),detect_remote(0)  # GitLab provider using glab CLI.
+    GitLabProvider: is_authenticated(0),get_auth_status(0),get_configured_host(0),create_pr(6),detect_remote(0)  # GitLab provider using glab CLI.
   src/tagi/scanner/__init__.py:
   src/tagi/scanner/diff.py:
     e: get_diff,get_staged_diff
@@ -151,7 +153,7 @@ D:
     scan_repo(repo_path)
     parse_status(status)
   tests/test_tagi.py:
-    e: test_placeholder,test_import,test_change_creation,test_change_with_tags,test_multiple_tags,test_tag_values,test_changetype_values,test_change_with_metadata,test_config_loading,test_config_no_file
+    e: test_placeholder,test_import,test_change_creation,test_change_with_tags,test_multiple_tags,test_tag_values,test_changetype_values,test_change_with_metadata,test_config_loading,test_config_no_file,test_planner_grouper,test_planner_group_by_risk,test_planner_selector_by_tags,test_planner_select_safe,test_composer_conventional,test_composer_summary,test_executor_git_executor,test_executor_publish_executor,test_executor_dry_run
     test_placeholder()
     test_import()
     test_change_creation()
@@ -162,3 +164,12 @@ D:
     test_change_with_metadata()
     test_config_loading()
     test_config_no_file()
+    test_planner_grouper()
+    test_planner_group_by_risk()
+    test_planner_selector_by_tags()
+    test_planner_select_safe()
+    test_composer_conventional()
+    test_composer_summary()
+    test_executor_git_executor()
+    test_executor_publish_executor()
+    test_executor_dry_run()
