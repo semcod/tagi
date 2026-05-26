@@ -6,7 +6,7 @@ from tagi.models import Change, Tag
 from tagi.config import Config
 
 
-def generate_commit_message(changes: List[Change], template: str = "default", repo_path: str = ".") -> str:
+def generate_commit_message(changes: List[Change], template: str = "default", repo_path: str = ".", use_llm: bool = False) -> str:
     """Generate a commit message based on template."""
     config = Config(repo_path)
     
@@ -20,11 +20,20 @@ def generate_commit_message(changes: List[Change], template: str = "default", re
     tag = changes[0].tags[0].value if changes and changes[0].tags else "#small"
     
     if template == "conventional":
-        return generate_conventional_message(changes)
+        message = generate_conventional_message(changes)
     elif template == "detailed":
-        return generate_detailed_message(changes)
+        message = generate_detailed_message(changes)
     else:
-        return template.format(tag=tag, files=files_str, count=count)
+        message = template.format(tag=tag, files=files_str, count=count)
+    
+    # Optionally improve with LLM
+    if use_llm or config.llm_enabled:
+        from tagi.llm import LlxAdapter
+        llm = LlxAdapter(repo_path, enabled=True)
+        context = f"Files: {files_str}, Tags: {[t.value for t in changes[0].tags] if changes else []}"
+        message = llm.improve_message(message, context)
+    
+    return message
 
 
 def generate_conventional_message(changes: List[Change]) -> str:
@@ -36,7 +45,7 @@ def generate_conventional_message(changes: List[Change]) -> str:
     tags = changes[0].tags
     if Tag.FEATURE in tags:
         commit_type = "feat"
-    elif Tag.FIX in tags or Tag.RISKY in tags:
+    elif Tag.RISKY in tags:
         commit_type = "fix"
     elif Tag.DOCS in tags:
         commit_type = "docs"
@@ -46,14 +55,83 @@ def generate_conventional_message(changes: List[Change]) -> str:
         commit_type = "chore"
     elif Tag.REFACTOR in tags:
         commit_type = "refactor"
+    elif Tag.CONFIG in tags:
+        commit_type = "config"
     else:
         commit_type = "chore"
     
-    scope = "general"
-    files_count = len(changes)
-    description = f"update {files_count} file{'s' if files_count != 1 else ''}"
+    # Determine scope from file paths
+    scope = _infer_scope(changes)
     
-    return f"{commit_type}({scope}): {description}"
+    # Generate description
+    files_count = len(changes)
+    if files_count == 1:
+        description = f"update {changes[0].path}"
+    else:
+        description = f"update {files_count} files"
+    
+    # Add optional breaking change indicator
+    breaking = "!" if Tag.RISKY in tags else ""
+    
+    if scope:
+        return f"{commit_type}({scope}){breaking}: {description}"
+    else:
+        return f"{commit_type}{breaking}: {description}"
+
+
+def generate_detailed_message(changes: List[Change]) -> str:
+    """Generate a detailed commit message."""
+    if not changes:
+        return "Empty commit"
+    
+    lines = []
+    lines.append(f"Commit: {len(changes)} files changed")
+    lines.append("")
+    
+    # Group by tag
+    from collections import Counter
+    tag_counts = Counter()
+    for change in changes:
+        for tag in change.tags:
+            tag_counts[tag.value] += 1
+    
+    lines.append("Tags:")
+    for tag, count in tag_counts.most_common():
+        lines.append(f"  - {tag}: {count}")
+    lines.append("")
+    
+    lines.append("Files:")
+    for change in changes:
+        tags_str = ", ".join([t.value for t in change.tags])
+        lines.append(f"  [{change.change_type.value:8}] {change.path:40} ({tags_str})")
+    
+    return "\n".join(lines)
+
+
+def _infer_scope(changes: List[Change]) -> str:
+    """Infer scope from file paths."""
+    if not changes:
+        return ""
+    
+    # Check for common patterns
+    paths = [c.path.lower() for c in changes]
+    
+    if any("test" in p for p in paths):
+        return "tests"
+    elif any("doc" in p for p in paths):
+        return "docs"
+    elif any("config" in p for p in paths):
+        return "config"
+    elif any("api" in p for p in paths):
+        return "api"
+    elif any("cli" in p for p in paths):
+        return "cli"
+    elif any("ui" in p or "web" in p or "frontend" in p for p in paths):
+        return "ui"
+    elif any("db" in p or "database" in p for p in paths):
+        return "db"
+    else:
+        return "general"
 
 
 def generate_detailed_message(changes: List[Change]) -> str:

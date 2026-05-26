@@ -5,6 +5,7 @@ from typing import List
 from tagi.config import Config
 from tagi.models import Change, ChangeType, Tag
 from tagi.scanner.files import count_lines_changed
+from .scoring import calculate_risk_score
 
 
 def apply_tags(changes: List[Change], repo_path: str = ".") -> List[Change]:
@@ -53,6 +54,7 @@ def apply_tags(changes: List[Change], repo_path: str = ".") -> List[Change]:
                 tags.append(Tag.SMALL)
         
         change.tags = tags
+        change.risk_score = calculate_risk_score(change, tags)
     
     return changes
 

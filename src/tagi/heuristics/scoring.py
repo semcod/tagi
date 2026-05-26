@@ -2,7 +2,7 @@
 
 from typing import List
 
-from tagi.models import Change, Tag
+from tagi.models import Change, ChangeType, Tag
 
 
 def calculate_risk_score(change: Change, tags: List[Tag]) -> float:

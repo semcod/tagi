@@ -9,15 +9,44 @@
 ├── src
 │   └── tagi
 │       ├── cli.py
-│       ├── composer.py
+│       ├── composer
+│       │   ├── commit_message.py
+│       │   ├── __init__.py
+│       │   └── summary.py
 │       ├── config.py
-│       ├── executor.py
-│       ├── heuristics.py
+│       ├── executor
+│       │   ├── git.py
+│       │   ├── __init__.py
+│       │   └── publish.py
+│       ├── heuristics
+│       │   ├── __init__.py
+│       │   ├── rules.py
+│       │   ├── scoring.py
+│       │   └── tags.py
 │       ├── __init__.py
-│       ├── models.py
-│       ├── planner.py
-│       ├── providers.py
-│       └── scanner.py
+│       ├── llm
+│       │   ├── __init__.py
+│       │   └── llx_adapter.py
+│       ├── models
+│       │   ├── change.py
+│       │   ├── group.py
+│       │   ├── __init__.py
+│       │   └── plan.py
+│       ├── planner
+│       │   ├── grouper.py
+│       │   ├── __init__.py
+│       │   ├── preview.py
+│       │   └── selector.py
+│       ├── providers
+│       │   ├── base.py
+│       │   ├── github.py
+│       │   ├── gitlab.py
+│       │   └── __init__.py
+│       └── scanner
+│           ├── diff.py
+│           ├── files.py
+│           ├── __init__.py
+│           └── status.py
 ├── SUMD.md
 ├── SUMR.md
 ├── tagi.toml.example
@@ -33,4 +62,4 @@
 ├── uv.lock
 └── VERSION
 
-6 directories, 28 files
+14 directories, 49 files

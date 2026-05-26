@@ -18,3 +18,27 @@ def select_low_risk_changes(changes: List[Change], threshold: float = 0.5) -> Li
 def select_small_changes(changes: List[Change], max_lines: int = 100) -> List[Change]:
     """Select changes with lines changed below max_lines."""
     return [c for c in changes if c.lines_changed <= max_lines]
+
+
+def select_by_tags(changes: List[Change], tags: List[Tag], require_all: bool = False) -> List[Change]:
+    """Select changes by tags (OR or AND logic)."""
+    if require_all:
+        # AND logic: must have all tags
+        return [c for c in changes if all(tag in c.tags for tag in tags)]
+    else:
+        # OR logic: must have at least one tag
+        return [c for c in changes if any(tag in c.tags for tag in tags)]
+
+
+def select_safe_changes(changes: List[Change]) -> List[Change]:
+    """Select changes that are safe to ship first (low risk, small, not risky/deps/config)."""
+    safe_tags = [Tag.SMALL, Tag.DOCS, Tag.TESTS]
+    risky_tags = [Tag.RISKY, Tag.DEPS, Tag.CONFIG]
+    
+    return [
+        c for c in changes 
+        if c.risk_score < 0.3 
+        and c.lines_changed <= 50
+        and any(tag in c.tags for tag in safe_tags)
+        and not any(tag in c.tags for tag in risky_tags)
+    ]

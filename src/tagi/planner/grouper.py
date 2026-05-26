@@ -12,10 +12,10 @@ def group_changes(changes: List[Change]) -> List[ChangeGroup]:
     
     for change in changes:
         if change.tags:
-            primary_tag = change.tags[0]
+            # Use the highest priority tag as primary
+            primary_tag = _get_primary_tag(change.tags)
             grouped[primary_tag].append(change)
         else:
-            from tagi.models import Tag
             grouped[Tag.SMALL].append(change)
     
     groups = []
@@ -32,9 +32,44 @@ def group_changes(changes: List[Change]) -> List[ChangeGroup]:
         )
         groups.append(group)
     
+    # Sort by risk score (safest first)
     return sorted(groups, key=lambda g: g.avg_risk)
 
 
 def group_by_tag(changes: List[Change], tag: Tag) -> List[Change]:
     """Filter changes by a specific tag."""
     return [c for c in changes if tag in c.tags]
+
+
+def group_by_risk(changes: List[Change], threshold: float = 0.5) -> dict:
+    """Group changes by risk level."""
+    low_risk = [c for c in changes if c.risk_score < threshold]
+    high_risk = [c for c in changes if c.risk_score >= threshold]
+    
+    return {
+        "low_risk": low_risk,
+        "high_risk": high_risk
+    }
+
+
+def _get_primary_tag(tags: List[Tag]) -> Tag:
+    """Get the primary tag based on priority."""
+    # Priority order: RISKY > LARGE > DEPS > CONFIG > NEW > TESTS > DOCS > FEATURE > REFACTOR > SMALL
+    priority = [
+        Tag.RISKY,
+        Tag.LARGE,
+        Tag.DEPS,
+        Tag.CONFIG,
+        Tag.NEW,
+        Tag.TESTS,
+        Tag.DOCS,
+        Tag.FEATURE,
+        Tag.REFACTOR,
+        Tag.SMALL
+    ]
+    
+    for p in priority:
+        if p in tags:
+            return p
+    
+    return tags[0] if tags else Tag.SMALL

@@ -1,6 +1,7 @@
 """Base provider module for Git hosting integrations."""
 
 from abc import ABC, abstractmethod
+from typing import List
 
 
 class BaseProvider(ABC):
@@ -15,6 +16,7 @@ class BaseProvider(ABC):
         pass
     
     @abstractmethod
-    def create_pr(self, title: str, body: str, branch: str) -> str:
+    def create_pr(self, title: str, body: str, branch: str, base: str = "main",
+                  draft: bool = False, labels: List[str] = None) -> str:
         """Create a pull/merge request."""
         pass
