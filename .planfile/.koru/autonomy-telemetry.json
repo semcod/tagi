@@ -4,7 +4,7 @@
     "scan_after_idle_runs": 0,
     "scan_after_idle_tickets_applied": 0
   },
-  "cycle": 7,
+  "cycle": 11,
   "knobs": {
     "autopilot_skip_drive_idle_streak": 0,
     "scan_after_idle_min_interval_seconds": 60.0,
@@ -61,16 +61,16 @@
   "recent_decisions": [
     {
       "action": "no_op",
-      "at": "2026-05-26T19:59:06+00:00",
+      "at": "2026-05-26T20:05:19+00:00",
       "blocked_by": "chat_activity",
-      "cycle": 7,
+      "cycle": 11,
       "decided": "skip:chat_activity",
       "evidence": "blocked_by=chat_activity, diagnostics=skipped, wup=skipped, chat_event=drive.ack",
       "next_step": "wait for chat cooldown to expire",
-      "observed": "queue=waiting_input ticket=PLF-001 streak=2",
+      "observed": "queue=waiting_input ticket=PLF-004 streak=3",
       "skip_because": "last chat event: drive.ack",
       "skip_code": "chat_activity"
     }
   ],
-  "updated_at": "2026-05-26T19:59:06.778809+00:00"
+  "updated_at": "2026-05-26T20:05:19.085575+00:00"
 }

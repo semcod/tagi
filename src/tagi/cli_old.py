@@ -6,26 +6,29 @@ from typing import Optional
 
 import typer
 from rich.console import Console
-from rich.table import Table
 
-from tagi.composer.commit_message import generate_commit_message
-from tagi.executor.git import GitExecutor
-from tagi.executor.publish import PublishExecutor
-from tagi.heuristics.tags import apply_tags
-from tagi.heuristics.scoring import calculate_risk_score
-from tagi.models.change import ChangeType, Tag
-from tagi.planner.grouper import group_changes
-from tagi.providers.github import GitHubProvider
-from tagi.providers.gitlab import GitLabProvider
-from tagi.providers.koru import KoruProvider
-from tagi.scanner.status import scan_repo
-from tagi.scanner.diff import get_diff
+from tagi.models.change import Tag
 from tagi.utils.logger import setup_logger
-from tagi.planner.sorter import sort_by_complexity
-from tagi.utils.detect_provider import detect_git_provider
-from tagi.utils.send_helpers import resolve_filtered_changes, create_change_group
-from tagi.utils.publish_helpers import filter_changes_by_tag, create_publish_group
-from tagi.utils.inspect_helpers import filter_changes_by_tag as inspect_filter_by_tag, calculate_tag_statistics, display_statistics_table, filter_changes_by_tags_any, filter_changes_by_tags_all
+
+# Import command modules
+from tagi.cli.core_commands import (
+    scan_command, list_groups_command, list_command, stats_command
+)
+from tagi.cli.inspection_commands import (
+    inspect_command, filter_command, file_command
+)
+from tagi.cli.git_operations import (
+    send_command, auto_command
+)
+from tagi.cli.publishing_commands import (
+    publish_command, deploy_command
+)
+from tagi.cli.utility_commands import (
+    summary_command, draft_command
+)
+from tagi.cli.provider_commands import (
+    detect_provider_command, create_pr, create_mr
+)
 
 app = typer.Typer(help="tagi - Git change orchestrator")
 console = Console()

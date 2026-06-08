@@ -4,27 +4,57 @@ sprint:
   status: active
   tickets:
     PLF-001:
-      id: PLF-001
-      name: 'Frontend: spójny design-system'
-      status: open
-      priority: high
-      sprint: current
-      source:
-        tool: koru-cli-nl
-        timestamp: '2026-05-26T19:32:16.876409+00:00'
-        context:
-          input: 'Frontend: spójny design-system
-
-
-            Zbierz wszystkie hardkodowane wartości (px, kolory, fonty) z tagi, wyciągnij
-            do tokenów CSS/JS i dodaj 5 kluczowych komponentów (Button, Input, Select,
-            Modal, Toast).'
+      blocked_by: []
+      blocks: []
+      created_at: '2026-05-26T19:32:16.876409+00:00'
       description: 'Frontend: spójny design-system
 
 
         Zbierz wszystkie hardkodowane wartości (px, kolory, fonty) z tagi, wyciągnij
         do tokenów CSS/JS i dodaj 5 kluczowych komponentów (Button, Input, Select,
         Modal, Toast).'
+      execution:
+        attempt: 0
+        finished_at: '2026-05-26T20:01:05.008489Z'
+        max_attempts: 1
+        queue: default
+        state: done
+      executor:
+        kind: human
+        mode: interactive
+      files: []
+      history:
+      - action: created
+        message: 'Frontend: spójny design-system
+
+
+          Zbierz wszystkie hardkodowane wartości (px, kolory, fonty) z tagi, wyciągnij
+          do tokenów CSS/JS i dodaj 5 kluczowych komponentów (Button, Input, Select,
+          Modal, Toast).'
+        source: koru task
+        timestamp: '2026-05-26T19:32:16.876409+00:00'
+      - action: update
+        changes:
+        - execution
+        - status
+        execution_state: done
+        previous_execution_state: ready
+        previous_status: open
+        source: planfile.store
+        status: done
+        timestamp: '2026-05-26T20:01:05.011771+00:00'
+      id: PLF-001
+      inputs:
+        api_headers: {}
+        api_method: GET
+        api_timeout_seconds: 30.0
+        env_keys: []
+        prompt: 'Frontend: spójny design-system
+
+
+          Zbierz wszystkie hardkodowane wartości (px, kolory, fonty) z tagi, wyciągnij
+          do tokenów CSS/JS i dodaj 5 kluczowych komponentów (Button, Input, Select,
+          Modal, Toast).'
       labels:
       - koru
       - nl-task
@@ -32,70 +62,87 @@ sprint:
       - frontend
       - design-system
       - koru-wizard
-      blocked_by: []
-      blocks: []
-      files: []
-      executor:
-        kind: human
-        mode: interactive
-      execution:
-        queue: default
-        state: ready
-        attempt: 0
-        max_attempts: 1
-      inputs:
-        prompt: 'Frontend: spójny design-system
-
-
-          Zbierz wszystkie hardkodowane wartości (px, kolory, fonty) z tagi, wyciągnij
-          do tokenów CSS/JS i dodaj 5 kluczowych komponentów (Button, Input, Select,
-          Modal, Toast).'
-        env_keys: []
-        api_method: GET
-        api_headers: {}
-        api_timeout_seconds: 30.0
+      name: 'Frontend: spójny design-system'
       outputs:
         artifacts: []
         notes: []
-      sync: {}
-      history:
-      - timestamp: '2026-05-26T19:32:16.876409+00:00'
-        action: created
-        source: koru task
-        message: 'Frontend: spójny design-system
-
-
-          Zbierz wszystkie hardkodowane wartości (px, kolory, fonty) z tagi, wyciągnij
-          do tokenów CSS/JS i dodaj 5 kluczowych komponentów (Button, Input, Select,
-          Modal, Toast).'
-      created_at: '2026-05-26T19:32:16.876409+00:00'
-      updated_at: '2026-05-26T19:32:16.876409+00:00'
-    PLF-002:
-      id: PLF-002
-      name: '[OPERATOR] MCP „koru” w IDE: brak „koru” w .cursor/mcp.json / .vscode/mcp.json
-        — task koru:mcp:bootstrap, potem Reloa...'
-      status: open
       priority: high
-      sprint: current
       source:
-        tool: koru-operator-pipeline
-        timestamp: '2026-05-26T19:32:25.699585+00:00'
         context:
-          input: '[OPERATOR] MCP „koru” w IDE: brak „koru” w .cursor/mcp.json / .vscode/mcp.json
-            — task koru:mcp:bootstrap, potem Reload Window
+          input: 'Frontend: spójny design-system
 
 
-            Shell: `task koru:mcp:bootstrap`'
-          detail: brak „koru” w .cursor/mcp.json / .vscode/mcp.json — task koru:mcp:bootstrap,
-            potem Reload Window
-          step_id: mcp_koru
-          task_command: task koru:mcp:bootstrap
-          dedupe_key: koru-operator-pipeline:operator-mcp-koru-w-ide-brak-koru-w-.cursor/mcp.json-/-.vscode/mcp.json-task-koru-mcp-bootstrap-potem-reloa...
-      description: '[OPERATOR] MCP „koru” w IDE: brak „koru” w .cursor/mcp.json /
-        .vscode/mcp.json — task koru:mcp:bootstrap, potem Reload Window
+            Zbierz wszystkie hardkodowane wartości (px, kolory, fonty) z tagi, wyciągnij
+            do tokenów CSS/JS i dodaj 5 kluczowych komponentów (Button, Input, Select,
+            Modal, Toast).'
+        timestamp: '2026-05-26T19:32:16.876409+00:00'
+        tool: koru-cli-nl
+      sprint: current
+      status: done
+      sync: {}
+      updated_at: '2026-05-26T20:01:05.011741+00:00'
+    PLF-002:
+      blocked_by: []
+      blocks: []
+      created_at: '2026-05-26T19:32:25.699585+00:00'
+      description: 'BLOCKED: FAIL: task: No Taskfile found at "" (or any of the parent
+        directories until ownership changed). Run `task --init` to create a new Taskfile.'
+      execution:
+        assigned_to: koru-shell
+        attempt: 0
+        lease_expires_at: '2026-05-26T21:01:18.264440Z'
+        max_attempts: 1
+        queue: operator
+        started_at: '2026-05-26T20:01:18.768594Z'
+        state: running
+      executor:
+        kind: shell
+        mode: noninteractive
+      files: []
+      history:
+      - action: created
+        message: '[OPERATOR] MCP „koru” w IDE: brak „koru” w .cursor/mcp.json / .vscode/mcp.json
+          — task koru:mcp:bootstrap, potem Reload Window
 
 
-        Shell: `task koru:mcp:bootstrap`'
+          Shell: `task koru:mcp:bootstrap`'
+        source: koru task
+        timestamp: '2026-05-26T19:32:25.699585+00:00'
+      - action: update
+        changes:
+        - execution
+        source: planfile.store
+        timestamp: '2026-05-26T20:01:18.268418+00:00'
+      - action: update
+        changes:
+        - execution
+        - status
+        execution_state: running
+        previous_execution_state: ready
+        previous_status: open
+        source: planfile.store
+        status: in_progress
+        timestamp: '2026-05-26T20:01:18.772518+00:00'
+      - action: update
+        changes:
+        - description
+        - status
+        previous_status: in_progress
+        source: planfile.store
+        status: blocked
+        timestamp: '2026-05-26T20:01:19.357743+00:00'
+      id: PLF-002
+      inputs:
+        api_headers: {}
+        api_method: GET
+        api_timeout_seconds: 30.0
+        env_keys: []
+        prompt: '[OPERATOR] MCP „koru” w IDE: brak „koru” w .cursor/mcp.json / .vscode/mcp.json
+          — task koru:mcp:bootstrap, potem Reload Window
+
+
+          Shell: `task koru:mcp:bootstrap`'
+        script: task koru:mcp:bootstrap
       labels:
       - koru
       - nl-task
@@ -103,69 +150,34 @@ sprint:
       - operator
       - auto-pipeline
       - step:mcp_koru
-      blocked_by: []
-      blocks: []
-      files: []
-      executor:
-        kind: shell
-        mode: noninteractive
-      execution:
-        queue: operator
-        state: ready
-        attempt: 0
-        max_attempts: 1
-      inputs:
-        prompt: '[OPERATOR] MCP „koru” w IDE: brak „koru” w .cursor/mcp.json / .vscode/mcp.json
-          — task koru:mcp:bootstrap, potem Reload Window
-
-
-          Shell: `task koru:mcp:bootstrap`'
-        env_keys: []
-        api_method: GET
-        api_headers: {}
-        api_timeout_seconds: 30.0
-        script: task koru:mcp:bootstrap
+      name: '[OPERATOR] MCP „koru” w IDE: brak „koru” w .cursor/mcp.json / .vscode/mcp.json
+        — task koru:mcp:bootstrap, potem Reloa...'
       outputs:
         artifacts: []
         notes: []
-      sync: {}
-      history:
-      - timestamp: '2026-05-26T19:32:25.699585+00:00'
-        action: created
-        source: koru task
-        message: '[OPERATOR] MCP „koru” w IDE: brak „koru” w .cursor/mcp.json / .vscode/mcp.json
-          — task koru:mcp:bootstrap, potem Reload Window
-
-
-          Shell: `task koru:mcp:bootstrap`'
-      created_at: '2026-05-26T19:32:25.699585+00:00'
-      updated_at: '2026-05-26T19:32:25.699585+00:00'
-    PLF-003:
-      id: PLF-003
-      name: '[OPERATOR] Koru self-control (paczka / VSIX / runtime): self-control
-        auto-repair ran (pip_install_editable, install_p...'
-      status: open
       priority: high
-      sprint: current
       source:
-        tool: koru-operator-pipeline
-        timestamp: '2026-05-26T19:32:25.737518+00:00'
         context:
-          input: '[OPERATOR] Koru self-control (paczka / VSIX / runtime): self-control
-            auto-repair ran (pip_install_editable, install_plugin); package_identity:
-            source=0.49.7; installed=0.1.288; python=/home/tom/.pyenv/versions/3.12.0/bin/python3.12;
-            version_mismatch=true
+          dedupe_key: koru-operator-pipeline:operator-mcp-koru-w-ide-brak-koru-w-.cursor/mcp.json-/-.vscode/mcp.json-task-koru-mcp-bootstrap-potem-reloa...
+          detail: brak „koru” w .cursor/mcp.json / .vscode/mcp.json — task koru:mcp:bootstrap,
+            potem Reload Window
+          input: '[OPERATOR] MCP „koru” w IDE: brak „koru” w .cursor/mcp.json / .vscode/mcp.json
+            — task koru:mcp:bootstrap, potem Reload Window
 
 
-            Shell: `koru self --project /home/tom/github/semcod/tagi --ide jetbrains
-            repair --yes`'
-          detail: 'self-control auto-repair ran (pip_install_editable, install_plugin);
-            package_identity: source=0.49.7; installed=0.1.288; python=/home/tom/.pyenv/versions/3.12.0/bin/python3.12;
-            version_mismatch=true'
-          step_id: self_control
-          task_command: koru self --project /home/tom/github/semcod/tagi --ide jetbrains
-            repair --yes
-          dedupe_key: koru-operator-pipeline:operator-koru-self-control-paczka-/-vsix-/-runtime-self-control-auto-repair-ran-pip_install_editable-install_p...
+            Shell: `task koru:mcp:bootstrap`'
+          step_id: mcp_koru
+          task_command: task koru:mcp:bootstrap
+        timestamp: '2026-05-26T19:32:25.699585+00:00'
+        tool: koru-operator-pipeline
+      sprint: current
+      status: blocked
+      sync: {}
+      updated_at: '2026-05-26T20:01:19.357704+00:00'
+    PLF-003:
+      blocked_by: []
+      blocks: []
+      created_at: '2026-05-26T19:32:25.737518+00:00'
       description: '[OPERATOR] Koru self-control (paczka / VSIX / runtime): self-control
         auto-repair ran (pip_install_editable, install_plugin); package_identity:
         source=0.49.7; installed=0.1.288; python=/home/tom/.pyenv/versions/3.12.0/bin/python3.12;
@@ -174,47 +186,21 @@ sprint:
 
         Shell: `koru self --project /home/tom/github/semcod/tagi --ide jetbrains repair
         --yes`'
-      labels:
-      - koru
-      - nl-task
-      - llm-ready
-      - operator
-      - auto-pipeline
-      - step:self_control
-      blocked_by: []
-      blocks: []
-      files: []
+      execution:
+        assigned_to: koru-shell
+        attempt: 0
+        finished_at: '2026-05-26T20:01:30.807959Z'
+        lease_expires_at: '2026-05-26T21:01:20.362792Z'
+        max_attempts: 1
+        queue: operator
+        started_at: '2026-05-26T20:01:20.852491Z'
+        state: done
       executor:
         kind: shell
         mode: noninteractive
-      execution:
-        queue: operator
-        state: ready
-        attempt: 0
-        max_attempts: 1
-      inputs:
-        prompt: '[OPERATOR] Koru self-control (paczka / VSIX / runtime): self-control
-          auto-repair ran (pip_install_editable, install_plugin); package_identity:
-          source=0.49.7; installed=0.1.288; python=/home/tom/.pyenv/versions/3.12.0/bin/python3.12;
-          version_mismatch=true
-
-
-          Shell: `koru self --project /home/tom/github/semcod/tagi --ide jetbrains
-          repair --yes`'
-        env_keys: []
-        api_method: GET
-        api_headers: {}
-        api_timeout_seconds: 30.0
-        script: koru self --project /home/tom/github/semcod/tagi --ide jetbrains repair
-          --yes
-      outputs:
-        artifacts: []
-        notes: []
-      sync: {}
+      files: []
       history:
-      - timestamp: '2026-05-26T19:32:25.737518+00:00'
-        action: created
-        source: koru task
+      - action: created
         message: '[OPERATOR] Koru self-control (paczka / VSIX / runtime): self-control
           auto-repair ran (pip_install_editable, install_plugin); package_identity:
           source=0.49.7; installed=0.1.288; python=/home/tom/.pyenv/versions/3.12.0/bin/python3.12;
@@ -223,42 +209,170 @@ sprint:
 
           Shell: `koru self --project /home/tom/github/semcod/tagi --ide jetbrains
           repair --yes`'
-      created_at: '2026-05-26T19:32:25.737518+00:00'
-      updated_at: '2026-05-26T19:32:25.737518+00:00'
-    PLF-004:
-      id: PLF-004
-      name: 'Split large module: cli'
-      status: open
+        source: koru task
+        timestamp: '2026-05-26T19:32:25.737518+00:00'
+      - action: update
+        changes:
+        - execution
+        source: planfile.store
+        timestamp: '2026-05-26T20:01:20.366625+00:00'
+      - action: update
+        changes:
+        - execution
+        - status
+        execution_state: running
+        previous_execution_state: ready
+        previous_status: open
+        source: planfile.store
+        status: in_progress
+        timestamp: '2026-05-26T20:01:20.855989+00:00'
+      - action: update
+        changes:
+        - outputs
+        source: planfile.store
+        timestamp: '2026-05-26T20:01:30.325696+00:00'
+      - action: update
+        changes:
+        - execution
+        - status
+        execution_state: done
+        previous_execution_state: running
+        previous_status: in_progress
+        source: planfile.store
+        status: done
+        timestamp: '2026-05-26T20:01:30.811534+00:00'
+      id: PLF-003
+      inputs:
+        api_headers: {}
+        api_method: GET
+        api_timeout_seconds: 30.0
+        env_keys: []
+        prompt: '[OPERATOR] Koru self-control (paczka / VSIX / runtime): self-control
+          auto-repair ran (pip_install_editable, install_plugin); package_identity:
+          source=0.49.7; installed=0.1.288; python=/home/tom/.pyenv/versions/3.12.0/bin/python3.12;
+          version_mismatch=true
+
+
+          Shell: `koru self --project /home/tom/github/semcod/tagi --ide jetbrains
+          repair --yes`'
+        script: koru self --project /home/tom/github/semcod/tagi --ide jetbrains repair
+          --yes
+      labels:
+      - koru
+      - nl-task
+      - llm-ready
+      - operator
+      - auto-pipeline
+      - step:self_control
+      name: '[OPERATOR] Koru self-control (paczka / VSIX / runtime): self-control
+        auto-repair ran (pip_install_editable, install_p...'
+      outputs:
+        artifacts: []
+        notes:
+        - "KORU-SHELL-RUN {\"exit_code\": 0, \"run_id\": \"ba58b2fe4a6946b4\", \"stderr_chars\":
+          0, \"stdout_chars\": 3460, \"truncated\": false}\n--- stdout ---\nkoru self-control:
+          project=/home/tom/github/semcod/tagi\nkoru self-control: ok=False needs_repair=True
+          summary={'ok': 3, 'warn': 2, 'fail': 0, 'skip': 0}\n  - WARN package_identity:
+          source=0.49.7; installed=0.1.288; python=/home/tom/.pyenv/versions/3.12.0/bin/python3.12;
+          version_mismatch=true repair=`/home/tom/.pyenv/versions/3.12.0/bin/python3.12
+          -m pip install -e /home/tom/github/semcod/tagi`\n  - OK entrypoint_identity:
+          path_koru=/home/tom/.pyenv/versions/3.12.0/bin/koru; local_koru=-\n  - WARN
+          autopilot_install_manager: ide=jetbrains; socket=/run/user/1000/koru-autopilot-jetbrains.sock;
+          package=0.1.288; source=0.1.291; connected=False; installed=-; expected=-;
+          repairable=koru_version_mismatch:warning repair=`koru autopilot manage --ide
+          jetbrains --fix`\n  - OK interface_registry: interfaces=13; families=artifact_exchange,browser_control,desktop_control,ide_control,observation,tool_invocation\n
+          \ - OK environment_profile: os=wayland|ide=jetbrains|llm=ide_chat|control=plugin_socket_jetbrains|verify=plugin_ack;
+          submit_key=ctrl+Return; keyboard_fallback=True\nkoru self-control: actions\n
+          \ - {\"action\": \"pip_install_editable\", \"ok\": true, \"returncode\":
+          0, \"stderr\": \"\\n[notice] A new release of pip is available: 26.0.1 ->
+          26.1.1\\n[notice] To update, run: pip install --upgrade pip\\n\", \"stdout\":
+          \"Requirement already satisfied: pydantic-core==2.41.5 in /home/tom/.pyenv/versions/3.12.0/lib/python3.12/site-packages
+          (from pydantic>=2.5.0->tagi==0.49.7) (2.41.5)\\nRequirement already satisfied:
+          typing-extensions>=4.14.1 in /home/tom/.pyenv/versions/3.12.0/lib/python3.12/site-packages
+          (from pydantic>=2.5.0->tagi==0.49.7) (4.15.0)\\nRequirement already satisfied:
+          typing-inspection>=0.4.2 in /home/tom/.pyenv/versions/3.12.0/lib/python3.12/site-packages
+          (from pydantic>=2.5.0->tagi==0.49.7) (0.4.2)\\nRequirement already satisfied:
+          markdown-it-py>=2.2.0 in /home/tom/.pyenv/versions/3.12.0/lib/python3.12/site-packages
+          (from rich>=13.7.0->tagi==0.49.7) (4.0.0)\\nRequirement already satisfied:
+          pygments<3.0.0,>=2.13.0 in /home/tom/.pyenv/versions/3.12.0/lib/python3.12/site-packages
+          (from rich>=13.7.0->tagi==0.49.7) (2.19.2)\\nRequirement already satisfied:
+          mdurl~=0.1 in /home/tom/.pyenv/versions/3.12.0/lib/python3.12/site-packages
+          (from markdown-it-py>=2.2.0->rich>=13.7.0->tagi==0.49.7) (0.1.2)\\nRequirement
+          already satisfied: shellingham>=1.3.0 in /home/tom/.pyenv/versions/3.12.0/lib/python3.12/site-packages
+          (from typer>=0.12.0->tagi==0.49.7) (1.5.4)\\nRequirement already satisfied:
+          annotated-doc>=0.0.2 in /home/tom/.pyenv/versions/3.12.0/lib/python3.12/site-packages
+          (from typer>=0.12.0->tagi==0.49.7) (0.0.4)\\nBuilding wheels for collected
+          packages: tagi\\n  Building editable for tagi (pyproject.toml): started\\n
+          \ Building editable for tagi (pyproject.toml): finished with status 'done'\\n
+          \ Created wheel for tagi: filename=tagi-0.49.7-py3-none-any.whl size=9954
+          sha256=4fb457bb3ed428be5696aae983966868f6650fd3d2035e2d495adeeadd11d7da\\n
+          \ Stored in directory: /tmp/pip-ephem-wheel-cache-i1136i4g/wheels/90/bc/0e/2046270742099518c196e3c9bd25dee01b2a8a7865656a8729\\nSuccessfully
+          built tagi\\nInstalling collected packages: tagi\\n  Attempting uninstall:
+          tagi\\n    Found existing installation: tagi 0.49.7\\n    Uninstalling tagi-0.49.7:\\n
+          \     Successfully uninstalled tagi-0.49.7\\nSuccessfully installed tagi-0.49.7\\n\"}\n
+          \ - {\"action\": \"install_plugin\", \"result\": {\"message\": \"ide=jetbrains
+          does not use the VS Code-family plugin\", \"status\": \"skipped\"}}\n\n\n---
+          stderr ---\n(empty)"
       priority: high
-      sprint: current
       source:
-        tool: koru-scan
-        timestamp: '2026-05-26T19:32:28.897314+00:00'
         context:
-          input: '`project/analysis.toon.yaml` flags `cli` in LAYERS as a large/hot
-            module (797 lines, 0 classes, 24 methods, CC=23). Extract cohesive submodules
-            around stable responsibilities and add focused regression tests before
-            broad edits.'
-          signal: code2llm_layer_hotspot
-          dedupe_key: koru-scan:code2llm_layer_hotspot:project/analysis.toon.yaml
-          evidence:
-            schema: koru.ticket_evidence.v1
-            kind: code2llm_analysis
-            artifact:
-              path: project/analysis.toon.yaml
-              size_bytes: 8026
-              mtime_ns: 1779815893263720170
-              sha256: e03717d422f5ed314064b06d06ea7497bec4a98ac7d8dd81adfa8f608ac94209
-            regenerate_command: code2llm /home/tom/github/semcod/tagi -f all -o /home/tom/github/semcod/tagi/project
-              --no-chunk --exclude '*.md' --planfile-apply --planfile-source koru-project-discovery
-              --planfile-sprint current --planfile-project /home/tom/github/semcod/tagi
-              --planfile-limit 20
-            staleness_check: Regenerate the artifact and compare artifact.sha256 before
-              assuming this ticket still reflects the current code.
+          dedupe_key: koru-operator-pipeline:operator-koru-self-control-paczka-/-vsix-/-runtime-self-control-auto-repair-ran-pip_install_editable-install_p...
+          detail: 'self-control auto-repair ran (pip_install_editable, install_plugin);
+            package_identity: source=0.49.7; installed=0.1.288; python=/home/tom/.pyenv/versions/3.12.0/bin/python3.12;
+            version_mismatch=true'
+          input: '[OPERATOR] Koru self-control (paczka / VSIX / runtime): self-control
+            auto-repair ran (pip_install_editable, install_plugin); package_identity:
+            source=0.49.7; installed=0.1.288; python=/home/tom/.pyenv/versions/3.12.0/bin/python3.12;
+            version_mismatch=true
+
+
+            Shell: `koru self --project /home/tom/github/semcod/tagi --ide jetbrains
+            repair --yes`'
+          step_id: self_control
+          task_command: koru self --project /home/tom/github/semcod/tagi --ide jetbrains
+            repair --yes
+        timestamp: '2026-05-26T19:32:25.737518+00:00'
+        tool: koru-operator-pipeline
+      sprint: current
+      status: done
+      sync: {}
+      updated_at: '2026-05-26T20:01:30.811505+00:00'
+    PLF-004:
+      blocked_by: []
+      blocks: []
+      created_at: '2026-05-26T19:32:28.897314+00:00'
       description: '`project/analysis.toon.yaml` flags `cli` in LAYERS as a large/hot
         module (797 lines, 0 classes, 24 methods, CC=23). Extract cohesive submodules
         around stable responsibilities and add focused regression tests before broad
         edits.'
+      execution:
+        attempt: 0
+        max_attempts: 1
+        queue: default
+        state: ready
+      executor:
+        kind: human
+        mode: interactive
+      files:
+      - project/analysis.toon.yaml
+      history:
+      - action: created
+        message: '`project/analysis.toon.yaml` flags `cli` in LAYERS as a large/hot
+          module (797 lines, 0 classes, 24 methods, CC=23). Extract cohesive submodules
+          around stable responsibilities and add focused regression tests before broad
+          edits.'
+        source: koru task
+        timestamp: '2026-05-26T19:32:28.897314+00:00'
+      id: PLF-004
+      inputs:
+        api_headers: {}
+        api_method: GET
+        api_timeout_seconds: 30.0
+        env_keys: []
+        prompt: '`project/analysis.toon.yaml` flags `cli` in LAYERS as a large/hot
+          module (797 lines, 0 classes, 24 methods, CC=23). Extract cohesive submodules
+          around stable responsibilities and add focused regression tests before broad
+          edits.'
       labels:
       - koru
       - nl-task
@@ -268,73 +382,72 @@ sprint:
       - large-module
       - refactor
       - scan
-      blocked_by: []
-      blocks: []
-      files:
-      - project/analysis.toon.yaml
-      executor:
-        kind: human
-        mode: interactive
-      execution:
-        queue: default
-        state: ready
-        attempt: 0
-        max_attempts: 1
-      inputs:
-        prompt: '`project/analysis.toon.yaml` flags `cli` in LAYERS as a large/hot
-          module (797 lines, 0 classes, 24 methods, CC=23). Extract cohesive submodules
-          around stable responsibilities and add focused regression tests before broad
-          edits.'
-        env_keys: []
-        api_method: GET
-        api_headers: {}
-        api_timeout_seconds: 30.0
+      name: 'Split large module: cli'
       outputs:
         artifacts: []
         notes: []
-      sync: {}
-      history:
-      - timestamp: '2026-05-26T19:32:28.897314+00:00'
-        action: created
-        source: koru task
-        message: '`project/analysis.toon.yaml` flags `cli` in LAYERS as a large/hot
-          module (797 lines, 0 classes, 24 methods, CC=23). Extract cohesive submodules
-          around stable responsibilities and add focused regression tests before broad
-          edits.'
-      created_at: '2026-05-26T19:32:28.897314+00:00'
-      updated_at: '2026-05-26T19:32:28.897314+00:00'
-    PLF-005:
-      id: PLF-005
-      name: 'Reduce cyclomatic complexity: generate_commit_message (CC=15, limit=15)'
-      status: open
-      priority: normal
-      sprint: current
+      priority: high
       source:
-        tool: koru-scan
-        timestamp: '2026-05-26T19:32:28.963771+00:00'
         context:
-          input: '`project/analysis.toon.yaml` reports `generate_commit_message` with
-            CC=15 (limit=15). Extract sub-functions, simplify conditionals, or split
-            into strategy pattern.'
-          signal: code2llm_cc
-          dedupe_key: koru-scan:code2llm_cc:project/analysis.toon.yaml
+          dedupe_key: koru-scan:code2llm_layer_hotspot:project/analysis.toon.yaml
           evidence:
-            schema: koru.ticket_evidence.v1
-            kind: code2llm_analysis
             artifact:
-              path: project/analysis.toon.yaml
-              size_bytes: 8026
               mtime_ns: 1779815893263720170
+              path: project/analysis.toon.yaml
               sha256: e03717d422f5ed314064b06d06ea7497bec4a98ac7d8dd81adfa8f608ac94209
+              size_bytes: 8026
+            kind: code2llm_analysis
             regenerate_command: code2llm /home/tom/github/semcod/tagi -f all -o /home/tom/github/semcod/tagi/project
               --no-chunk --exclude '*.md' --planfile-apply --planfile-source koru-project-discovery
               --planfile-sprint current --planfile-project /home/tom/github/semcod/tagi
               --planfile-limit 20
+            schema: koru.ticket_evidence.v1
             staleness_check: Regenerate the artifact and compare artifact.sha256 before
               assuming this ticket still reflects the current code.
+          input: '`project/analysis.toon.yaml` flags `cli` in LAYERS as a large/hot
+            module (797 lines, 0 classes, 24 methods, CC=23). Extract cohesive submodules
+            around stable responsibilities and add focused regression tests before
+            broad edits.'
+          signal: code2llm_layer_hotspot
+        timestamp: '2026-05-26T19:32:28.897314+00:00'
+        tool: koru-scan
+      sprint: current
+      status: open
+      sync: {}
+      updated_at: '2026-05-26T19:32:28.897314+00:00'
+    PLF-005:
+      blocked_by: []
+      blocks: []
+      created_at: '2026-05-26T19:32:28.963771+00:00'
       description: '`project/analysis.toon.yaml` reports `generate_commit_message`
         with CC=15 (limit=15). Extract sub-functions, simplify conditionals, or split
         into strategy pattern.'
+      execution:
+        attempt: 0
+        max_attempts: 1
+        queue: default
+        state: ready
+      executor:
+        kind: human
+        mode: interactive
+      files:
+      - project/analysis.toon.yaml
+      history:
+      - action: created
+        message: '`project/analysis.toon.yaml` reports `generate_commit_message` with
+          CC=15 (limit=15). Extract sub-functions, simplify conditionals, or split
+          into strategy pattern.'
+        source: koru task
+        timestamp: '2026-05-26T19:32:28.963771+00:00'
+      id: PLF-005
+      inputs:
+        api_headers: {}
+        api_method: GET
+        api_timeout_seconds: 30.0
+        env_keys: []
+        prompt: '`project/analysis.toon.yaml` reports `generate_commit_message` with
+          CC=15 (limit=15). Extract sub-functions, simplify conditionals, or split
+          into strategy pattern.'
       labels:
       - koru
       - nl-task
@@ -343,71 +456,71 @@ sprint:
       - complexity
       - refactor
       - scan
-      blocked_by: []
-      blocks: []
-      files:
-      - project/analysis.toon.yaml
-      executor:
-        kind: human
-        mode: interactive
-      execution:
-        queue: default
-        state: ready
-        attempt: 0
-        max_attempts: 1
-      inputs:
-        prompt: '`project/analysis.toon.yaml` reports `generate_commit_message` with
-          CC=15 (limit=15). Extract sub-functions, simplify conditionals, or split
-          into strategy pattern.'
-        env_keys: []
-        api_method: GET
-        api_headers: {}
-        api_timeout_seconds: 30.0
+      name: 'Reduce cyclomatic complexity: generate_commit_message (CC=15, limit=15)'
       outputs:
         artifacts: []
         notes: []
-      sync: {}
-      history:
-      - timestamp: '2026-05-26T19:32:28.963771+00:00'
-        action: created
-        source: koru task
-        message: '`project/analysis.toon.yaml` reports `generate_commit_message` with
-          CC=15 (limit=15). Extract sub-functions, simplify conditionals, or split
-          into strategy pattern.'
-      created_at: '2026-05-26T19:32:28.963771+00:00'
-      updated_at: '2026-05-26T19:32:28.963771+00:00'
-    PLF-006:
-      id: PLF-006
-      name: 'code2llm refactor: split 2 high-CC methods'
-      status: open
       priority: normal
-      sprint: current
       source:
-        tool: koru-scan
-        timestamp: '2026-05-26T19:32:29.076431+00:00'
         context:
-          input: 'REFACTOR item from `project/analysis.toon.yaml`: **split 2 high-CC
-            methods** (CC>15). Execute this refactor step; re-run the source.context.evidence.regenerate_command
-            to verify.'
-          signal: code2llm_refactor
-          dedupe_key: semcod:code2llm:refactor:project/analysis.toon.yaml
+          dedupe_key: koru-scan:code2llm_cc:project/analysis.toon.yaml
           evidence:
-            schema: koru.ticket_evidence.v1
-            kind: code2llm_analysis
             artifact:
-              path: project/analysis.toon.yaml
-              size_bytes: 8026
               mtime_ns: 1779815893263720170
+              path: project/analysis.toon.yaml
               sha256: e03717d422f5ed314064b06d06ea7497bec4a98ac7d8dd81adfa8f608ac94209
+              size_bytes: 8026
+            kind: code2llm_analysis
             regenerate_command: code2llm /home/tom/github/semcod/tagi -f all -o /home/tom/github/semcod/tagi/project
               --no-chunk --exclude '*.md' --planfile-apply --planfile-source koru-project-discovery
               --planfile-sprint current --planfile-project /home/tom/github/semcod/tagi
               --planfile-limit 20
+            schema: koru.ticket_evidence.v1
             staleness_check: Regenerate the artifact and compare artifact.sha256 before
               assuming this ticket still reflects the current code.
+          input: '`project/analysis.toon.yaml` reports `generate_commit_message` with
+            CC=15 (limit=15). Extract sub-functions, simplify conditionals, or split
+            into strategy pattern.'
+          signal: code2llm_cc
+        timestamp: '2026-05-26T19:32:28.963771+00:00'
+        tool: koru-scan
+      sprint: current
+      status: open
+      sync: {}
+      updated_at: '2026-05-26T19:32:28.963771+00:00'
+    PLF-006:
+      blocked_by: []
+      blocks: []
+      created_at: '2026-05-26T19:32:29.076431+00:00'
       description: 'REFACTOR item from `project/analysis.toon.yaml`: **split 2 high-CC
         methods** (CC>15). Execute this refactor step; re-run the source.context.evidence.regenerate_command
         to verify.'
+      execution:
+        attempt: 0
+        max_attempts: 1
+        queue: default
+        state: ready
+      executor:
+        kind: human
+        mode: interactive
+      files:
+      - project/analysis.toon.yaml
+      history:
+      - action: created
+        message: 'REFACTOR item from `project/analysis.toon.yaml`: **split 2 high-CC
+          methods** (CC>15). Execute this refactor step; re-run the source.context.evidence.regenerate_command
+          to verify.'
+        source: koru task
+        timestamp: '2026-05-26T19:32:29.076431+00:00'
+      id: PLF-006
+      inputs:
+        api_headers: {}
+        api_method: GET
+        api_timeout_seconds: 30.0
+        env_keys: []
+        prompt: 'REFACTOR item from `project/analysis.toon.yaml`: **split 2 high-CC
+          methods** (CC>15). Execute this refactor step; re-run the source.context.evidence.regenerate_command
+          to verify.'
       labels:
       - koru
       - nl-task
@@ -415,49 +528,92 @@ sprint:
       - code2llm
       - refactor
       - scan
-      blocked_by: []
-      blocks: []
-      files:
-      - project/analysis.toon.yaml
-      executor:
-        kind: human
-        mode: interactive
-      execution:
-        queue: default
-        state: ready
-        attempt: 0
-        max_attempts: 1
-      inputs:
-        prompt: 'REFACTOR item from `project/analysis.toon.yaml`: **split 2 high-CC
-          methods** (CC>15). Execute this refactor step; re-run the source.context.evidence.regenerate_command
-          to verify.'
-        env_keys: []
-        api_method: GET
-        api_headers: {}
-        api_timeout_seconds: 30.0
+      name: 'code2llm refactor: split 2 high-CC methods'
       outputs:
         artifacts: []
         notes: []
+      priority: normal
+      source:
+        context:
+          dedupe_key: semcod:code2llm:refactor:project/analysis.toon.yaml
+          evidence:
+            artifact:
+              mtime_ns: 1779815893263720170
+              path: project/analysis.toon.yaml
+              sha256: e03717d422f5ed314064b06d06ea7497bec4a98ac7d8dd81adfa8f608ac94209
+              size_bytes: 8026
+            kind: code2llm_analysis
+            regenerate_command: code2llm /home/tom/github/semcod/tagi -f all -o /home/tom/github/semcod/tagi/project
+              --no-chunk --exclude '*.md' --planfile-apply --planfile-source koru-project-discovery
+              --planfile-sprint current --planfile-project /home/tom/github/semcod/tagi
+              --planfile-limit 20
+            schema: koru.ticket_evidence.v1
+            staleness_check: Regenerate the artifact and compare artifact.sha256 before
+              assuming this ticket still reflects the current code.
+          input: 'REFACTOR item from `project/analysis.toon.yaml`: **split 2 high-CC
+            methods** (CC>15). Execute this refactor step; re-run the source.context.evidence.regenerate_command
+            to verify.'
+          signal: code2llm_refactor
+        timestamp: '2026-05-26T19:32:29.076431+00:00'
+        tool: koru-scan
+      sprint: current
+      status: open
       sync: {}
-      history:
-      - timestamp: '2026-05-26T19:32:29.076431+00:00'
-        action: created
-        source: koru task
-        message: 'REFACTOR item from `project/analysis.toon.yaml`: **split 2 high-CC
-          methods** (CC>15). Execute this refactor step; re-run the source.context.evidence.regenerate_command
-          to verify.'
-      created_at: '2026-05-26T19:32:29.076431+00:00'
       updated_at: '2026-05-26T19:32:29.076431+00:00'
     PLF-007:
-      id: PLF-007
-      name: Bootstrap regix on-change gate
-      status: open
-      priority: normal
-      sprint: current
-      source:
-        tool: koru-scan
+      blocked_by: []
+      blocks: []
+      created_at: '2026-05-26T19:32:29.126934+00:00'
+      description: '`regix` is installed but no `regix.yaml` config exists in the
+        project root. Bootstrap with `task template:install:regix` (in koru) or follow
+        `workflows/on-change-gates.md`.
+
+
+        Role: regression metrics gate (CC / MI / coverage delta).'
+      execution:
+        attempt: 0
+        max_attempts: 1
+        queue: default
+        state: ready
+      executor:
+        kind: human
+        mode: interactive
+      files: []
+      history:
+      - action: created
+        message: '`regix` is installed but no `regix.yaml` config exists in the project
+          root. Bootstrap with `task template:install:regix` (in koru) or follow `workflows/on-change-gates.md`.
+
+
+          Role: regression metrics gate (CC / MI / coverage delta).'
+        source: koru task
         timestamp: '2026-05-26T19:32:29.126934+00:00'
+      id: PLF-007
+      inputs:
+        api_headers: {}
+        api_method: GET
+        api_timeout_seconds: 30.0
+        env_keys: []
+        prompt: '`regix` is installed but no `regix.yaml` config exists in the project
+          root. Bootstrap with `task template:install:regix` (in koru) or follow `workflows/on-change-gates.md`.
+
+
+          Role: regression metrics gate (CC / MI / coverage delta).'
+      labels:
+      - koru
+      - nl-task
+      - llm-ready
+      - bootstrap
+      - gates
+      - scan
+      name: Bootstrap regix on-change gate
+      outputs:
+        artifacts: []
+        notes: []
+      priority: normal
+      source:
         context:
+          dedupe_key: koru-scan:missing_gate:bootstrap regix on-change gate
           input: '`regix` is installed but no `regix.yaml` config exists in the project
             root. Bootstrap with `task template:install:regix` (in koru) or follow
             `workflows/on-change-gates.md`.
@@ -465,13 +621,50 @@ sprint:
 
             Role: regression metrics gate (CC / MI / coverage delta).'
           signal: missing_gate
-          dedupe_key: koru-scan:missing_gate:bootstrap regix on-change gate
-      description: '`regix` is installed but no `regix.yaml` config exists in the
-        project root. Bootstrap with `task template:install:regix` (in koru) or follow
-        `workflows/on-change-gates.md`.
+        timestamp: '2026-05-26T19:32:29.126934+00:00'
+        tool: koru-scan
+      sprint: current
+      status: open
+      sync: {}
+      updated_at: '2026-05-26T19:32:29.126934+00:00'
+    PLF-008:
+      blocked_by: []
+      blocks: []
+      created_at: '2026-05-26T19:32:29.193742+00:00'
+      description: '`wup` is installed but no `wup.yaml` config exists in the project
+        root. Bootstrap with `task template:install:wup` (in koru) or follow `workflows/on-change-gates.md`.
 
 
-        Role: regression metrics gate (CC / MI / coverage delta).'
+        Role: intelligent file watcher (3-layer: detect → quick → full).'
+      execution:
+        attempt: 0
+        max_attempts: 1
+        queue: default
+        state: ready
+      executor:
+        kind: human
+        mode: interactive
+      files: []
+      history:
+      - action: created
+        message: '`wup` is installed but no `wup.yaml` config exists in the project
+          root. Bootstrap with `task template:install:wup` (in koru) or follow `workflows/on-change-gates.md`.
+
+
+          Role: intelligent file watcher (3-layer: detect → quick → full).'
+        source: koru task
+        timestamp: '2026-05-26T19:32:29.193742+00:00'
+      id: PLF-008
+      inputs:
+        api_headers: {}
+        api_method: GET
+        api_timeout_seconds: 30.0
+        env_keys: []
+        prompt: '`wup` is installed but no `wup.yaml` config exists in the project
+          root. Bootstrap with `task template:install:wup` (in koru) or follow `workflows/on-change-gates.md`.
+
+
+          Role: intelligent file watcher (3-layer: detect → quick → full).'
       labels:
       - koru
       - nl-task
@@ -479,161 +672,80 @@ sprint:
       - bootstrap
       - gates
       - scan
-      blocked_by: []
-      blocks: []
-      files: []
-      executor:
-        kind: human
-        mode: interactive
-      execution:
-        queue: default
-        state: ready
-        attempt: 0
-        max_attempts: 1
-      inputs:
-        prompt: '`regix` is installed but no `regix.yaml` config exists in the project
-          root. Bootstrap with `task template:install:regix` (in koru) or follow `workflows/on-change-gates.md`.
-
-
-          Role: regression metrics gate (CC / MI / coverage delta).'
-        env_keys: []
-        api_method: GET
-        api_headers: {}
-        api_timeout_seconds: 30.0
+      name: Bootstrap wup on-change gate
       outputs:
         artifacts: []
         notes: []
-      sync: {}
-      history:
-      - timestamp: '2026-05-26T19:32:29.126934+00:00'
-        action: created
-        source: koru task
-        message: '`regix` is installed but no `regix.yaml` config exists in the project
-          root. Bootstrap with `task template:install:regix` (in koru) or follow `workflows/on-change-gates.md`.
-
-
-          Role: regression metrics gate (CC / MI / coverage delta).'
-      created_at: '2026-05-26T19:32:29.126934+00:00'
-      updated_at: '2026-05-26T19:32:29.126934+00:00'
-    PLF-008:
-      id: PLF-008
-      name: Bootstrap wup on-change gate
-      status: open
       priority: normal
-      sprint: current
       source:
-        tool: koru-scan
-        timestamp: '2026-05-26T19:32:29.193742+00:00'
         context:
+          dedupe_key: koru-scan:missing_gate:bootstrap wup on-change gate
           input: '`wup` is installed but no `wup.yaml` config exists in the project
             root. Bootstrap with `task template:install:wup` (in koru) or follow `workflows/on-change-gates.md`.
 
 
             Role: intelligent file watcher (3-layer: detect → quick → full).'
           signal: missing_gate
-          dedupe_key: koru-scan:missing_gate:bootstrap wup on-change gate
-      description: '`wup` is installed but no `wup.yaml` config exists in the project
-        root. Bootstrap with `task template:install:wup` (in koru) or follow `workflows/on-change-gates.md`.
-
-
-        Role: intelligent file watcher (3-layer: detect → quick → full).'
-      labels:
-      - koru
-      - nl-task
-      - llm-ready
-      - bootstrap
-      - gates
-      - scan
-      blocked_by: []
-      blocks: []
-      files: []
-      executor:
-        kind: human
-        mode: interactive
-      execution:
-        queue: default
-        state: ready
-        attempt: 0
-        max_attempts: 1
-      inputs:
-        prompt: '`wup` is installed but no `wup.yaml` config exists in the project
-          root. Bootstrap with `task template:install:wup` (in koru) or follow `workflows/on-change-gates.md`.
-
-
-          Role: intelligent file watcher (3-layer: detect → quick → full).'
-        env_keys: []
-        api_method: GET
-        api_headers: {}
-        api_timeout_seconds: 30.0
-      outputs:
-        artifacts: []
-        notes: []
+        timestamp: '2026-05-26T19:32:29.193742+00:00'
+        tool: koru-scan
+      sprint: current
+      status: open
       sync: {}
-      history:
-      - timestamp: '2026-05-26T19:32:29.193742+00:00'
-        action: created
-        source: koru task
-        message: '`wup` is installed but no `wup.yaml` config exists in the project
-          root. Bootstrap with `task template:install:wup` (in koru) or follow `workflows/on-change-gates.md`.
-
-
-          Role: intelligent file watcher (3-layer: detect → quick → full).'
-      created_at: '2026-05-26T19:32:29.193742+00:00'
       updated_at: '2026-05-26T19:32:29.193742+00:00'
     PLF-009:
-      id: PLF-009
-      name: Gitignore `.planfile/.koru/` runtime directory
-      status: open
-      priority: low
-      sprint: current
-      source:
-        tool: koru-scan
-        timestamp: '2026-05-26T19:32:29.258213+00:00'
-        context:
-          input: koru writes ephemeral run logs to `.planfile/.koru/` but the project's
-            `.gitignore` does not exclude it. Add the entry so run history isn't accidentally
-            committed.
-          signal: gitignore_drift
-          dedupe_key: koru-scan:gitignore_drift:.gitignore
+      blocked_by: []
+      blocks: []
+      created_at: '2026-05-26T19:32:29.258213+00:00'
       description: koru writes ephemeral run logs to `.planfile/.koru/` but the project's
         `.gitignore` does not exclude it. Add the entry so run history isn't accidentally
         committed.
+      execution:
+        attempt: 0
+        max_attempts: 1
+        queue: default
+        state: ready
+      executor:
+        kind: human
+        mode: interactive
+      files:
+      - .gitignore
+      history:
+      - action: created
+        message: koru writes ephemeral run logs to `.planfile/.koru/` but the project's
+          `.gitignore` does not exclude it. Add the entry so run history isn't accidentally
+          committed.
+        source: koru task
+        timestamp: '2026-05-26T19:32:29.258213+00:00'
+      id: PLF-009
+      inputs:
+        api_headers: {}
+        api_method: GET
+        api_timeout_seconds: 30.0
+        env_keys: []
+        prompt: koru writes ephemeral run logs to `.planfile/.koru/` but the project's
+          `.gitignore` does not exclude it. Add the entry so run history isn't accidentally
+          committed.
       labels:
       - koru
       - nl-task
       - llm-ready
       - hygiene
       - scan
-      blocked_by: []
-      blocks: []
-      files:
-      - .gitignore
-      executor:
-        kind: human
-        mode: interactive
-      execution:
-        queue: default
-        state: ready
-        attempt: 0
-        max_attempts: 1
-      inputs:
-        prompt: koru writes ephemeral run logs to `.planfile/.koru/` but the project's
-          `.gitignore` does not exclude it. Add the entry so run history isn't accidentally
-          committed.
-        env_keys: []
-        api_method: GET
-        api_headers: {}
-        api_timeout_seconds: 30.0
+      name: Gitignore `.planfile/.koru/` runtime directory
       outputs:
         artifacts: []
         notes: []
+      priority: low
+      source:
+        context:
+          dedupe_key: koru-scan:gitignore_drift:.gitignore
+          input: koru writes ephemeral run logs to `.planfile/.koru/` but the project's
+            `.gitignore` does not exclude it. Add the entry so run history isn't accidentally
+            committed.
+          signal: gitignore_drift
+        timestamp: '2026-05-26T19:32:29.258213+00:00'
+        tool: koru-scan
+      sprint: current
+      status: open
       sync: {}
-      history:
-      - timestamp: '2026-05-26T19:32:29.258213+00:00'
-        action: created
-        source: koru task
-        message: koru writes ephemeral run logs to `.planfile/.koru/` but the project's
-          `.gitignore` does not exclude it. Add the entry so run history isn't accidentally
-          committed.
-      created_at: '2026-05-26T19:32:29.258213+00:00'
       updated_at: '2026-05-26T19:32:29.258213+00:00'
