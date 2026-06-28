@@ -24,7 +24,7 @@ from tagi.cli.publishing_commands import (
     publish_command, deploy_command
 )
 from tagi.cli.utility_commands import (
-    summary_command, draft_command
+    summary_command, draft_command, init_command, hooks_command
 )
 from tagi.cli.provider_commands import (
     detect_provider_command, create_pr, create_mr
@@ -108,6 +108,8 @@ app.command(name="deploy")(deploy_command)
 # Register utility commands
 app.command(name="summary")(summary_command)
 app.command(name="draft")(draft_command)
+app.command(name="init")(init_command)
+app.command(name="hooks")(hooks_command)
 
 
 # Expose provider functions for backward compatibility
