@@ -5,9 +5,7 @@ import typer
 from rich.console import Console
 
 from tagi.executor.publish import PublishExecutor
-from tagi.heuristics.tags import apply_tags
 from tagi.models.change import Tag
-from tagi.scanner.status import scan_repo
 from tagi.utils.publish_helpers import filter_changes_by_tag, create_publish_group
 from tagi.utils.detect_provider import detect_git_provider
 
@@ -30,14 +28,14 @@ def publish_command(
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose logging"),
 ):
     """Create a PR or MR for the changes."""
-    from tagi.cli import _configure_command_logging
-    _configure_command_logging(verbose)
+    import tagi.cli as _cli
+    _cli._configure_command_logging(verbose)
 
     console.print(f"[bold]Publishing[/bold] {tag}")
 
     try:
-        changes = scan_repo(repo_path)
-        changes = apply_tags(changes, repo_path)
+        changes = _cli.scan_repo(repo_path)
+        changes = _cli.apply_tags(changes, repo_path)
     except (ValueError, RuntimeError) as e:
         console.print(f"[red]Error: {e}[/red]")
         raise typer.Exit(1)
@@ -114,14 +112,14 @@ def deploy_command(
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose logging"),
 ):
     """Deploy changes to target environment."""
-    from tagi.cli import _configure_command_logging
-    _configure_command_logging(verbose)
+    import tagi.cli as _cli
+    _cli._configure_command_logging(verbose)
 
     console.print(f"[bold]Deploying[/bold] {tag} to {environment}")
 
     try:
-        changes = scan_repo(repo_path)
-        changes = apply_tags(changes, repo_path)
+        changes = _cli.scan_repo(repo_path)
+        changes = _cli.apply_tags(changes, repo_path)
     except (ValueError, RuntimeError) as e:
         console.print(f"[red]Error: {e}[/red]")
         raise typer.Exit(1)
