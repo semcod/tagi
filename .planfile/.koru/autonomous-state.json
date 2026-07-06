@@ -1,16 +1,16 @@
 {
-  "cycle": 44,
-  "saved_at": 1783334504.600463,
+  "cycle": 48,
+  "saved_at": 1783338956.8580158,
   "queue_status": "waiting_input",
   "waiting_ticket": "PLF-005",
   "state": {
     "previous_signature": "waiting_input:PLF-005",
-    "stagnation_streak": 11,
+    "stagnation_streak": 15,
     "scan_clean_streak": 0,
-    "scan_last_head": "333271d4b574bd96eb36ce60ec7aa340db85e1cf",
+    "scan_last_head": "a12b8f036e5a38783e0bc3be5dbc07de935216be",
     "wup_seen_events": 0,
     "autopilot_events": [],
-    "last_driven_prompt": "Ticket PLF-005 has been stuck in status 'waiting_input' for 11 cycles. Continue the actual implementation work for this ticket now. Run the relevant checks before closing it. Planfile status handoff:\n- When checks pass and the work is complete, run: `planfile ticket done PLF-005`\n- If blocked or missing input, run: `planfile ticket input PLF-005 --prompt \"<exact input needed>\" --note \"<what you verified>\"`\n- If implementation fails after a real attempt, run: `planfile ticket fail PLF-005 --error \"<short failure reason>\"`\n- Do not leave completed IDE work in waiting_input.  Original ticket prompt: `project/analysis.toon.yaml` reports `generate_commit_message` with CC=15 (limit=15). Extract sub-functions, simplify conditionals, or split into strategy pattern.",
+    "last_driven_prompt": "Ticket PLF-005 has been stuck in status 'waiting_input' for 15 cycles. Continue the actual implementation work for this ticket now. Run the relevant checks before closing it. Planfile status handoff:\n- When checks pass and the work is complete, run: `planfile ticket done PLF-005`\n- If blocked or missing input, run: `planfile ticket input PLF-005 --prompt \"<exact input needed>\" --note \"<what you verified>\"`\n- If implementation fails after a real attempt, run: `planfile ticket fail PLF-005 --error \"<short failure reason>\"`\n- Do not leave completed IDE work in waiting_input.  Original ticket prompt: `project/analysis.toon.yaml` reports `generate_commit_message` with CC=15 (limit=15). Extract sub-functions, simplify conditionals, or split into strategy pattern.",
     "last_llm_reflection_summary": "",
     "last_llm_reflection_ts": 0.0,
     "last_operator_needs_input_signature": "",
@@ -32,6 +32,6 @@
     "last_scan_create_failed_fingerprint": "",
     "last_scan_create_failed_ts": -1.0,
     "last_scan_duplicate_fingerprint": "8:bb11c2233b9466ea6c60e65581623be243190968",
-    "last_scan_duplicate_ts": 1783334284.5254962
+    "last_scan_duplicate_ts": 1783338739.5297663
   }
 }
