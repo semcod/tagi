@@ -1,6 +1,5 @@
 """CLI interface for tagi."""
 
-import os
 from pathlib import Path
 from typing import Optional
 
@@ -27,7 +26,7 @@ from tagi.cli.utility_commands import (
     summary_command, draft_command, init_command, hooks_command
 )
 from tagi.cli.provider_commands import (
-    detect_provider_command, create_pr, create_mr
+    detect_provider_command,
 )
 
 app = typer.Typer(help="tagi - Git change orchestrator")

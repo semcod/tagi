@@ -1,6 +1,5 @@
 """Publishing CLI commands: publish, deploy."""
 
-from typing import Optional
 import typer
 from rich.console import Console
 
@@ -45,7 +44,7 @@ def publish_command(
 
     tag = _ensure_tag_prefix(tag)
     try:
-        tag_enum = Tag(tag)
+        Tag(tag)  # validate that the tag is recognized
     except ValueError:
         console.print(f"[red]Unknown tag: {tag}[/red]")
         raise typer.Exit(1)
@@ -129,7 +128,7 @@ def deploy_command(
 
     tag = _ensure_tag_prefix(tag)
     try:
-        tag_enum = Tag(tag)
+        Tag(tag)  # validate that the tag is recognized
     except ValueError:
         console.print(f"[red]Unknown tag: {tag}[/red]")
         raise typer.Exit(1)
@@ -150,7 +149,7 @@ def deploy_command(
         return
 
     # For now, deploy is a placeholder that would integrate with deployment systems
-    console.print(f"[yellow]Deploy functionality is not yet implemented[/yellow]")
+    console.print("[yellow]Deploy functionality is not yet implemented[/yellow]")
     console.print(f"[yellow]Would deploy {len(filtered_changes)} changes to {environment}[/yellow]")
     
     # TODO: Implement actual deployment logic

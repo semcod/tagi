@@ -1,6 +1,5 @@
 """Core CLI commands: scan, list, stats."""
 
-from typing import Optional
 import typer
 from rich.console import Console
 

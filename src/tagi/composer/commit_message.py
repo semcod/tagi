@@ -10,38 +10,17 @@ from tagi.config import Config
 def generate_commit_message(changes: List[Change], template: str = "default", repo_path: str = ".", use_llm: bool = False) -> str:
     """Generate a commit message based on template."""
     config = Config(repo_path)
-    
-    # Check for custom template
-    custom_template = config.get_template(template)
-    if custom_template:
-        template = custom_template
-    
-    files_str = ", ".join([c.path for c in changes])
-    count = len(changes)
+
+    # A configured custom template overrides the built-in name.
+    template = config.get_template(template) or template
+
     tag = _summary_tag(changes)
-    
-    if template == "conventional":
-        message = generate_conventional_message(changes)
-    elif template == "detailed":
-        message = generate_detailed_message(changes)
-    elif template == "simple":
-        message = generate_simple_message(changes)
-    elif template == "oneline":
-        message = generate_oneline_message(changes)
-    elif template == "files":
-        message = generate_files_message(changes)
-    elif template == "default":
-        message = generate_simple_message(changes)
-    else:
-        message = template.format(tag=tag, files=files_str, count=count)
-    
-    # Optionally improve with LLM
+    files_str = ", ".join(c.path for c in changes)
+    message = _render_template(template, changes, tag=tag, files=files_str, count=len(changes))
+
     if use_llm or config.llm_enabled:
-        from tagi.llm import LlxAdapter
-        llm = LlxAdapter(repo_path, enabled=True)
-        context = f"Files: {files_str}, Tags: {_all_tag_values(changes)}"
-        message = llm.improve_message(message, context)
-    
+        message = _improve_with_llm(message, repo_path, files_str, changes)
+
     return message
 
 
@@ -185,6 +164,54 @@ def _summary_tag(changes: List[Change]) -> str:
     if len(tags) == 1:
         return tags[0].value
     return "#all"
+
+
+_BUILTIN_TEMPLATES = {
+    "default": "{tag}: {count} files ({files})",
+    "simple": "{tag}: {count} files",
+    "short": "{tag}: {files}",
+}
+
+
+def _render_template(
+    template: str,
+    changes: List[Change],
+    *,
+    tag: str,
+    files: str,
+    count: int,
+) -> str:
+    """Render a commit message from a built-in template name or a custom format string.
+
+    ``template`` is either a known built-in name (``default``/``simple``/``short``)
+    or a raw ``str.format`` template using ``{tag}``, ``{files}``, ``{count}``.
+    """
+    fmt = _BUILTIN_TEMPLATES.get(template, template)
+    try:
+        return fmt.format(tag=tag, files=files, count=count)
+    except (KeyError, IndexError, ValueError):
+        # Unknown placeholder in a custom template — fall back to a safe default.
+        return f"{tag}: {count} files"
+
+
+def _improve_with_llm(
+    message: str,
+    repo_path: str,
+    files_str: str,
+    changes: List[Change],
+) -> str:
+    """Best-effort LLM refinement of a commit message.
+
+    Returns the original message unchanged if the optional LLM backend is
+    unavailable or errors — LLM enhancement is optional, never required.
+    """
+    try:
+        from tagi.llm import LlxAdapter
+
+        adapter = LlxAdapter(repo_path=repo_path, enabled=True)
+        return adapter.improve_message(message, context=files_str)
+    except Exception:
+        return message
 
 
 def _infer_scope(changes: List[Change]) -> str:

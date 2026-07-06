@@ -1,6 +1,5 @@
 """Provider detection and PR/MR creation utilities."""
 
-from typing import Optional
 from rich.console import Console
 
 from tagi.utils.detect_provider import detect_git_provider

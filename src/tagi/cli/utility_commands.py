@@ -207,7 +207,7 @@ def draft_command(
     
     tag = _ensure_tag_prefix(tag)
     try:
-        tag_enum = Tag(tag)
+        Tag(tag)  # validate that the tag is recognized
     except ValueError:
         console.print(f"[red]Unknown tag: {tag}[/red]")
         raise typer.Exit(1)

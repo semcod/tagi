@@ -1,6 +1,5 @@
 """Regression tests for CLI functionality before refactoring."""
 
-import subprocess
 import tempfile
 from pathlib import Path
 import pytest

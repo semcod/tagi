@@ -8,7 +8,7 @@ from rich.console import Console
 from tagi.executor.git import GitExecutor
 from tagi.models.change import Tag
 from tagi.planner.sorter import sort_by_complexity
-from tagi.utils.send_helpers import resolve_filtered_changes, create_change_group
+from tagi.utils.send_helpers import create_change_group
 from tagi.utils.detect_provider import detect_git_provider
 
 
