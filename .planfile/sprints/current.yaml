@@ -909,7 +909,7 @@ sprint:
       execution:
         assigned_to: koru-shell
         attempt: 0
-        finished_at: '2026-07-06T08:04:55.024026Z'
+        finished_at: '2026-07-08T01:04:51.828688Z'
         lease_expires_at: '2026-07-06T09:04:49.323355Z'
         max_attempts: 1
         queue: operator
@@ -961,6 +961,11 @@ sprint:
         source: planfile.store
         status: done
         timestamp: '2026-07-06T08:04:55.024769+00:00'
+      - action: update
+        changes:
+        - execution
+        source: planfile.store
+        timestamp: '2026-07-08T01:04:51.841397+00:00'
       id: PLF-011
       inputs:
         api_headers: {}
@@ -1035,4 +1040,4 @@ sprint:
       sprint: current
       status: done
       sync: {}
-      updated_at: '2026-07-06T08:04:55.024730+00:00'
+      updated_at: '2026-07-08T01:04:51.841363+00:00'
