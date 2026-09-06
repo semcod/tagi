@@ -294,7 +294,9 @@ __marimo__/
 .planfile/sprints/*.bak-*
 .code2llm_cache/
 .cursor/
-.github/
 .idea/
 .nlp2dsl/
 .planfile/
+
+# Linked development checkouts
+/worktrees/
