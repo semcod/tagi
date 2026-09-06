@@ -4,6 +4,7 @@ import os
 import tempfile
 from pathlib import Path
 
+from click import unstyle
 from typer.testing import CliRunner
 
 from tagi.models import Change, ChangeType, Tag
@@ -198,9 +199,10 @@ def test_send_help_uses_repo_path_option():
 
     result = runner.invoke(app, ["send", "--help"])
     assert result.exit_code == 0
-    assert "--repo-path" in result.stdout
-    assert "[TARGET]" in result.stdout
-    assert "[REPO_PATH]" not in result.stdout
+    help_text = unstyle(result.stdout)
+    assert "--repo-path" in help_text
+    assert "[TARGET]" in help_text
+    assert "[REPO_PATH]" not in help_text
 
 
 def test_send_invalid_tag_exits_cleanly(monkeypatch):
@@ -242,9 +244,10 @@ def test_send_accepts_subcommand_verbose_and_path(monkeypatch):
 
     result = runner.invoke(app, ["send", ".", "--auto-order", "--dry-run", "--push", "--verbose"])
     assert result.exit_code == 0
-    assert "Sending" in result.stdout
-    assert "Sorting changes by complexity" in result.stdout
-    assert "[DRY-RUN] No changes will be made" in result.stdout
+    output = unstyle(result.stdout)
+    assert "Sending" in output
+    assert "Sorting changes by complexity" in output
+    assert "[DRY-RUN] No changes will be made" in output
 
 
 def test_publish_invalid_tag_exits_cleanly(monkeypatch):

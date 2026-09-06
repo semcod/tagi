@@ -40,7 +40,7 @@ Właścicielem lockfile i CI jest `semcod/tagi`. Katalog [.github/internal-depen
 
 Przed zmianą wersja źródłowa wskazana w metadanych miała starsze zależności. Dodano workflow testów lockfile i audyt aktualności. W odczycie PyPI z 2026-09-06 aktualnymi stabilnymi wersjami były costs 0.2.0, goal 2.2.0, pfix 0.1.79 i clickmd 1.1.15; te wersje zapisano w uv.lock.
 
-Lokalne testy zatwierdzanego lockfile: 72 testów przeszło bez pominięć na Pythonie 3.10 oraz 3.13. Wyniki publikacji i kolejnych kontroli są dostępne w [GitHub Actions](https://github.com/semcod/tagi/actions).
+Lokalne testy zatwierdzanego lockfile: 72 testów przeszło bez pominięć na Pythonie 3.10 oraz 3.13. CI ujawniło porównanie pomocy CLI zależne od kodów ANSI; testy pomocy i dry-run usuwają teraz formatowanie przed sprawdzeniem treści. Wyniki publikacji i kolejnych kontroli są dostępne w [GitHub Actions](https://github.com/semcod/tagi/actions).
 
 <!-- docs:section content -->
 ## Obsługa
