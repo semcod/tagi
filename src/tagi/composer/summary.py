@@ -3,6 +3,7 @@
 from typing import List
 
 from tagi.models import Change
+from tagi.utils.risk import average_risk
 
 
 def generate_summary(changes: List[Change]) -> str:
@@ -11,7 +12,7 @@ def generate_summary(changes: List[Change]) -> str:
         return "No changes"
     
     total_lines = sum(c.lines_changed for c in changes)
-    avg_risk = sum(c.risk_score for c in changes) / len(changes) if changes else 0.0
+    avg_risk = average_risk(changes)
     
     lines = []
     lines.append(f"Summary: {len(changes)} files, {total_lines} lines changed")
