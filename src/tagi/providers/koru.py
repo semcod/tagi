@@ -69,6 +69,39 @@ class KoruProvider:
         """Get LLM context brief from Koru."""
         return self._make_api_request("context.build", "build")
     
+    _GROUP_ORDER = (
+        (Tag.RISKY, "risky", 1, "High-risk changes require careful deployment"),
+        (Tag.CONFIG, "config", 2, "Configuration changes affect system behavior"),
+        (Tag.DEPS, "deps", 3, "Dependency changes may affect other components"),
+        (Tag.LARGE, "large", 4, "Large changes require careful testing"),
+        (Tag.FEATURE, "feature", 5, "New features should be deployed after core changes"),
+        (Tag.REFACTOR, "refactor", 6, "Refactoring changes should be deployed after features"),
+        (Tag.TESTS, "tests", 7, "Test changes should be deployed with code changes"),
+        (Tag.DOCS, "docs", 8, "Documentation changes have lowest priority"),
+        (Tag.SMALL, "small", 9, "Small changes can be deployed last"),
+    )
+
+    def _deployment_recommendations(
+        self,
+        quality_gates: Dict[str, Any],
+        tickets: List[Dict[str, Any]],
+        topology: Dict[str, Any],
+        has_risky: bool,
+    ) -> List[str]:
+        """Generate recommendations based on Koru context."""
+        recommendations = []
+        if quality_gates.get("errors"):
+            recommendations.append("⚠️ Quality gates failed - fix issues before deployment")
+        if tickets:
+            recommendations.append(f"📋 {len(tickets)} open tickets in planfile - review before deployment")
+        if topology.get("components"):
+            recommendations.append(f"🏗️ {len(topology['components'])} components detected - consider impact")
+        if has_risky:
+            recommendations.append("🚨 High-risk changes detected - deploy with caution")
+        if not recommendations:
+            recommendations.append("✅ All checks passed - ready for deployment")
+        return recommendations
+
     def analyze_deployment_priority(self, changes: List[Change]) -> KoruDeploymentPlan:
         """Analyze deployment priority using Koru API."""
         # Get project context
@@ -76,133 +109,32 @@ class KoruProvider:
         tickets = self.get_planfile_tickets()
         context = self.get_context_brief()
         quality_gates = self.run_quality_gates()
-        
+
         # Analyze changes with Koru context
         deployment_groups = []
         priority_order = []
         risk_assessment = {}
         dependencies = {}
-        
-        # Group changes by type and risk
-        risky_changes = [c for c in changes if Tag.RISKY in c.tags]
-        large_changes = [c for c in changes if Tag.LARGE in c.tags]
-        config_changes = [c for c in changes if Tag.CONFIG in c.tags]
-        deps_changes = [c for c in changes if Tag.DEPS in c.tags]
-        test_changes = [c for c in changes if Tag.TESTS in c.tags]
-        docs_changes = [c for c in changes if Tag.DOCS in c.tags]
-        feature_changes = [c for c in changes if Tag.FEATURE in c.tags]
-        refactor_changes = [c for c in changes if Tag.REFACTOR in c.tags]
-        small_changes = [c for c in changes if Tag.SMALL in c.tags]
-        
-        # Build deployment plan based on Koru analysis
-        if risky_changes:
+
+        # Group changes by tag and emit deployment groups in priority order
+        by_tag = {tag: [c for c in changes if tag in c.tags] for tag, *_ in self._GROUP_ORDER}
+        for tag, name, priority, reason in self._GROUP_ORDER:
+            group_changes = by_tag[tag]
+            if not group_changes:
+                continue
             deployment_groups.append({
-                "name": "risky",
-                "changes": [c.path for c in risky_changes],
-                "priority": 1,
-                "reason": "High-risk changes require careful deployment"
+                "name": name,
+                "changes": [c.path for c in group_changes],
+                "priority": priority,
+                "reason": reason,
             })
-            priority_order.append("risky")
-            risk_assessment["risky"] = max(c.risk_score for c in risky_changes)
-        
-        if config_changes:
-            deployment_groups.append({
-                "name": "config",
-                "changes": [c.path for c in config_changes],
-                "priority": 2,
-                "reason": "Configuration changes affect system behavior"
-            })
-            priority_order.append("config")
-            risk_assessment["config"] = max(c.risk_score for c in config_changes)
-        
-        if deps_changes:
-            deployment_groups.append({
-                "name": "deps",
-                "changes": [c.path for c in deps_changes],
-                "priority": 3,
-                "reason": "Dependency changes may affect other components"
-            })
-            priority_order.append("deps")
-            risk_assessment["deps"] = max(c.risk_score for c in deps_changes)
-        
-        if large_changes:
-            deployment_groups.append({
-                "name": "large",
-                "changes": [c.path for c in large_changes],
-                "priority": 4,
-                "reason": "Large changes require careful testing"
-            })
-            priority_order.append("large")
-            risk_assessment["large"] = max(c.risk_score for c in large_changes)
-        
-        if feature_changes:
-            deployment_groups.append({
-                "name": "feature",
-                "changes": [c.path for c in feature_changes],
-                "priority": 5,
-                "reason": "New features should be deployed after core changes"
-            })
-            priority_order.append("feature")
-            risk_assessment["feature"] = max(c.risk_score for c in feature_changes)
-        
-        if refactor_changes:
-            deployment_groups.append({
-                "name": "refactor",
-                "changes": [c.path for c in refactor_changes],
-                "priority": 6,
-                "reason": "Refactoring changes should be deployed after features"
-            })
-            priority_order.append("refactor")
-            risk_assessment["refactor"] = max(c.risk_score for c in refactor_changes)
-        
-        if test_changes:
-            deployment_groups.append({
-                "name": "tests",
-                "changes": [c.path for c in test_changes],
-                "priority": 7,
-                "reason": "Test changes should be deployed with code changes"
-            })
-            priority_order.append("tests")
-            risk_assessment["tests"] = max(c.risk_score for c in test_changes)
-        
-        if docs_changes:
-            deployment_groups.append({
-                "name": "docs",
-                "changes": [c.path for c in docs_changes],
-                "priority": 8,
-                "reason": "Documentation changes have lowest priority"
-            })
-            priority_order.append("docs")
-            risk_assessment["docs"] = max(c.risk_score for c in docs_changes)
-        
-        if small_changes:
-            deployment_groups.append({
-                "name": "small",
-                "changes": [c.path for c in small_changes],
-                "priority": 9,
-                "reason": "Small changes can be deployed last"
-            })
-            priority_order.append("small")
-            risk_assessment["small"] = max(c.risk_score for c in small_changes)
-        
-        # Generate recommendations based on Koru context
-        recommendations = []
-        
-        if quality_gates.get("errors"):
-            recommendations.append("⚠️ Quality gates failed - fix issues before deployment")
-        
-        if tickets:
-            recommendations.append(f"📋 {len(tickets)} open tickets in planfile - review before deployment")
-        
-        if topology.get("components"):
-            recommendations.append(f"🏗️ {len(topology['components'])} components detected - consider impact")
-        
-        if risky_changes:
-            recommendations.append("🚨 High-risk changes detected - deploy with caution")
-        
-        if not recommendations:
-            recommendations.append("✅ All checks passed - ready for deployment")
-        
+            priority_order.append(name)
+            risk_assessment[name] = max(c.risk_score for c in group_changes)
+
+        recommendations = self._deployment_recommendations(
+            quality_gates, tickets, topology, bool(by_tag[Tag.RISKY])
+        )
+
         return KoruDeploymentPlan(
             priority_order=priority_order,
             deployment_groups=deployment_groups,
