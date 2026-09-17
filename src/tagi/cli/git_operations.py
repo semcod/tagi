@@ -54,6 +54,53 @@ def _resolve_send_target(target: Optional[str], repo_path: str) -> tuple[str, Op
     return repo_path, target
 
 
+def _scan_and_tag(repo_path: str):
+    """Scan repo and apply tags; exits(1) with a user-facing error on failure."""
+    import tagi.cli as _cli
+    try:
+        changes = _cli.scan_repo(repo_path)
+        return _cli.apply_tags(changes, repo_path)
+    except (ValueError, RuntimeError) as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(1)
+    except Exception as e:
+        console.print(f"[red]Unexpected error: {e}[/red]")
+        raise typer.Exit(1)
+
+
+def _filter_by_tag(changes, tag: Optional[str]):
+    """Filter changes to ``tag``; returns all changes when tag is None."""
+    if tag is None:
+        return changes
+    tag = _ensure_tag_prefix(tag)
+    try:
+        tag_enum = Tag(tag)
+    except ValueError:
+        console.print(f"[red]Unknown tag: {tag}[/red]")
+        raise typer.Exit(1)
+    return [c for c in changes if tag_enum in c.tags]
+
+
+def _execute_git_operations(filtered_changes, commit_message: str, push: bool, repo_path: str) -> None:
+    """Stage, commit and optionally push; exits(1) on failure."""
+    git_executor = GitExecutor(repo_path)
+    try:
+        for change in filtered_changes:
+            git_executor.stage(change.path)
+        git_executor.commit(commit_message)
+        console.print(f"[green]✓ Committed {len(filtered_changes)} change(s)[/green]")
+
+        if push:
+            provider = detect_git_provider(repo_path)
+            if provider:
+                git_executor.push()
+                console.print("[green]✓ Pushed to remote[/green]")
+            else:
+                console.print("[yellow]Warning: Could not detect provider, skipping push[/yellow]")
+    except Exception as e:
+        console.print(f"[red]Error during git operations: {e}[/red]")
+        raise typer.Exit(1)
+
 def send_command(
     target: Optional[str] = typer.Argument(None, help="Tag to send (e.g., small) or repository path. If not specified, sends all changes"),
     repo_path: str = typer.Option(".", "--repo-path", "--path", help="Path to repository"),
@@ -78,30 +125,12 @@ def send_command(
     else:
         console.print(f"[bold]Sending[/bold] {tag}")
 
-    try:
-        changes = _cli.scan_repo(repo_path)
-        changes = _cli.apply_tags(changes, repo_path)
-    except (ValueError, RuntimeError) as e:
-        console.print(f"[red]Error: {e}[/red]")
-        raise typer.Exit(1)
-    except Exception as e:
-        console.print(f"[red]Unexpected error: {e}[/red]")
-        raise typer.Exit(1)
-
+    changes = _scan_and_tag(repo_path)
     if not changes:
         console.print("[yellow]No changes found[/yellow]")
         return
 
-    if tag is None:
-        filtered_changes = changes
-    else:
-        tag = _ensure_tag_prefix(tag)
-        try:
-            tag_enum = Tag(tag)
-        except ValueError:
-            console.print(f"[red]Unknown tag: {tag}[/red]")
-            raise typer.Exit(1)
-        filtered_changes = [c for c in changes if tag_enum in c.tags]
+    filtered_changes = _filter_by_tag(changes, tag)
 
     # Auto-order if requested
     if auto_order:
@@ -129,30 +158,7 @@ def send_command(
         console.print("\n[yellow][DRY-RUN] No changes will be made[/yellow]")
         return
 
-    # Execute git operations
-    git_executor = GitExecutor(repo_path)
-
-    try:
-        # Stage changes
-        for change in filtered_changes:
-            git_executor.stage(change.path)
-
-        # Commit
-        git_executor.commit(commit_message)
-        console.print(f"[green]✓ Committed {len(filtered_changes)} change(s)[/green]")
-
-        # Push if requested
-        if push:
-            provider = detect_git_provider(repo_path)
-            if provider:
-                git_executor.push()
-                console.print("[green]✓ Pushed to remote[/green]")
-            else:
-                console.print("[yellow]Warning: Could not detect provider, skipping push[/yellow]")
-
-    except Exception as e:
-        console.print(f"[red]Error during git operations: {e}[/red]")
-        raise typer.Exit(1)
+    _execute_git_operations(filtered_changes, commit_message, push, repo_path)
 
 
 def auto_command(
