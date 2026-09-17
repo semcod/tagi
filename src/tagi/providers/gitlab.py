@@ -2,7 +2,10 @@
 
 from typing import List, Optional
 
-from .base import BaseProvider
+from tagi.providers.utils.pr import build_pr_command, execute_pr_command
+from tagi.providers.utils.auth import get_auth_status_from_result, is_authenticated_from_result
+
+from .base import BaseProvider, PrSpec
 
 
 class GitLabProvider(BaseProvider):
@@ -33,10 +36,9 @@ class GitLabProvider(BaseProvider):
                 pass
         return "gitlab.com"
     
-    def create_pr(self, title: str, body: str, branch: str, base: str = "main",
-                  draft: bool = False, labels: Optional[List[str]] = None) -> str:
+    def create_pr(self, spec: PrSpec) -> str:
         """Create a merge request using glab CLI."""
-        cmd = build_pr_command("glab", "mr", title, body, branch, base, draft, labels)
+        cmd = build_pr_command("glab", "mr", spec)
         result = self._run_command(cmd)
         return execute_pr_command(result)
     

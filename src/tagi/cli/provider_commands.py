@@ -3,6 +3,7 @@
 from rich.console import Console
 
 from tagi.utils.detect_provider import detect_git_provider
+from tagi.providers.base import PrSpec
 from tagi.providers.github import GitHubProvider
 from tagi.providers.gitlab import GitLabProvider
 
@@ -20,6 +21,20 @@ def detect_provider_command(repo_path: str = ".") -> str:
     return provider
 
 
+def _current_branch(repo_path: str) -> str:
+    """Resolve the current git branch for the repository."""
+    import subprocess
+    result = subprocess.run(
+        ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+        cwd=repo_path, capture_output=True, text=True, check=False,
+    )
+    return result.stdout.strip() or "main"
+
+
+def _pr_spec(title: str, body: str, repo_path: str) -> PrSpec:
+    return PrSpec(title=title, body=body, branch=_current_branch(repo_path))
+
+
 def create_pr(title: str, body: str, repo_path: str = ".") -> bool:
     """Create a GitHub pull request."""
     provider = detect_git_provider(repo_path)
@@ -29,7 +44,7 @@ def create_pr(title: str, body: str, repo_path: str = ".") -> bool:
     
     try:
         github_provider = GitHubProvider(repo_path)
-        pr_url = github_provider.create_pull_request(title, body)
+        pr_url = github_provider.create_pr(_pr_spec(title, body, repo_path))
         if pr_url:
             console.print(f"[green]✓ Pull request created:[/green] {pr_url}")
             return True
@@ -50,7 +65,7 @@ def create_mr(title: str, body: str, repo_path: str = ".") -> bool:
     
     try:
         gitlab_provider = GitLabProvider(repo_path)
-        mr_url = gitlab_provider.create_merge_request(title, body)
+        mr_url = gitlab_provider.create_pr(_pr_spec(title, body, repo_path))
         if mr_url:
             console.print(f"[green]✓ Merge request created:[/green] {mr_url}")
             return True

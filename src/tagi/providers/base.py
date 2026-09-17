@@ -2,7 +2,20 @@
 
 import subprocess
 from abc import ABC, abstractmethod
+from dataclasses import dataclass, field
 from typing import List, Optional
+
+
+@dataclass
+class PrSpec:
+    """Pull/merge request parameters."""
+
+    title: str
+    body: str
+    branch: str
+    base: str = "main"
+    draft: bool = False
+    labels: Optional[List[str]] = field(default=None)
 
 
 class BaseProvider(ABC):
@@ -23,8 +36,7 @@ class BaseProvider(ABC):
         pass
     
     @abstractmethod
-    def create_pr(self, title: str, body: str, branch: str, base: str = "main",
-                  draft: bool = False, labels: Optional[List[str]] = None) -> str:
+    def create_pr(self, spec: "PrSpec") -> str:
         """Create a pull/merge request."""
         pass
     

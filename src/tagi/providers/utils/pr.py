@@ -1,45 +1,34 @@
 """Pull request creation utilities."""
 
-from typing import List, Optional
 from subprocess import CompletedProcess
+from typing import List, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from tagi.providers.base import PrSpec
 
 
-def build_pr_command(
-    tool: str,
-    pr_type: str,
-    title: str,
-    body: str,
-    branch: str,
-    base: str = "main",
-    draft: bool = False,
-    labels: Optional[List[str]] = None
-) -> List[str]:
+def build_pr_command(tool: str, pr_type: str, spec: "PrSpec") -> List[str]:
     """Build PR/MR creation command for gh or glab.
-    
+
     Args:
         tool: CLI tool name ('gh' or 'glab')
         pr_type: Type of PR ('pr' for gh, 'mr' for glab)
-        title: PR title
-        body: PR body/description
-        branch: Source branch
-        base: Target branch
-        draft: Whether to create as draft
-        labels: Optional labels
-        
+        spec: pull/merge request parameters
+
     Returns:
         Command as list of strings
     """
     if tool == "gh":
-        cmd = ["gh", "pr", "create", "--title", title, "--body", body, "--base", base]
+        cmd = ["gh", "pr", "create", "--title", spec.title, "--body", spec.body, "--base", spec.base]
     elif tool == "glab":
-        cmd = ["glab", "mr", "create", "--title", title, "--description", body, "--target-branch", base]
+        cmd = ["glab", "mr", "create", "--title", spec.title, "--description", spec.body, "--target-branch", spec.base]
     else:
         raise ValueError(f"Unsupported tool: {tool}")
-    
-    if draft:
+
+    if spec.draft:
         cmd.append("--draft")
-    if labels:
-        cmd.extend(["--label", ",".join(labels)])
+    if spec.labels:
+        cmd.extend(["--label", ",".join(spec.labels)])
     
     return cmd
 
