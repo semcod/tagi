@@ -6,6 +6,14 @@ from pathlib import Path
 from typing import List, Optional
 
 
+def _hooks_dir(repo_path: str) -> Path:
+    return Path(repo_path) / ".git" / "hooks"
+
+
+def _pre_commit_hook(repo_path: str) -> Path:
+    return _hooks_dir(repo_path) / "pre-commit"
+
+
 def install_hooks(repo_path: str = ".") -> bool:
     """Install tagi pre-commit hook in the repository.
     
@@ -15,10 +23,8 @@ def install_hooks(repo_path: str = ".") -> bool:
     Returns:
         True if successful, False otherwise
     """
-    hooks_dir = Path(repo_path) / ".git" / "hooks"
-    hooks_dir.mkdir(parents=True, exist_ok=True)
-    
-    pre_commit_hook = hooks_dir / "pre-commit"
+    _hooks_dir(repo_path).mkdir(parents=True, exist_ok=True)
+    pre_commit_hook = _pre_commit_hook(repo_path)
     
     hook_content = """#!/bin/bash
 # tagi pre-commit hook
@@ -49,9 +55,8 @@ def uninstall_hooks(repo_path: str = ".") -> bool:
     Returns:
         True if successful, False otherwise
     """
-    hooks_dir = Path(repo_path) / ".git" / "hooks"
-    pre_commit_hook = hooks_dir / "pre-commit"
-    
+    pre_commit_hook = _pre_commit_hook(repo_path)
+
     try:
         if pre_commit_hook.exists():
             pre_commit_hook.unlink()
@@ -69,9 +74,8 @@ def check_hooks_installed(repo_path: str = ".") -> bool:
     Returns:
         True if hooks are installed, False otherwise
     """
-    hooks_dir = Path(repo_path) / ".git" / "hooks"
-    pre_commit_hook = hooks_dir / "pre-commit"
-    
+    pre_commit_hook = _pre_commit_hook(repo_path)
+
     if not pre_commit_hook.exists():
         return False
     
@@ -88,11 +92,10 @@ def list_hooks(repo_path: str = ".") -> List[str]:
     Returns:
         List of hook names
     """
-    hooks_dir = Path(repo_path) / ".git" / "hooks"
-    
+    hooks_dir = _hooks_dir(repo_path)
     if not hooks_dir.exists():
         return []
-    
+
     hooks = []
     for hook_file in hooks_dir.iterdir():
         if hook_file.is_file() and hook_file.stat().st_mode & 0o111:
@@ -111,8 +114,7 @@ def run_hook(hook_name: str, repo_path: str = ".") -> subprocess.CompletedProces
     Returns:
         CompletedProcess result
     """
-    hooks_dir = Path(repo_path) / ".git" / "hooks"
-    hook_file = hooks_dir / hook_name
+    hook_file = _hooks_dir(repo_path) / hook_name
     
     if not hook_file.exists():
         raise FileNotFoundError(f"Hook {hook_name} not found")
