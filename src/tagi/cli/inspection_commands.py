@@ -19,6 +19,19 @@ from tagi.config import Config
 console = Console()
 
 
+def _load_changes(repo_path: str):
+    """Scan the repository and apply tags, exiting cleanly on error."""
+    try:
+        changes = scan_repo(repo_path)
+        return apply_tags(changes, repo_path)
+    except (ValueError, RuntimeError) as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(1)
+    except Exception as e:
+        console.print(f"[red]Unexpected error: {e}[/red]")
+        raise typer.Exit(1)
+
+
 def inspect_command(
     tag: str = typer.Argument(..., help="Tag to inspect (e.g., #small)"),
     repo_path: str = typer.Argument(".", help="Path to repository"),
@@ -27,15 +40,7 @@ def inspect_command(
     """Inspect a specific change group."""
     console.print(f"[bold]Inspecting[/bold] {tag}")
     
-    try:
-        changes = scan_repo(repo_path)
-        changes = apply_tags(changes, repo_path)
-    except (ValueError, RuntimeError) as e:
-        console.print(f"[red]Error: {e}[/red]")
-        raise typer.Exit(1)
-    except Exception as e:
-        console.print(f"[red]Unexpected error: {e}[/red]")
-        raise typer.Exit(1)
+    changes = _load_changes(repo_path)
     
     config = Config(repo_path)
     
@@ -78,15 +83,7 @@ def filter_command(
     """Filter changes by tags."""
     console.print(f"[bold]Filtering[/bold] changes by tags: {tags}")
     
-    try:
-        changes = scan_repo(repo_path)
-        changes = apply_tags(changes, repo_path)
-    except (ValueError, RuntimeError) as e:
-        console.print(f"[red]Error: {e}[/red]")
-        raise typer.Exit(1)
-    except Exception as e:
-        console.print(f"[red]Unexpected error: {e}[/red]")
-        raise typer.Exit(1)
+    changes = _load_changes(repo_path)
     
     # Parse tags
     tag_list = [tag.strip() for tag in tags.split(",")]
@@ -124,15 +121,7 @@ def file_command(
     """Show detailed information about a specific file."""
     console.print(f"[bold]File:[/bold] {file_path}")
     
-    try:
-        changes = scan_repo(repo_path)
-        changes = apply_tags(changes, repo_path)
-    except (ValueError, RuntimeError) as e:
-        console.print(f"[red]Error: {e}[/red]")
-        raise typer.Exit(1)
-    except Exception as e:
-        console.print(f"[red]Unexpected error: {e}[/red]")
-        raise typer.Exit(1)
+    changes = _load_changes(repo_path)
     
     # Find the specific file
     file_changes = [c for c in changes if c.path == file_path]
