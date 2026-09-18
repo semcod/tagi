@@ -3,6 +3,7 @@
 from typing import List
 
 from tagi.models import Change, ChangeGroup
+from tagi.utils.line_builder import LineBuilder
 
 
 def preview_plan(changes: List[Change], tag: str = None) -> str:
@@ -15,27 +16,27 @@ def preview_plan(changes: List[Change], tag: str = None) -> str:
     if not changes:
         return "No changes to preview."
     
-    lines = []
-    lines.append(f"Plan: {len(changes)} files")
-    lines.append("-" * 40)
+    builder = LineBuilder()
+    builder.add(f"Plan: {len(changes)} files")
+    builder.add("-" * 40)
     for change in changes:
         tags_str = ", ".join([t.value for t in change.tags])
-        lines.append(f"  [{change.change_type.value:8}] {change.path:40} ({tags_str})")
+        builder.add(f"  [{change.change_type.value:8}] {change.path:40} ({tags_str})")
     
-    return "\n".join(lines)
+    return builder.text()
 
 
 def preview_changes(group: ChangeGroup) -> str:
     """Generate a preview for a change group."""
-    lines = []
-    lines.append(f"Group: {group.name}")
-    lines.append(f"Files: {len(group.changes)}")
-    lines.append(f"Total Lines: {group.total_lines}")
-    lines.append(f"Avg Risk: {group.avg_risk:.2f}")
-    lines.append("-" * 40)
+    builder = LineBuilder()
+    builder.add(f"Group: {group.name}")
+    builder.add(f"Files: {len(group.changes)}")
+    builder.add(f"Total Lines: {group.total_lines}")
+    builder.add(f"Avg Risk: {group.avg_risk:.2f}")
+    builder.add("-" * 40)
     
     for change in group.changes:
         tags_str = ", ".join([t.value for t in change.tags])
-        lines.append(f"  [{change.change_type.value:8}] {change.path:40} ({tags_str})")
+        builder.add(f"  [{change.change_type.value:8}] {change.path:40} ({tags_str})")
     
-    return "\n".join(lines)
+    return builder.text()

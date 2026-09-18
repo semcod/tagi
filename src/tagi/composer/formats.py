@@ -10,6 +10,7 @@ from collections import Counter
 from tagi.models import Change, Tag
 
 from ._tags import all_tags, summary_tag, infer_scope
+from tagi.utils.line_builder import LineBuilder
 
 
 def generate_conventional_message(changes: List[Change]) -> str:
@@ -60,9 +61,9 @@ def generate_detailed_message(changes: List[Change]) -> str:
     if not changes:
         return "Empty commit"
 
-    lines = []
-    lines.append(f"Commit: {len(changes)} files changed")
-    lines.append("")
+    builder = LineBuilder()
+    builder.add(f"Commit: {len(changes)} files changed")
+    builder.add("")
 
     # Group by tag
     tag_counts = Counter()
@@ -70,17 +71,17 @@ def generate_detailed_message(changes: List[Change]) -> str:
         for tag in change.tags:
             tag_counts[tag.value] += 1
 
-    lines.append("Tags:")
+    builder.add("Tags:")
     for tag, count in tag_counts.most_common():
-        lines.append(f"  - {tag}: {count}")
-    lines.append("")
+        builder.add(f"  - {tag}: {count}")
+    builder.add("")
 
-    lines.append("Files:")
+    builder.add("Files:")
     for change in changes:
         tags_str = ", ".join([t.value for t in change.tags])
-        lines.append(f"  [{change.change_type.value:8}] {change.path:40} ({tags_str})")
+        builder.add(f"  [{change.change_type.value:8}] {change.path:40} ({tags_str})")
 
-    return "\n".join(lines)
+    return builder.text()
 
 
 def generate_simple_message(changes: List[Change]) -> str:
@@ -116,12 +117,12 @@ def generate_files_message(changes: List[Change]) -> str:
     if not changes:
         return "Empty commit"
 
-    lines = []
-    lines.append(f"Changes ({len(changes)} files):")
-    lines.append("")
+    builder = LineBuilder()
+    builder.add(f"Changes ({len(changes)} files):")
+    builder.add("")
 
     for change in changes:
         tags_str = " ".join([t.value for t in change.tags])
-        lines.append(f"  {change.change_type.value:8} {change.path:40} [{tags_str}]")
+        builder.add(f"  {change.change_type.value:8} {change.path:40} [{tags_str}]")
 
-    return "\n".join(lines)
+    return builder.text()

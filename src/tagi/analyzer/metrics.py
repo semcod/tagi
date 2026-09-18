@@ -2,6 +2,7 @@
 
 from typing import Dict, List
 from tagi.models.change import Change
+from tagi.utils.line_builder import LineBuilder
 from datetime import datetime
 import json
 
@@ -104,34 +105,34 @@ def generate_report(metrics: Dict) -> str:
     Returns:
         Formatted report string
     """
-    lines = []
-    lines.append("=" * 60)
-    lines.append("METRICS REPORT")
-    lines.append("=" * 60)
-    lines.append("")
+    builder = LineBuilder()
+    builder.add("=" * 60)
+    builder.add("METRICS REPORT")
+    builder.add("=" * 60)
+    builder.add("")
     
-    lines.append(f"Total Changes: {metrics['total_changes']}")
-    lines.append(f"Total Lines Changed: {metrics['total_lines']}")
-    lines.append(f"Average Risk Score: {metrics['avg_risk']:.2f}")
-    lines.append("")
+    builder.add(f"Total Changes: {metrics['total_changes']}")
+    builder.add(f"Total Lines Changed: {metrics['total_lines']}")
+    builder.add(f"Average Risk Score: {metrics['avg_risk']:.2f}")
+    builder.add("")
     
-    lines.append("Changes by Type:")
+    builder.add("Changes by Type:")
     for ctype, count in metrics['by_type'].items():
-        lines.append(f"  {ctype}: {count}")
-    lines.append("")
+        builder.add(f"  {ctype}: {count}")
+    builder.add("")
     
-    lines.append("Changes by Tag:")
+    builder.add("Changes by Tag:")
     for tag, count in sorted(metrics['by_tag'].items(), key=lambda x: x[1], reverse=True):
-        lines.append(f"  {tag}: {count}")
-    lines.append("")
+        builder.add(f"  {tag}: {count}")
+    builder.add("")
     
-    lines.append("Risk Distribution:")
-    lines.append(f"  Low (<0.3): {metrics['by_risk']['low']}")
-    lines.append(f"  Medium (0.3-0.7): {metrics['by_risk']['medium']}")
-    lines.append(f"  High (>0.7): {metrics['by_risk']['high']}")
-    lines.append("")
+    builder.add("Risk Distribution:")
+    builder.add(f"  Low (<0.3): {metrics['by_risk']['low']}")
+    builder.add(f"  Medium (0.3-0.7): {metrics['by_risk']['medium']}")
+    builder.add(f"  High (>0.7): {metrics['by_risk']['high']}")
+    builder.add("")
     
-    return "\n".join(lines)
+    return builder.text()
 
 
 def compare_metrics(metrics1: Dict, metrics2: Dict) -> Dict:
