@@ -5,6 +5,7 @@ from collections import Counter
 from tagi.models import Change, ChangeType
 from tagi.config import Config
 from tagi.utils.line_builder import LineBuilder
+from tagi.utils.risk import average_risk
 
 
 def build_report_header(repo_path: str, changes: List[Change]) -> List[str]:
@@ -37,7 +38,7 @@ def build_statistics_section(changes: List[Change]) -> List[str]:
         List of statistics lines
     """
     total_lines = sum(getattr(c, 'lines_changed', 0) for c in changes)
-    avg_risk = sum(getattr(c, 'risk_score', 0) for c in changes) / len(changes) if changes else 0.0
+    avg_risk = average_risk(changes)
     
     builder = LineBuilder()
     builder.add("OVERALL STATISTICS")

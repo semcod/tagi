@@ -4,6 +4,7 @@ from collections import defaultdict
 from typing import List, Dict
 
 from tagi.models import Change, ChangeGroup, Tag
+from tagi.utils.risk import average_risk
 
 
 def group_changes(changes: List[Change]) -> List[ChangeGroup]:
@@ -21,7 +22,7 @@ def group_changes(changes: List[Change]) -> List[ChangeGroup]:
     groups = []
     for tag, tag_changes in grouped.items():
         total_lines = sum(c.lines_changed for c in tag_changes)
-        avg_risk = sum(c.risk_score for c in tag_changes) / len(tag_changes) if tag_changes else 0.0
+        avg_risk = average_risk(tag_changes)
         
         group = ChangeGroup(
             name=tag.value,
