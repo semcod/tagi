@@ -106,34 +106,32 @@ def generate_report(metrics: Dict) -> str:
     Returns:
         Formatted report string
     """
-    builder = LineBuilder()
-    builder.add("=" * 60)
-    builder.add("METRICS REPORT")
-    builder.add("=" * 60)
-    builder.add("")
-    
-    builder.add(f"Total Changes: {metrics['total_changes']}")
-    builder.add(f"Total Lines Changed: {metrics['total_lines']}")
-    builder.add(f"Average Risk Score: {metrics['avg_risk']:.2f}")
-    builder.add("")
-    
-    builder.add("Changes by Type:")
-    for ctype, count in metrics['by_type'].items():
-        builder.add(f"  {ctype}: {count}")
-    builder.add("")
-    
-    builder.add("Changes by Tag:")
-    for tag, count in sorted(metrics['by_tag'].items(), key=lambda x: x[1], reverse=True):
-        builder.add(f"  {tag}: {count}")
-    builder.add("")
-    
-    builder.add("Risk Distribution:")
-    builder.add(f"  Low (<0.3): {metrics['by_risk']['low']}")
-    builder.add(f"  Medium (0.3-0.7): {metrics['by_risk']['medium']}")
-    builder.add(f"  High (>0.7): {metrics['by_risk']['high']}")
-    builder.add("")
-    
-    return builder.text()
+    return LineBuilder([
+        "=" * 60,
+        "METRICS REPORT",
+        "=" * 60,
+        "",
+        f"Total Changes: {metrics['total_changes']}",
+        f"Total Lines Changed: {metrics['total_lines']}",
+        f"Average Risk Score: {metrics['avg_risk']:.2f}",
+        "",
+        "Changes by Type:",
+        *(f"  {ctype}: {count}" for ctype, count in metrics['by_type'].items()),
+        "",
+        "Changes by Tag:",
+        *(
+            f"  {tag}: {count}"
+            for tag, count in sorted(
+                metrics['by_tag'].items(), key=lambda x: x[1], reverse=True
+            )
+        ),
+        "",
+        "Risk Distribution:",
+        f"  Low (<0.3): {metrics['by_risk']['low']}",
+        f"  Medium (0.3-0.7): {metrics['by_risk']['medium']}",
+        f"  High (>0.7): {metrics['by_risk']['high']}",
+        "",
+    ]).text()
 
 
 def compare_metrics(metrics1: Dict, metrics2: Dict) -> Dict:

@@ -61,27 +61,25 @@ def generate_detailed_message(changes: List[Change]) -> str:
     if not changes:
         return "Empty commit"
 
-    builder = LineBuilder()
-    builder.add(f"Commit: {len(changes)} files changed")
-    builder.add("")
-
     # Group by tag
     tag_counts = Counter()
     for change in changes:
         for tag in change.tags:
             tag_counts[tag.value] += 1
 
-    builder.add("Tags:")
-    for tag, count in tag_counts.most_common():
-        builder.add(f"  - {tag}: {count}")
-    builder.add("")
-
-    builder.add("Files:")
-    for change in changes:
-        tags_str = ", ".join([t.value for t in change.tags])
-        builder.add(f"  [{change.change_type.value:8}] {change.path:40} ({tags_str})")
-
-    return builder.text()
+    return LineBuilder([
+        f"Commit: {len(changes)} files changed",
+        "",
+        "Tags:",
+        *(f"  - {tag}: {count}" for tag, count in tag_counts.most_common()),
+        "",
+        "Files:",
+        *(
+            f"  [{change.change_type.value:8}] {change.path:40} "
+            f"({', '.join(t.value for t in change.tags)})"
+            for change in changes
+        ),
+    ]).text()
 
 
 def generate_simple_message(changes: List[Change]) -> str:
@@ -117,12 +115,12 @@ def generate_files_message(changes: List[Change]) -> str:
     if not changes:
         return "Empty commit"
 
-    builder = LineBuilder()
-    builder.add(f"Changes ({len(changes)} files):")
-    builder.add("")
-
-    for change in changes:
-        tags_str = " ".join([t.value for t in change.tags])
-        builder.add(f"  {change.change_type.value:8} {change.path:40} [{tags_str}]")
-
-    return builder.text()
+    return LineBuilder([
+        f"Changes ({len(changes)} files):",
+        "",
+        *(
+            f"  {change.change_type.value:8} {change.path:40} "
+            f"[{' '.join(t.value for t in change.tags)}]"
+            for change in changes
+        ),
+    ]).text()
