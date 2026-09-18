@@ -13,7 +13,7 @@ from tagi.utils.inspect_helpers import (
     filter_changes_by_tags_all
 )
 from tagi.cli.display_utils import _display_changes
-from tagi.config import Config
+from tagi.config import load_config
 
 
 console = Console()
@@ -37,7 +37,7 @@ def inspect_command(
         console.print(f"[red]Unexpected error: {e}[/red]")
         raise typer.Exit(1)
     
-    config = Config(repo_path)
+    config = load_config(repo_path)
     
     # Add # prefix if not present
     if not tag.startswith("#"):

@@ -5,7 +5,7 @@ import subprocess
 from typing import List
 
 from tagi.models import Change, ChangeType
-from tagi.config import Config
+from tagi.config import load_config
 
 
 def scan_repo(repo_path: str = ".") -> List[Change]:
@@ -13,7 +13,7 @@ def scan_repo(repo_path: str = ".") -> List[Change]:
     if not os.path.exists(os.path.join(repo_path, ".git")):
         raise ValueError(f"Not a git repository: {repo_path}")
     
-    config = Config(repo_path)
+    config = load_config(repo_path)
     
     cmd = ["git", "status", "--porcelain"]
     result = subprocess.run(
