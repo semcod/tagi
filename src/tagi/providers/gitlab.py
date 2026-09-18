@@ -38,9 +38,7 @@ class GitLabProvider(BaseProvider):
     
     def create_pr(self, spec: PrSpec) -> str:
         """Create a merge request using glab CLI."""
-        cmd = build_pr_command("glab", "mr", spec)
-        result = self._run_command(cmd)
-        return execute_pr_command(result)
+        return execute_pr_command(self._run_command(build_pr_command("glab", "mr", spec)))
     
     def detect_remote(self) -> bool:
         """Detect if the current repository is hosted on GitLab."""
