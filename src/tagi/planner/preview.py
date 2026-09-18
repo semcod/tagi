@@ -16,27 +16,28 @@ def preview_plan(changes: List[Change], tag: str = None) -> str:
     if not changes:
         return "No changes to preview."
     
-    builder = LineBuilder()
-    builder.add(f"Plan: {len(changes)} files")
-    builder.add("-" * 40)
-    for change in changes:
-        tags_str = ", ".join([t.value for t in change.tags])
-        builder.add(f"  [{change.change_type.value:8}] {change.path:40} ({tags_str})")
-    
-    return builder.text()
+    return LineBuilder([
+        f"Plan: {len(changes)} files",
+        "-" * 40,
+        *(
+            f"  [{change.change_type.value:8}] {change.path:40} "
+            f"({', '.join(t.value for t in change.tags)})"
+            for change in changes
+        ),
+    ]).text()
 
 
 def preview_changes(group: ChangeGroup) -> str:
     """Generate a preview for a change group."""
-    builder = LineBuilder()
-    builder.add(f"Group: {group.name}")
-    builder.add(f"Files: {len(group.changes)}")
-    builder.add(f"Total Lines: {group.total_lines}")
-    builder.add(f"Avg Risk: {group.avg_risk:.2f}")
-    builder.add("-" * 40)
-    
-    for change in group.changes:
-        tags_str = ", ".join([t.value for t in change.tags])
-        builder.add(f"  [{change.change_type.value:8}] {change.path:40} ({tags_str})")
-    
-    return builder.text()
+    return LineBuilder([
+        f"Group: {group.name}",
+        f"Files: {len(group.changes)}",
+        f"Total Lines: {group.total_lines}",
+        f"Avg Risk: {group.avg_risk:.2f}",
+        "-" * 40,
+        *(
+            f"  [{change.change_type.value:8}] {change.path:40} "
+            f"({', '.join(t.value for t in change.tags)})"
+            for change in group.changes
+        ),
+    ]).text()

@@ -18,14 +18,14 @@ def build_report_header(repo_path: str, changes: List[Change]) -> List[str]:
     Returns:
         List of header lines
     """
-    builder = LineBuilder()
-    builder.add("=" * 60)
-    builder.add("TAGI SUMMARY REPORT")
-    builder.add("=" * 60)
-    builder.add(f"Repository: {repo_path}")
-    builder.add(f"Total files changed: {len(changes)}")
-    builder.add("")
-    return builder.as_list()
+    return LineBuilder([
+        "=" * 60,
+        "TAGI SUMMARY REPORT",
+        "=" * 60,
+        f"Repository: {repo_path}",
+        f"Total files changed: {len(changes)}",
+        "",
+    ]).as_list()
 
 
 def build_statistics_section(changes: List[Change]) -> List[str]:
@@ -39,13 +39,13 @@ def build_statistics_section(changes: List[Change]) -> List[str]:
     """
     total_lines = sum(getattr(c, 'lines_changed', 0) for c in changes)
 
-    builder = LineBuilder()
-    builder.add("OVERALL STATISTICS")
-    builder.add("-" * 40)
-    builder.add(f"Total lines changed: {total_lines}")
-    builder.add(f"Average risk score: {average_risk(changes):.2f}")
-    builder.add("")
-    return builder.as_list()
+    return LineBuilder([
+        "OVERALL STATISTICS",
+        "-" * 40,
+        f"Total lines changed: {total_lines}",
+        f"Average risk score: {average_risk(changes):.2f}",
+        "",
+    ]).as_list()
 
 
 def build_changes_by_type_section(changes: List[Change]) -> List[str]:
@@ -58,14 +58,13 @@ def build_changes_by_type_section(changes: List[Change]) -> List[str]:
         List of type distribution lines
     """
     by_type = Counter(c.change_type.value for c in changes)
-    
-    builder = LineBuilder()
-    builder.add("CHANGES BY TYPE")
-    builder.add("-" * 40)
-    for ct, count in sorted(by_type.items()):
-        builder.add(f"  {ct}: {count}")
-    builder.add("")
-    return builder.as_list()
+
+    return LineBuilder([
+        "CHANGES BY TYPE",
+        "-" * 40,
+        *(f"  {ct}: {count}" for ct, count in sorted(by_type.items())),
+        "",
+    ]).as_list()
 
 
 def build_tag_distribution_section(changes: List[Change], config: Config) -> List[str]:
@@ -82,18 +81,18 @@ def build_tag_distribution_section(changes: List[Change], config: Config) -> Lis
     for change in changes:
         for tag in change.tags:
             tag_counts[tag.value] += 1
-    
-    builder = LineBuilder()
-    builder.add("TAG DISTRIBUTION")
-    builder.add("-" * 40)
-    for tag, count in tag_counts.most_common():
-        desc = config.get_tag_description(tag)
-        if desc:
-            builder.add(f"  {tag} ({count}): {desc}")
-        else:
-            builder.add(f"  {tag}: {count}")
-    builder.add("")
-    return builder.as_list()
+
+    return LineBuilder([
+        "TAG DISTRIBUTION",
+        "-" * 40,
+        *(
+            f"  {tag} ({count}): {desc}"
+            if (desc := config.get_tag_description(tag))
+            else f"  {tag}: {count}"
+            for tag, count in tag_counts.most_common()
+        ),
+        "",
+    ]).as_list()
 
 
 def build_file_list_section(changes: List[Change]) -> List[str]:
@@ -105,10 +104,12 @@ def build_file_list_section(changes: List[Change]) -> List[str]:
     Returns:
         List of file lines
     """
-    builder = LineBuilder()
-    builder.add("FILES CHANGED")
-    builder.add("-" * 40)
-    for change in changes:
-        tags_str = ", ".join([t.value for t in change.tags])
-        builder.add(f"  [{change.change_type.value:8}] {change.path:40} ({tags_str})")
-    return builder.as_list()
+    return LineBuilder([
+        "FILES CHANGED",
+        "-" * 40,
+        *(
+            f"  [{change.change_type.value:8}] {change.path:40} "
+            f"({', '.join(t.value for t in change.tags)})"
+            for change in changes
+        ),
+    ]).as_list()
