@@ -5,11 +5,10 @@ from rich.console import Console
 
 from tagi.scanner.diff import get_diff
 from tagi.utils.inspect_helpers import (
-    filter_changes_by_tag,
+    resolve_filtered_changes,
     display_statistics_table,
-    filter_changes_by_tags_any,
-    filter_changes_by_tags_all
 )
+from tagi.cli.display_utils import _display_changes
 from tagi.cli.scan_utils import scan_and_tag
 from tagi.config import load_config
 
@@ -33,9 +32,9 @@ def inspect_command(
         tag = f"#{tag}"
     
     # Filter changes by tag
-    filtered_changes = filter_changes_by_tag(scan_and_tag(repo_path), tag)
+    tag_changes = resolve_filtered_changes(scan_and_tag(repo_path), tag)
     
-    if not filtered_changes:
+    if not tag_changes:
         console.print(f"[yellow]No changes found for {tag}[/yellow]")
         return
     
@@ -45,13 +44,13 @@ def inspect_command(
         console.print(f"[dim]{tag_desc}[/dim]")
     
     # Display statistics
-    display_statistics_table(filtered_changes, console)
+    display_statistics_table(tag_changes, console)
     
-    _display_changes(filtered_changes, config)
+    _display_changes(tag_changes, config)
     
     if diff:
         console.print("\n[bold cyan]Diffs:[/bold cyan]")
-        for change in filtered_changes[:5]:  # Limit to first 5 files
+        for change in tag_changes[:5]:  # Limit to first 5 files
             diff_output = get_diff(change.path, repo_path)
             if diff_output:
                 console.print(f"\n[bold]{change.path}:[/bold]")
@@ -69,26 +68,22 @@ def filter_command(
     
     # Parse tags
     tag_list = [tag.strip() for tag in tags.split(",")]
-    tag_list = [tag if tag.startswith("#") else f"#{tag}" for tag in tag_list]
     
     # Filter changes
-    if mode == "all":
-        filtered_changes = filter_changes_by_tags_all(scan_and_tag(repo_path), tag_list)
-    else:  # default to "any"
-        filtered_changes = filter_changes_by_tags_any(scan_and_tag(repo_path), tag_list)
+    matching_changes = resolve_filtered_changes(scan_and_tag(repo_path), tag_list, mode)
     
-    if not filtered_changes:
+    if not matching_changes:
         console.print(f"[yellow]No changes found for tags: {tags}[/yellow]")
         return
     
     # Display statistics
-    display_statistics_table(filtered_changes, console)
+    display_statistics_table(matching_changes, console)
     
-    _display_changes(filtered_changes)
+    _display_changes(matching_changes)
     
     if diff:
         console.print("\n[bold cyan]Diffs:[/bold cyan]")
-        for change in filtered_changes[:5]:  # Limit to first 5 files
+        for change in matching_changes[:5]:  # Limit to first 5 files
             diff_output = get_diff(change.path, repo_path)
             if diff_output:
                 console.print(f"\n[bold]{change.path}:[/bold]")
