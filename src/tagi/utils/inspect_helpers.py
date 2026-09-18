@@ -4,6 +4,7 @@ from typing import List
 from rich.table import Table
 from rich.console import Console
 from tagi.models import Change, Tag
+from tagi.utils.risk import average_risk
 
 
 def filter_changes_by_tag(changes: List[Change], tag: str) -> List[Change]:
@@ -76,7 +77,7 @@ def calculate_tag_statistics(changes: List[Change]) -> tuple[int, float]:
         Tuple of (total_lines, avg_risk)
     """
     total_lines = sum(getattr(c, 'lines_changed', 0) for c in changes)
-    avg_risk = sum(getattr(c, 'risk_score', 0) for c in changes) / len(changes) if changes else 0.0
+    avg_risk = average_risk(changes)
     return total_lines, avg_risk
 
 

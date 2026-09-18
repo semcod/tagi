@@ -3,6 +3,7 @@
 from typing import List, Optional
 from tagi.models import Change, Tag, ChangeGroup
 from tagi.composer.commit_message import generate_commit_message
+from tagi.utils.risk import average_risk
 
 
 def resolve_filtered_changes(
@@ -51,7 +52,7 @@ def create_change_group(
         ChangeGroup instance
     """
     total_lines = sum(c.lines_changed for c in filtered_changes)
-    avg_risk = sum(c.risk_score for c in filtered_changes) / len(filtered_changes) if filtered_changes else 0.0
+    avg_risk = average_risk(filtered_changes)
     
     if tag is None:
         group_name = "all"
