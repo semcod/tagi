@@ -127,3 +127,8 @@ class Config:
                 return True
         
         return False
+
+
+def load_config(repo_path: str = ".") -> Config:
+    """Load the repository configuration (single construction point)."""
+    return Config(repo_path)

@@ -10,9 +10,8 @@ from tagi.utils.inspect_helpers import (
     filter_changes_by_tags_any,
     filter_changes_by_tags_all
 )
-from tagi.cli.display_utils import _display_changes
 from tagi.cli.scan_utils import scan_and_tag
-from tagi.config import Config
+from tagi.config import load_config
 
 
 console = Console()
@@ -26,7 +25,8 @@ def inspect_command(
     """Inspect a specific change group."""
     console.print(f"[bold]Inspecting[/bold] {tag}")
     
-    config = Config(repo_path)
+    config = load_config(repo_path)
+
     
     # Add # prefix if not present
     if not tag.startswith("#"):
