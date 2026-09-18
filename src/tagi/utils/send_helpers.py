@@ -19,8 +19,7 @@ def create_change_group(
         ChangeGroup instance
     """
     total_lines = sum(c.lines_changed for c in filtered_changes)
-    avg_risk = average_risk(filtered_changes)
-    
+
     if tag is None:
         group_name = "all"
         group_tags = []
@@ -34,5 +33,5 @@ def create_change_group(
         changes=filtered_changes,
         tags=group_tags,
         total_lines=total_lines,
-        avg_risk=avg_risk
+        avg_risk=average_risk(filtered_changes)
     )

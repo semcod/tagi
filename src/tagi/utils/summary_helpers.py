@@ -38,13 +38,12 @@ def build_statistics_section(changes: List[Change]) -> List[str]:
         List of statistics lines
     """
     total_lines = sum(getattr(c, 'lines_changed', 0) for c in changes)
-    avg_risk = average_risk(changes)
-    
+
     builder = LineBuilder()
     builder.add("OVERALL STATISTICS")
     builder.add("-" * 40)
     builder.add(f"Total lines changed: {total_lines}")
-    builder.add(f"Average risk score: {avg_risk:.2f}")
+    builder.add(f"Average risk score: {average_risk(changes):.2f}")
     builder.add("")
     return builder.as_list()
 

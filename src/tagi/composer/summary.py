@@ -13,11 +13,10 @@ def generate_summary(changes: List[Change]) -> str:
         return "No changes"
     
     total_lines = sum(c.lines_changed for c in changes)
-    avg_risk = average_risk(changes)
-    
+
     builder = LineBuilder()
     builder.add(f"Summary: {len(changes)} files, {total_lines} lines changed")
-    builder.add(f"Average risk score: {avg_risk:.2f}")
+    builder.add(f"Average risk score: {average_risk(changes):.2f}")
     
     # Add risk breakdown
     low_risk = sum(1 for c in changes if c.risk_score < 0.3)
