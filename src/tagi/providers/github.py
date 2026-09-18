@@ -29,9 +29,7 @@ class GitHubProvider(BaseProvider):
     
     def create_pr(self, spec: PrSpec) -> str:
         """Create a pull request using gh CLI."""
-        cmd = build_pr_command("gh", "pr", spec)
-        result = self._run_command(cmd)
-        return execute_pr_command(result)
+        return execute_pr_command(self._run_command(build_pr_command("gh", "pr", spec)))
     
     def detect_remote(self) -> bool:
         """Detect if the current repository is hosted on GitHub."""

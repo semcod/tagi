@@ -15,9 +15,8 @@ def scan_repo(repo_path: str = ".") -> List[Change]:
     
     config = load_config(repo_path)
     
-    cmd = ["git", "status", "--porcelain"]
     result = subprocess.run(
-        cmd,
+        ["git", "status", "--porcelain"],
         cwd=repo_path,
         capture_output=True,
         text=True,

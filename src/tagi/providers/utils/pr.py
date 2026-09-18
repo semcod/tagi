@@ -19,18 +19,17 @@ def build_pr_command(tool: str, pr_type: str, spec: "PrSpec") -> List[str]:
         Command as list of strings
     """
     if tool == "gh":
-        cmd = ["gh", "pr", "create", "--title", spec.title, "--body", spec.body, "--base", spec.base]
+        base = ["gh", "pr", "create", "--title", spec.title, "--body", spec.body, "--base", spec.base]
     elif tool == "glab":
-        cmd = ["glab", "mr", "create", "--title", spec.title, "--description", spec.body, "--target-branch", spec.base]
+        base = ["glab", "mr", "create", "--title", spec.title, "--description", spec.body, "--target-branch", spec.base]
     else:
         raise ValueError(f"Unsupported tool: {tool}")
 
-    if spec.draft:
-        cmd.append("--draft")
-    if spec.labels:
-        cmd.extend(["--label", ",".join(spec.labels)])
-    
-    return cmd
+    return (
+        base
+        + (["--draft"] if spec.draft else [])
+        + (["--label", ",".join(spec.labels)] if spec.labels else [])
+    )
 
 
 def execute_pr_command(result: CompletedProcess) -> str:

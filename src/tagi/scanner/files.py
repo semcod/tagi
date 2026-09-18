@@ -6,9 +6,8 @@ import subprocess
 def count_lines_changed(file_path: str, repo_path: str = ".") -> int:
     """Count the number of lines changed in a file."""
     try:
-        cmd = ["git", "diff", "--numstat", file_path]
         result = subprocess.run(
-            cmd,
+            ["git", "diff", "--numstat", file_path],
             cwd=repo_path,
             capture_output=True,
             text=True,
