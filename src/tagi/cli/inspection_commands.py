@@ -3,16 +3,15 @@
 import typer
 from rich.console import Console
 
-from tagi.heuristics.tags import apply_tags
-from tagi.scanner.status import scan_repo
 from tagi.scanner.diff import get_diff
 from tagi.utils.inspect_helpers import (
-    filter_changes_by_tag, 
+    filter_changes_by_tag,
     display_statistics_table,
     filter_changes_by_tags_any,
     filter_changes_by_tags_all
 )
 from tagi.cli.display_utils import _display_changes
+from tagi.cli.scan_utils import scan_and_tag
 from tagi.config import Config
 
 
@@ -27,16 +26,6 @@ def inspect_command(
     """Inspect a specific change group."""
     console.print(f"[bold]Inspecting[/bold] {tag}")
     
-    try:
-        changes = scan_repo(repo_path)
-        changes = apply_tags(changes, repo_path)
-    except (ValueError, RuntimeError) as e:
-        console.print(f"[red]Error: {e}[/red]")
-        raise typer.Exit(1)
-    except Exception as e:
-        console.print(f"[red]Unexpected error: {e}[/red]")
-        raise typer.Exit(1)
-    
     config = Config(repo_path)
     
     # Add # prefix if not present
@@ -44,7 +33,7 @@ def inspect_command(
         tag = f"#{tag}"
     
     # Filter changes by tag
-    filtered_changes = filter_changes_by_tag(changes, tag)
+    filtered_changes = filter_changes_by_tag(scan_and_tag(repo_path), tag)
     
     if not filtered_changes:
         console.print(f"[yellow]No changes found for {tag}[/yellow]")
@@ -78,25 +67,15 @@ def filter_command(
     """Filter changes by tags."""
     console.print(f"[bold]Filtering[/bold] changes by tags: {tags}")
     
-    try:
-        changes = scan_repo(repo_path)
-        changes = apply_tags(changes, repo_path)
-    except (ValueError, RuntimeError) as e:
-        console.print(f"[red]Error: {e}[/red]")
-        raise typer.Exit(1)
-    except Exception as e:
-        console.print(f"[red]Unexpected error: {e}[/red]")
-        raise typer.Exit(1)
-    
     # Parse tags
     tag_list = [tag.strip() for tag in tags.split(",")]
     tag_list = [tag if tag.startswith("#") else f"#{tag}" for tag in tag_list]
     
     # Filter changes
     if mode == "all":
-        filtered_changes = filter_changes_by_tags_all(changes, tag_list)
+        filtered_changes = filter_changes_by_tags_all(scan_and_tag(repo_path), tag_list)
     else:  # default to "any"
-        filtered_changes = filter_changes_by_tags_any(changes, tag_list)
+        filtered_changes = filter_changes_by_tags_any(scan_and_tag(repo_path), tag_list)
     
     if not filtered_changes:
         console.print(f"[yellow]No changes found for tags: {tags}[/yellow]")
@@ -124,18 +103,8 @@ def file_command(
     """Show detailed information about a specific file."""
     console.print(f"[bold]File:[/bold] {file_path}")
     
-    try:
-        changes = scan_repo(repo_path)
-        changes = apply_tags(changes, repo_path)
-    except (ValueError, RuntimeError) as e:
-        console.print(f"[red]Error: {e}[/red]")
-        raise typer.Exit(1)
-    except Exception as e:
-        console.print(f"[red]Unexpected error: {e}[/red]")
-        raise typer.Exit(1)
-    
     # Find the specific file
-    file_changes = [c for c in changes if c.path == file_path]
+    file_changes = [c for c in scan_and_tag(repo_path) if c.path == file_path]
     
     if not file_changes:
         console.print(f"[yellow]File not found in changes: {file_path}[/yellow]")

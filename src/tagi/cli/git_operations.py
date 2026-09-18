@@ -10,6 +10,7 @@ from tagi.models.change import Tag
 from tagi.planner.sorter import sort_by_complexity
 from tagi.utils.send_helpers import create_change_group
 from tagi.utils.detect_provider import detect_git_provider
+from tagi.cli.scan_utils import scan_and_tag
 
 
 console = Console()
@@ -52,20 +53,6 @@ def _resolve_send_target(target: Optional[str], repo_path: str) -> tuple[str, Op
     # Otherwise treat the value as a (possibly unknown) tag so the caller can
     # report it cleanly instead of failing on a missing path.
     return repo_path, target
-
-
-def _scan_and_tag(repo_path: str):
-    """Scan repo and apply tags; exits(1) with a user-facing error on failure."""
-    import tagi.cli as _cli
-    try:
-        changes = _cli.scan_repo(repo_path)
-        return _cli.apply_tags(changes, repo_path)
-    except (ValueError, RuntimeError) as e:
-        console.print(f"[red]Error: {e}[/red]")
-        raise typer.Exit(1)
-    except Exception as e:
-        console.print(f"[red]Unexpected error: {e}[/red]")
-        raise typer.Exit(1)
 
 
 def _filter_by_tag(changes, tag: Optional[str]):
@@ -125,12 +112,12 @@ def send_command(
     else:
         console.print(f"[bold]Sending[/bold] {tag}")
 
-    changes = _scan_and_tag(repo_path)
-    if not changes:
+    tagged_changes = scan_and_tag(repo_path)
+    if not tagged_changes:
         console.print("[yellow]No changes found[/yellow]")
         return
 
-    filtered_changes = _filter_by_tag(changes, tag)
+    filtered_changes = _filter_by_tag(tagged_changes, tag)
 
     # Auto-order if requested
     if auto_order:
