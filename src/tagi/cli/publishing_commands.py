@@ -7,6 +7,7 @@ from tagi.executor.publish import PublishExecutor
 from tagi.models.change import Tag
 from tagi.utils.publish_helpers import filter_changes_by_tag, create_publish_group
 from tagi.utils.detect_provider import detect_git_provider
+from tagi.cli.scan_utils import scan_and_tag
 
 
 console = Console()
@@ -32,16 +33,6 @@ def publish_command(
 
     console.print(f"[bold]Publishing[/bold] {tag}")
 
-    try:
-        changes = _cli.scan_repo(repo_path)
-        changes = _cli.apply_tags(changes, repo_path)
-    except (ValueError, RuntimeError) as e:
-        console.print(f"[red]Error: {e}[/red]")
-        raise typer.Exit(1)
-    except Exception as e:
-        console.print(f"[red]Unexpected error: {e}[/red]")
-        raise typer.Exit(1)
-
     tag = _ensure_tag_prefix(tag)
     try:
         Tag(tag)  # validate that the tag is recognized
@@ -49,7 +40,7 @@ def publish_command(
         console.print(f"[red]Unknown tag: {tag}[/red]")
         raise typer.Exit(1)
 
-    filtered_changes = filter_changes_by_tag(changes, tag)
+    filtered_changes = filter_changes_by_tag(scan_and_tag(repo_path), tag)
 
     if not filtered_changes:
         console.print(f"[yellow]No changes found for {tag}[/yellow]")
@@ -116,16 +107,6 @@ def deploy_command(
 
     console.print(f"[bold]Deploying[/bold] {tag} to {environment}")
 
-    try:
-        changes = _cli.scan_repo(repo_path)
-        changes = _cli.apply_tags(changes, repo_path)
-    except (ValueError, RuntimeError) as e:
-        console.print(f"[red]Error: {e}[/red]")
-        raise typer.Exit(1)
-    except Exception as e:
-        console.print(f"[red]Unexpected error: {e}[/red]")
-        raise typer.Exit(1)
-
     tag = _ensure_tag_prefix(tag)
     try:
         Tag(tag)  # validate that the tag is recognized
@@ -133,7 +114,7 @@ def deploy_command(
         console.print(f"[red]Unknown tag: {tag}[/red]")
         raise typer.Exit(1)
 
-    filtered_changes = filter_changes_by_tag(changes, tag)
+    filtered_changes = filter_changes_by_tag(scan_and_tag(repo_path), tag)
 
     if not filtered_changes:
         console.print(f"[yellow]No changes found for {tag}[/yellow]")

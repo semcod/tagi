@@ -6,11 +6,10 @@ from rich.console import Console
 from pathlib import Path
 
 from tagi.composer.commit_message import generate_commit_message
-from tagi.heuristics.tags import apply_tags
 from tagi.models.change import Tag
-from tagi.scanner.status import scan_repo
 from tagi.utils.send_helpers import create_change_group
 from tagi.utils.inspect_helpers import filter_changes_by_tag
+from tagi.cli.scan_utils import scan_and_tag
 
 
 console = Console()
@@ -30,17 +29,9 @@ def summary_command(
     """Generate a comprehensive summary report of all changes."""
     console.print(f"[bold]Generating summary[/bold] for {repo_path}")
     
-    try:
-        changes = scan_repo(repo_path)
-        changes = apply_tags(changes, repo_path)
-    except (ValueError, RuntimeError) as e:
-        console.print(f"[red]Error: {e}[/red]")
-        raise typer.Exit(1)
-    except Exception as e:
-        console.print(f"[red]Unexpected error: {e}[/red]")
-        raise typer.Exit(1)
+    all_changes = scan_and_tag(repo_path)
     
-    if not changes:
+    if not all_changes:
         console.print("[yellow]No changes found[/yellow]")
         return
     
@@ -48,12 +39,12 @@ def summary_command(
     summary_lines = []
     summary_lines.append("# Change Summary Report")
     summary_lines.append(f"Repository: {Path(repo_path).absolute()}")
-    summary_lines.append(f"Total changes: {len(changes)}")
+    summary_lines.append(f"Total changes: {len(all_changes)}")
     summary_lines.append("")
     
     # Group by tags
     from tagi.utils.inspect_helpers import calculate_tag_statistics
-    tag_stats = calculate_tag_statistics(changes)
+    tag_stats = calculate_tag_statistics(all_changes)
     
     summary_lines.append("## Changes by Tag")
     for tag, count in tag_stats.items():
@@ -63,7 +54,7 @@ def summary_command(
     
     # Detailed change list
     summary_lines.append("## Detailed Changes")
-    for change in changes:
+    for change in all_changes:
         tags_str = ", ".join([tag.value for tag in change.tags]) if change.tags else "none"
         summary_lines.append(f"- **{change.path}** [{change.change_type.value}]")
         summary_lines.append(f"  Tags: {tags_str}")
@@ -195,16 +186,6 @@ def draft_command(
     """Draft a commit message for a change group."""
     console.print(f"[bold]Drafting[/bold] commit message for {tag}")
     
-    try:
-        changes = scan_repo(repo_path)
-        changes = apply_tags(changes, repo_path)
-    except (ValueError, RuntimeError) as e:
-        console.print(f"[red]Error: {e}[/red]")
-        raise typer.Exit(1)
-    except Exception as e:
-        console.print(f"[red]Unexpected error: {e}[/red]")
-        raise typer.Exit(1)
-    
     tag = _ensure_tag_prefix(tag)
     try:
         Tag(tag)  # validate that the tag is recognized
@@ -212,7 +193,7 @@ def draft_command(
         console.print(f"[red]Unknown tag: {tag}[/red]")
         raise typer.Exit(1)
     
-    filtered_changes = filter_changes_by_tag(changes, tag)
+    filtered_changes = filter_changes_by_tag(scan_and_tag(repo_path), tag)
     
     if not filtered_changes:
         console.print(f"[yellow]No changes found for {tag}[/yellow]")

@@ -3,10 +3,9 @@
 import typer
 from rich.console import Console
 
-from tagi.heuristics.tags import apply_tags
-from tagi.scanner.status import scan_repo
 from tagi.utils.inspect_helpers import calculate_tag_statistics, display_statistics_table
 from tagi.cli.display_utils import _display_changes, _display_changes_grouped
+from tagi.cli.scan_utils import scan_and_tag
 
 
 console = Console()
@@ -19,27 +18,16 @@ def scan_command(
     """Scan repository for uncommitted changes."""
     console.print(f"[bold]Scanning[/bold] {repo_path}")
     
-    try:
-        changes = scan_repo(repo_path)
-        changes = apply_tags(changes, repo_path)
-    except ValueError as e:
-        console.print(f"[red]Error: {e}[/red]")
-        raise typer.Exit(1)
-    except RuntimeError as e:
-        console.print(f"[red]Error: {e}[/red]")
-        raise typer.Exit(1)
-    except Exception as e:
-        console.print(f"[red]Unexpected error: {e}[/red]")
-        raise typer.Exit(1)
+    all_changes = scan_and_tag(repo_path)
     
-    if not changes:
+    if not all_changes:
         console.print("[green]No uncommitted changes found[/green]")
         return
     
     if grouped:
-        _display_changes_grouped(changes)
+        _display_changes_grouped(all_changes)
     else:
-        _display_changes(changes)
+        _display_changes(all_changes)
 
 
 def list_groups_command(
@@ -58,23 +46,15 @@ def list_command(
 
 def _do_list_groups(repo_path: str) -> None:
     """Shared implementation for list and list-groups commands."""
-    try:
-        changes = scan_repo(repo_path)
-        changes = apply_tags(changes, repo_path)
-    except (ValueError, RuntimeError) as e:
-        console.print(f"[red]Error: {e}[/red]")
-        raise typer.Exit(1)
-    except Exception as e:
-        console.print(f"[red]Unexpected error: {e}[/red]")
-        raise typer.Exit(1)
+    all_changes = scan_and_tag(repo_path)
     
-    if not changes:
+    if not all_changes:
         console.print("[yellow]No changes found[/yellow]")
         return
     
     # Calculate and display statistics
-    stats = calculate_tag_statistics(changes)
-    display_statistics_table(changes, console)
+    stats = calculate_tag_statistics(all_changes)
+    display_statistics_table(all_changes, console)
     
     console.print("\n[bold]Available change groups:[/bold]")
     for tag, count in stats.items():
@@ -89,33 +69,25 @@ def stats_command(
     """Show statistics about changes."""
     console.print(f"[bold]Statistics[/bold] for {repo_path}")
     
-    try:
-        changes = scan_repo(repo_path)
-        changes = apply_tags(changes, repo_path)
-    except (ValueError, RuntimeError) as e:
-        console.print(f"[red]Error: {e}[/red]")
-        raise typer.Exit(1)
-    except Exception as e:
-        console.print(f"[red]Unexpected error: {e}[/red]")
-        raise typer.Exit(1)
+    all_changes = scan_and_tag(repo_path)
     
-    if not changes:
+    if not all_changes:
         console.print("[yellow]No changes found[/yellow]")
         return
     
     # Display statistics table
-    display_statistics_table(changes, console)
+    display_statistics_table(all_changes, console)
     
     if verbose:
         console.print("\n[bold]Detailed breakdown:[/bold]")
         from tagi.utils.inspect_helpers import filter_changes_by_tags_any
         
         # Group by tags and show details
-        tag_stats = calculate_tag_statistics(changes)
+        tag_stats = calculate_tag_statistics(all_changes)
         for tag, count in tag_stats.items():
             if count > 0:
                 console.print(f"\n[cyan]{tag}[/cyan] ({count} changes):")
-                tag_changes = filter_changes_by_tags_any(changes, [tag])
+                tag_changes = filter_changes_by_tags_any(all_changes, [tag])
                 for change in tag_changes[:5]:  # Limit to first 5
                     console.print(f"  • {change.path}")
                 if len(tag_changes) > 5:
