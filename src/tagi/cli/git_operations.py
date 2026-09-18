@@ -8,6 +8,7 @@ from rich.console import Console
 from tagi.executor.git import GitExecutor
 from tagi.models.change import Tag
 from tagi.planner.sorter import sort_by_complexity
+from tagi.utils.inspect_helpers import resolve_filtered_changes
 from tagi.utils.send_helpers import create_change_group
 from tagi.utils.detect_provider import detect_git_provider
 
@@ -72,23 +73,21 @@ def _filter_by_tag(changes, tag: Optional[str]):
     """Filter changes to ``tag``; returns all changes when tag is None."""
     if tag is None:
         return changes
-    tag = _ensure_tag_prefix(tag)
     try:
-        tag_enum = Tag(tag)
+        return resolve_filtered_changes(changes, tag)
     except ValueError:
-        console.print(f"[red]Unknown tag: {tag}[/red]")
+        console.print(f"[red]Unknown tag: {_ensure_tag_prefix(tag)}[/red]")
         raise typer.Exit(1)
-    return [c for c in changes if tag_enum in c.tags]
 
 
-def _execute_git_operations(filtered_changes, commit_message: str, push: bool, repo_path: str) -> None:
+def _execute_git_operations(changes, commit_message: str, push: bool, repo_path: str) -> None:
     """Stage, commit and optionally push; exits(1) on failure."""
     git_executor = GitExecutor(repo_path)
     try:
-        for change in filtered_changes:
+        for change in changes:
             git_executor.stage(change.path)
         git_executor.commit(commit_message)
-        console.print(f"[green]✓ Committed {len(filtered_changes)} change(s)[/green]")
+        console.print(f"[green]✓ Committed {len(changes)} change(s)[/green]")
 
         if push:
             provider = detect_git_provider(repo_path)
@@ -130,14 +129,14 @@ def send_command(
         console.print("[yellow]No changes found[/yellow]")
         return
 
-    filtered_changes = _filter_by_tag(changes, tag)
+    changes_to_send = _filter_by_tag(changes, tag)
 
     # Auto-order if requested
     if auto_order:
         console.print("[bold]Sorting changes by complexity (simplest first)[/bold]")
-        filtered_changes = sort_by_complexity(filtered_changes)
+        changes_to_send = sort_by_complexity(changes_to_send)
 
-    if not filtered_changes:
+    if not changes_to_send:
         if tag is None:
             console.print("[yellow]No changes found[/yellow]")
         else:
@@ -145,7 +144,7 @@ def send_command(
         return
 
     # Create change group
-    group = create_change_group(filtered_changes, tag)
+    group = create_change_group(changes_to_send, tag)
 
     # Generate commit message
     commit_message = _cli.generate_commit_message(
@@ -158,7 +157,7 @@ def send_command(
         console.print("\n[yellow][DRY-RUN] No changes will be made[/yellow]")
         return
 
-    _execute_git_operations(filtered_changes, commit_message, push, repo_path)
+    _execute_git_operations(changes_to_send, commit_message, push, repo_path)
 
 
 def auto_command(

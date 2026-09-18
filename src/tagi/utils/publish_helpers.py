@@ -25,20 +25,6 @@ def detect_and_get_provider(repo_path: str):
     return None
 
 
-def filter_changes_by_tag(changes: List[Change], tag: str) -> List[Change]:
-    """Filter changes by tag.
-    
-    Args:
-        changes: All changes
-        tag: Tag to filter by (with # prefix)
-        
-    Returns:
-        Filtered changes
-    """
-    tag_enum = Tag(tag)
-    return [c for c in changes if tag_enum in c.tags]
-
-
 def create_publish_group(changes: List[Change], tag: str) -> ChangeGroup:
     """Create a ChangeGroup for publishing.
     

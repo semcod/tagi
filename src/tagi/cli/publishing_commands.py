@@ -4,8 +4,8 @@ import typer
 from rich.console import Console
 
 from tagi.executor.publish import PublishExecutor
-from tagi.models.change import Tag
-from tagi.utils.publish_helpers import filter_changes_by_tag, create_publish_group
+from tagi.utils.inspect_helpers import resolve_filtered_changes
+from tagi.utils.publish_helpers import create_publish_group
 from tagi.utils.detect_provider import detect_git_provider
 
 
@@ -44,19 +44,17 @@ def publish_command(
 
     tag = _ensure_tag_prefix(tag)
     try:
-        Tag(tag)  # validate that the tag is recognized
+        publish_changes = resolve_filtered_changes(changes, tag)
     except ValueError:
         console.print(f"[red]Unknown tag: {tag}[/red]")
         raise typer.Exit(1)
 
-    filtered_changes = filter_changes_by_tag(changes, tag)
-
-    if not filtered_changes:
+    if not publish_changes:
         console.print(f"[yellow]No changes found for {tag}[/yellow]")
         return
 
     # Create change group
-    group = create_publish_group(filtered_changes, tag)
+    group = create_publish_group(publish_changes, tag)
     
     # Detect provider
     provider = detect_git_provider(repo_path)
@@ -70,8 +68,8 @@ def publish_command(
     if dry_run:
         console.print("\n[bold cyan]Dry run - would create PR/MR with:[/bold cyan]")
         console.print(f"  Tag: {tag}")
-        console.print(f"  Changes: {len(filtered_changes)}")
-        for change in filtered_changes:
+        console.print(f"  Changes: {len(publish_changes)}")
+        for change in publish_changes:
             console.print(f"    • {change.path}")
         return
 
@@ -128,14 +126,12 @@ def deploy_command(
 
     tag = _ensure_tag_prefix(tag)
     try:
-        Tag(tag)  # validate that the tag is recognized
+        deploy_changes = resolve_filtered_changes(changes, tag)
     except ValueError:
         console.print(f"[red]Unknown tag: {tag}[/red]")
         raise typer.Exit(1)
 
-    filtered_changes = filter_changes_by_tag(changes, tag)
-
-    if not filtered_changes:
+    if not deploy_changes:
         console.print(f"[yellow]No changes found for {tag}[/yellow]")
         return
 
@@ -143,14 +139,14 @@ def deploy_command(
         console.print("\n[bold cyan]Dry run - would deploy:[/bold cyan]")
         console.print(f"  Tag: {tag}")
         console.print(f"  Environment: {environment}")
-        console.print(f"  Changes: {len(filtered_changes)}")
-        for change in filtered_changes:
+        console.print(f"  Changes: {len(deploy_changes)}")
+        for change in deploy_changes:
             console.print(f"    • {change.path}")
         return
 
     # For now, deploy is a placeholder that would integrate with deployment systems
     console.print("[yellow]Deploy functionality is not yet implemented[/yellow]")
-    console.print(f"[yellow]Would deploy {len(filtered_changes)} changes to {environment}[/yellow]")
+    console.print(f"[yellow]Would deploy {len(deploy_changes)} changes to {environment}[/yellow]")
     
     # TODO: Implement actual deployment logic
     # This could integrate with:

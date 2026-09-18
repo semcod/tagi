@@ -2,39 +2,6 @@
 
 from typing import List, Optional
 from tagi.models import Change, Tag, ChangeGroup
-from tagi.composer.commit_message import generate_commit_message
-
-
-def resolve_filtered_changes(
-    changes: List[Change],
-    tag: Optional[str],
-    auto_order: bool,
-    sort_by_complexity_func
-) -> tuple[List[Change], Optional[str]]:
-    """Resolve filtered changes based on tag and auto_order.
-    
-    Args:
-        changes: All changes
-        tag: Optional tag to filter by
-        auto_order: Whether to sort by complexity
-        sort_by_complexity_func: Function to sort by complexity
-        
-    Returns:
-        Tuple of (filtered_changes, final_tag)
-    """
-    if tag is None:
-        filtered_changes = changes
-    else:
-        from tagi.cli import _ensure_tag_prefix
-        tag = _ensure_tag_prefix(tag)
-        tag_enum = Tag(tag)
-        filtered_changes = [c for c in changes if tag_enum in c.tags]
-    
-    if auto_order:
-        filtered_changes = sort_by_complexity_func(filtered_changes)
-        tag = None  # Mark as no tag filtering
-    
-    return filtered_changes, tag
 
 
 def create_change_group(

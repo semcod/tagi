@@ -7,10 +7,9 @@ from pathlib import Path
 
 from tagi.composer.commit_message import generate_commit_message
 from tagi.heuristics.tags import apply_tags
-from tagi.models.change import Tag
 from tagi.scanner.status import scan_repo
 from tagi.utils.send_helpers import create_change_group
-from tagi.utils.inspect_helpers import filter_changes_by_tag
+from tagi.utils.inspect_helpers import resolve_filtered_changes
 
 
 console = Console()
@@ -207,19 +206,17 @@ def draft_command(
     
     tag = _ensure_tag_prefix(tag)
     try:
-        Tag(tag)  # validate that the tag is recognized
+        draft_changes = resolve_filtered_changes(changes, tag)
     except ValueError:
         console.print(f"[red]Unknown tag: {tag}[/red]")
         raise typer.Exit(1)
     
-    filtered_changes = filter_changes_by_tag(changes, tag)
-    
-    if not filtered_changes:
+    if not draft_changes:
         console.print(f"[yellow]No changes found for {tag}[/yellow]")
         return
     
     # Create change group
-    group = create_change_group(filtered_changes, tag)
+    group = create_change_group(draft_changes, tag)
     
     # Generate commit message
     commit_message = generate_commit_message(group, template=template)
@@ -227,6 +224,6 @@ def draft_command(
     console.print("\n[bold cyan]Draft commit message:[/bold cyan]")
     console.print(commit_message)
     
-    console.print(f"\n[dim]Changes included: {len(filtered_changes)}[/dim]")
-    for change in filtered_changes:
+    console.print(f"\n[dim]Changes included: {len(draft_changes)}[/dim]")
+    for change in draft_changes:
         console.print(f"  • {change.path}")
