@@ -1,72 +1,120 @@
 # code2llm call graph | /home/tom/github/semcod/tagi
-# generated in 0.03s
-# nodes: 66 | edges: 60 | modules: 21
-# CC̄=3.9
+# generated in 0.07s
+# nodes: 103 | edges: 108 | modules: 38
+# CC̄=3.3
 
 HUBS[20]:
-  src.tagi.cli.send
-    CC=23  in:0  out:48  total:48
-  src.tagi.cli.publish
-    CC=12  in:0  out:45  total:45
-  src.tagi.cli.filter
-    CC=11  in:0  out:28  total:28
-  src.tagi.cli.summary
-    CC=5  in:0  out:28  total:28
-  src.tagi.cli.inspect
-    CC=11  in:0  out:28  total:28
-  src.tagi.heuristics.tags.apply_tags
-    CC=11  in:10  out:16  total:26
-  src.tagi.scanner.status.scan_repo
-    CC=7  in:10  out:15  total:25
-  src.tagi.cli.draft
-    CC=10  in:0  out:22  total:22
+  src.tagi.cli.publishing_commands.publish_command
+    CC=11  in:0  out:36  total:36
+  src.tagi.cli.utility_commands.summary_command
+    CC=9  in:0  out:28  total:28
+  src.tagi.cli.git_operations.send_command
+    CC=8  in:1  out:26  total:27
+  src.tagi.cli.utility_commands.hooks_command
+    CC=10  in:0  out:26  total:26
+  src.tagi.cli.publishing_commands.deploy_command
+    CC=5  in:0  out:22  total:22
+  src.tagi.cli.scan_utils.scan_and_tag
+    CC=3  in:11  out:6  total:17
+  src.tagi.cli.utility_commands.draft_command
+    CC=4  in:0  out:17  total:17
+  src.tagi.cli.inspection_commands.inspect_command
+    CC=7  in:0  out:17  total:17
   src.tagi.utils.logger.setup_logger
     CC=4  in:2  out:15  total:17
-  src.tagi.composer.commit_message.generate_commit_message
-    CC=15  in:3  out:13  total:16
-  src.tagi.cli.scan
-    CC=6  in:0  out:15  total:15
-  src.tagi.composer.commit_message.generate_detailed_message
-    CC=7  in:1  out:12  total:13
-  src.tagi.cli._do_list_groups
-    CC=4  in:2  out:11  total:13
-  src.tagi.planner.grouper.group_changes
-    CC=7  in:2  out:11  total:13
-  src.tagi.cli._display_changes_grouped
-    CC=5  in:1  out:12  total:13
+  src.tagi.utils.inspect_helpers.resolve_filtered_changes
+    CC=17  in:9  out:8  total:17
+  src.tagi.heuristics.tags.apply_tags
+    CC=11  in:0  out:16  total:16
+  src.tagi.cli.inspection_commands.filter_command
+    CC=6  in:0  out:16  total:16
   src.tagi.utils.inspect_helpers.display_statistics_table
-    CC=1  in:1  out:11  total:12
+    CC=1  in:4  out:11  total:15
+  src.tagi.scanner.status.scan_repo
+    CC=7  in:0  out:15  total:15
+  src.tagi.cli.core_commands.stats_command
+    CC=7  in:0  out:15  total:15
+  src.tagi.cli.git_operations._execute_git_operations
+    CC=5  in:1  out:11  total:12
   src.tagi.heuristics.metrics._calculate_complexity
     CC=5  in:1  out:10  total:11
-  src.tagi.cli._display_changes
-    CC=2  in:3  out:7  total:10
-  src.tagi.cli._display_groups
-    CC=2  in:1  out:8  total:9
-  src.tagi.analyzer.dependency_graph.analyze_python_imports
-    CC=8  in:1  out:8  total:9
+  src.tagi.cli.display_utils._display_changes
+    CC=5  in:3  out:8  total:11
+  src.tagi.composer.summary.generate_summary
+    CC=9  in:0  out:11  total:11
+  src.tagi.planner.grouper.group_changes
+    CC=5  in:0  out:10  total:10
 
 MODULES:
   src.tagi.analyzer.dependency_graph  [2 funcs]
     analyze_python_imports  CC=8  out:8
     build_dependency_graph  CC=3  out:4
-  src.tagi.cli  [20 funcs]
-    _configure_command_logging  CC=2  out:2
-    _display_changes  CC=2  out:7
-    _display_changes_grouped  CC=5  out:12
-    _display_groups  CC=2  out:8
-    _do_list_groups  CC=4  out:11
+  src.tagi.analyzer.metrics  [1 funcs]
+    collect  CC=11  out:5
+  src.tagi.cli.core_commands  [5 funcs]
+    _do_list_groups  CC=4  out:7
+    list_command  CC=1  out:2
+    list_groups_command  CC=1  out:2
+    scan_command  CC=3  out:7
+    stats_command  CC=7  out:15
+  src.tagi.cli.display_utils  [4 funcs]
+    _display_changes  CC=5  out:8
+    _display_changes_grouped  CC=5  out:3
+    _display_groups  CC=4  out:6
+    _format_tags  CC=5  out:3
+  src.tagi.cli.git_operations  [7 funcs]
     _ensure_tag_prefix  CC=2  out:1
-    _format_tags  CC=5  out:4
+    _execute_git_operations  CC=5  out:11
+    _filter_by_tag  CC=3  out:4
     _is_known_tag  CC=2  out:2
     _resolve_send_target  CC=5  out:5
-    detect_provider  CC=3  out:4
-  src.tagi.composer.commit_message  [6 funcs]
-    _infer_scope  CC=7  out:2
-    generate_commit_message  CC=15  out:13
-    generate_conventional_message  CC=12  out:2
-    generate_detailed_message  CC=7  out:12
-    generate_oneline_message  CC=6  out:2
-    generate_simple_message  CC=7  out:4
+    auto_command  CC=1  out:8
+    send_command  CC=8  out:26
+  src.tagi.cli.inspection_commands  [2 funcs]
+    filter_command  CC=6  out:16
+    inspect_command  CC=7  out:17
+  src.tagi.cli.main  [6 funcs]
+    _configure_command_logging  CC=2  out:2
+    _ensure_tag_prefix  CC=2  out:1
+    _is_known_tag  CC=2  out:2
+    _resolve_send_target  CC=5  out:5
+    detect_provider  CC=1  out:1
+    setup_logging  CC=3  out:4
+  src.tagi.cli.provider_commands  [5 funcs]
+    _current_branch  CC=2  out:2
+    _pr_spec  CC=1  out:2
+    create_mr  CC=4  out:8
+    create_pr  CC=4  out:8
+    detect_provider_command  CC=2  out:3
+  src.tagi.cli.publishing_commands  [3 funcs]
+    _ensure_tag_prefix  CC=2  out:1
+    deploy_command  CC=5  out:22
+    publish_command  CC=11  out:36
+  src.tagi.cli.scan_utils  [1 funcs]
+    scan_and_tag  CC=3  out:6
+  src.tagi.cli.utility_commands  [4 funcs]
+    _ensure_tag_prefix  CC=2  out:1
+    draft_command  CC=4  out:17
+    hooks_command  CC=10  out:26
+    summary_command  CC=9  out:28
+  src.tagi.composer._tags  [4 funcs]
+    all_tag_values  CC=2  out:1
+    all_tags  CC=4  out:3
+    infer_scope  CC=7  out:2
+    summary_tag  CC=3  out:2
+  src.tagi.composer._templates  [1 funcs]
+    render_template  CC=2  out:2
+  src.tagi.composer.commit_message  [2 funcs]
+    _improve_with_llm  CC=2  out:2
+    generate_commit_message  CC=5  out:7
+  src.tagi.composer.formats  [3 funcs]
+    generate_conventional_message  CC=12  out:4
+    generate_oneline_message  CC=4  out:3
+    generate_simple_message  CC=5  out:5
+  src.tagi.composer.summary  [1 funcs]
+    generate_summary  CC=9  out:11
+  src.tagi.config  [1 funcs]
+    load_config  CC=1  out:1
   src.tagi.heuristics.metrics  [6 funcs]
     _calculate_complexity  CC=5  out:10
     _calculate_dependency_depth  CC=4  out:4
@@ -83,10 +131,18 @@ MODULES:
   src.tagi.heuristics.tags  [2 funcs]
     apply_path_tags  CC=4  out:3
     apply_tags  CC=11  out:16
+  src.tagi.hooks  [7 funcs]
+    _hooks_dir  CC=1  out:1
+    _pre_commit_hook  CC=1  out:1
+    check_hooks_installed  CC=2  out:3
+    install_hooks  CC=2  out:5
+    list_hooks  CC=5  out:7
+    run_hook  CC=2  out:5
+    uninstall_hooks  CC=3  out:3
   src.tagi.planner.grouper  [3 funcs]
     _get_primary_tag  CC=4  out:0
     group_by_tag  CC=1  out:1
-    group_changes  CC=7  out:11
+    group_changes  CC=5  out:10
   src.tagi.planner.selector  [1 funcs]
     select_changes_by_tag  CC=3  out:0
   src.tagi.planner.sorter  [2 funcs]
@@ -111,67 +167,75 @@ MODULES:
   src.tagi.scanner.status  [2 funcs]
     parse_status  CC=4  out:0
     scan_repo  CC=7  out:15
-  src.tagi.utils.inspect_helpers  [2 funcs]
-    calculate_tag_statistics  CC=4  out:5
+  src.tagi.utils.detect_provider  [1 funcs]
+    detect_git_provider  CC=4  out:2
+  src.tagi.utils.inspect_helpers  [6 funcs]
+    calculate_tag_statistics  CC=2  out:3
     display_statistics_table  CC=1  out:11
+    filter_changes_by_tag  CC=1  out:1
+    filter_changes_by_tags_all  CC=1  out:1
+    filter_changes_by_tags_any  CC=1  out:1
+    resolve_filtered_changes  CC=17  out:8
   src.tagi.utils.logger  [1 funcs]
     setup_logger  CC=4  out:15
   src.tagi.utils.publish_helpers  [2 funcs]
+    create_publish_group  CC=2  out:4
     detect_and_get_provider  CC=3  out:3
-    filter_changes_by_tag  CC=3  out:1
+  src.tagi.utils.risk  [1 funcs]
+    average_risk  CC=3  out:2
   src.tagi.utils.send_helpers  [1 funcs]
-    resolve_filtered_changes  CC=5  out:3
+    create_change_group  CC=3  out:4
   src.tagi.utils.summary_helpers  [1 funcs]
-    build_report_header  CC=1  out:7
+    build_statistics_section  CC=2  out:10
 
 EDGES:
-  src.tagi.cli.setup_logging → src.tagi.utils.logger.setup_logger
-  src.tagi.cli._configure_command_logging → src.tagi.utils.logger.setup_logger
-  src.tagi.cli._is_known_tag → src.tagi.cli._ensure_tag_prefix
-  src.tagi.cli._resolve_send_target → src.tagi.cli._is_known_tag
-  src.tagi.cli.scan → src.tagi.scanner.status.scan_repo
-  src.tagi.cli.scan → src.tagi.heuristics.tags.apply_tags
-  src.tagi.cli.scan → src.tagi.cli._display_changes_grouped
-  src.tagi.cli.scan → src.tagi.cli._display_changes
-  src.tagi.cli.list_groups → src.tagi.cli._do_list_groups
-  src.tagi.cli.list_cmd → src.tagi.cli._do_list_groups
-  src.tagi.cli._do_list_groups → src.tagi.cli._display_groups
-  src.tagi.cli._do_list_groups → src.tagi.scanner.status.scan_repo
-  src.tagi.cli._do_list_groups → src.tagi.heuristics.tags.apply_tags
-  src.tagi.cli._do_list_groups → src.tagi.planner.grouper.group_changes
-  src.tagi.cli.inspect → src.tagi.utils.inspect_helpers.display_statistics_table
-  src.tagi.cli.inspect → src.tagi.cli._display_changes
-  src.tagi.cli.filter → src.tagi.cli._display_changes
-  src.tagi.cli.filter → src.tagi.scanner.status.scan_repo
-  src.tagi.cli.filter → src.tagi.heuristics.tags.apply_tags
-  src.tagi.cli.summary → src.tagi.utils.summary_helpers.build_report_header
-  src.tagi.cli.draft → src.tagi.composer.commit_message.generate_commit_message
-  src.tagi.cli.send → src.tagi.cli._configure_command_logging
-  src.tagi.cli.send → src.tagi.cli._resolve_send_target
-  src.tagi.cli.publish → src.tagi.cli._configure_command_logging
-  src.tagi.cli.publish → src.tagi.cli._ensure_tag_prefix
-  src.tagi.cli.publish → src.tagi.utils.publish_helpers.filter_changes_by_tag
-  src.tagi.cli._display_changes → src.tagi.cli._format_tags
-  src.tagi.cli._display_groups → src.tagi.cli._format_tags
+  src.tagi.hooks._pre_commit_hook → src.tagi.hooks._hooks_dir
+  src.tagi.hooks.install_hooks → src.tagi.hooks._pre_commit_hook
+  src.tagi.hooks.install_hooks → src.tagi.hooks._hooks_dir
+  src.tagi.hooks.uninstall_hooks → src.tagi.hooks._pre_commit_hook
+  src.tagi.hooks.check_hooks_installed → src.tagi.hooks._pre_commit_hook
+  src.tagi.hooks.list_hooks → src.tagi.hooks._hooks_dir
+  src.tagi.hooks.run_hook → src.tagi.hooks._hooks_dir
   src.tagi.analyzer.dependency_graph.build_dependency_graph → src.tagi.analyzer.dependency_graph.analyze_python_imports
+  src.tagi.analyzer.metrics.MetricsCollector.collect → src.tagi.utils.risk.average_risk
   src.tagi.planner.sorter.group_by_complexity → src.tagi.planner.sorter.sort_by_complexity
+  src.tagi.planner.grouper.group_changes → src.tagi.utils.risk.average_risk
   src.tagi.planner.grouper.group_changes → src.tagi.planner.grouper._get_primary_tag
   src.tagi.planner.grouper.group_by_tag → src.tagi.planner.selector.select_changes_by_tag
-  src.tagi.providers.gitlab.GitLabProvider.is_authenticated → src.tagi.providers.utils.auth.is_authenticated_from_result
-  src.tagi.providers.gitlab.GitLabProvider.get_auth_status → src.tagi.providers.utils.auth.get_auth_status_from_result
-  src.tagi.providers.gitlab.GitLabProvider.create_pr → src.tagi.providers.utils.pr.build_pr_command
-  src.tagi.providers.gitlab.GitLabProvider.create_pr → src.tagi.providers.utils.pr.execute_pr_command
-  src.tagi.providers.github.GitHubProvider.is_authenticated → src.tagi.providers.utils.auth.is_authenticated_from_result
-  src.tagi.providers.github.GitHubProvider.get_auth_status → src.tagi.providers.utils.auth.get_auth_status_from_result
-  src.tagi.providers.github.GitHubProvider.create_pr → src.tagi.providers.utils.pr.build_pr_command
-  src.tagi.providers.github.GitHubProvider.create_pr → src.tagi.providers.utils.pr.execute_pr_command
-  src.tagi.scanner.status.scan_repo → src.tagi.scanner.status.parse_status
-  src.tagi.heuristics.metrics.calculate_metrics → src.tagi.heuristics.metrics._calculate_complexity
-  src.tagi.heuristics.metrics.calculate_metrics → src.tagi.heuristics.metrics._calculate_impact
-  src.tagi.heuristics.metrics.calculate_metrics → src.tagi.heuristics.metrics._calculate_stability
-  src.tagi.heuristics.metrics.calculate_metrics → src.tagi.heuristics.metrics._calculate_test_impact
-  src.tagi.heuristics.metrics.calculate_metrics → src.tagi.heuristics.metrics._calculate_dependency_depth
-  src.tagi.heuristics.tags.apply_tags → src.tagi.scanner.files.count_lines_changed
-  src.tagi.heuristics.tags.apply_tags → src.tagi.heuristics.metrics.calculate_metrics
-  src.tagi.heuristics.tags.apply_tags → src.tagi.heuristics.scoring.calculate_risk_score
-  src.tagi.heuristics.tags.apply_tags → src.tagi.heuristics.tags.apply_path_tags
+  src.tagi.cli.git_operations._is_known_tag → src.tagi.cli.git_operations._ensure_tag_prefix
+  src.tagi.cli.git_operations._resolve_send_target → src.tagi.cli.git_operations._is_known_tag
+  src.tagi.cli.git_operations._filter_by_tag → src.tagi.utils.inspect_helpers.resolve_filtered_changes
+  src.tagi.cli.git_operations._filter_by_tag → src.tagi.cli.git_operations._ensure_tag_prefix
+  src.tagi.cli.git_operations._execute_git_operations → src.tagi.utils.detect_provider.detect_git_provider
+  src.tagi.cli.git_operations.send_command → src.tagi.cli.git_operations._resolve_send_target
+  src.tagi.cli.git_operations.auto_command → src.tagi.cli.main._configure_command_logging
+  src.tagi.cli.git_operations.auto_command → src.tagi.cli.git_operations.send_command
+  src.tagi.cli.inspection_commands.inspect_command → src.tagi.config.load_config
+  src.tagi.cli.inspection_commands.inspect_command → src.tagi.utils.inspect_helpers.resolve_filtered_changes
+  src.tagi.cli.inspection_commands.inspect_command → src.tagi.utils.inspect_helpers.display_statistics_table
+  src.tagi.cli.inspection_commands.inspect_command → src.tagi.cli.display_utils._display_changes
+  src.tagi.cli.inspection_commands.filter_command → src.tagi.utils.inspect_helpers.resolve_filtered_changes
+  src.tagi.cli.inspection_commands.filter_command → src.tagi.utils.inspect_helpers.display_statistics_table
+  src.tagi.cli.inspection_commands.filter_command → src.tagi.cli.display_utils._display_changes
+  src.tagi.cli.inspection_commands.filter_command → src.tagi.cli.scan_utils.scan_and_tag
+  src.tagi.cli.provider_commands.detect_provider_command → src.tagi.utils.detect_provider.detect_git_provider
+  src.tagi.cli.provider_commands._pr_spec → src.tagi.cli.provider_commands._current_branch
+  src.tagi.cli.provider_commands.create_pr → src.tagi.utils.detect_provider.detect_git_provider
+  src.tagi.cli.provider_commands.create_pr → src.tagi.cli.provider_commands._pr_spec
+  src.tagi.cli.provider_commands.create_mr → src.tagi.utils.detect_provider.detect_git_provider
+  src.tagi.cli.provider_commands.create_mr → src.tagi.cli.provider_commands._pr_spec
+  src.tagi.cli.core_commands.scan_command → src.tagi.cli.scan_utils.scan_and_tag
+  src.tagi.cli.core_commands.scan_command → src.tagi.cli.display_utils._display_changes_grouped
+  src.tagi.cli.core_commands.scan_command → src.tagi.cli.display_utils._display_changes
+  src.tagi.cli.core_commands.list_groups_command → src.tagi.cli.core_commands._do_list_groups
+  src.tagi.cli.core_commands.list_command → src.tagi.cli.core_commands._do_list_groups
+  src.tagi.cli.core_commands._do_list_groups → src.tagi.cli.scan_utils.scan_and_tag
+  src.tagi.cli.core_commands._do_list_groups → src.tagi.utils.inspect_helpers.calculate_tag_statistics
+  src.tagi.cli.core_commands._do_list_groups → src.tagi.utils.inspect_helpers.display_statistics_table
+  src.tagi.cli.core_commands.stats_command → src.tagi.cli.scan_utils.scan_and_tag
+  src.tagi.cli.core_commands.stats_command → src.tagi.utils.inspect_helpers.display_statistics_table
+  src.tagi.cli.core_commands.stats_command → src.tagi.utils.inspect_helpers.calculate_tag_statistics
+  src.tagi.cli.display_utils._display_groups → src.tagi.cli.display_utils._format_tags
+  src.tagi.cli.display_utils._display_changes_grouped → src.tagi.cli.display_utils._display_groups
+  src.tagi.cli.main.setup_logging → src.tagi.utils.logger.setup_logger
+  src.tagi.cli.main._configure_command_logging → src.tagi.utils.logger.setup_logger

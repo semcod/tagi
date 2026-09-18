@@ -1,33 +1,24 @@
-# code2llm/evolution | 152 func | 35f | 2026-05-26
-# generated in 0.00s
+# code2llm/evolution | 193 func | 50f | 2026-09-18
+# generated in 0.01s
 
-NEXT[4] (ranked by impact):
-  [1] !! SPLIT           src/tagi/cli.py
-      WHY: 797L, 0 classes, max CC=23
-      EFFORT: ~4h  IMPACT: 18331
+NEXT[2] (ranked by impact):
+  [1] !  SPLIT-FUNC      resolve_filtered_changes  CC=17  fan=7
+      WHY: CC=17 exceeds 15
+      EFFORT: ~1h  IMPACT: 119
 
-  [2] !  SPLIT-FUNC      send  CC=23  fan=20
-      WHY: CC=23 exceeds 15
-      EFFORT: ~1h  IMPACT: 460
-
-  [3] !  SPLIT-FUNC      generate_commit_message  CC=15  fan=12
-      WHY: CC=15 exceeds 15
-      EFFORT: ~1h  IMPACT: 180
-
-  [4] !! SPLIT           goal.yaml
-      WHY: 511L, 0 classes, max CC=0
+  [2] !! SPLIT           goal.yaml
+      WHY: 539L, 0 classes, max CC=0
       EFFORT: ~4h  IMPACT: 0
 
 
-RISKS[2]:
-  ⚠ Splitting src/tagi/cli.py may break 24 import paths
+RISKS[1]:
   ⚠ Splitting goal.yaml may break 0 import paths
 
 METRICS-TARGET:
-  CC̄:          3.9 → ≤2.7
-  max-CC:      23 → ≤11
-  god-modules: 2 → 0
-  high-CC(≥15): 2 → ≤1
+  CC̄:          3.3 → ≤2.3
+  max-CC:      17 → ≤8
+  god-modules: 1 → 0
+  high-CC(≥15): 1 → ≤0
   hub-types:   0 → ≤0
 
 PATTERNS (language parser shared logic):
@@ -55,4 +46,4 @@ PATTERNS (language parser shared logic):
     - Standardized FunctionInfo/ClassInfo models
 
 HISTORY:
-  prev CC̄=3.9 → now CC̄=3.9
+  prev CC̄=3.3 → now CC̄=3.3

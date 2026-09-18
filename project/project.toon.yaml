@@ -1,52 +1,54 @@
-# tagi | 152 func | 35f | 4341L | python | 2026-05-26
+# tagi | 193 func | 50f | 5496L | python | 2026-09-18
 # generated in 0.00s
 
 HEALTH:
-  CC̄=3.9  critical=14 (limit:10)  dup=0  cycles=0
+  CC̄=3.3  critical=9 (limit:10)  dup=0  cycles=0
 
-ALERTS[16]:
-  !!! high_fan_out     stats = 22 (limit:10)
-  !!! high_fan_out     send = 20 (limit:10)
-  !!! high_fan_out     publish = 20 (limit:10)
-  !!  cc_exceeded      send = 23 (limit:15)
-  !!  high_fan_out     summary = 18 (limit:10)
-  !!  high_fan_out     filter = 17 (limit:10)
-  !!  high_fan_out     inspect = 15 (limit:10)
+ALERTS[13]:
   !!  high_fan_out     scan_repo = 15 (limit:10)
-  !   cc_exceeded      generate_commit_message = 15 (limit:15)
-  !   high_fan_out     file = 14 (limit:10)
+  !   cc_exceeded      resolve_filtered_changes = 17 (limit:15)
+  !   high_fan_out     publish_command = 14 (limit:10)
+  !   high_fan_out     send_command = 13 (limit:10)
+  !   high_fan_out     setup_logger = 13 (limit:10)
+  !   high_fan_out     summary_command = 12 (limit:10)
+  !   high_fan_out     inspect_command = 11 (limit:10)
+  !   high_fan_out     hooks_command = 11 (limit:10)
+  !   high_fan_out     find_dependency_order = 10 (limit:10)
+  !   high_fan_out     filter_command = 10 (limit:10)
 
-MODULES[52] (top by size):
-  M[src/tagi/cli.py] 797L C:0 F:24 CC↑23 D:2 (python)
-  M[goal.yaml] 511L C:0 F:0 CC↑0 D:0 (yaml)
+MODULES[73] (top by size):
+  M[goal.yaml] 539L C:0 F:0 CC↑0 D:0 (yaml)
+  M[src/tagi/ui/design_tokens.py] 221L C:7 F:3 CC↑2 D:0 (python)
   M[src/tagi/heuristics/metrics.py] 214L C:0 F:9 CC↑5 D:1 (python)
+  M[src/tagi/cli/utility_commands.py] 211L C:0 F:5 CC↑10 D:0 (python)
   M[src/tagi/analyzer/dependency_graph.py] 195L C:0 F:5 CC↑10 D:0 (python)
-  M[src/tagi/composer/commit_message.py] 185L C:0 F:7 CC↑15 D:1 (python)
-  M[src/tagi/analyzer/metrics.py] 153L C:1 F:6 CC↑12 D:0 (python)
-  M[src/tagi/config.py] 129L C:1 F:9 CC↑13 D:0 (python)
-  M[src/tagi/hooks.py] 125L C:0 F:5 CC↑5 D:0 (python)
-  M[src/tagi/executor/git.py] 114L C:1 F:8 CC↑4 D:0 (python)
-  M[src/tagi/utils/summary_helpers.py] 113L C:0 F:5 CC↑5 D:1 (python)
-  M[src/tagi/planner/sorter.py] 104L C:0 F:3 CC↑5 D:1 (python)
-  M[src/tagi/utils/inspect_helpers.py] 98L C:0 F:5 CC↑7 D:1 (python)
-  M[tree.txt] 89L C:0 F:0 CC↑0 D:0 (txt)
-  M[src/tagi/planner/branch_grouper.py] 88L C:0 F:2 CC↑8 D:0 (python)
-  M[src/tagi/heuristics/tags.py] 87L C:0 F:2 CC↑11 D:1 (python)
-  LANGS: python:47/yaml:2/shell:1/toml:1/txt:1
+  M[src/tagi/cli/git_operations.py] 172L C:0 F:7 CC↑8 D:0 (python)
+  M[src/tagi/providers/koru.py] 171L C:2 F:10 CC↑8 D:0 (python)
+  M[src/tagi/analyzer/metrics.py] 155L C:1 F:6 CC↑11 D:0 (python)
+  M[src/tagi/cli/publishing_commands.py] 139L C:0 F:3 CC↑11 D:0 (python)
+  M[src/tagi/config.py] 134L C:1 F:10 CC↑13 D:5 (python)
+  M[koru.yaml] 133L C:0 F:0 CC↑0 D:0 (yaml)
+  M[src/tagi/composer/formats.py] 128L C:0 F:5 CC↑12 D:0 (python)
+  M[src/tagi/hooks.py] 127L C:0 F:7 CC↑5 D:1 (python)
+  M[src/tagi/utils/inspect_helpers.py] 125L C:0 F:6 CC↑17 D:5 (python)
+  M[src/tagi/cli/inspection_commands.py] 125L C:0 F:3 CC↑9 D:0 (python)
+  LANGS: python:64/yaml:5/txt:2/shell:1/toml:1
 
 HOTSPOTS[10]:
-  ★ stats fan=22  // Show statistics about changes.
-  ★ send fan=20  // Stage, commit, and optionally push changes.
-  ★ publish fan=20  // Create a PR or MR for the changes.
-  ★ summary fan=18  // Generate a comprehensive summary report of all changes.
-  ★ filter fan=17  // Filter changes by tags.
+  ★ scan_repo fan=15  // Scan repository for uncommitted changes using git status --porcelain.
+  ★ publish_command fan=14  // Create a PR or MR for the changes.
+  ★ send_command fan=13  // Stage, commit, and optionally push changes.
+  ★ setup_logger fan=13  // Setup and configure logger for tagi.
 
-REFACTOR[7]:
-  [1] H/H Split god module src/tagi/cli.py (797L, 0 classes)
-  [2] H/H Split god module goal.yaml (511L, 0 classes)
-  [3] M/L Split send (CC=23)
-  [4] M/L Split generate_commit_message (CC=15)
-  [5] M/M Reduce stats fan-out (currently 22)
+Args:
+    name: Logger name
+    level: Log
+  ★ summary_command fan=12  // Generate a comprehensive summary report of all changes.
+
+REFACTOR[3]:
+  [1] H/H Split god module goal.yaml (539L, 0 classes)
+  [2] M/L Split resolve_filtered_changes (CC=17)
+  [3] M/M Reduce scan_repo fan-out (currently 15)
 
 EVOLUTION:
-  2026-05-26 CC̄=3.9 crit=14 4341L // Automated analysis
+  2026-09-18 CC̄=3.3 crit=9 5496L // Automated analysis

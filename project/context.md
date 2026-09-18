@@ -5,23 +5,24 @@
 
 - **Project**: /home/tom/github/semcod/tagi
 - **Primary Language**: python
-- **Languages**: python: 47, yaml: 2, toml: 1, txt: 1, shell: 1
+- **Languages**: python: 64, yaml: 5, txt: 2, toml: 1, shell: 1
 - **Analysis Mode**: static
-- **Total Functions**: 152
-- **Total Classes**: 15
-- **Modules**: 52
-- **Entry Points**: 98
+- **Total Functions**: 193
+- **Total Classes**: 26
+- **Modules**: 73
+- **Entry Points**: 133
 
 ## Architecture by Module
 
-### src.tagi.cli
-- **Functions**: 24
-- **File**: `cli.py`
-
 ### src.tagi.config
-- **Functions**: 9
+- **Functions**: 10
 - **Classes**: 1
 - **File**: `config.py`
+
+### src.tagi.providers.koru
+- **Functions**: 10
+- **Classes**: 2
+- **File**: `koru.py`
 
 ### src.tagi.heuristics.metrics
 - **Functions**: 9
@@ -29,7 +30,7 @@
 
 ### src.tagi.providers.base
 - **Functions**: 8
-- **Classes**: 1
+- **Classes**: 2
 - **File**: `base.py`
 
 ### src.tagi.executor.git
@@ -37,18 +38,26 @@
 - **Classes**: 1
 - **File**: `git.py`
 
-### src.tagi.composer.commit_message
+### src.tagi.hooks
 - **Functions**: 7
-- **File**: `commit_message.py`
+- **File**: `hooks.py`
+
+### src.tagi.cli.git_operations
+- **Functions**: 7
+- **File**: `git_operations.py`
+
+### src.tagi.cli.main
+- **Functions**: 7
+- **File**: `main.py`
 
 ### src.tagi.analyzer.metrics
 - **Functions**: 6
 - **Classes**: 1
 - **File**: `metrics.py`
 
-### src.tagi.hooks
-- **Functions**: 5
-- **File**: `hooks.py`
+### src.tagi.utils.inspect_helpers
+- **Functions**: 6
+- **File**: `inspect_helpers.py`
 
 ### src.tagi.analyzer.dependency_graph
 - **Functions**: 5
@@ -57,6 +66,18 @@
 ### src.tagi.planner.selector
 - **Functions**: 5
 - **File**: `selector.py`
+
+### src.tagi.cli.provider_commands
+- **Functions**: 5
+- **File**: `provider_commands.py`
+
+### src.tagi.cli.core_commands
+- **Functions**: 5
+- **File**: `core_commands.py`
+
+### src.tagi.cli.utility_commands
+- **Functions**: 5
+- **File**: `utility_commands.py`
 
 ### src.tagi.providers.gitlab
 - **Functions**: 5
@@ -68,71 +89,33 @@
 - **Classes**: 1
 - **File**: `github.py`
 
+### src.tagi.composer.formats
+- **Functions**: 5
+- **File**: `formats.py`
+
 ### src.tagi.utils.summary_helpers
 - **Functions**: 5
 - **File**: `summary_helpers.py`
-
-### src.tagi.utils.inspect_helpers
-- **Functions**: 5
-- **File**: `inspect_helpers.py`
 
 ### src.tagi.planner.grouper
 - **Functions**: 4
 - **File**: `grouper.py`
 
-### src.tagi.llm.llx_adapter
-- **Functions**: 4
-- **Classes**: 1
-- **File**: `llx_adapter.py`
-
-### src.tagi.executor.publish
-- **Functions**: 4
-- **Classes**: 1
-- **File**: `publish.py`
-
-### src.tagi.planner.sorter
-- **Functions**: 3
-- **File**: `sorter.py`
-
-### src.tagi.heuristics.rules
-- **Functions**: 3
-- **File**: `rules.py`
-
-### src.tagi.utils.publish_helpers
-- **Functions**: 3
-- **File**: `publish_helpers.py`
-
 ## Key Entry Points
 
 Main execution flows into the system:
 
-### src.tagi.cli.send
-> Stage, commit, and optionally push changes.
-- **Calls**: app.command, typer.Argument, typer.Option, typer.Option, typer.Option, typer.Option, typer.Option, typer.Option
-
-### src.tagi.cli.publish
+### src.tagi.cli.publishing_commands.publish_command
 > Create a PR or MR for the changes.
-- **Calls**: app.command, typer.Argument, typer.Argument, typer.Option, typer.Option, typer.Option, src.tagi.cli._configure_command_logging, console.print
+- **Calls**: typer.Argument, typer.Argument, typer.Option, typer.Option, typer.Option, _cli._configure_command_logging, console.print, src.tagi.cli.scan_utils.scan_and_tag
 
-### src.tagi.cli.stats
-> Show statistics about changes.
-- **Calls**: app.command, typer.Argument, console.print, len, sum, Counter, Table, table.add_column
-
-### src.tagi.cli.inspect
-> Inspect a specific change group.
-- **Calls**: app.command, typer.Argument, typer.Argument, typer.Option, console.print, Config, inspect_filter_by_tag, config.get_tag_description
-
-### src.tagi.cli.filter
-> Filter changes by tags.
-- **Calls**: app.command, typer.Argument, typer.Argument, typer.Option, console.print, Config, console.print, src.tagi.cli._display_changes
-
-### src.tagi.cli.summary
+### src.tagi.cli.utility_commands.summary_command
 > Generate a comprehensive summary report of all changes.
-- **Calls**: app.command, typer.Argument, typer.Option, console.print, Config, src.tagi.utils.summary_helpers.build_report_header, report_lines.extend, report_lines.extend
+- **Calls**: typer.Argument, typer.Option, console.print, src.tagi.cli.scan_utils.scan_and_tag, summary_lines.append, summary_lines.append, summary_lines.append, summary_lines.append
 
-### src.tagi.cli.file
-> Show detailed information about a specific file.
-- **Calls**: app.command, typer.Argument, typer.Argument, console.print, Config, Table, table.add_column, table.add_column
+### src.tagi.cli.utility_commands.hooks_command
+> Manage git hooks integration for tagi.
+- **Calls**: typer.Argument, typer.Option, typer.Option, typer.Option, None.resolve, src.tagi.hooks.check_hooks_installed, tagi_list_hooks, tagi_install_hooks
 
 ### src.tagi.analyzer.metrics.generate_report
 > Generate a human-readable metrics report.
@@ -142,15 +125,51 @@ Args:
     
 Returns:
     Formatted report string
-- **Calls**: lines.append, lines.append, lines.append, lines.append, lines.append, lines.append, lines.append, lines.append
+- **Calls**: LineBuilder, builder.add, builder.add, builder.add, builder.add, builder.add, builder.add, builder.add
 
-### src.tagi.cli.draft
+### src.tagi.cli.publishing_commands.deploy_command
+> Deploy changes to target environment.
+- **Calls**: typer.Argument, typer.Argument, typer.Option, typer.Option, typer.Option, _cli._configure_command_logging, console.print, src.tagi.cli.scan_utils.scan_and_tag
+
+### src.tagi.cli.inspection_commands.inspect_command
+> Inspect a specific change group.
+- **Calls**: typer.Argument, typer.Argument, typer.Option, console.print, src.tagi.config.load_config, src.tagi.utils.inspect_helpers.resolve_filtered_changes, config.get_tag_description, src.tagi.utils.inspect_helpers.display_statistics_table
+
+### src.tagi.cli.utility_commands.draft_command
 > Draft a commit message for a change group.
-- **Calls**: app.command, typer.Argument, typer.Argument, typer.Option, console.print, Tag, sum, ChangeGroup
+- **Calls**: typer.Argument, typer.Argument, typer.Option, console.print, src.tagi.cli.scan_utils.scan_and_tag, src.tagi.cli.utility_commands._ensure_tag_prefix, src.tagi.utils.send_helpers.create_change_group, src.tagi.composer.commit_message.generate_commit_message
 
-### src.tagi.cli.scan
-> Scan repository for uncommitted changes.
-- **Calls**: app.command, typer.Argument, typer.Option, console.print, src.tagi.scanner.status.scan_repo, src.tagi.heuristics.tags.apply_tags, console.print, src.tagi.cli._display_changes_grouped
+### src.tagi.cli.inspection_commands.filter_command
+> Filter changes by tags.
+- **Calls**: typer.Argument, typer.Argument, typer.Option, typer.Option, console.print, src.tagi.utils.inspect_helpers.resolve_filtered_changes, src.tagi.utils.inspect_helpers.display_statistics_table, src.tagi.cli.display_utils._display_changes
+
+### src.tagi.heuristics.tags.apply_tags
+> Apply heuristic tags to changes.
+- **Calls**: src.tagi.config.load_config, config.get_tag_for_path, config.get_heuristics_for_path, src.tagi.scanner.files.count_lines_changed, tags.extend, src.tagi.heuristics.metrics.calculate_metrics, src.tagi.heuristics.scoring.calculate_risk_score, src.tagi.heuristics.tags.apply_path_tags
+
+### src.tagi.cli.core_commands.stats_command
+> Show statistics about changes.
+- **Calls**: typer.Argument, typer.Option, console.print, src.tagi.cli.scan_utils.scan_and_tag, src.tagi.utils.inspect_helpers.display_statistics_table, console.print, console.print, src.tagi.utils.inspect_helpers.calculate_tag_statistics
+
+### src.tagi.scanner.status.scan_repo
+> Scan repository for uncommitted changes using git status --porcelain.
+- **Calls**: src.tagi.config.load_config, subprocess.run, None.split, os.path.exists, ValueError, RuntimeError, line.split, None.strip
+
+### src.tagi.cli.inspection_commands.file_command
+> Show detailed information about a specific file.
+- **Calls**: typer.Argument, typer.Argument, typer.Option, console.print, console.print, console.print, console.print, None.join
+
+### src.tagi.ui.design_tokens.DesignTokens.get_css_variables
+> Get CSS variables for specified theme.
+- **Calls**: variables.update, variables.update, variables.update, variables.update, variables.update, variables.update, variables.update, str
+
+### src.tagi.cli.utility_commands.init_command
+> Initialize tagi configuration in the repository.
+- **Calls**: typer.Argument, typer.Option, None.resolve, console.print, config_path.exists, console.print, console.print, example_path.exists
+
+### src.tagi.composer.formats.generate_detailed_message
+> Generate a detailed commit message.
+- **Calls**: LineBuilder, builder.add, builder.add, Counter, builder.add, tag_counts.most_common, builder.add, builder.add
 
 ### src.tagi.analyzer.dependency_graph.find_dependency_order
 > Find the dependency order using topological sort.
@@ -164,7 +183,15 @@ Returns:
 
 ### src.tagi.composer.summary.generate_summary
 > Generate a summary of changes.
-- **Calls**: sum, lines.append, lines.append, sum, sum, sum, lines.append, None.join
+- **Calls**: sum, src.tagi.utils.risk.average_risk, LineBuilder, builder.add, builder.add, sum, sum, sum
+
+### src.tagi.planner.grouper.group_changes
+> Group changes by their primary tag.
+- **Calls**: defaultdict, grouped.items, sorted, sum, src.tagi.utils.risk.average_risk, ChangeGroup, groups.append, src.tagi.planner.grouper._get_primary_tag
+
+### src.tagi.planner.preview.preview_changes
+> Generate a preview for a change group.
+- **Calls**: LineBuilder, builder.add, builder.add, builder.add, builder.add, builder.add, builder.text, None.join
 
 ### src.tagi.planner.branch_grouper.group_by_branch
 > Group changes by the git branch they were modified on.
@@ -176,6 +203,31 @@ Args:
 Ret
 - **Calls**: GitExecutor, executor.get_current_branch, None.append, subprocess.run, None.split, None.strip, result.stdout.strip, b.strip
 
+### src.tagi.providers.koru.KoruProvider.analyze_deployment_priority
+> Analyze deployment priority using Koru API.
+- **Calls**: self.get_topology, self.get_planfile_tickets, self.get_context_brief, self.run_quality_gates, self._deployment_recommendations, KoruDeploymentPlan, deployment_groups.append, priority_order.append
+
+### src.tagi.utils.summary_helpers.build_statistics_section
+> Build overall statistics section.
+
+Args:
+    changes: All changes
+    
+Returns:
+    List of statistics lines
+- **Calls**: sum, src.tagi.utils.risk.average_risk, LineBuilder, builder.add, builder.add, builder.add, builder.add, builder.add
+
+### src.tagi.utils.summary_helpers.build_tag_distribution_section
+> Build tag distribution section.
+
+Args:
+    changes: All changes
+    config: Configuration instance
+    
+Returns:
+    List of tag distribution lines
+- **Calls**: Counter, LineBuilder, builder.add, builder.add, tag_counts.most_common, builder.add, builder.as_list, config.get_tag_description
+
 ### src.tagi.analyzer.dependency_graph.get_critical_path
 > Find the critical path (longest dependency chain).
 
@@ -186,188 +238,112 @@ Returns:
     List of fi
 - **Calls**: set, longest_path, path.append, visited.add, graph.get, graph.get, max, memo.get
 
-### src.tagi.planner.preview.preview_changes
-> Generate a preview for a change group.
-- **Calls**: lines.append, lines.append, lines.append, lines.append, lines.append, None.join, None.join, lines.append
+### src.tagi.providers.koru.KoruProvider._deployment_recommendations
+> Generate recommendations based on Koru context.
+- **Calls**: quality_gates.get, topology.get, recommendations.append, recommendations.append, recommendations.append, recommendations.append, recommendations.append, len
+
+### src.tagi.utils.summary_helpers.build_report_header
+> Build report header section.
+
+Args:
+    repo_path: Repository path
+    changes: All changes
+    
+Returns:
+    List of header lines
+- **Calls**: LineBuilder, builder.add, builder.add, builder.add, builder.add, builder.add, builder.add, builder.as_list
+
+### src.tagi.utils.summary_helpers.build_changes_by_type_section
+> Build changes by type section.
+
+Args:
+    changes: All changes
+    
+Returns:
+    List of type distribution lines
+- **Calls**: Counter, LineBuilder, builder.add, builder.add, sorted, builder.add, builder.as_list, by_type.items
 
 ### src.tagi.config.Config._load_config
 > Load configuration from tagi.toml if it exists.
 - **Calls**: Path, config_path.exists, print, open, tomli.load, None.get, None.get, print
 
-### src.tagi.hooks.list_hooks
-> List all git hooks in the repository.
-
-Args:
-    repo_path: Path to the git repository
-    
-Returns:
-    List of hook names
-- **Calls**: hooks_dir.iterdir, sorted, hooks_dir.exists, Path, hook_file.is_file, hooks.append, hook_file.stat
-
-### src.tagi.analyzer.dependency_graph.detect_cycles
-> Detect circular dependencies in the graph.
-
-Args:
-    graph: Dependency graph mapping files to their dependencies
-    
-Returns:
-    List of cycles fou
-- **Calls**: path.append, graph.get, path.pop, path.index, cycles.append, dfs, dfs
-
-### src.tagi.planner.sorter.group_by_complexity
-> Group changes into complexity tiers (simple, medium, complex).
-
-Args:
-    changes: List of changes to group
-    num_groups: Number of complexity group
-- **Calls**: src.tagi.planner.sorter.sort_by_complexity, max, range, len, len, len, groups.append
-
 ### src.tagi.planner.preview.preview_plan
 > Generate a preview of the execution plan.
-- **Calls**: lines.append, lines.append, None.join, Tag, None.join, lines.append, len
+- **Calls**: LineBuilder, builder.add, builder.add, builder.text, Tag, None.join, builder.add, len
 
-### src.tagi.analyzer.metrics.MetricsCollector.collect
-> Collect metrics from changes.
-
-Args:
-    changes: List of changes to analyze
-    
-Returns:
-    Dictionary of collected metrics
-- **Calls**: len, sum, sum, len, None.get, None.get
-
-### src.tagi.planner.branch_grouper.get_branch_info
-> Get information about all branches in the repository.
-
-Args:
-    repo_path: Path to the git repository
-    
-Returns:
-    Dictionary mapping branch nam
-- **Calls**: subprocess.run, None.split, None.strip, result.stdout.strip, None.replace, line.strip
-
-### src.tagi.composer.summary.generate_file_list
-> Generate a formatted list of files.
-- **Calls**: None.join, None.join, lines.append, len, lines.append, len
-
-### src.tagi.hooks.run_hook
-> Run a specific git hook.
-
-Args:
-    hook_name: Name of the hook to run (e.g., "pre-commit")
-    repo_path: Path to the git repository
-    
-Returns:
-  
-- **Calls**: subprocess.run, hook_file.exists, FileNotFoundError, Path, str
-
-### src.tagi.heuristics.metrics.calculate_vector_distance
-> Calculate Euclidean distance between two change vectors.
-
-Args:
-    change1: First change
-    change2: Second change
-    
-Returns:
-    Euclidean dista
-- **Calls**: change1.metrics.to_vector, change2.metrics.to_vector, math.sqrt, sum, zip
-
-### src.tagi.utils.send_helpers.create_change_group
-> Create a ChangeGroup from filtered changes.
-
-Args:
-    filtered_changes: Changes to include in group
-    tag: Tag name (None for "all")
-    
-Returns:
-
-- **Calls**: sum, ChangeGroup, Tag, sum, len
-
-### src.tagi.config.Config.get_heuristics_for_path
-> Get custom heuristic tags for a file path.
-- **Calls**: path.lower, self.custom_heuristics.items, pattern.lower, tags.extend
-
-### src.tagi.cli.setup_logging
-> Set up logging for all commands.
-- **Calls**: app.callback, typer.Option, src.tagi.utils.logger.setup_logger, logger.debug
-
-### src.tagi.hooks.install_hooks
-> Install tagi pre-commit hook in the repository.
-
-Args:
-    repo_path: Path to the git repository
-    
-Returns:
-    True if successful, False otherwise
-- **Calls**: hooks_dir.mkdir, pre_commit_hook.write_text, pre_commit_hook.chmod, Path
-
-### src.tagi.analyzer.dependency_graph.build_dependency_graph
-> Build a dependency graph from changes.
-
-Args:
-    changes: List of changes to analyze
-    repo_path: Path to the repository
-    
-Returns:
-    Dictiona
-- **Calls**: change.path.endswith, src.tagi.analyzer.dependency_graph.analyze_python_imports, set, set
+### src.tagi.cli.git_operations.auto_command
+> Automatically scan, order, and send all changes.
+- **Calls**: typer.Argument, typer.Option, typer.Option, typer.Option, typer.Option, src.tagi.cli.main._configure_command_logging, console.print, src.tagi.cli.git_operations.send_command
 
 ## Process Flows
 
 Key execution flows identified:
 
-### Flow 1: send
+### Flow 1: publish_command
 ```
-send [src.tagi.cli]
-```
-
-### Flow 2: publish
-```
-publish [src.tagi.cli]
+publish_command [src.tagi.cli.publishing_commands]
 ```
 
-### Flow 3: stats
+### Flow 2: summary_command
 ```
-stats [src.tagi.cli]
-```
-
-### Flow 4: inspect
-```
-inspect [src.tagi.cli]
+summary_command [src.tagi.cli.utility_commands]
+  └─ →> scan_and_tag
 ```
 
-### Flow 5: filter
+### Flow 3: hooks_command
 ```
-filter [src.tagi.cli]
-```
-
-### Flow 6: summary
-```
-summary [src.tagi.cli]
+hooks_command [src.tagi.cli.utility_commands]
 ```
 
-### Flow 7: file
-```
-file [src.tagi.cli]
-```
-
-### Flow 8: generate_report
+### Flow 4: generate_report
 ```
 generate_report [src.tagi.analyzer.metrics]
 ```
 
-### Flow 9: draft
+### Flow 5: deploy_command
 ```
-draft [src.tagi.cli]
+deploy_command [src.tagi.cli.publishing_commands]
 ```
 
-### Flow 10: scan
+### Flow 6: inspect_command
 ```
-scan [src.tagi.cli]
-  └─ →> scan_repo
+inspect_command [src.tagi.cli.inspection_commands]
+  └─ →> load_config
+```
+
+### Flow 7: draft_command
+```
+draft_command [src.tagi.cli.utility_commands]
+  └─ →> scan_and_tag
+```
+
+### Flow 8: filter_command
+```
+filter_command [src.tagi.cli.inspection_commands]
+```
+
+### Flow 9: apply_tags
+```
+apply_tags [src.tagi.heuristics.tags]
+  └─ →> load_config
+  └─ →> count_lines_changed
+```
+
+### Flow 10: stats_command
+```
+stats_command [src.tagi.cli.core_commands]
+  └─ →> scan_and_tag
+  └─ →> display_statistics_table
+      └─> calculate_tag_statistics
+          └─ →> average_risk
 ```
 
 ## Key Classes
+
+### src.tagi.providers.koru.KoruProvider
+> Integration with Koru API for deployment analysis.
+- **Methods**: 10
+- **Key Methods**: src.tagi.providers.koru.KoruProvider.__init__, src.tagi.providers.koru.KoruProvider._make_api_request, src.tagi.providers.koru.KoruProvider.get_topology, src.tagi.providers.koru.KoruProvider.get_planfile_tickets, src.tagi.providers.koru.KoruProvider.run_quality_gates, src.tagi.providers.koru.KoruProvider.get_context_brief, src.tagi.providers.koru.KoruProvider._deployment_recommendations, src.tagi.providers.koru.KoruProvider.analyze_deployment_priority, src.tagi.providers.koru.KoruProvider.deploy_group, src.tagi.providers.koru.KoruProvider.is_available
 
 ### src.tagi.config.Config
 > Configuration loaded from tagi.toml.
@@ -412,6 +388,16 @@ scan [src.tagi.cli]
 - **Methods**: 4
 - **Key Methods**: src.tagi.executor.publish.PublishExecutor.__init__, src.tagi.executor.publish.PublishExecutor.stage_and_commit, src.tagi.executor.publish.PublishExecutor.publish, src.tagi.executor.publish.PublishExecutor.dry_run
 
+### src.tagi.utils.line_builder.LineBuilder
+> Single place where report line lists are created and mutated.
+- **Methods**: 4
+- **Key Methods**: src.tagi.utils.line_builder.LineBuilder.__init__, src.tagi.utils.line_builder.LineBuilder.add, src.tagi.utils.line_builder.LineBuilder.as_list, src.tagi.utils.line_builder.LineBuilder.text
+
+### src.tagi.ui.design_tokens.DesignTokens
+> Main design tokens container.
+- **Methods**: 3
+- **Key Methods**: src.tagi.ui.design_tokens.DesignTokens.__init__, src.tagi.ui.design_tokens.DesignTokens.get_css_variables, src.tagi.ui.design_tokens.DesignTokens.get_css_string
+
 ### src.tagi.models.change.ChangeMetrics
 > Numerical metrics for change analysis.
 - **Methods**: 1
@@ -443,13 +429,21 @@ scan [src.tagi.cli]
 > Group of related changes.
 - **Methods**: 0
 
+### src.tagi.providers.base.PrSpec
+> Pull/merge request parameters.
+- **Methods**: 0
+
+### src.tagi.providers.koru.KoruDeploymentPlan
+> Deployment plan from Koru API.
+- **Methods**: 0
+
 ## Data Transformation Functions
 
 Key functions that process and transform data:
 
-### src.tagi.cli._format_tags
-> Format tags with color coding.
-- **Output to**: None.join, formatted.append, config.get_tag_color, tag_colors.get
+### src.tagi.cli.display_utils._format_tags
+> Format tags for display with descriptions if available.
+- **Output to**: None.join, tag_strings.append, config.get_tag_description
 
 ### src.tagi.scanner.status.parse_status
 > Parse git status code to ChangeType.
@@ -458,46 +452,46 @@ Key functions that process and transform data:
 
 Functions exposed as public API (no underscore prefix):
 
-- `src.tagi.cli.send` - 48 calls
-- `src.tagi.cli.publish` - 45 calls
-- `src.tagi.cli.stats` - 43 calls
-- `src.tagi.cli.inspect` - 28 calls
-- `src.tagi.cli.filter` - 28 calls
-- `src.tagi.cli.summary` - 28 calls
-- `src.tagi.cli.file` - 26 calls
-- `src.tagi.analyzer.metrics.generate_report` - 23 calls
-- `src.tagi.cli.draft` - 22 calls
+- `src.tagi.cli.publishing_commands.publish_command` - 36 calls
+- `src.tagi.cli.utility_commands.summary_command` - 28 calls
+- `src.tagi.cli.git_operations.send_command` - 26 calls
+- `src.tagi.cli.utility_commands.hooks_command` - 26 calls
+- `src.tagi.analyzer.metrics.generate_report` - 24 calls
+- `src.tagi.cli.publishing_commands.deploy_command` - 22 calls
+- `src.tagi.cli.inspection_commands.inspect_command` - 17 calls
+- `src.tagi.cli.utility_commands.draft_command` - 17 calls
+- `src.tagi.cli.inspection_commands.filter_command` - 16 calls
 - `src.tagi.heuristics.tags.apply_tags` - 16 calls
-- `src.tagi.cli.scan` - 15 calls
+- `src.tagi.cli.core_commands.stats_command` - 15 calls
 - `src.tagi.scanner.status.scan_repo` - 15 calls
 - `src.tagi.utils.logger.setup_logger` - 15 calls
-- `src.tagi.composer.commit_message.generate_commit_message` - 13 calls
-- `src.tagi.composer.commit_message.generate_detailed_message` - 12 calls
+- `src.tagi.cli.inspection_commands.file_command` - 14 calls
+- `src.tagi.ui.design_tokens.DesignTokens.get_css_variables` - 14 calls
+- `src.tagi.cli.utility_commands.init_command` - 13 calls
+- `src.tagi.composer.formats.generate_detailed_message` - 13 calls
 - `src.tagi.analyzer.dependency_graph.find_dependency_order` - 11 calls
-- `src.tagi.planner.grouper.group_changes` - 11 calls
 - `src.tagi.composer.summary.generate_summary` - 11 calls
 - `src.tagi.utils.inspect_helpers.display_statistics_table` - 11 calls
+- `src.tagi.planner.grouper.group_changes` - 10 calls
+- `src.tagi.planner.preview.preview_changes` - 10 calls
 - `src.tagi.planner.branch_grouper.group_by_branch` - 10 calls
+- `src.tagi.providers.koru.KoruProvider.analyze_deployment_priority` - 10 calls
 - `src.tagi.utils.summary_helpers.build_statistics_section` - 10 calls
+- `src.tagi.utils.summary_helpers.build_tag_distribution_section` - 10 calls
 - `src.tagi.analyzer.dependency_graph.get_critical_path` - 9 calls
-- `src.tagi.planner.preview.preview_changes` - 9 calls
+- `src.tagi.utils.summary_helpers.build_report_header` - 9 calls
+- `src.tagi.utils.summary_helpers.build_changes_by_type_section` - 9 calls
 - `src.tagi.analyzer.dependency_graph.analyze_python_imports` - 8 calls
-- `src.tagi.utils.summary_helpers.build_tag_distribution_section` - 8 calls
+- `src.tagi.planner.preview.preview_plan` - 8 calls
+- `src.tagi.cli.git_operations.auto_command` - 8 calls
+- `src.tagi.cli.provider_commands.create_pr` - 8 calls
+- `src.tagi.cli.provider_commands.create_mr` - 8 calls
+- `src.tagi.utils.inspect_helpers.resolve_filtered_changes` - 8 calls
 - `src.tagi.hooks.list_hooks` - 7 calls
 - `src.tagi.analyzer.dependency_graph.detect_cycles` - 7 calls
 - `src.tagi.planner.sorter.group_by_complexity` - 7 calls
-- `src.tagi.planner.preview.preview_plan` - 7 calls
+- `src.tagi.cli.core_commands.scan_command` - 7 calls
 - `src.tagi.scanner.files.count_lines_changed` - 7 calls
-- `src.tagi.utils.summary_helpers.build_report_header` - 7 calls
-- `src.tagi.utils.summary_helpers.build_changes_by_type_section` - 7 calls
-- `src.tagi.analyzer.metrics.MetricsCollector.collect` - 6 calls
-- `src.tagi.planner.branch_grouper.get_branch_info` - 6 calls
-- `src.tagi.heuristics.metrics.calculate_metrics` - 6 calls
-- `src.tagi.composer.summary.generate_file_list` - 6 calls
-- `src.tagi.composer.commit_message.generate_files_message` - 6 calls
-- `src.tagi.cli.create_pr` - 5 calls
-- `src.tagi.cli.create_mr` - 5 calls
-- `src.tagi.hooks.run_hook` - 5 calls
 
 ## System Interactions
 
@@ -505,36 +499,36 @@ How components interact:
 
 ```mermaid
 graph TD
-    send --> command
-    send --> Argument
-    send --> Option
-    publish --> command
-    publish --> Argument
-    publish --> Option
-    stats --> command
-    stats --> Argument
-    stats --> print
-    stats --> len
-    stats --> sum
-    inspect --> command
-    inspect --> Argument
-    inspect --> Option
-    inspect --> print
-    filter --> command
-    filter --> Argument
-    filter --> Option
-    filter --> print
-    summary --> command
-    summary --> Argument
-    summary --> Option
-    summary --> print
-    summary --> Config
-    file --> command
-    file --> Argument
-    file --> print
-    file --> Config
-    generate_report --> append
-    draft --> command
+    publish_command --> Argument
+    publish_command --> Option
+    summary_command --> Argument
+    summary_command --> Option
+    summary_command --> print
+    summary_command --> scan_and_tag
+    summary_command --> append
+    hooks_command --> Argument
+    hooks_command --> Option
+    hooks_command --> resolve
+    generate_report --> LineBuilder
+    generate_report --> add
+    deploy_command --> Argument
+    deploy_command --> Option
+    inspect_command --> Argument
+    inspect_command --> Option
+    inspect_command --> print
+    inspect_command --> load_config
+    draft_command --> Argument
+    draft_command --> Option
+    draft_command --> print
+    draft_command --> scan_and_tag
+    filter_command --> Argument
+    filter_command --> Option
+    filter_command --> print
+    apply_tags --> load_config
+    apply_tags --> get_tag_for_path
+    apply_tags --> get_heuristics_for_p
+    apply_tags --> count_lines_changed
+    apply_tags --> extend
 ```
 
 ## Reverse Engineering Guidelines
