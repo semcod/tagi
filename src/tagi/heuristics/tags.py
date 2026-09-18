@@ -2,7 +2,7 @@
 
 from typing import List
 
-from tagi.config import Config
+from tagi.config import load_config
 from tagi.models import Change, ChangeType, Tag
 from tagi.scanner.files import count_lines_changed
 from .scoring import calculate_risk_score
@@ -11,7 +11,7 @@ from .metrics import calculate_metrics
 
 def apply_tags(changes: List[Change], repo_path: str = ".") -> List[Change]:
     """Apply heuristic tags to changes."""
-    config = Config(repo_path)
+    config = load_config(repo_path)
     
     for change in changes:
         tags = []

@@ -11,7 +11,7 @@ their implementations live in focused submodules around stable responsibilities:
 from typing import List
 
 from tagi.models import Change
-from tagi.config import Config
+from tagi.config import load_config
 
 from ._tags import summary_tag
 from ._templates import render_template
@@ -35,7 +35,7 @@ __all__ = [
 
 def generate_commit_message(changes: List[Change], template: str = "default", repo_path: str = ".", use_llm: bool = False) -> str:
     """Generate a commit message based on template."""
-    config = Config(repo_path)
+    config = load_config(repo_path)
 
     # A configured custom template overrides the built-in name.
     template = config.get_template(template) or template
