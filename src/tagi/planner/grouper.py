@@ -22,14 +22,13 @@ def group_changes(changes: List[Change]) -> List[ChangeGroup]:
     groups = []
     for tag, tag_changes in grouped.items():
         total_lines = sum(c.lines_changed for c in tag_changes)
-        avg_risk = average_risk(tag_changes)
-        
+
         group = ChangeGroup(
             name=tag.value,
             changes=tag_changes,
             tags=[tag],
             total_lines=total_lines,
-            avg_risk=avg_risk
+            avg_risk=average_risk(tag_changes)
         )
         groups.append(group)
     

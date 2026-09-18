@@ -37,13 +37,12 @@ def create_publish_group(changes: List[Change], tag: str) -> ChangeGroup:
         ChangeGroup instance
     """
     total_lines = sum(c.lines_changed for c in changes)
-    avg_risk = average_risk(changes)
     tag_enum = Tag(tag)
-    
+
     return ChangeGroup(
         name=tag,
         changes=changes,
         tags=[tag_enum],
         total_lines=total_lines,
-        avg_risk=avg_risk
+        avg_risk=average_risk(changes)
     )
