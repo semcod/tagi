@@ -87,13 +87,12 @@ def generate_simple_message(changes: List[Change]) -> str:
     if not changes:
         return "Empty commit"
 
-    tag = summary_tag(changes)
     files = [c.path for c in changes]
 
     if len(files) == 1:
-        return f"{tag}: {files[0]}"
+        return f"{summary_tag(changes)}: {files[0]}"
     else:
-        return f"{tag}: {len(files)} files ({', '.join(files[:3])}{'...' if len(files) > 3 else ''})"
+        return f"{summary_tag(changes)}: {len(files)} files ({', '.join(files[:3])}{'...' if len(files) > 3 else ''})"
 
 
 def generate_oneline_message(changes: List[Change]) -> str:
@@ -101,13 +100,12 @@ def generate_oneline_message(changes: List[Change]) -> str:
     if not changes:
         return "empty commit"
 
-    tag = summary_tag(changes)
     count = len(changes)
     files_str = ", ".join([c.path for c in changes[:3]])
     if count > 3:
         files_str += f" and {count - 3} more"
 
-    return f"{tag}: {files_str}"
+    return f"{summary_tag(changes)}: {files_str}"
 
 
 def generate_files_message(changes: List[Change]) -> str:
