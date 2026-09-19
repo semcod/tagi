@@ -13,9 +13,20 @@ except ImportError:
         tomli = None
 
 
+_SECTION_ATTRIBUTES = {
+    "tags": "custom_tags",
+    "rules": "custom_rules",
+    "colors": "tag_colors",
+    "heuristics": "custom_heuristics",
+    "tag_definitions": "custom_tag_definitions",
+    "templates": "custom_templates",
+    "ignore": "ignore_patterns",
+}
+
+
 class Config:
     """Configuration loaded from tagi.toml."""
-    
+
     def __init__(self, repo_path: str = "."):
         self.repo_path = repo_path
         self.custom_tags: Dict[str, List[str]] = {}
@@ -30,56 +41,32 @@ class Config:
     def _load_config(self):
         """Load configuration from tagi.toml if it exists."""
         config_path = Path(self.repo_path) / "tagi.toml"
-        
+
         if not config_path.exists():
             return
-        
+
         if tomli is None:
             print("Warning: tomli/tomllib not available, cannot load tagi.toml")
             return
-        
+
         try:
             with open(config_path, "rb") as f:
                 data = tomli.load(f)
-            
-            # Load custom tags
-            if "tags" in data:
-                self.custom_tags = data["tags"]
-            
-            # Load custom rules
-            if "rules" in data:
-                self.custom_rules = data["rules"]
-            
-            # Load custom tag colors
-            if "colors" in data:
-                self.tag_colors = data["colors"]
-            
-            # Load custom heuristics
-            if "heuristics" in data:
-                self.custom_heuristics = data["heuristics"]
-            
-            # Load custom tag definitions
-            if "tag_definitions" in data:
-                self.custom_tag_definitions = data["tag_definitions"]
-            
-            # Load custom templates
-            if "templates" in data:
-                self.custom_templates = data["templates"]
-            
-            # Load ignore patterns
-            if "ignore" in data:
-                self.ignore_patterns = data["ignore"]
-            
-            # Load LLM settings
-            if "llm" in data:
-                self.llm_enabled = data["llm"].get("enabled", False)
-            
-            # Load LLM settings
-            if "llm" in data:
-                self.llm_enabled = data["llm"].get("enabled", False)
-                
         except Exception as e:
             print(f"Warning: Error loading tagi.toml: {e}")
+            return
+
+        self._apply_sections(data)
+
+    def _apply_sections(self, data):
+        """Copy recognised tagi.toml sections onto config attributes."""
+        for section, attribute in _SECTION_ATTRIBUTES.items():
+            if section in data:
+                setattr(self, attribute, data[section])
+
+        if "llm" in data:
+            self.llm_enabled = data["llm"].get("enabled", False)
+
     
     def get_tag_for_path(self, path: str) -> Optional[str]:
         """Get custom tag for a file path based on rules."""
