@@ -34,19 +34,19 @@ def publish_command(
     console.print(f"[bold]Publishing[/bold] {tag}")
 
     tagged_changes = scan_and_tag(repo_path)
-    tag = _ensure_tag_prefix(tag)
+    normalized_tag = _ensure_tag_prefix(tag)
     try:
-        publish_changes = resolve_filtered_changes(tagged_changes, tag)
+        publish_changes = resolve_filtered_changes(tagged_changes, normalized_tag)
     except ValueError:
-        console.print(f"[red]Unknown tag: {tag}[/red]")
+        console.print(f"[red]Unknown tag: {normalized_tag}[/red]")
         raise typer.Exit(1)
 
     if not publish_changes:
-        console.print(f"[yellow]No changes found for {tag}[/yellow]")
+        console.print(f"[yellow]No changes found for {normalized_tag}[/yellow]")
         return
 
     # Create change group
-    group = create_publish_group(publish_changes, tag)
+    group = create_publish_group(publish_changes, normalized_tag)
     
     # Detect provider
     provider = detect_git_provider(repo_path)
@@ -59,7 +59,7 @@ def publish_command(
     
     if dry_run:
         console.print("\n[bold cyan]Dry run - would create PR/MR with:[/bold cyan]")
-        console.print(f"  Tag: {tag}")
+        console.print(f"  Tag: {normalized_tag}")
         console.print(f"  Changes: {len(publish_changes)}")
         for change in publish_changes:
             console.print(f"    • {change.path}")
@@ -107,20 +107,20 @@ def deploy_command(
     console.print(f"[bold]Deploying[/bold] {tag} to {environment}")
 
     tagged_changes = scan_and_tag(repo_path)
-    tag = _ensure_tag_prefix(tag)
+    normalized_tag = _ensure_tag_prefix(tag)
     try:
-        deploy_changes = resolve_filtered_changes(tagged_changes, tag)
+        deploy_changes = resolve_filtered_changes(tagged_changes, normalized_tag)
     except ValueError:
-        console.print(f"[red]Unknown tag: {tag}[/red]")
+        console.print(f"[red]Unknown tag: {normalized_tag}[/red]")
         raise typer.Exit(1)
 
     if not deploy_changes:
-        console.print(f"[yellow]No changes found for {tag}[/yellow]")
+        console.print(f"[yellow]No changes found for {normalized_tag}[/yellow]")
         return
 
     if dry_run:
         console.print("\n[bold cyan]Dry run - would deploy:[/bold cyan]")
-        console.print(f"  Tag: {tag}")
+        console.print(f"  Tag: {normalized_tag}")
         console.print(f"  Environment: {environment}")
         console.print(f"  Changes: {len(deploy_changes)}")
         for change in deploy_changes:
