@@ -7,14 +7,9 @@ from tagi.models import Change, Tag
 
 def all_tags(changes: List[Change]) -> List[Tag]:
     """Return unique tags across all changes, preserving first-seen order."""
-    tags = []
-    seen = set()
-    for change in changes:
-        for tag in change.tags:
-            if tag not in seen:
-                tags.append(tag)
-                seen.add(tag)
-    return tags
+    return list(
+        dict.fromkeys(tag for change in changes for tag in change.tags)
+    )
 
 
 def all_tag_values(changes: List[Change]) -> List[str]:
