@@ -8,6 +8,7 @@ from pathlib import Path
 from tagi.composer.commit_message import generate_commit_message
 from tagi.utils.send_helpers import create_change_group
 from tagi.utils.inspect_helpers import resolve_filtered_changes
+from tagi.cli.display_utils import _format_tags
 from tagi.cli.scan_utils import scan_and_tag
 
 
@@ -54,9 +55,8 @@ def summary_command(
     # Detailed change list
     summary_lines.append("## Detailed Changes")
     for change in all_changes:
-        tags_str = ", ".join([tag.value for tag in change.tags]) if change.tags else "none"
         summary_lines.append(f"- **{change.path}** [{change.change_type.value}]")
-        summary_lines.append(f"  Tags: {tags_str}")
+        summary_lines.append(f"  Tags: {_format_tags(change.tags)}")
         if change.description:
             summary_lines.append(f"  Description: {change.description}")
         summary_lines.append("")

@@ -23,11 +23,10 @@ def _display_changes(changes: list[Change], config: Optional[Config] = None) -> 
     table.add_column("Tags", style="green")
     
     for change in changes:
-        tags_str = ", ".join([tag.value for tag in change.tags]) if change.tags else "none"
         table.add_row(
             change.path,
             change.change_type.value,
-            tags_str
+            _format_tags(change.tags)
         )
     
     console.print(table)
@@ -59,8 +58,7 @@ def _display_groups(groups: dict[str, list[Change]]) -> None:
     for tag, changes in groups.items():
         console.print(f"\n[bold cyan]{tag}[/bold cyan] ({len(changes)} changes)")
         for change in changes:
-            tags_str = _format_tags(change.tags)
-            console.print(f"  • {change.path} [{change.change_type.value}] {tags_str}")
+            console.print(f"  • {change.path} [{change.change_type.value}] {_format_tags(change.tags)}")
 
 
 def _display_changes_grouped(changes: list[Change]) -> None:
