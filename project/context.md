@@ -5,11 +5,11 @@
 
 - **Project**: /home/tom/github/semcod/tagi
 - **Primary Language**: python
-- **Languages**: python: 68, yaml: 5, txt: 2, toml: 1, shell: 1
+- **Languages**: python: 66, yaml: 5, txt: 2, toml: 1, shell: 1
 - **Analysis Mode**: static
-- **Total Functions**: 229
+- **Total Functions**: 225
 - **Total Classes**: 27
-- **Modules**: 77
+- **Modules**: 75
 - **Entry Points**: 137
 
 ## Architecture by Module
@@ -37,7 +37,7 @@
 - **Functions**: 9
 - **File**: `formats.py`
 
-### tagi.executor.git
+### src.tagi.executor.git
 - **Functions**: 9
 - **Classes**: 1
 - **File**: `git.py`
@@ -46,7 +46,7 @@
 - **Functions**: 9
 - **File**: `change_filter.py`
 
-### tagi.providers.base
+### src.tagi.providers.base
 - **Functions**: 8
 - **Classes**: 2
 - **File**: `base.py`
@@ -72,7 +72,7 @@
 - **Functions**: 5
 - **File**: `selector.py`
 
-### tagi.cli.provider_commands
+### src.tagi.cli.provider_commands
 - **Functions**: 5
 - **File**: `provider_commands.py`
 
@@ -84,12 +84,12 @@
 - **Functions**: 5
 - **File**: `utility_commands.py`
 
-### tagi.providers.gitlab
+### src.tagi.providers.gitlab
 - **Functions**: 5
 - **Classes**: 1
 - **File**: `gitlab.py`
 
-### tagi.providers.github
+### src.tagi.providers.github
 - **Functions**: 5
 - **Classes**: 1
 - **File**: `github.py`
@@ -138,9 +138,9 @@ Main execution flows into the system:
 > Show statistics about changes.
 - **Calls**: typer.Argument, typer.Option, console.print, src.tagi.cli.scan_utils.scan_and_tag, src.tagi.utils.change_stats.display_statistics_table, console.print, console.print, src.tagi.utils.change_stats.calculate_tag_statistics
 
-### tagi.scanner.status.scan_repo
+### src.tagi.scanner.status.scan_repo
 > Scan repository for uncommitted changes using git status --porcelain.
-- **Calls**: tagi.utils.commands.run_command, None.split, os.path.exists, ValueError, src.tagi.config.load_config, RuntimeError, line.split, None.strip
+- **Calls**: subprocess.run, None.split, os.path.exists, ValueError, src.tagi.config.load_config, RuntimeError, line.split, None.strip
 
 ### src.tagi.cli.inspection_commands.file_command
 > Show detailed information about a specific file.
@@ -158,7 +158,7 @@ Main execution flows into the system:
 > Group changes by their primary tag.
 - **Calls**: defaultdict, grouped.items, sorted, ChangeGroup, groups.append, src.tagi.planner.grouper._get_primary_tag, None.append, None.append
 
-### tagi.planner.branch_grouper.group_by_branch
+### src.tagi.planner.branch_grouper.group_by_branch
 > Group changes by the git branch they were modified on.
 
 Args:
@@ -166,7 +166,7 @@ Args:
     repo_path: Path to the git repository
     
 Ret
-- **Calls**: GitExecutor, executor.get_current_branch, None.append, tagi.utils.commands.run_command, None.split, None.strip, contains.stdout.strip, b.strip
+- **Calls**: GitExecutor, executor.get_current_branch, None.append, subprocess.run, None.split, None.strip, result.stdout.strip, b.strip
 
 ### src.tagi.providers.koru.KoruProvider.analyze_deployment_priority
 > Analyze deployment priority using Koru API.
@@ -180,13 +180,13 @@ Ret
 > Automatically scan, order, and send all changes.
 - **Calls**: typer.Argument, typer.Option, typer.Option, typer.Option, typer.Option, src.tagi.cli.main._configure_command_logging, console.print, src.tagi.cli.git_operations.send_command
 
-### tagi.cli.provider_commands.create_pr
+### src.tagi.cli.provider_commands.create_pr
 > Create a GitHub pull request.
-- **Calls**: tagi.utils.detect_provider.get_provider, isinstance, console.print, github_provider.create_pr, tagi.cli.provider_commands._pr_spec, console.print, console.print, console.print
+- **Calls**: src.tagi.utils.detect_provider.get_provider, isinstance, console.print, github_provider.create_pr, src.tagi.cli.provider_commands._pr_spec, console.print, console.print, console.print
 
-### tagi.cli.provider_commands.create_mr
+### src.tagi.cli.provider_commands.create_mr
 > Create a GitLab merge request.
-- **Calls**: tagi.utils.detect_provider.get_provider, isinstance, console.print, gitlab_provider.create_pr, tagi.cli.provider_commands._pr_spec, console.print, console.print, console.print
+- **Calls**: src.tagi.utils.detect_provider.get_provider, isinstance, console.print, gitlab_provider.create_pr, src.tagi.cli.provider_commands._pr_spec, console.print, console.print, console.print
 
 ### src.tagi.composer.summary.generate_summary
 > Generate a summary of changes.
@@ -218,7 +218,7 @@ Args:
 > Scan repository for uncommitted changes.
 - **Calls**: typer.Argument, typer.Option, console.print, src.tagi.cli.scan_utils.scan_and_tag, console.print, src.tagi.cli.display_utils._display_changes_grouped, src.tagi.cli.display_utils._display_changes
 
-### tagi.planner.branch_grouper.get_branch_info
+### src.tagi.planner.branch_grouper.get_branch_info
 > Get information about all branches in the repository.
 
 Args:
@@ -226,7 +226,7 @@ Args:
     
 Returns:
     Dictionary mapping branch nam
-- **Calls**: tagi.utils.commands.run_command, None.split, None.strip, branch_listing.stdout.strip, None.replace, line.strip
+- **Calls**: subprocess.run, None.split, None.strip, result.stdout.strip, None.replace, line.strip
 
 ### src.tagi.providers.koru.KoruProvider._make_api_request
 > Make request to Koru API.
@@ -301,8 +301,7 @@ stats_command [src.tagi.cli.core_commands]
 
 ### Flow 9: scan_repo
 ```
-scan_repo [tagi.scanner.status]
-  └─ →> run_command
+scan_repo [src.tagi.scanner.status]
   └─ →> load_config
 ```
 
@@ -323,27 +322,27 @@ file_command [src.tagi.cli.inspection_commands]
 - **Methods**: 10
 - **Key Methods**: src.tagi.providers.koru.KoruProvider.__init__, src.tagi.providers.koru.KoruProvider._make_api_request, src.tagi.providers.koru.KoruProvider.get_topology, src.tagi.providers.koru.KoruProvider.get_planfile_tickets, src.tagi.providers.koru.KoruProvider.run_quality_gates, src.tagi.providers.koru.KoruProvider.get_context_brief, src.tagi.providers.koru.KoruProvider._deployment_recommendations, src.tagi.providers.koru.KoruProvider.analyze_deployment_priority, src.tagi.providers.koru.KoruProvider.deploy_group, src.tagi.providers.koru.KoruProvider.is_available
 
-### tagi.executor.git.GitExecutor
+### src.tagi.executor.git.GitExecutor
 > Executor for git commands.
 - **Methods**: 9
-- **Key Methods**: tagi.executor.git.GitExecutor.__init__, tagi.executor.git.GitExecutor._run_command, tagi.executor.git.GitExecutor.add, tagi.executor.git.GitExecutor.commit, tagi.executor.git.GitExecutor.push, tagi.executor.git.GitExecutor.status, tagi.executor.git.GitExecutor.get_current_branch, tagi.executor.git.GitExecutor.get_remote_url, tagi.executor.git.GitExecutor.has_staged_changes
+- **Key Methods**: src.tagi.executor.git.GitExecutor.__init__, src.tagi.executor.git.GitExecutor._run_command, src.tagi.executor.git.GitExecutor.add, src.tagi.executor.git.GitExecutor.commit, src.tagi.executor.git.GitExecutor.push, src.tagi.executor.git.GitExecutor.status, src.tagi.executor.git.GitExecutor.get_current_branch, src.tagi.executor.git.GitExecutor.get_remote_url, src.tagi.executor.git.GitExecutor.has_staged_changes
 
-### tagi.providers.base.BaseProvider
+### src.tagi.providers.base.BaseProvider
 > Base class for Git hosting providers.
 - **Methods**: 8
-- **Key Methods**: tagi.providers.base.BaseProvider.__init__, tagi.providers.base.BaseProvider.is_authenticated, tagi.providers.base.BaseProvider.get_auth_status, tagi.providers.base.BaseProvider.create_pr, tagi.providers.base.BaseProvider.detect_remote, tagi.providers.base.BaseProvider._run_command, tagi.providers.base.BaseProvider._get_git_remote_url, tagi.providers.base.BaseProvider._check_git_remote_for_provider
+- **Key Methods**: src.tagi.providers.base.BaseProvider.__init__, src.tagi.providers.base.BaseProvider.is_authenticated, src.tagi.providers.base.BaseProvider.get_auth_status, src.tagi.providers.base.BaseProvider.create_pr, src.tagi.providers.base.BaseProvider.detect_remote, src.tagi.providers.base.BaseProvider._run_command, src.tagi.providers.base.BaseProvider._get_git_remote_url, src.tagi.providers.base.BaseProvider._check_git_remote_for_provider
 - **Inherits**: ABC
 
-### tagi.providers.gitlab.GitLabProvider
+### src.tagi.providers.gitlab.GitLabProvider
 > GitLab provider using glab CLI.
 - **Methods**: 5
-- **Key Methods**: tagi.providers.gitlab.GitLabProvider.is_authenticated, tagi.providers.gitlab.GitLabProvider.get_auth_status, tagi.providers.gitlab.GitLabProvider.get_configured_host, tagi.providers.gitlab.GitLabProvider.create_pr, tagi.providers.gitlab.GitLabProvider.detect_remote
+- **Key Methods**: src.tagi.providers.gitlab.GitLabProvider.is_authenticated, src.tagi.providers.gitlab.GitLabProvider.get_auth_status, src.tagi.providers.gitlab.GitLabProvider.get_configured_host, src.tagi.providers.gitlab.GitLabProvider.create_pr, src.tagi.providers.gitlab.GitLabProvider.detect_remote
 - **Inherits**: BaseProvider
 
-### tagi.providers.github.GitHubProvider
+### src.tagi.providers.github.GitHubProvider
 > GitHub provider using gh CLI.
 - **Methods**: 5
-- **Key Methods**: tagi.providers.github.GitHubProvider.is_authenticated, tagi.providers.github.GitHubProvider.get_auth_status, tagi.providers.github.GitHubProvider.get_token, tagi.providers.github.GitHubProvider.create_pr, tagi.providers.github.GitHubProvider.detect_remote
+- **Key Methods**: src.tagi.providers.github.GitHubProvider.is_authenticated, src.tagi.providers.github.GitHubProvider.get_auth_status, src.tagi.providers.github.GitHubProvider.get_token, src.tagi.providers.github.GitHubProvider.create_pr, src.tagi.providers.github.GitHubProvider.detect_remote
 - **Inherits**: BaseProvider
 
 ### src.tagi.analyzer.metrics.MetricsCollector
@@ -407,7 +406,7 @@ file_command [src.tagi.cli.inspection_commands]
 > Group of related changes.
 - **Methods**: 0
 
-### tagi.providers.base.PrSpec
+### src.tagi.providers.base.PrSpec
 > Pull/merge request parameters.
 - **Methods**: 0
 
@@ -419,7 +418,7 @@ Key functions that process and transform data:
 > Format tags for display with descriptions if available.
 - **Output to**: None.join, tag_strings.append, config.get_tag_description
 
-### tagi.scanner.status.parse_status
+### src.tagi.scanner.status.parse_status
 > Parse git status code to ChangeType.
 
 ## Behavioral Patterns
@@ -447,26 +446,26 @@ Functions exposed as public API (no underscore prefix):
 - `src.tagi.cli.utility_commands.draft_command` - 17 calls
 - `src.tagi.cli.inspection_commands.filter_command` - 16 calls
 - `src.tagi.cli.core_commands.stats_command` - 15 calls
-- `tagi.scanner.status.scan_repo` - 15 calls
+- `src.tagi.scanner.status.scan_repo` - 15 calls
 - `src.tagi.utils.logger.setup_logger` - 15 calls
 - `src.tagi.cli.inspection_commands.file_command` - 14 calls
 - `src.tagi.ui.design_tokens.DesignTokens.get_css_variables` - 14 calls
 - `src.tagi.cli.utility_commands.init_command` - 13 calls
 - `src.tagi.utils.change_stats.display_statistics_table` - 12 calls
 - `src.tagi.planner.grouper.group_changes` - 10 calls
-- `tagi.planner.branch_grouper.group_by_branch` - 10 calls
+- `src.tagi.planner.branch_grouper.group_by_branch` - 10 calls
 - `src.tagi.providers.koru.KoruProvider.analyze_deployment_priority` - 10 calls
 - `src.tagi.cli.git_operations.auto_command` - 8 calls
-- `tagi.cli.provider_commands.create_pr` - 8 calls
-- `tagi.cli.provider_commands.create_mr` - 8 calls
+- `src.tagi.cli.provider_commands.create_pr` - 8 calls
+- `src.tagi.cli.provider_commands.create_mr` - 8 calls
 - `src.tagi.composer.summary.generate_summary` - 8 calls
 - `src.tagi.composer.commit_message.generate_commit_message` - 8 calls
 - `src.tagi.hooks.list_hooks` - 7 calls
 - `src.tagi.planner.sorter.group_by_complexity` - 7 calls
 - `src.tagi.cli.core_commands.scan_command` - 7 calls
-- `tagi.scanner.files.count_lines_changed` - 7 calls
+- `src.tagi.scanner.files.count_lines_changed` - 7 calls
 - `src.tagi.utils.change_filter.resolve_filtered_changes` - 7 calls
-- `tagi.planner.branch_grouper.get_branch_info` - 6 calls
+- `src.tagi.planner.branch_grouper.get_branch_info` - 6 calls
 - `src.tagi.cli.scan_utils.scan_and_tag` - 6 calls
 - `src.tagi.heuristics.metrics.calculate_metrics` - 6 calls
 - `src.tagi.composer.formats.generate_detailed_message` - 6 calls
@@ -513,7 +512,7 @@ graph TD
     stats_command --> print
     stats_command --> scan_and_tag
     stats_command --> display_statistics_t
-    scan_repo --> run_command
+    scan_repo --> run
     scan_repo --> split
 ```
 
