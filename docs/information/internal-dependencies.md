@@ -3,13 +3,14 @@
   "schema": "wellmanifest.docs/document/v1",
   "id": "internal-dependencies",
   "kind": "information",
-  "version": 1,
+  "version": 2,
   "title": "Aktualizacja i kontrola zależności wewnętrznych",
   "status": "implemented",
   "owner": "semcod/tagi",
+  "scope": "repository",
   "created": "2026-09-06",
-  "updated": "2026-09-06",
-  "review_after": "2026-09-13",
+  "updated": "2026-09-19",
+  "review_after": "2026-10-19",
   "source_revision": "8a915c6b0a8f196d3134703d2772d10ebef48ef3",
   "affected_repositories": [
     "semcod/tagi"
