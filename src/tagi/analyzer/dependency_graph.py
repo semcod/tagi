@@ -113,6 +113,46 @@ def find_dependency_order(graph: Dict[str, Set[str]]) -> List[List[str]]:
     return result
 
 
+_WHITE, _GRAY, _BLACK = 0, 1, 2
+
+
+def _mark(node: str, color: Dict[str, int], value: int) -> None:
+    """Set the DFS color of a node."""
+    color[node] = value
+
+
+def _cycle_from(node: str, path: List[str]) -> List[str]:
+    """Return the slice of path that forms the cycle starting at node."""
+    cycle_start = path.index(node)
+    return path[cycle_start:]
+
+
+def _dfs_visit(
+    node: str,
+    graph: Dict[str, Set[str]],
+    color: Dict[str, int],
+    path: List[str],
+    cycles: List[List[str]],
+) -> None:
+    """Depth-first visit of a node, recording cycles among in-progress nodes."""
+    if color[node] == _GRAY:
+        cycles.append(_cycle_from(node, path))
+        return
+
+    if color[node] == _BLACK:
+        return
+
+    _mark(node, color, _GRAY)
+    path.append(node)
+
+    for neighbor in graph.get(node, []):
+        if neighbor in color:
+            _dfs_visit(neighbor, graph, color, path, cycles)
+
+    path.pop()
+    _mark(node, color, _BLACK)
+
+
 def detect_cycles(graph: Dict[str, Set[str]]) -> List[List[str]]:
     """Detect circular dependencies in the graph.
     
@@ -122,33 +162,13 @@ def detect_cycles(graph: Dict[str, Set[str]]) -> List[List[str]]:
     Returns:
         List of cycles found
     """
-    WHITE, GRAY, BLACK = 0, 1, 2
-    color = {node: WHITE for node in graph}
-    cycles = []
-    
-    def dfs(node: str, path: List[str]):
-        if color[node] == GRAY:
-            cycle_start = path.index(node)
-            cycles.append(path[cycle_start:])
-            return
-        
-        if color[node] == BLACK:
-            return
-        
-        color[node] = GRAY
-        path.append(node)
-        
-        for neighbor in graph.get(node, []):
-            if neighbor in color:
-                dfs(neighbor, path)
-        
-        path.pop()
-        color[node] = BLACK
-    
+    color = {node: _WHITE for node in graph}
+    cycles: List[List[str]] = []
+
     for node in graph:
-        if color[node] == WHITE:
-            dfs(node, [])
-    
+        if color[node] == _WHITE:
+            _dfs_visit(node, graph, color, [], cycles)
+
     return cycles
 
 
