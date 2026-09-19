@@ -9,6 +9,7 @@ from tagi.executor.git import GitExecutor
 from tagi.models.change import Tag
 from tagi.planner.sorter import sort_by_complexity
 from tagi.utils.inspect_helpers import resolve_filtered_changes
+from tagi.utils.logger import get_logger
 from tagi.utils.send_helpers import create_change_group
 from tagi.utils.detect_provider import detect_git_provider
 from tagi.cli.scan_utils import scan_and_tag
@@ -102,9 +103,7 @@ def send_command(
 
     repo_path, tag = _resolve_send_target(target, repo_path)
 
-    logger = _cli.main.get_logger()
-    if logger:
-        logger.debug(f"Send command called with tag={tag}, repo_path={repo_path}, auto_order={auto_order}, dry_run={dry_run}, push={push}")
+    get_logger().debug(f"Send command called with tag={tag}, repo_path={repo_path}, auto_order={auto_order}, dry_run={dry_run}, push={push}")
 
     if tag is None:
         console.print("[bold]Sending[/bold] all changes")

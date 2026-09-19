@@ -31,24 +31,20 @@ from tagi.cli.provider_commands import (
 
 app = typer.Typer(help="tagi - Git change orchestrator")
 console = Console()
-logger = None
 
 
 @app.callback()
 def setup_logging(verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose logging", is_eager=True)):
     """Set up logging for all commands."""
-    global logger
     logger = setup_logger(verbose=verbose)
-    if verbose and logger:
+    if verbose:
         logger.debug("Verbose logging enabled")
 
 
 def _configure_command_logging(verbose: bool) -> None:
     """Enable verbose logging for a single command invocation."""
-    global logger
     if verbose:
-        logger = setup_logger(verbose=True)
-        logger.debug("Verbose logging enabled")
+        setup_logger(verbose=True).debug("Verbose logging enabled")
 
 
 def _ensure_tag_prefix(tag: str) -> str:
@@ -115,9 +111,3 @@ app.command(name="hooks")(hooks_command)
 def detect_provider(repo_path: str = ".") -> str:
     """Detect Git provider (GitHub/GitLab) for the repository."""
     return detect_provider_command(repo_path)
-
-
-# Make logger globally available for imported modules
-def get_logger():
-    """Get the global logger instance."""
-    return logger
