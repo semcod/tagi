@@ -63,16 +63,30 @@ def generate_conventional_message(changes: List[Change]) -> str:
         return f"{commit_type}{breaking}: {description}"
 
 
+def _count_tags(changes: List[Change]) -> Counter:
+    """Count tag occurrences across all changes."""
+    tag_counts: Counter = Counter()
+    for change in changes:
+        for tag in change.tags:
+            tag_counts[tag.value] += 1
+    return tag_counts
+
+
+def _detailed_file_lines(changes: List[Change]) -> "list[str]":
+    """Render one aligned line per changed file with its tags."""
+    return [
+        f"  [{change.change_type.value:8}] {change.path:40} "
+        f"({', '.join(t.value for t in change.tags)})"
+        for change in changes
+    ]
+
+
 def generate_detailed_message(changes: List[Change]) -> str:
     """Generate a detailed commit message."""
     if not changes:
         return "Empty commit"
 
-    # Group by tag
-    tag_counts = Counter()
-    for change in changes:
-        for tag in change.tags:
-            tag_counts[tag.value] += 1
+    tag_counts = _count_tags(changes)
 
     return LineBuilder([
         f"Commit: {len(changes)} files changed",
@@ -81,11 +95,7 @@ def generate_detailed_message(changes: List[Change]) -> str:
         *(f"  - {tag}: {count}" for tag, count in tag_counts.most_common()),
         "",
         "Files:",
-        *(
-            f"  [{change.change_type.value:8}] {change.path:40} "
-            f"({', '.join(t.value for t in change.tags)})"
-            for change in changes
-        ),
+        *_detailed_file_lines(changes),
     ]).text()
 
 
