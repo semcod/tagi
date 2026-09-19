@@ -186,19 +186,19 @@ def draft_command(
     console.print(f"[bold]Drafting[/bold] commit message for {tag}")
     
     tagged_changes = scan_and_tag(repo_path)
-    tag = _ensure_tag_prefix(tag)
+    normalized_tag = _ensure_tag_prefix(tag)
     try:
-        draft_changes = resolve_filtered_changes(tagged_changes, tag)
+        draft_changes = resolve_filtered_changes(tagged_changes, normalized_tag)
     except ValueError:
-        console.print(f"[red]Unknown tag: {tag}[/red]")
+        console.print(f"[red]Unknown tag: {normalized_tag}[/red]")
         raise typer.Exit(1)
     
     if not draft_changes:
-        console.print(f"[yellow]No changes found for {tag}[/yellow]")
+        console.print(f"[yellow]No changes found for {normalized_tag}[/yellow]")
         return
     
     # Create change group
-    group = create_change_group(draft_changes, tag)
+    group = create_change_group(draft_changes, normalized_tag)
     
     # Generate commit message
     commit_message = generate_commit_message(group, template=template)
