@@ -25,8 +25,7 @@ def create_change_group(
         group_tags = []
     else:
         group_name = tag
-        tag_enum = Tag(tag)
-        group_tags = [tag_enum]
+        group_tags = [Tag(tag)]
     
     return ChangeGroup(
         name=group_name,
