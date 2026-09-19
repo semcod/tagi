@@ -11,7 +11,7 @@ from tagi.planner.sorter import sort_by_complexity
 from tagi.utils.inspect_helpers import resolve_filtered_changes
 from tagi.utils.logger import get_logger
 from tagi.utils.send_helpers import create_change_group
-from tagi.utils.detect_provider import detect_git_provider
+from tagi.utils.detect_provider import get_provider
 from tagi.cli.scan_utils import scan_and_tag
 
 
@@ -78,8 +78,7 @@ def _execute_git_operations(changes, commit_message: str, push: bool, repo_path:
         console.print(f"[green]✓ Committed {len(changes)} change(s)[/green]")
 
         if push:
-            provider = detect_git_provider(repo_path)
-            if provider:
+            if get_provider(repo_path) is not None:
                 git_executor.push()
                 console.print("[green]✓ Pushed to remote[/green]")
             else:

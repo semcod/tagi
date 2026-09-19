@@ -1,8 +1,10 @@
 """Provider detection and PR/MR creation utilities."""
 
+from typing import Optional
+
 from rich.console import Console
 
-from tagi.utils.detect_provider import detect_git_provider
+from tagi.utils.detect_provider import get_provider
 from tagi.providers.base import PrSpec
 from tagi.providers.github import GitHubProvider
 from tagi.providers.gitlab import GitLabProvider
@@ -11,14 +13,14 @@ from tagi.providers.gitlab import GitLabProvider
 console = Console()
 
 
-def detect_provider_command(repo_path: str = ".") -> str:
+def detect_provider_command(repo_path: str = ".") -> Optional[str]:
     """Detect Git provider (GitHub/GitLab) for the repository."""
-    provider = detect_git_provider(repo_path)
-    if provider:
-        console.print(f"[green]Detected provider:[/green] {provider}")
-    else:
+    provider = get_provider(repo_path)
+    if provider is None:
         console.print("[yellow]Could not detect provider (no GitHub or GitLab remote found)[/yellow]")
-    return provider
+        return None
+    console.print(f"[green]Detected provider:[/green] {provider.name}")
+    return provider.name
 
 
 def _current_branch(repo_path: str) -> str:
@@ -37,13 +39,12 @@ def _pr_spec(title: str, body: str, repo_path: str) -> PrSpec:
 
 def create_pr(title: str, body: str, repo_path: str = ".") -> bool:
     """Create a GitHub pull request."""
-    provider = detect_git_provider(repo_path)
-    if provider != "github":
+    github_provider = get_provider(repo_path)
+    if not isinstance(github_provider, GitHubProvider):
         console.print("[red]Repository is not hosted on GitHub[/red]")
         return False
     
     try:
-        github_provider = GitHubProvider(repo_path)
         pr_url = github_provider.create_pr(_pr_spec(title, body, repo_path))
         if pr_url:
             console.print(f"[green]✓ Pull request created:[/green] {pr_url}")
@@ -58,13 +59,12 @@ def create_pr(title: str, body: str, repo_path: str = ".") -> bool:
 
 def create_mr(title: str, body: str, repo_path: str = ".") -> bool:
     """Create a GitLab merge request."""
-    provider = detect_git_provider(repo_path)
-    if provider != "gitlab":
+    gitlab_provider = get_provider(repo_path)
+    if not isinstance(gitlab_provider, GitLabProvider):
         console.print("[red]Repository is not hosted on GitLab[/red]")
         return False
     
     try:
-        gitlab_provider = GitLabProvider(repo_path)
         mr_url = gitlab_provider.create_pr(_pr_spec(title, body, repo_path))
         if mr_url:
             console.print(f"[green]✓ Merge request created:[/green] {mr_url}")

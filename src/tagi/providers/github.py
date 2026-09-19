@@ -9,7 +9,9 @@ from .base import BaseProvider, PrSpec
 
 class GitHubProvider(BaseProvider):
     """GitHub provider using gh CLI."""
-    
+
+    name = "github"
+
     def is_authenticated(self) -> bool:
         """Check if gh CLI is authenticated."""
         result = self._run_command(["gh", "auth", "status"])

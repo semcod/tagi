@@ -3,9 +3,7 @@
 from typing import List
 from rich.console import Console
 from tagi.models import Change, ChangeGroup, Tag
-from tagi.providers.github import GitHubProvider
-from tagi.providers.gitlab import GitLabProvider
-from tagi.providers.detector import detect_provider
+from tagi.utils.detect_provider import get_provider
 from tagi.utils.risk import average_risk, total_lines_changed
 
 
@@ -18,12 +16,7 @@ def detect_and_get_provider(repo_path: str):
     Returns:
         Provider instance or None
     """
-    provider_type = detect_provider(repo_path)
-    if provider_type == "github":
-        return GitHubProvider(repo_path)
-    elif provider_type == "gitlab":
-        return GitLabProvider(repo_path)
-    return None
+    return get_provider(repo_path)
 
 
 def create_publish_group(changes: List[Change], tag: str) -> ChangeGroup:
