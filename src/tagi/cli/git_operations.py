@@ -35,8 +35,7 @@ def _execute_git_operations(changes, commit_message: str, push: bool, repo_path:
     """Stage, commit and optionally push; exits(1) on failure."""
     git_executor = GitExecutor(repo_path)
     try:
-        for change in changes:
-            git_executor.stage(change.path)
+        git_executor.add([change.path for change in changes])
         git_executor.commit(commit_message)
         console.print(f"[green]✓ Committed {len(changes)} change(s)[/green]")
 
