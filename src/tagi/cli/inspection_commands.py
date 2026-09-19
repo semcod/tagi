@@ -8,7 +8,7 @@ from tagi.utils.inspect_helpers import (
     resolve_filtered_changes,
     display_statistics_table,
 )
-from tagi.cli.display_utils import _display_changes
+from tagi.cli.display_utils import _display_changes, _format_tags
 from tagi.cli.scan_utils import scan_and_tag
 from tagi.config import load_config
 
@@ -109,8 +109,7 @@ def file_command(
     # Display file information
     console.print(f"[cyan]Type:[/cyan] {file_change.change_type.value}")
     
-    tags_str = ", ".join([tag.value for tag in file_change.tags]) if file_change.tags else "none"
-    console.print(f"[cyan]Tags:[/cyan] {tags_str}")
+    console.print(f"[cyan]Tags:[/cyan] {_format_tags(file_change.tags)}")
     
     if file_change.description:
         console.print(f"[cyan]Description:[/cyan] {file_change.description}")
