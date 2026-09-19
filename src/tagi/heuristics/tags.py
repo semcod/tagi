@@ -11,22 +11,13 @@ from .metrics import calculate_metrics
 
 def apply_tags(changes: List[Change], repo_path: str = ".") -> List[Change]:
     """Apply heuristic tags to changes."""
-    config = load_config(repo_path)
+    custom_tags_for = load_config(repo_path).get_tags_for_path
     
     for change in changes:
         tags = []
         
-        # Check custom config rules first
-        custom_tag = config.get_tag_for_path(change.path)
-        if custom_tag:
-            try:
-                tags.append(Tag(custom_tag))
-            except ValueError:
-                pass  # Invalid tag, skip
-        
-        # Apply custom heuristics from config
-        custom_heuristics = config.get_heuristics_for_path(change.path)
-        for custom_tag in custom_heuristics:
+        # Apply custom config tags (rule tag first, then heuristics)
+        for custom_tag in custom_tags_for(change.path):
             try:
                 tags.append(Tag(custom_tag))
             except ValueError:

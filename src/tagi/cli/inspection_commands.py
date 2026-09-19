@@ -24,9 +24,6 @@ def inspect_command(
     """Inspect a specific change group."""
     console.print(f"[bold]Inspecting[/bold] {tag}")
     
-    config = load_config(repo_path)
-
-    
     # Add # prefix if not present
     tag_value = tag if tag.startswith("#") else f"#{tag}"
     
@@ -38,14 +35,14 @@ def inspect_command(
         return
     
     # Show tag description if available
-    tag_desc = config.get_tag_description(tag_value)
+    tag_desc = load_config(repo_path).get_tag_description(tag_value)
     if tag_desc:
         console.print(f"[dim]{tag_desc}[/dim]")
     
     # Display statistics
     display_statistics_table(tag_changes, console)
     
-    _display_changes(tag_changes, config)
+    _display_changes(tag_changes)
     
     if diff:
         console.print("\n[bold cyan]Diffs:[/bold cyan]")

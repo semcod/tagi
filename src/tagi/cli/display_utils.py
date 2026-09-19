@@ -11,7 +11,7 @@ from tagi.config import Config
 console = Console()
 
 
-def _display_changes(changes: list[Change], config: Optional[Config] = None) -> None:
+def _display_changes(changes: list[Change]) -> None:
     """Display changes in a simple list format."""
     if not changes:
         console.print("[yellow]No changes to display[/yellow]")
