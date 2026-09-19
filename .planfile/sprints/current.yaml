@@ -3777,49 +3777,6 @@ sprint:
           key: semcod/tagi#169
           url: https://github.com/semcod/tagi/issues/169
       updated_at: '2026-09-19T11:41:05.586678+00:00'
-    PLF-159:
-      acceptance_criteria: []
-      blocked_by: []
-      blocks: []
-      children: []
-      contract_version: planfile.ticket/v1
-      created_at: '2026-09-19T17:29:11.918031Z'
-      description: 'code2llm reports `Shotgun Surgery: tags` in `src/tagi/heuristics/tags.py:48`.
-
-
-        Mutation of variable ''tags'' spans 5 functions. Changing this logic requires
-        work in many places.
-
-
-        Make the smallest refactor that removes the smell and run local tests.
-
-
-        code2llm-dedupe: code2llm:smell:shotgun_surgery:src/tagi/heuristics/tags.py:48:Shotgun
-        Surgery: tags'
-      dsl: SODL/1 id=evt_83500b9a1eed7d17acb5d9fb event_hash=0742737296da2c07434ecfea4dcb1c8cb6ae655a488c87cdba0103bd8a11bb02
-        timestamp=2026-09-19T17%3A29%3A11.918031%2B00%3A00 kind=task source=planfile.ticket
-        ticket_id=PLF-159 actor=koru-scan oql=ticket.create uri=planfile%3A%2F%2Ftickets%2FPLF-159%2Fcommand%2Fcreate
-        mode=apply status=open correlation_id=PLF-159 causation_id=- input_hash=55fc906af39db774bbbb80466d1102d53e7300ae63a8527729323d5cc7d9d5ec
-        receipt_ref=- replayable=true data=eyJwYXlsb2FkIjp7ImFjY2VwdGFuY2VfY3JpdGVyaWEiOltdLCJibG9ja2VkX2J5IjpbXSwiYmxvY2tzIjpbXSwiY2hpbGRyZW4iOltdLCJjb250cmFjdF92ZXJzaW9uIjoicGxhbmZpbGUudGlja2V0L3YxIiwiY3JlYXRlZF9hdCI6IjIwMjYtMDktMTlUMTc6Mjk6MTEuOTE4MDMxWiIsImRlc2NyaXB0aW9uIjoiY29kZTJsbG0gcmVwb3J0cyBgU2hvdGd1biBTdXJnZXJ5OiB0YWdzYCBpbiBgc3JjL3RhZ2kvaGV1cmlzdGljcy90YWdzLnB5OjQ4YC5cblxuTXV0YXRpb24gb2YgdmFyaWFibGUgJ3RhZ3MnIHNwYW5zIDUgZnVuY3Rpb25zLiBDaGFuZ2luZyB0aGlzIGxvZ2ljIHJlcXVpcmVzIHdvcmsgaW4gbWFueSBwbGFjZXMuXG5cbk1ha2UgdGhlIHNtYWxsZXN0IHJlZmFjdG9yIHRoYXQgcmVtb3ZlcyB0aGUgc21lbGwgYW5kIHJ1biBsb2NhbCB0ZXN0cy5cblxuY29kZTJsbG0tZGVkdXBlOiBjb2RlMmxsbTpzbWVsbDpzaG90Z3VuX3N1cmdlcnk6c3JjL3RhZ2kvaGV1cmlzdGljcy90YWdzLnB5OjQ4OlNob3RndW4gU3VyZ2VyeTogdGFncyIsImZpbGVzIjpbInNyYy90YWdpL2hldXJpc3RpY3MvdGFncy5weSJdLCJpZCI6IlBMRi0xNTkiLCJsYWJlbHMiOlsibGxtLXJlYWR5IiwiY29kZTJsbG0iLCJjb2RlLXNtZWxsIiwic2hvdGd1bi1zdXJnZXJ5Il0sIm5hbWUiOiJBZGRyZXNzIGNvZGUgc21lbGw6IFNob3RndW4gU3VyZ2VyeTogdGFncyIsInByaW9yaXR5IjoiaGlnaCIsInNvdXJjZSI6eyJjb250ZXh0Ijp7fSwidGltZXN0YW1wIjoiMjAyNi0wOS0xOVQxNzoyOToxMS44NDA4MzlaIiwidG9vbCI6ImtvcnUtc2NhbiJ9LCJzcHJpbnQiOiJjdXJyZW50Iiwic3RhdHVzIjoib3BlbiIsInN5bmMiOnt9LCJ1cGRhdGVkX2F0IjoiMjAyNi0wOS0xOVQxNzoyOToxMS45MTgwMzdaIn19
-      files:
-      - src/tagi/heuristics/tags.py
-      history: []
-      id: PLF-159
-      labels:
-      - llm-ready
-      - code2llm
-      - code-smell
-      - shotgun-surgery
-      name: 'Address code smell: Shotgun Surgery: tags'
-      priority: high
-      source:
-        context: {}
-        timestamp: '2026-09-19T17:29:11.840839Z'
-        tool: koru-scan
-      sprint: current
-      status: open
-      sync: {}
-      updated_at: '2026-09-19T17:29:11.918037Z'
     PLF-160:
       acceptance_criteria: []
       blocked_by: []
