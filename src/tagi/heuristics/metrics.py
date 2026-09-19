@@ -5,6 +5,32 @@ from typing import List
 from tagi.models.change import Change, ChangeMetrics, ChangeType
 
 
+_COMPLEXITY_EXTENSION_WEIGHTS = (
+    ((".py",), 0.7),
+    ((".js", ".ts", ".jsx", ".tsx"), 0.6),
+    ((".md", ".txt", ".rst"), 0.2),
+    ((".json", ".yaml", ".yml", ".toml", ".ini"), 0.4),
+)
+_DEFAULT_COMPLEXITY_EXTENSION_WEIGHT = 0.5
+
+_COMPLEXITY_TYPE_WEIGHTS = {
+    ChangeType.MODIFIED: 0.3,
+    ChangeType.ADDED: 0.6,
+    ChangeType.DELETED: 0.8,
+    ChangeType.RENAMED: 0.2,
+}
+_DEFAULT_COMPLEXITY_TYPE_WEIGHT = 0.5
+
+
+def _extension_complexity_weight(path: str) -> float:
+    """Return the complexity weight for a file path (first matching suffix wins)."""
+    path_lower = path.lower()
+    for suffixes, weight in _COMPLEXITY_EXTENSION_WEIGHTS:
+        if path_lower.endswith(suffixes):
+            return weight
+    return _DEFAULT_COMPLEXITY_EXTENSION_WEIGHT
+
+
 def calculate_metrics(change: Change, repo_path: str = ".") -> ChangeMetrics:
     """Calculate numerical metrics for a change.
     
@@ -47,29 +73,15 @@ def _calculate_complexity(change: Change) -> float:
     """Calculate complexity score (0-1)."""
     # Normalize lines changed (log scale)
     lines_score = min(math.log(max(change.lines_changed, 1)) / 10, 1.0)
-    
+
     # Change type weight
-    type_weights = {
-        ChangeType.MODIFIED: 0.3,
-        ChangeType.ADDED: 0.6,
-        ChangeType.DELETED: 0.8,
-        ChangeType.RENAMED: 0.2,
-    }
-    type_score = type_weights.get(change.change_type, 0.5)
-    
+    type_score = _COMPLEXITY_TYPE_WEIGHTS.get(
+        change.change_type, _DEFAULT_COMPLEXITY_TYPE_WEIGHT
+    )
+
     # File extension weight
-    path_lower = change.path.lower()
-    if path_lower.endswith('.py'):
-        ext_score = 0.7
-    elif path_lower.endswith(('.js', '.ts', '.jsx', '.tsx')):
-        ext_score = 0.6
-    elif path_lower.endswith(('.md', '.txt', '.rst')):
-        ext_score = 0.2
-    elif path_lower.endswith(('.json', '.yaml', '.yml', '.toml', '.ini')):
-        ext_score = 0.4
-    else:
-        ext_score = 0.5
-    
+    ext_score = _extension_complexity_weight(change.path)
+
     # Weighted average
     complexity = (lines_score * 0.5 + type_score * 0.3 + ext_score * 0.2)
     return min(complexity, 1.0)
