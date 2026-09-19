@@ -1,7 +1,8 @@
 """Statistics aggregation and rendering for change sets.
 
 Extracted from ``tagi.utils.inspect_helpers`` (PLF-130). Metric
-computation lives in :func:`calculate_tag_statistics`; rendering lives in
+computation lives in :func:`calculate_tag_statistics`; per-tag counting
+lives in :func:`count_changes_by_tag`; rendering lives in
 :func:`display_statistics_table`.
 """
 
@@ -24,6 +25,26 @@ def calculate_tag_statistics(changes: List[Change]) -> tuple[int, float]:
         Tuple of (total_lines, avg_risk)
     """
     return total_lines_changed(changes), average_risk(changes)
+
+
+def count_changes_by_tag(changes: List[Change]) -> dict[str, int]:
+    """Count how many changes carry each tag.
+
+    Unlike :func:`calculate_tag_statistics`, which aggregates metrics over
+    the whole group, this returns a per-tag mapping suitable for "changes by
+    tag" listings.
+
+    Args:
+        changes: Changes to count
+
+    Returns:
+        Mapping of tag value (e.g. ``#small``) to number of changes carrying it
+    """
+    counts: dict[str, int] = {}
+    for change in changes:
+        for tag in change.tags:
+            counts[tag.value] = counts.get(tag.value, 0) + 1
+    return counts
 
 
 def display_statistics_table(changes: List[Change], console: Console) -> None:

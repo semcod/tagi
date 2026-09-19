@@ -13,10 +13,15 @@ from tagi.utils.change_filter import (
     filter_changes_by_tags_any,
     resolve_filtered_changes,
 )
-from tagi.utils.change_stats import calculate_tag_statistics, display_statistics_table
+from tagi.utils.change_stats import (
+    calculate_tag_statistics,
+    count_changes_by_tag,
+    display_statistics_table,
+)
 
 __all__ = [
     "calculate_tag_statistics",
+    "count_changes_by_tag",
     "display_statistics_table",
     "filter_changes_by_tag",
     "filter_changes_by_tags_all",

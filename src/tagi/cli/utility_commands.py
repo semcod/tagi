@@ -37,8 +37,8 @@ def summary_command(
     summary_lines.append("")
     
     # Group by tags
-    from tagi.utils.inspect_helpers import calculate_tag_statistics
-    tag_stats = calculate_tag_statistics(all_changes)
+    from tagi.utils.inspect_helpers import count_changes_by_tag
+    tag_stats = count_changes_by_tag(all_changes)
     
     summary_lines.append("## Changes by Tag")
     for tag, count in tag_stats.items():
@@ -51,8 +51,9 @@ def summary_command(
     for change in all_changes:
         summary_lines.append(f"- **{change.path}** [{change.change_type.value}]")
         summary_lines.append(f"  Tags: {_format_tags(change.tags)}")
-        if change.description:
-            summary_lines.append(f"  Description: {change.description}")
+        description = getattr(change, "description", None)
+        if description:
+            summary_lines.append(f"  Description: {description}")
         summary_lines.append("")
     
     summary_content = "\n".join(summary_lines)
