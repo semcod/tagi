@@ -14,19 +14,17 @@ class GitHubProvider(BaseProvider):
 
     def is_authenticated(self) -> bool:
         """Check if gh CLI is authenticated."""
-        result = self._run_command(["gh", "auth", "status"])
-        return is_authenticated_from_result(result)
-    
+        return is_authenticated_from_result(self._run_command(["gh", "auth", "status"]))
+
     def get_auth_status(self) -> dict:
         """Get detailed authentication status."""
-        result = self._run_command(["gh", "auth", "status"])
-        return get_auth_status_from_result(result)
-    
+        return get_auth_status_from_result(self._run_command(["gh", "auth", "status"]))
+
     def get_token(self) -> str:
         """Get the GitHub authentication token."""
-        result = self._run_command(["gh", "auth", "token"])
-        if result.returncode == 0:
-            return result.stdout.strip()
+        token = self._run_command(["gh", "auth", "token"])
+        if token.returncode == 0:
+            return token.stdout.strip()
         return ""
     
     def create_pr(self, spec: PrSpec) -> str:

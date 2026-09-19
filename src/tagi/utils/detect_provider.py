@@ -2,11 +2,11 @@
 
 from typing import Optional
 from pathlib import Path
-import subprocess
 
 from tagi.providers.base import BaseProvider
 from tagi.providers.github import GitHubProvider
 from tagi.providers.gitlab import GitLabProvider
+from tagi.utils.commands import run_command
 
 
 def get_provider(repo_path: str = ".") -> Optional[BaseProvider]:
@@ -36,19 +36,17 @@ def detect_git_provider(repo_path: str = ".") -> Optional[str]:
         'github', 'gitlab', or None if unknown
     """
     try:
-        result = subprocess.run(
-            ["git", "remote", "-v"],
-            cwd=repo_path,
-            capture_output=True,
-            text=True,
-            check=True
-        )
-        output = result.stdout.lower()
-        
+        remotes = run_command(["git", "remote", "-v"], repo_path)
+
+        if remotes.returncode != 0:
+            return None
+
+        output = remotes.stdout.lower()
+
         if "github.com" in output:
             return "github"
         elif "gitlab.com" in output:
             return "gitlab"
         return None
-    except (subprocess.CalledProcessError, FileNotFoundError):
+    except FileNotFoundError:
         return None

@@ -26,12 +26,11 @@ def detect_provider_command(repo_path: str = ".") -> Optional[str]:
 
 def _current_branch(repo_path: str) -> str:
     """Resolve the current git branch for the repository."""
-    import subprocess
-    result = subprocess.run(
+    from tagi.utils.commands import run_command
+    return run_command(
         ["git", "rev-parse", "--abbrev-ref", "HEAD"],
-        cwd=repo_path, capture_output=True, text=True, check=False,
-    )
-    return result.stdout.strip() or "main"
+        repo_path,
+    ).stdout.strip() or "main"
 
 
 def _pr_spec(spec: PrSpec, repo_path: str) -> PrSpec:
