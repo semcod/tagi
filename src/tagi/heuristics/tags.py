@@ -56,7 +56,6 @@ def apply_tags(changes: List[Change], repo_path: str = ".") -> List[Change]:
 
 def apply_path_tags(change: Change, lines_changed: int) -> List[Tag]:
     """Apply path-based heuristic tags to a change."""
-    tags = []
     path_lower = change.path.lower()
     
     # Pattern mapping for tag detection
@@ -71,8 +70,8 @@ def apply_path_tags(change: Change, lines_changed: int) -> List[Tag]:
         (['fix', 'bug', 'patch', 'hotfix', 'correct', 'repair'], Tag.RISKY),
     ]
     
-    for patterns, tag in tag_patterns:
-        if any(pattern in path_lower for pattern in patterns):
-            tags.append(tag)
-    
-    return tags
+    return [
+        tag
+        for patterns, tag in tag_patterns
+        if any(pattern in path_lower for pattern in patterns)
+    ]
