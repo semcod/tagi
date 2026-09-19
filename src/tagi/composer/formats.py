@@ -13,6 +13,32 @@ from ._tags import all_tags, summary_tag, infer_scope
 from tagi.utils.line_builder import LineBuilder
 
 
+_COMMIT_TYPES: "tuple[tuple[Tag, str], ...]" = (
+    (Tag.FEATURE, "feat"),
+    (Tag.RISKY, "fix"),
+    (Tag.DOCS, "docs"),
+    (Tag.TESTS, "test"),
+    (Tag.DEPS, "chore"),
+    (Tag.REFACTOR, "refactor"),
+    (Tag.CONFIG, "config"),
+)
+
+
+def _commit_type(tags: "set[Tag]") -> str:
+    """Pick the highest-priority conventional commit type for a tag set."""
+    for tag, commit_type in _COMMIT_TYPES:
+        if tag in tags:
+            return commit_type
+    return "chore"
+
+
+def _describe_changes(changes: List[Change]) -> str:
+    """Summarize the changed file count or single path."""
+    if len(changes) == 1:
+        return f"update {changes[0].path}"
+    return f"update {len(changes)} files"
+
+
 def generate_conventional_message(changes: List[Change]) -> str:
     """Generate a conventional commits format message."""
     if not changes:
@@ -20,32 +46,13 @@ def generate_conventional_message(changes: List[Change]) -> str:
 
     # Determine type from tags
     tags = set(all_tags(changes))
-    if Tag.FEATURE in tags:
-        commit_type = "feat"
-    elif Tag.RISKY in tags:
-        commit_type = "fix"
-    elif Tag.DOCS in tags:
-        commit_type = "docs"
-    elif Tag.TESTS in tags:
-        commit_type = "test"
-    elif Tag.DEPS in tags:
-        commit_type = "chore"
-    elif Tag.REFACTOR in tags:
-        commit_type = "refactor"
-    elif Tag.CONFIG in tags:
-        commit_type = "config"
-    else:
-        commit_type = "chore"
+    commit_type = _commit_type(tags)
 
     # Determine scope from file paths
     scope = infer_scope(changes)
 
     # Generate description
-    files_count = len(changes)
-    if files_count == 1:
-        description = f"update {changes[0].path}"
-    else:
-        description = f"update {files_count} files"
+    description = _describe_changes(changes)
 
     # Add optional breaking change indicator
     breaking = "!" if Tag.RISKY in tags else ""
