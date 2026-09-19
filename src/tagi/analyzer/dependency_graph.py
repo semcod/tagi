@@ -1,6 +1,7 @@
 """Dependency graph analysis module."""
 
-from typing import Dict, List, Set, Tuple
+from collections import defaultdict, deque
+from typing import Dict, List, Set
 from tagi.models.change import Change
 import ast
 import re
@@ -72,6 +73,62 @@ def build_dependency_graph(changes: List[Change], repo_path: str = ".") -> Dict[
     return graph
 
 
+class _LevelOrder:
+    """Level-by-level topological order over a dependency graph (Kahn's algorithm)."""
+
+    def __init__(self, graph: Dict[str, Set[str]]) -> None:
+        """Index reverse edges and in-degrees, then seed the pending queue.
+
+        Args:
+            graph: Dependency graph mapping files to their dependencies
+        """
+        self.reverse_graph: Dict[str, Set[str]] = defaultdict(set)
+        self.in_degree: Dict[str, int] = defaultdict(int)
+
+        for file, deps in graph.items():
+            for dep in deps:
+                self.reverse_graph[dep].add(file)
+                self.in_degree[file] += 1
+
+        self.queue: "deque[str]" = deque(
+            [f for f in graph if self.in_degree[f] == 0]
+        )
+
+    def levels(self) -> List[List[str]]:
+        """Drain the pending queue level by level into commit groups.
+
+        Returns:
+            List of levels, each containing files that can be committed together
+        """
+        result: List[List[str]] = []
+
+        while self.queue:
+            level = self._drain_level()
+            if level:
+                result.append(level)
+
+        return result
+
+    def _drain_level(self) -> List[str]:
+        """Pop one queue level and enqueue dependents that become unblocked.
+
+        Returns:
+            Files drained from the current queue level
+        """
+        level: List[str] = []
+
+        for _ in range(len(self.queue)):
+            file = self.queue.popleft()
+            level.append(file)
+
+            for dependent in self.reverse_graph[file]:
+                self.in_degree[dependent] -= 1
+                if self.in_degree[dependent] == 0:
+                    self.queue.append(dependent)
+
+        return level
+
+
 def find_dependency_order(graph: Dict[str, Set[str]]) -> List[List[str]]:
     """Find the dependency order using topological sort.
     
@@ -81,36 +138,7 @@ def find_dependency_order(graph: Dict[str, Set[str]]) -> List[List[str]]:
     Returns:
         List of lists, where each inner list contains files that can be committed together
     """
-    from collections import defaultdict, deque
-    
-    # Build reverse graph (what depends on what)
-    reverse_graph = defaultdict(set)
-    in_degree = defaultdict(int)
-    
-    for file, deps in graph.items():
-        for dep in deps:
-            reverse_graph[dep].add(file)
-            in_degree[file] += 1
-    
-    # Find files with no dependencies
-    queue = deque([f for f in graph if in_degree[f] == 0])
-    result = []
-    
-    while queue:
-        level = []
-        for _ in range(len(queue)):
-            file = queue.popleft()
-            level.append(file)
-            
-            for dependent in reverse_graph[file]:
-                in_degree[dependent] -= 1
-                if in_degree[dependent] == 0:
-                    queue.append(dependent)
-        
-        if level:
-            result.append(level)
-    
-    return result
+    return _LevelOrder(graph).levels()
 
 
 _WHITE, _GRAY, _BLACK = 0, 1, 2
