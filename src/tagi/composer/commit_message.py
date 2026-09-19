@@ -35,17 +35,15 @@ __all__ = [
 
 def generate_commit_message(changes: List[Change], template: str = "default", repo_path: str = ".", use_llm: bool = False) -> str:
     """Generate a commit message based on template."""
-    config = load_config(repo_path)
-
     # A configured custom template overrides the built-in name.
-    template = config.get_template(template) or template
+    template = load_config(repo_path).get_template(template) or template
 
     files_str = ", ".join(c.path for c in changes)
     message = render_template(
         template, tag=summary_tag(changes), files=files_str, count=len(changes)
     )
 
-    if use_llm or config.llm_enabled:
+    if use_llm or load_config(repo_path).llm_enabled:
         message = _improve_with_llm(message, repo_path, files_str)
 
     return message

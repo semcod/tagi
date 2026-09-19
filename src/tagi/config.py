@@ -109,6 +109,11 @@ class Config:
                 tags.extend(pattern_tags)
         
         return tags
+
+    def get_tags_for_path(self, path: str) -> List[str]:
+        """Get all custom tags for a file path: rule tag first, then heuristic tags."""
+        tag = self.get_tag_for_path(path)
+        return ([tag] if tag else []) + self.get_heuristics_for_path(path)
     
     def get_tag_description(self, tag: str) -> Optional[str]:
         """Get custom description for a tag."""

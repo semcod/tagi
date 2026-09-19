@@ -13,7 +13,7 @@ def scan_repo(repo_path: str = ".") -> List[Change]:
     if not os.path.exists(os.path.join(repo_path, ".git")):
         raise ValueError(f"Not a git repository: {repo_path}")
     
-    config = load_config(repo_path)
+    should_ignore = load_config(repo_path).should_ignore
     
     result = subprocess.run(
         ["git", "status", "--porcelain"],
@@ -42,7 +42,7 @@ def scan_repo(repo_path: str = ".") -> List[Change]:
         path = parts[1]
         
         # Skip ignored paths
-        if config.should_ignore(path):
+        if should_ignore(path):
             continue
         
         change_type = parse_status(status)
