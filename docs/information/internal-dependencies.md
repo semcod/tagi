@@ -8,8 +8,8 @@
   "status": "implemented",
   "owner": "semcod/tagi",
   "created": "2026-09-06",
-  "updated": "2026-09-06",
-  "review_after": "2026-09-13",
+  "updated": "2026-09-19",
+  "review_after": "2026-10-19",
   "source_revision": "8a915c6b0a8f196d3134703d2772d10ebef48ef3",
   "affected_repositories": [
     "semcod/tagi"
