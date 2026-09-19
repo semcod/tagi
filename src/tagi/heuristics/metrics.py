@@ -3,6 +3,7 @@
 import math
 from typing import List
 from tagi.models.change import Change, ChangeMetrics, ChangeType
+from tagi.utils.paths import path_endswith, path_matches
 
 
 _COMPLEXITY_EXTENSION_WEIGHTS = (
@@ -32,18 +33,16 @@ _DEFAULT_COMPLEXITY_TYPE_WEIGHT = 0.5
 
 def _extension_complexity_weight(path: str) -> float:
     """Return the complexity weight for a file path (first matching suffix wins)."""
-    path_lower = path.lower()
     for suffixes, weight in _COMPLEXITY_EXTENSION_WEIGHTS:
-        if path_lower.endswith(suffixes):
+        if path_endswith(path, suffixes):
             return weight
     return _DEFAULT_COMPLEXITY_EXTENSION_WEIGHT
 
 
 def _extension_impact_weight(path: str) -> float:
     """Return the impact weight for a file path (first matching suffix wins)."""
-    path_lower = path.lower()
     for suffixes, weight in _IMPACT_EXTENSION_WEIGHTS:
-        if path_lower.endswith(suffixes):
+        if path_endswith(path, suffixes):
             return weight
     return _DEFAULT_IMPACT_EXTENSION_WEIGHT
 
@@ -134,14 +133,12 @@ def _calculate_stability(change: Change) -> float:
 
 def _calculate_test_impact(change: Change) -> float:
     """Calculate test coverage impact (0-1)."""
-    path_lower = change.path.lower()
-    
     # Test files have high impact on test coverage
-    if 'test' in path_lower or 'spec' in path_lower:
+    if path_matches(change.path, 'test') or path_matches(change.path, 'spec'):
         return 0.9
     
     # Source files have moderate impact
-    if path_lower.endswith(('.py', '.js', '.ts')):
+    if path_endswith(change.path, ('.py', '.js', '.ts')):
         return 0.6
     
     # Other files have low impact
@@ -151,14 +148,12 @@ def _calculate_test_impact(change: Change) -> float:
 def _calculate_dependency_depth(change: Change) -> int:
     """Calculate dependency depth (simplified)."""
     # This is a simplified version - real implementation would parse imports
-    path_lower = change.path.lower()
-    
-    if path_lower.endswith('.py'):
+    if path_endswith(change.path, ('.py',)):
         # Python files typically have more dependencies
         return 3
-    elif path_lower.endswith(('.js', '.ts', '.jsx', '.tsx')):
+    elif path_endswith(change.path, ('.js', '.ts', '.jsx', '.tsx')):
         return 2
-    elif path_lower.endswith(('.json', '.yaml', '.yml')):
+    elif path_endswith(change.path, ('.json', '.yaml', '.yml')):
         return 1
     else:
         return 0
