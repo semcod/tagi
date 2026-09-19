@@ -10,16 +10,10 @@ from tagi.utils.send_helpers import create_change_group
 from tagi.utils.inspect_helpers import resolve_filtered_changes
 from tagi.cli.display_utils import _format_tags
 from tagi.cli.scan_utils import scan_and_tag
+from tagi.cli.tag_targets import _ensure_tag_prefix
 
 
 console = Console()
-
-
-def _ensure_tag_prefix(tag: str) -> str:
-    """Ensure tag starts with #."""
-    if not tag.startswith("#"):
-        return f"#{tag}"
-    return tag
 
 
 def summary_command(

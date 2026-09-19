@@ -8,16 +8,10 @@ from tagi.utils.inspect_helpers import resolve_filtered_changes
 from tagi.utils.publish_helpers import create_publish_group
 from tagi.utils.detect_provider import get_provider
 from tagi.cli.scan_utils import scan_and_tag
+from tagi.cli.tag_targets import _ensure_tag_prefix
 
 
 console = Console()
-
-
-def _ensure_tag_prefix(tag: str) -> str:
-    """Ensure tag starts with #."""
-    if not tag.startswith("#"):
-        return f"#{tag}"
-    return tag
 
 
 def publish_command(
