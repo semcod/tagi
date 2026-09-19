@@ -4,7 +4,7 @@ from typing import List, Union
 from rich.table import Table
 from rich.console import Console
 from tagi.models import Change, Tag
-from tagi.utils.risk import average_risk
+from tagi.utils.risk import average_risk, total_lines_changed
 
 
 def resolve_filtered_changes(
@@ -102,8 +102,7 @@ def calculate_tag_statistics(changes: List[Change]) -> tuple[int, float]:
     Returns:
         Tuple of (total_lines, avg_risk)
     """
-    total_lines = sum(getattr(c, 'lines_changed', 0) for c in changes)
-    return total_lines, average_risk(changes)
+    return total_lines_changed(changes), average_risk(changes)
 
 
 def display_statistics_table(changes: List[Change], console: Console) -> None:
@@ -113,12 +112,10 @@ def display_statistics_table(changes: List[Change], console: Console) -> None:
         changes: Changes to display statistics for
         console: Rich console instance
     """
-    total_lines, group_avg_risk = calculate_tag_statistics(changes)
-
     stats_table = Table()
     stats_table.add_column("Metric", style="cyan")
     stats_table.add_column("Value", style="magenta")
     stats_table.add_row("Files", str(len(changes)))
-    stats_table.add_row("Total Lines", str(total_lines))
-    stats_table.add_row("Avg Risk Score", f"{group_avg_risk:.2f}")
+    stats_table.add_row("Total Lines", str(total_lines_changed(changes)))
+    stats_table.add_row("Avg Risk Score", f"{average_risk(changes):.2f}")
     console.print(stats_table)

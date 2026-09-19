@@ -6,7 +6,7 @@ from tagi.models import Change, ChangeGroup, Tag
 from tagi.providers.github import GitHubProvider
 from tagi.providers.gitlab import GitLabProvider
 from tagi.providers.detector import detect_provider
-from tagi.utils.risk import average_risk
+from tagi.utils.risk import average_risk, total_lines_changed
 
 
 def detect_and_get_provider(repo_path: str):
@@ -36,13 +36,12 @@ def create_publish_group(changes: List[Change], tag: str) -> ChangeGroup:
     Returns:
         ChangeGroup instance
     """
-    total_lines = sum(c.lines_changed for c in changes)
     tag_enum = Tag(tag)
 
     return ChangeGroup(
         name=tag,
         changes=changes,
         tags=[tag_enum],
-        total_lines=total_lines,
+        total_lines=total_lines_changed(changes),
         avg_risk=average_risk(changes)
     )
