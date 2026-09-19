@@ -100,14 +100,14 @@ class _LevelOrder:
         Returns:
             List of levels, each containing files that can be committed together
         """
-        result: List[List[str]] = []
+        commit_groups: List[List[str]] = []
 
         while self.queue:
             level = self._drain_level()
             if level:
-                result.append(level)
+                commit_groups.append(level)
 
-        return result
+        return commit_groups
 
     def _drain_level(self) -> List[str]:
         """Pop one queue level and enqueue dependents that become unblocked.

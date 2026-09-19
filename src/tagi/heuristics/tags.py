@@ -5,6 +5,7 @@ from typing import List
 from tagi.config import load_config
 from tagi.models import Change, ChangeType, Tag
 from tagi.scanner.files import count_lines_changed
+from tagi.utils.paths import path_matches
 from .scoring import calculate_risk_score
 from .metrics import calculate_metrics
 
@@ -47,13 +48,13 @@ def _tag_change(change: Change, repo_path: str, custom_tags_for) -> None:
 
 def _custom_config_tags(custom_tags_for, path: str):
     """Convert configured custom tag names into valid Tag values."""
-    tags = []
+    valid_tags = []
     for custom_tag in custom_tags_for(path):
         try:
-            tags.append(Tag(custom_tag))
+            valid_tags.append(Tag(custom_tag))
         except ValueError:
             pass  # Invalid tag, skip
-    return tags
+    return valid_tags
 
 
 def _size_tags(lines_changed: int, has_other_tags: bool):
@@ -68,8 +69,6 @@ def _size_tags(lines_changed: int, has_other_tags: bool):
 
 def apply_path_tags(change: Change, lines_changed: int) -> List[Tag]:
     """Apply path-based heuristic tags to a change."""
-    path_lower = change.path.lower()
-    
     # Pattern mapping for tag detection
     tag_patterns = [
         (['requirements', 'package.json', 'poetry.lock', 'pyproject.toml', 'cargo.toml', 'go.mod', 'yarn.lock', 'pnpm-lock.yaml', 'package-lock.json', 'gemfile', 'composer.json'], Tag.DEPS),
@@ -85,5 +84,5 @@ def apply_path_tags(change: Change, lines_changed: int) -> List[Tag]:
     return [
         tag
         for patterns, tag in tag_patterns
-        if any(pattern in path_lower for pattern in patterns)
+        if any(path_matches(change.path, pattern) for pattern in patterns)
     ]

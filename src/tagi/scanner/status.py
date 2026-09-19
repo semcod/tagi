@@ -1,33 +1,27 @@
 """Status module for parsing git status."""
 
 import os
-import subprocess
 from typing import List
 
 from tagi.models import Change, ChangeType
 from tagi.config import load_config
+from tagi.utils.commands import run_command
 
 
 def scan_repo(repo_path: str = ".") -> List[Change]:
     """Scan repository for uncommitted changes using git status --porcelain."""
     if not os.path.exists(os.path.join(repo_path, ".git")):
         raise ValueError(f"Not a git repository: {repo_path}")
-    
+
     should_ignore = load_config(repo_path).should_ignore
-    
-    result = subprocess.run(
-        ["git", "status", "--porcelain"],
-        cwd=repo_path,
-        capture_output=True,
-        text=True,
-        check=False
-    )
-    
-    if result.returncode != 0:
-        raise RuntimeError(f"Failed to scan repository: {result.stderr}")
-    
+
+    status = run_command(["git", "status", "--porcelain"], repo_path)
+
+    if status.returncode != 0:
+        raise RuntimeError(f"Failed to scan repository: {status.stderr}")
+
     changes = []
-    for line in result.stdout.strip().split('\n'):
+    for line in status.stdout.strip().split('\n'):
         if not line:
             continue
         

@@ -15,26 +15,24 @@ def group_by_branch(changes: List[Change], repo_path: str = ".") -> Dict[str, Li
         Dictionary mapping branch names to lists of changes
     """
     from tagi.executor.git import GitExecutor
-    import subprocess
-    
+    from tagi.utils.commands import run_command
+
     executor = GitExecutor(repo_path)
     current_branch = executor.get_current_branch()
-    
+
     # Get branch history for each file
     branch_groups: Dict[str, List[Change]] = {}
-    
+
     for change in changes:
         try:
             # Get the branch where the file was last modified
-            result = subprocess.run(
+            contains = run_command(
                 ["git", "branch", "--contains", "HEAD", "--", change.path],
-                cwd=repo_path,
-                capture_output=True,
-                text=True
+                repo_path,
             )
-            
-            if result.returncode == 0:
-                branches = result.stdout.strip().split('\n')
+
+            if contains.returncode == 0:
+                branches = contains.stdout.strip().split('\n')
                 # Clean up branch names (remove * prefix)
                 branches = [b.strip().replace('*', '').strip() for b in branches if b.strip()]
                 
@@ -64,21 +62,16 @@ def get_branch_info(repo_path: str = ".") -> Dict[str, str]:
     Returns:
         Dictionary mapping branch names to their latest commit hashes
     """
-    import subprocess
-    
+    from tagi.utils.commands import run_command
+
     try:
-        result = subprocess.run(
-            ["git", "branch", "-a"],
-            cwd=repo_path,
-            capture_output=True,
-            text=True
-        )
-        
-        if result.returncode != 0:
+        branch_listing = run_command(["git", "branch", "-a"], repo_path)
+
+        if branch_listing.returncode != 0:
             return {}
-        
+
         branches = {}
-        for line in result.stdout.strip().split('\n'):
+        for line in branch_listing.stdout.strip().split('\n'):
             branch = line.strip().replace('*', '').strip()
             if branch:
                 branches[branch] = branch  # Could be extended to include commit hash

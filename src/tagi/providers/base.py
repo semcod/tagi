@@ -5,6 +5,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import List, Optional
 
+from tagi.utils.commands import run_command
+
 
 @dataclass
 class PrSpec:
@@ -47,19 +49,13 @@ class BaseProvider(ABC):
     
     def _run_command(self, cmd: List[str]) -> subprocess.CompletedProcess:
         """Run a command and return the result."""
-        return subprocess.run(
-            cmd,
-            cwd=self.repo_path,
-            capture_output=True,
-            text=True,
-            check=False
-        )
-    
+        return run_command(cmd, self.repo_path)
+
     def _get_git_remote_url(self) -> Optional[str]:
         """Get the git remote URL for the repository."""
-        result = self._run_command(["git", "remote", "get-url", "origin"])
-        if result.returncode == 0:
-            return result.stdout.strip()
+        remote = self._run_command(["git", "remote", "get-url", "origin"])
+        if remote.returncode == 0:
+            return remote.stdout.strip()
         return None
     
     def _check_git_remote_for_provider(self, provider_name: str) -> bool:

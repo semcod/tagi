@@ -15,22 +15,20 @@ class GitLabProvider(BaseProvider):
 
     def is_authenticated(self) -> bool:
         """Check if glab CLI is authenticated."""
-        result = self._run_command(["glab", "auth", "status"])
-        return is_authenticated_from_result(result)
-    
+        return is_authenticated_from_result(self._run_command(["glab", "auth", "status"]))
+
     def get_auth_status(self) -> dict:
         """Get detailed authentication status."""
-        result = self._run_command(["glab", "auth", "status"])
-        return get_auth_status_from_result(result)
-    
+        return get_auth_status_from_result(self._run_command(["glab", "auth", "status"]))
+
     def get_configured_host(self) -> str:
         """Get the configured GitLab host."""
-        result = self._run_command(["glab", "api", "/user"])
-        if result.returncode == 0:
+        user = self._run_command(["glab", "api", "/user"])
+        if user.returncode == 0:
             # Parse host from API response
             import json
             try:
-                data = json.loads(result.stdout)
+                data = json.loads(user.stdout)
                 if "web_url" in data:
                     from urllib.parse import urlparse
                     return urlparse(data["web_url"]).netloc

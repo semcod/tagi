@@ -4,6 +4,8 @@ import os
 from pathlib import Path
 from typing import Dict, List, Optional
 
+from tagi.utils.paths import path_matches
+
 try:
     import tomli
 except ImportError:
@@ -70,12 +72,10 @@ class Config:
     
     def get_tag_for_path(self, path: str) -> Optional[str]:
         """Get custom tag for a file path based on rules."""
-        path_lower = path.lower()
-        
         for pattern, tag in self.custom_rules.items():
-            if pattern.lower() in path_lower:
+            if path_matches(path, pattern):
                 return tag
-        
+
         return None
     
     def get_custom_tags_for_pattern(self, pattern: str) -> List[str]:
@@ -88,14 +88,12 @@ class Config:
     
     def get_heuristics_for_path(self, path: str) -> List[str]:
         """Get custom heuristic tags for a file path."""
-        path_lower = path.lower()
-        tags = []
-        
-        for pattern, pattern_tags in self.custom_heuristics.items():
-            if pattern.lower() in path_lower:
-                tags.extend(pattern_tags)
-        
-        return tags
+        return [
+            pattern_tag
+            for pattern, pattern_tags in self.custom_heuristics.items()
+            if path_matches(path, pattern)
+            for pattern_tag in pattern_tags
+        ]
 
     def get_tags_for_path(self, path: str) -> List[str]:
         """Get all custom tags for a file path: rule tag first, then heuristic tags."""
@@ -112,13 +110,7 @@ class Config:
     
     def should_ignore(self, path: str) -> bool:
         """Check if a path should be ignored based on ignore patterns."""
-        path_lower = path.lower()
-        
-        for pattern in self.ignore_patterns:
-            if pattern.lower() in path_lower:
-                return True
-        
-        return False
+        return any(path_matches(path, pattern) for pattern in self.ignore_patterns)
 
 
 def load_config(repo_path: str = ".") -> Config:
