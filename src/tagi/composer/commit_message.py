@@ -40,9 +40,10 @@ def generate_commit_message(changes: List[Change], template: str = "default", re
     # A configured custom template overrides the built-in name.
     template = config.get_template(template) or template
 
-    tag = summary_tag(changes)
     files_str = ", ".join(c.path for c in changes)
-    message = render_template(template, tag=tag, files=files_str, count=len(changes))
+    message = render_template(
+        template, tag=summary_tag(changes), files=files_str, count=len(changes)
+    )
 
     if use_llm or config.llm_enabled:
         message = _improve_with_llm(message, repo_path, files_str)

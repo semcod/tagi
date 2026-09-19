@@ -28,18 +28,17 @@ def inspect_command(
 
     
     # Add # prefix if not present
-    if not tag.startswith("#"):
-        tag = f"#{tag}"
+    tag_value = tag if tag.startswith("#") else f"#{tag}"
     
     # Filter changes by tag
-    tag_changes = resolve_filtered_changes(scan_and_tag(repo_path), tag)
+    tag_changes = resolve_filtered_changes(scan_and_tag(repo_path), tag_value)
     
     if not tag_changes:
-        console.print(f"[yellow]No changes found for {tag}[/yellow]")
+        console.print(f"[yellow]No changes found for {tag_value}[/yellow]")
         return
     
     # Show tag description if available
-    tag_desc = config.get_tag_description(tag)
+    tag_desc = config.get_tag_description(tag_value)
     if tag_desc:
         console.print(f"[dim]{tag_desc}[/dim]")
     
