@@ -1,8 +1,16 @@
 flowchart TD
-%% generated in 0.00s
+%% generated in 0.01s
 
     %% Entry points (blue)
     classDef entry fill:#4dabf7,stroke:#1971c2,color:#fff
+
+    subgraph CLI
+        tagi__cli__provider_commands__detect_provider_command["detect_provider_command"]
+        tagi__cli__provider_commands___current_branch["_current_branch"]
+        tagi__cli__provider_commands___pr_spec["_pr_spec"]
+        tagi__cli__provider_commands__create_pr["create_pr"]
+        tagi__cli__provider_commands__create_mr["create_mr"]
+    end
 
     subgraph Core
         src__tagi__config__Config___load_config["_load_config"]
@@ -20,7 +28,7 @@ flowchart TD
         src__tagi__hooks__run_hook["run_hook"]
         src__tagi__analyzer__dependency_graph__build_dependency_graph["build_dependency_graph"]
         src__tagi__analyzer__dependency_graph___LevelOrder__levels["levels"]
-        ...["+135 more"]
+        ...["+133 more"]
     end
 
     class src__tagi__config__Config___load_config,src__tagi__config__Config___apply_sections,src__tagi__config__Config__get_tag_for_path,src__tagi__config__Config__get_custom_tags_for_pattern,src__tagi__config__Config__get_tag_color,src__tagi__config__Config__get_heuristics_for_path,src__tagi__config__Config__get_tags_for_path,src__tagi__config__Config__get_tag_description,src__tagi__config__Config__get_template,src__tagi__hooks__install_hooks entry

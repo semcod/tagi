@@ -51,8 +51,6 @@ flowchart TD
         src__tagi__planner__grouper___get_primary_tag["_get_primary_tag"]
         src__tagi__planner__preview__preview_plan["preview_plan"]
         src__tagi__planner__preview__preview_changes["preview_changes"]
-        src__tagi__planner__branch_grouper__group_by_branch("group_by_branch CC=8")
-        src__tagi__planner__branch_grouper__get_branch_info["get_branch_info"]
         src__tagi__planner__selector__select_changes_by_tag["select_changes_by_tag"]
         src__tagi__planner__selector__select_low_risk_changes["select_low_risk_changes"]
         src__tagi__planner__selector__select_small_changes["select_small_changes"]
@@ -61,7 +59,66 @@ flowchart TD
         src__tagi__models__change__ChangeMetrics__to_vector["to_vector"]
         src__tagi__cli__git_operations___ensure_tag_prefix["_ensure_tag_prefix"]
         src__tagi__cli__git_operations___is_known_tag["_is_known_tag"]
+        src__tagi__cli__git_operations___resolve_send_target["_resolve_send_target"]
+        src__tagi__cli__git_operations___filter_by_tag["_filter_by_tag"]
     end
+    subgraph tagi__cli
+        tagi__cli__provider_commands__detect_provider_command["detect_provider_command"]
+        tagi__cli__provider_commands___current_branch["_current_branch"]
+        tagi__cli__provider_commands___pr_spec["_pr_spec"]
+        tagi__cli__provider_commands__create_pr["create_pr"]
+        tagi__cli__provider_commands__create_mr["create_mr"]
+    end
+    subgraph tagi__executor
+        tagi__executor__git__GitExecutor____init__["__init__"]
+        tagi__executor__git__GitExecutor___run_command["_run_command"]
+        tagi__executor__git__GitExecutor__add["add"]
+        tagi__executor__git__GitExecutor__commit["commit"]
+        tagi__executor__git__GitExecutor__push["push"]
+        tagi__executor__git__GitExecutor__status["status"]
+        tagi__executor__git__GitExecutor__get_current_branch["get_current_branch"]
+        tagi__executor__git__GitExecutor__get_remote_url["get_remote_url"]
+        tagi__executor__git__GitExecutor__has_staged_changes["has_staged_changes"]
+    end
+    subgraph tagi__planner
+        tagi__planner__branch_grouper__group_by_branch("group_by_branch CC=8")
+        tagi__planner__branch_grouper__get_branch_info["get_branch_info"]
+    end
+    subgraph tagi__providers
+        tagi__providers__base__BaseProvider____init__["__init__"]
+        tagi__providers__base__BaseProvider__is_authenticated["is_authenticated"]
+        tagi__providers__base__BaseProvider__get_auth_status["get_auth_status"]
+        tagi__providers__base__BaseProvider__create_pr["create_pr"]
+        tagi__providers__base__BaseProvider__detect_remote["detect_remote"]
+        tagi__providers__base__BaseProvider___run_command["_run_command"]
+        tagi__providers__base__BaseProvider___get_git_remote_url["_get_git_remote_url"]
+        tagi__providers__base__BaseProvider___check_git_remote_for_provider["_check_git_remote_for_provider"]
+        tagi__providers__gitlab__GitLabProvider__is_authenticated["is_authenticated"]
+        tagi__providers__gitlab__GitLabProvider__get_auth_status["get_auth_status"]
+        tagi__providers__gitlab__GitLabProvider__get_configured_host["get_configured_host"]
+        tagi__providers__gitlab__GitLabProvider__create_pr["create_pr"]
+        tagi__providers__gitlab__GitLabProvider__detect_remote["detect_remote"]
+        tagi__providers__github__GitHubProvider__is_authenticated["is_authenticated"]
+        tagi__providers__github__GitHubProvider__get_auth_status["get_auth_status"]
+        tagi__providers__github__GitHubProvider__get_token["get_token"]
+        tagi__providers__github__GitHubProvider__create_pr["create_pr"]
+        tagi__providers__github__GitHubProvider__detect_remote["detect_remote"]
+    end
+    subgraph tagi__scanner
+        tagi__scanner__files__count_lines_changed["count_lines_changed"]
+        tagi__scanner__status__scan_repo["scan_repo"]
+        tagi__scanner__status__parse_status["parse_status"]
+        tagi__scanner__diff__get_diff["get_diff"]
+        tagi__scanner__diff__get_staged_diff["get_staged_diff"]
+    end
+    subgraph tagi__utils
+        tagi__utils__commands__run_command["run_command"]
+        tagi__utils__detect_provider__get_provider["get_provider"]
+        tagi__utils__detect_provider__detect_git_provider["detect_git_provider"]
+    end
+    src__tagi__config__Config__get_tag_for_path --> src__tagi__utils__paths__path_matches
+    src__tagi__config__Config__get_heuristics_for_path --> src__tagi__utils__paths__path_matches
+    src__tagi__config__Config__should_ignore --> src__tagi__utils__paths__path_matches
     src__tagi__hooks___pre_commit_hook --> src__tagi__hooks___hooks_dir
     src__tagi__hooks__install_hooks --> src__tagi__hooks___pre_commit_hook
     src__tagi__hooks__install_hooks --> src__tagi__hooks___hooks_dir
@@ -85,11 +142,13 @@ flowchart TD
     src__tagi__planner__grouper__group_changes --> src__tagi__utils__risk__total_lines_changed
     src__tagi__planner__grouper__group_changes --> src__tagi__utils__risk__average_risk
     src__tagi__planner__grouper__group_by_tag --> src__tagi__planner__selector__select_changes_by_tag
+    tagi__planner__branch_grouper__group_by_branch --> tagi__utils__commands__run_command
+    tagi__planner__branch_grouper__get_branch_info --> tagi__utils__commands__run_command
     src__tagi__cli__git_operations___is_known_tag --> src__tagi__cli__git_operations___ensure_tag_prefix
     src__tagi__cli__git_operations___resolve_send_target --> src__tagi__cli__git_operations___is_known_tag
     src__tagi__cli__git_operations___filter_by_tag --> src__tagi__utils__change_filter__resolve_filtered_changes
     src__tagi__cli__git_operations___filter_by_tag --> src__tagi__cli__git_operations___ensure_tag_prefix
-    src__tagi__cli__git_operations___execute_git_operations --> src__tagi__utils__detect_provider__get_provider
+    src__tagi__cli__git_operations___execute_git_operations --> tagi__utils__detect_provider__get_provider
     src__tagi__cli__git_operations__send_command --> src__tagi__cli__git_operations___resolve_send_target
     src__tagi__cli__git_operations__send_command --> src__tagi__cli__scan_utils__scan_and_tag
     src__tagi__cli__git_operations__send_command --> src__tagi__cli__git_operations___filter_by_tag
@@ -101,21 +160,22 @@ flowchart TD
     src__tagi__cli__inspection_commands__inspect_command --> src__tagi__cli__display_utils___display_changes
     src__tagi__cli__inspection_commands__inspect_command --> src__tagi__cli__scan_utils__scan_and_tag
     src__tagi__cli__inspection_commands__inspect_command --> src__tagi__config__load_config
-    src__tagi__cli__inspection_commands__inspect_command --> src__tagi__scanner__diff__get_diff
+    src__tagi__cli__inspection_commands__inspect_command --> tagi__scanner__diff__get_diff
     src__tagi__cli__inspection_commands__filter_command --> src__tagi__utils__change_filter__resolve_filtered_changes
     src__tagi__cli__inspection_commands__filter_command --> src__tagi__utils__change_stats__display_statistics_table
     src__tagi__cli__inspection_commands__filter_command --> src__tagi__cli__display_utils___display_changes
     src__tagi__cli__inspection_commands__filter_command --> src__tagi__cli__scan_utils__scan_and_tag
-    src__tagi__cli__inspection_commands__filter_command --> src__tagi__scanner__diff__get_diff
-    src__tagi__cli__inspection_commands__file_command --> src__tagi__scanner__diff__get_diff
+    src__tagi__cli__inspection_commands__filter_command --> tagi__scanner__diff__get_diff
+    src__tagi__cli__inspection_commands__file_command --> tagi__scanner__diff__get_diff
     src__tagi__cli__inspection_commands__file_command --> src__tagi__cli__scan_utils__scan_and_tag
     src__tagi__cli__inspection_commands__file_command --> src__tagi__cli__display_utils___format_tags
-    src__tagi__cli__provider_commands__detect_provider_command --> src__tagi__utils__detect_provider__get_provider
-    src__tagi__cli__provider_commands___pr_spec --> src__tagi__cli__provider_commands___current_branch
-    src__tagi__cli__provider_commands__create_pr --> src__tagi__utils__detect_provider__get_provider
-    src__tagi__cli__provider_commands__create_pr --> src__tagi__cli__provider_commands___pr_spec
-    src__tagi__cli__provider_commands__create_mr --> src__tagi__utils__detect_provider__get_provider
-    src__tagi__cli__provider_commands__create_mr --> src__tagi__cli__provider_commands___pr_spec
+    tagi__cli__provider_commands__detect_provider_command --> tagi__utils__detect_provider__get_provider
+    tagi__cli__provider_commands___current_branch --> tagi__utils__commands__run_command
+    tagi__cli__provider_commands___pr_spec --> tagi__cli__provider_commands___current_branch
+    tagi__cli__provider_commands__create_pr --> tagi__utils__detect_provider__get_provider
+    tagi__cli__provider_commands__create_pr --> tagi__cli__provider_commands___pr_spec
+    tagi__cli__provider_commands__create_mr --> tagi__utils__detect_provider__get_provider
+    tagi__cli__provider_commands__create_mr --> tagi__cli__provider_commands___pr_spec
     src__tagi__cli__core_commands__scan_command --> src__tagi__cli__scan_utils__scan_and_tag
     src__tagi__cli__core_commands__scan_command --> src__tagi__cli__display_utils___display_changes_grouped
     src__tagi__cli__core_commands__scan_command --> src__tagi__cli__display_utils___display_changes
@@ -135,11 +195,11 @@ flowchart TD
     src__tagi__cli__main___configure_command_logging --> src__tagi__utils__logger__setup_logger
     src__tagi__cli__main___is_known_tag --> src__tagi__cli__main___ensure_tag_prefix
     src__tagi__cli__main___resolve_send_target --> src__tagi__cli__main___is_known_tag
-    src__tagi__cli__main__detect_provider --> src__tagi__cli__provider_commands__detect_provider_command
+    src__tagi__cli__main__detect_provider --> tagi__cli__provider_commands__detect_provider_command
     src__tagi__cli__publishing_commands__publish_command --> src__tagi__cli__scan_utils__scan_and_tag
     src__tagi__cli__publishing_commands__publish_command --> src__tagi__cli__publishing_commands___ensure_tag_prefix
     src__tagi__cli__publishing_commands__publish_command --> src__tagi__utils__publish_helpers__create_publish_group
-    src__tagi__cli__publishing_commands__publish_command --> src__tagi__utils__detect_provider__get_provider
+    src__tagi__cli__publishing_commands__publish_command --> tagi__utils__detect_provider__get_provider
     src__tagi__cli__publishing_commands__publish_command --> src__tagi__utils__change_filter__resolve_filtered_changes
     src__tagi__cli__publishing_commands__deploy_command --> src__tagi__cli__scan_utils__scan_and_tag
     src__tagi__cli__publishing_commands__deploy_command --> src__tagi__cli__publishing_commands___ensure_tag_prefix
@@ -152,20 +212,27 @@ flowchart TD
     src__tagi__cli__utility_commands__draft_command --> src__tagi__utils__send_helpers__create_change_group
     src__tagi__cli__utility_commands__draft_command --> src__tagi__composer__commit_message__generate_commit_message
     src__tagi__cli__utility_commands__draft_command --> src__tagi__utils__change_filter__resolve_filtered_changes
-    src__tagi__providers__gitlab__GitLabProvider__is_authenticated --> src__tagi__providers__utils__auth__is_authenticated_from_result
-    src__tagi__providers__gitlab__GitLabProvider__get_auth_status --> src__tagi__providers__utils__auth__get_auth_status_from_result
-    src__tagi__providers__gitlab__GitLabProvider__create_pr --> src__tagi__providers__utils__pr__execute_pr_command
-    src__tagi__providers__gitlab__GitLabProvider__create_pr --> src__tagi__providers__utils__pr__build_pr_command
-    src__tagi__providers__github__GitHubProvider__is_authenticated --> src__tagi__providers__utils__auth__is_authenticated_from_result
-    src__tagi__providers__github__GitHubProvider__get_auth_status --> src__tagi__providers__utils__auth__get_auth_status_from_result
-    src__tagi__providers__github__GitHubProvider__create_pr --> src__tagi__providers__utils__pr__execute_pr_command
-    src__tagi__providers__github__GitHubProvider__create_pr --> src__tagi__providers__utils__pr__build_pr_command
-    src__tagi__scanner__status__scan_repo --> src__tagi__config__load_config
-    src__tagi__scanner__status__scan_repo --> src__tagi__config__Config__should_ignore
-    src__tagi__scanner__status__scan_repo --> src__tagi__scanner__status__parse_status
+    tagi__providers__base__BaseProvider___run_command --> tagi__utils__commands__run_command
+    tagi__providers__gitlab__GitLabProvider__is_authenticated --> src__tagi__providers__utils__auth__is_authenticated_from_result
+    tagi__providers__gitlab__GitLabProvider__get_auth_status --> src__tagi__providers__utils__auth__get_auth_status_from_result
+    tagi__providers__gitlab__GitLabProvider__create_pr --> src__tagi__providers__utils__pr__execute_pr_command
+    tagi__providers__gitlab__GitLabProvider__create_pr --> src__tagi__providers__utils__pr__build_pr_command
+    tagi__providers__github__GitHubProvider__is_authenticated --> src__tagi__providers__utils__auth__is_authenticated_from_result
+    tagi__providers__github__GitHubProvider__get_auth_status --> src__tagi__providers__utils__auth__get_auth_status_from_result
+    tagi__providers__github__GitHubProvider__create_pr --> src__tagi__providers__utils__pr__execute_pr_command
+    tagi__providers__github__GitHubProvider__create_pr --> src__tagi__providers__utils__pr__build_pr_command
+    tagi__scanner__files__count_lines_changed --> tagi__utils__commands__run_command
+    tagi__scanner__status__scan_repo --> tagi__utils__commands__run_command
+    tagi__scanner__status__scan_repo --> src__tagi__config__load_config
+    tagi__scanner__status__scan_repo --> src__tagi__config__Config__should_ignore
+    tagi__scanner__status__scan_repo --> tagi__scanner__status__parse_status
+    tagi__scanner__diff__get_diff --> tagi__utils__commands__run_command
+    tagi__scanner__diff__get_staged_diff --> tagi__utils__commands__run_command
     src__tagi__heuristics__scoring__calculate_risk_score --> src__tagi__heuristics__scoring___lines_risk_weight
     src__tagi__heuristics__scoring__calculate_risk_score --> src__tagi__heuristics__scoring___tag_risk_weight
     src__tagi__heuristics__scoring__calculate_risk_score --> src__tagi__heuristics__scoring___change_type_risk_weight
+    src__tagi__heuristics__metrics___extension_complexity_weight --> src__tagi__utils__paths__path_endswith
+    src__tagi__heuristics__metrics___extension_impact_weight --> src__tagi__utils__paths__path_endswith
     src__tagi__heuristics__metrics__calculate_metrics --> src__tagi__heuristics__metrics___calculate_complexity
     src__tagi__heuristics__metrics__calculate_metrics --> src__tagi__heuristics__metrics___calculate_impact
     src__tagi__heuristics__metrics__calculate_metrics --> src__tagi__heuristics__metrics___calculate_stability
@@ -173,14 +240,18 @@ flowchart TD
     src__tagi__heuristics__metrics__calculate_metrics --> src__tagi__heuristics__metrics___calculate_dependency_depth
     src__tagi__heuristics__metrics___calculate_complexity --> src__tagi__heuristics__metrics___extension_complexity_weight
     src__tagi__heuristics__metrics___calculate_impact --> src__tagi__heuristics__metrics___extension_impact_weight
+    src__tagi__heuristics__metrics___calculate_test_impact --> src__tagi__utils__paths__path_endswith
+    src__tagi__heuristics__metrics___calculate_test_impact --> src__tagi__utils__paths__path_matches
+    src__tagi__heuristics__metrics___calculate_dependency_depth --> src__tagi__utils__paths__path_endswith
     src__tagi__heuristics__tags__apply_tags --> src__tagi__config__load_config
     src__tagi__heuristics__tags__apply_tags --> src__tagi__heuristics__tags___tag_change
     src__tagi__heuristics__tags___tag_change --> src__tagi__heuristics__tags___custom_config_tags
-    src__tagi__heuristics__tags___tag_change --> src__tagi__scanner__files__count_lines_changed
+    src__tagi__heuristics__tags___tag_change --> tagi__scanner__files__count_lines_changed
     src__tagi__heuristics__tags___tag_change --> src__tagi__heuristics__metrics__calculate_metrics
     src__tagi__heuristics__tags___tag_change --> src__tagi__heuristics__scoring__calculate_risk_score
     src__tagi__heuristics__tags___tag_change --> src__tagi__heuristics__tags__apply_path_tags
     src__tagi__heuristics__tags___tag_change --> src__tagi__heuristics__tags___size_tags
+    src__tagi__heuristics__tags__apply_path_tags --> src__tagi__utils__paths__path_matches
     src__tagi__heuristics__rules___get_config_attr --> src__tagi__config__load_config
     src__tagi__heuristics__rules__get_custom_rules --> src__tagi__heuristics__rules___get_config_attr
     src__tagi__heuristics__rules__get_custom_heuristics --> src__tagi__heuristics__rules___get_config_attr
@@ -200,18 +271,22 @@ flowchart TD
     src__tagi__composer__commit_message__generate_commit_message --> src__tagi__config__load_config
     src__tagi__composer___tags__all_tag_values --> src__tagi__composer___tags__all_tags
     src__tagi__composer___tags__summary_tag --> src__tagi__composer___tags__all_tags
+    tagi__executor__git__GitExecutor___run_command --> tagi__utils__commands__run_command
     src__tagi__utils__summary_helpers__build_statistics_section --> src__tagi__utils__risk__total_lines_changed
     src__tagi__utils__summary_helpers__build_statistics_section --> src__tagi__utils__risk__average_risk
-    src__tagi__utils__publish_helpers__detect_and_get_provider --> src__tagi__utils__detect_provider__get_provider
+    src__tagi__utils__publish_helpers__detect_and_get_provider --> tagi__utils__detect_provider__get_provider
     src__tagi__utils__publish_helpers__create_publish_group --> src__tagi__utils__risk__total_lines_changed
     src__tagi__utils__publish_helpers__create_publish_group --> src__tagi__utils__risk__average_risk
-    src__tagi__utils__detect_provider__get_provider --> src__tagi__utils__detect_provider__detect_git_provider
+    tagi__utils__detect_provider__get_provider --> tagi__utils__detect_provider__detect_git_provider
+    tagi__utils__detect_provider__detect_git_provider --> tagi__utils__commands__run_command
     src__tagi__utils__send_helpers__create_change_group --> src__tagi__utils__risk__total_lines_changed
     src__tagi__utils__send_helpers__create_change_group --> src__tagi__utils__risk__average_risk
     src__tagi__utils__change_stats__calculate_tag_statistics --> src__tagi__utils__risk__total_lines_changed
     src__tagi__utils__change_stats__calculate_tag_statistics --> src__tagi__utils__risk__average_risk
     src__tagi__utils__change_stats__display_statistics_table --> src__tagi__utils__risk__total_lines_changed
     src__tagi__utils__change_stats__display_statistics_table --> src__tagi__utils__risk__average_risk
+    src__tagi__utils__paths__path_matches --> src__tagi__utils__paths__path_key
+    src__tagi__utils__paths__path_endswith --> src__tagi__utils__paths__path_key
     src__tagi__utils__change_filter___resolve_tag_enums --> src__tagi__utils__change_filter___normalize_tag
     src__tagi__utils__change_filter__resolve_filtered_changes --> src__tagi__utils__change_filter___resolve_tag_enums
     src__tagi__utils__change_filter__resolve_filtered_changes --> src__tagi__utils__change_filter___changes_matching_any
@@ -224,4 +299,4 @@ flowchart TD
 
     classDef highCC fill:#ff6b6b,stroke:#c92a2a,color:#fff
     classDef medCC fill:#ffd43b,stroke:#f08c00,color:#000
-    class src__tagi__analyzer__metrics__MetricsCollector__collect,src__tagi__planner__branch_grouper__group_by_branch,src__tagi__planner__selector__select_by_tags,src__tagi__planner__selector__select_safe_changes,src__tagi__cli__publishing_commands__publish_command,src__tagi__cli__utility_commands__hooks_command,src__tagi__providers__koru__KoruProvider__analyze_deployment_priority,src__tagi__composer__summary__generate_summary medCC
+    class src__tagi__analyzer__metrics__MetricsCollector__collect,tagi__planner__branch_grouper__group_by_branch,src__tagi__planner__selector__select_by_tags,src__tagi__planner__selector__select_safe_changes,src__tagi__cli__publishing_commands__publish_command,src__tagi__cli__utility_commands__hooks_command,src__tagi__providers__koru__KoruProvider__analyze_deployment_priority,src__tagi__composer__summary__generate_summary medCC

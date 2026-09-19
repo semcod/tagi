@@ -1,3 +1,19 @@
 flowchart TD
-%% generated in 0.00s
-    src__tagi["src.tagi<br/>225 funcs"]
+%% generated in 0.01s
+    src__tagi["src.tagi<br/>187 funcs"]
+    tagi__cli["tagi.cli<br/>5 funcs"]
+    tagi__executor["tagi.executor<br/>9 funcs"]
+    tagi__planner["tagi.planner<br/>2 funcs"]
+    tagi__providers["tagi.providers<br/>18 funcs"]
+    tagi__scanner["tagi.scanner<br/>5 funcs"]
+    tagi__utils["tagi.utils<br/>3 funcs"]
+    tagi__providers ==>|8| src__tagi
+    src__tagi ==>|4| tagi__scanner
+    tagi__cli ==>|4| tagi__utils
+    tagi__scanner ==>|4| tagi__utils
+    src__tagi -->|3| tagi__utils
+    tagi__planner -->|2| tagi__utils
+    tagi__scanner -->|2| src__tagi
+    src__tagi -->|1| tagi__cli
+    tagi__providers -->|1| tagi__utils
+    tagi__executor -->|1| tagi__utils
