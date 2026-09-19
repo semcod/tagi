@@ -6,13 +6,36 @@ import ast
 import re
 
 
+def _collect_import_names(tree: ast.AST) -> List[str]:
+    """Collect imported module paths from a parsed AST.
+
+    Args:
+        tree: Parsed AST of a Python file
+
+    Returns:
+        List of imported module paths
+    """
+    imports: List[str] = []
+
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                imports.append(alias.name)
+        elif isinstance(node, ast.ImportFrom):
+            module = node.module if node.module else ''
+            for alias in node.names:
+                imports.append(f"{module}.{alias.name}")
+
+    return imports
+
+
 def analyze_python_imports(file_path: str, repo_path: str = ".") -> List[str]:
     """Analyze Python file for import dependencies.
-    
+
     Args:
         file_path: Path to the Python file
         repo_path: Path to the repository
-        
+
     Returns:
         List of imported module paths
     """
@@ -20,20 +43,9 @@ def analyze_python_imports(file_path: str, repo_path: str = ".") -> List[str]:
         full_path = f"{repo_path}/{file_path}"
         with open(full_path, 'r') as f:
             content = f.read()
-        
+
         tree = ast.parse(content)
-        imports = []
-        
-        for node in ast.walk(tree):
-            if isinstance(node, ast.Import):
-                for alias in node.names:
-                    imports.append(alias.name)
-            elif isinstance(node, ast.ImportFrom):
-                module = node.module if node.module else ''
-                for alias in node.names:
-                    imports.append(f"{module}.{alias.name}")
-        
-        return imports
+        return _collect_import_names(tree)
     except Exception:
         return []
 
