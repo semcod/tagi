@@ -107,10 +107,7 @@ def file_command(
     console.print(f"[cyan]Type:[/cyan] {file_change.change_type.value}")
     
     console.print(f"[cyan]Tags:[/cyan] {_format_tags(file_change.tags)}")
-    
-    if file_change.description:
-        console.print(f"[cyan]Description:[/cyan] {file_change.description}")
-    
+
     if diff:
         console.print("\n[bold cyan]Diff:[/bold cyan]")
         diff_output = get_diff(file_path, repo_path)
