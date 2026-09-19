@@ -3,7 +3,7 @@
 from typing import Dict, List
 from tagi.models.change import Change
 from tagi.utils.line_builder import LineBuilder
-from tagi.utils.risk import average_risk
+from tagi.utils.risk import average_risk, total_lines_changed
 from datetime import datetime
 import json
 
@@ -58,7 +58,7 @@ class MetricsCollector:
                 self.metrics["by_risk"]["high"] += 1
         
         # Lines and risk
-        self.metrics["total_lines"] = sum(c.lines_changed for c in changes)
+        self.metrics["total_lines"] = total_lines_changed(changes)
         self.metrics["avg_risk"] = average_risk(changes)
         
         # Timeline
