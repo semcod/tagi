@@ -19,11 +19,11 @@ def all_tag_values(changes: List[Change]) -> List[str]:
 
 def summary_tag(changes: List[Change]) -> str:
     """Choose a stable tag prefix for a commit spanning one or more changes."""
-    tags = all_tags(changes)
-    if not tags:
+    unique_tags = all_tags(changes)
+    if not unique_tags:
         return "#small"
-    if len(tags) == 1:
-        return tags[0].value
+    if len(unique_tags) == 1:
+        return unique_tags[0].value
     return "#all"
 
 

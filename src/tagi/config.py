@@ -88,13 +88,12 @@ class Config:
     
     def get_heuristics_for_path(self, path: str) -> List[str]:
         """Get custom heuristic tags for a file path."""
-        tags = []
-
-        for pattern, pattern_tags in self.custom_heuristics.items():
-            if path_matches(path, pattern):
-                tags.extend(pattern_tags)
-
-        return tags
+        return [
+            pattern_tag
+            for pattern, pattern_tags in self.custom_heuristics.items()
+            if path_matches(path, pattern)
+            for pattern_tag in pattern_tags
+        ]
 
     def get_tags_for_path(self, path: str) -> List[str]:
         """Get all custom tags for a file path: rule tag first, then heuristic tags."""

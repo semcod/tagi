@@ -45,8 +45,8 @@ def generate_conventional_message(changes: List[Change]) -> str:
         return "chore: empty commit"
 
     # Determine type from tags
-    tags = set(all_tags(changes))
-    commit_type = _commit_type(tags)
+    tag_set = set(all_tags(changes))
+    commit_type = _commit_type(tag_set)
 
     # Determine scope from file paths
     scope = infer_scope(changes)
@@ -55,7 +55,7 @@ def generate_conventional_message(changes: List[Change]) -> str:
     description = _describe_changes(changes)
 
     # Add optional breaking change indicator
-    breaking = "!" if Tag.RISKY in tags else ""
+    breaking = "!" if Tag.RISKY in tag_set else ""
 
     if scope:
         return f"{commit_type}({scope}){breaking}: {description}"

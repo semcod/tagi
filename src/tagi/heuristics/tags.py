@@ -48,13 +48,13 @@ def _tag_change(change: Change, repo_path: str, custom_tags_for) -> None:
 
 def _custom_config_tags(custom_tags_for, path: str):
     """Convert configured custom tag names into valid Tag values."""
-    tags = []
+    valid_tags = []
     for custom_tag in custom_tags_for(path):
         try:
-            tags.append(Tag(custom_tag))
+            valid_tags.append(Tag(custom_tag))
         except ValueError:
             pass  # Invalid tag, skip
-    return tags
+    return valid_tags
 
 
 def _size_tags(lines_changed: int, has_other_tags: bool):
