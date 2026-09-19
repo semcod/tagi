@@ -1,7 +1,7 @@
 """Dependency graph analysis module."""
 
 from collections import defaultdict, deque
-from typing import Dict, List, Set
+from typing import Dict, List, Optional, Set
 from tagi.models.change import Change
 import ast
 import re
@@ -200,6 +200,65 @@ def detect_cycles(graph: Dict[str, Set[str]]) -> List[List[str]]:
     return cycles
 
 
+def _longest_path_length(
+    node: str,
+    graph: Dict[str, Set[str]],
+    memo: Dict[str, int],
+) -> int:
+    """Return the length of the longest dependency chain starting at node."""
+    if node in memo:
+        return memo[node]
+
+    max_len = 0
+    for dep in graph.get(node, []):
+        if dep in graph:
+            max_len = max(max_len, _longest_path_length(dep, graph, memo))
+
+    memo[node] = max_len + 1
+    return memo[node]
+
+
+def _find_longest_start(graph: Dict[str, Set[str]], memo: Dict[str, int]) -> str:
+    """Return the node starting the longest dependency chain."""
+    return max(graph, key=lambda node: _longest_path_length(node, graph, memo))
+
+
+def _next_critical_node(
+    node: str,
+    graph: Dict[str, Set[str]],
+    memo: Dict[str, int],
+    visited: Set[str],
+) -> Optional[str]:
+    """Return the unvisited dependency of node with the longest chain."""
+    next_node = None
+    max_next = 0
+
+    for dep in graph.get(node, []):
+        if dep in graph and dep not in visited and memo.get(dep, 0) > max_next:
+            max_next = memo[dep]
+            next_node = dep
+
+    return next_node
+
+
+def _reconstruct_critical_path(
+    start_node: str,
+    graph: Dict[str, Set[str]],
+    memo: Dict[str, int],
+) -> List[str]:
+    """Walk greedily from start_node along the longest chains."""
+    path: List[str] = []
+    visited: Set[str] = set()
+
+    current: Optional[str] = start_node
+    while current and current not in visited:
+        path.append(current)
+        visited.add(current)
+        current = _next_critical_node(current, graph, memo, visited)
+
+    return path
+
+
 def get_critical_path(graph: Dict[str, Set[str]]) -> List[str]:
     """Find the critical path (longest dependency chain).
     
@@ -209,47 +268,9 @@ def get_critical_path(graph: Dict[str, Set[str]]) -> List[str]:
     Returns:
         List of files in the critical path
     """
-    memo = {}
-    
-    def longest_path(node: str) -> int:
-        if node not in memo:
-            max_len = 0
-            for dep in graph.get(node, []):
-                if dep in graph:
-                    max_len = max(max_len, longest_path(dep))
-            memo[node] = max_len + 1
-        return memo[node]
-    
-    # Find node with longest path
-    max_length = 0
-    start_node = None
-    
-    for node in graph:
-        length = longest_path(node)
-        if length > max_length:
-            max_length = length
-            start_node = node
-    
-    # Reconstruct path
-    if not start_node:
+    if not graph:
         return []
-    
-    path = []
-    current = start_node
-    visited = set()
-    
-    while current and current not in visited:
-        path.append(current)
-        visited.add(current)
-        
-        next_node = None
-        max_next = 0
-        for dep in graph.get(current, []):
-            if dep in graph and dep not in visited:
-                if memo.get(dep, 0) > max_next:
-                    max_next = memo[dep]
-                    next_node = dep
-        
-        current = next_node
-    
-    return path
+
+    memo: Dict[str, int] = {}
+    start_node = _find_longest_start(graph, memo)
+    return _reconstruct_critical_path(start_node, graph, memo)
