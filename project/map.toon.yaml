@@ -1,11 +1,11 @@
-# tagi | 73f 5496L | yaml:5,txt:2,toml:1,shell:1,python:64 | 2026-09-18
+# tagi | 75f 5609L | yaml:5,txt:2,toml:1,shell:1,python:66 | 2026-09-19
 # generated in 0.01s
-# stats: 193 func | 0 cls | 73 mod | CC̄=3.3 | critical:1 | cycles:0
-# alerts[5]: CC resolve_filtered_changes=17; fan-out scan_repo=15; fan-out publish_command=14; fan-out send_command=13; fan-out setup_logger=13
-# hotspots[5]: scan_repo fan=15; publish_command fan=14; send_command fan=13; setup_logger fan=13; summary_command fan=12
-# evolution: CC̄ 3.3→3.3 (flat 0.0)
+# stats: 225 func | 0 cls | 75 mod | CC̄=2.9 | critical:0 | cycles:0
+# alerts[5]: fan-out scan_repo=15; fan-out publish_command=14; fan-out send_command=13; fan-out setup_logger=13; fan-out summary_command=13
+# hotspots[5]: scan_repo fan=15; publish_command fan=14; send_command fan=13; summary_command fan=13; setup_logger fan=13
+# evolution: CC̄ 2.9→2.9 (flat 0.0)
 # Keys: M=modules, D=details, i=imports, e=exports, c=classes, f=functions, m=methods
-M[73]:
+M[75]:
   goal.yaml,539
   koru.yaml,133
   local.dev.txt,11
@@ -14,33 +14,33 @@ M[73]:
   regix.yaml,93
   src/tagi/__init__.py,47
   src/tagi/__main__.py,6
-  src/tagi/analyzer/dependency_graph.py,195
-  src/tagi/analyzer/metrics.py,155
+  src/tagi/analyzer/dependency_graph.py,276
+  src/tagi/analyzer/metrics.py,153
   src/tagi/cli/__init__.py,32
   src/tagi/cli/core_commands.py,94
-  src/tagi/cli/display_utils.py,81
-  src/tagi/cli/git_operations.py,172
-  src/tagi/cli/inspection_commands.py,125
-  src/tagi/cli/main.py,123
-  src/tagi/cli/provider_commands.py,77
+  src/tagi/cli/display_utils.py,79
+  src/tagi/cli/git_operations.py,170
+  src/tagi/cli/inspection_commands.py,120
+  src/tagi/cli/main.py,113
+  src/tagi/cli/provider_commands.py,79
   src/tagi/cli/publishing_commands.py,139
   src/tagi/cli/scan_utils.py,25
   src/tagi/cli/utility_commands.py,211
   src/tagi/composer/__init__.py,12
-  src/tagi/composer/_tags.py,57
+  src/tagi/composer/_tags.py,52
   src/tagi/composer/_templates.py,21
-  src/tagi/composer/commit_message.py,65
-  src/tagi/composer/formats.py,128
-  src/tagi/composer/summary.py,47
-  src/tagi/config.py,134
+  src/tagi/composer/commit_message.py,64
+  src/tagi/composer/formats.py,141
+  src/tagi/composer/summary.py,39
+  src/tagi/config.py,126
   src/tagi/executor/__init__.py,9
-  src/tagi/executor/git.py,114
+  src/tagi/executor/git.py,72
   src/tagi/executor/publish.py,39
   src/tagi/heuristics/__init__.py,13
-  src/tagi/heuristics/metrics.py,214
+  src/tagi/heuristics/metrics.py,228
   src/tagi/heuristics/rules.py,20
-  src/tagi/heuristics/scoring.py,31
-  src/tagi/heuristics/tags.py,87
+  src/tagi/heuristics/scoring.py,41
+  src/tagi/heuristics/tags.py,89
   src/tagi/hooks.py,127
   src/tagi/llm/__init__.py,7
   src/tagi/llm/llx_adapter.py,55
@@ -50,8 +50,8 @@ M[73]:
   src/tagi/models/plan.py,23
   src/tagi/planner/__init__.py,18
   src/tagi/planner/branch_grouper.py,88
-  src/tagi/planner/grouper.py,77
-  src/tagi/planner/preview.py,42
+  src/tagi/planner/grouper.py,74
+  src/tagi/planner/preview.py,43
   src/tagi/planner/selector.py,44
   src/tagi/planner/sorter.py,104
   src/tagi/providers/__init__.py,11
@@ -62,64 +62,36 @@ M[73]:
   src/tagi/providers/koru.py,171
   src/tagi/providers/utils/__init__.py,1
   src/tagi/providers/utils/auth.py,32
-  src/tagi/providers/utils/pr.py,47
+  src/tagi/providers/utils/pr.py,46
   src/tagi/scanner/__init__.py,13
-  src/tagi/scanner/diff.py,31
-  src/tagi/scanner/files.py,30
-  src/tagi/scanner/status.py,67
+  src/tagi/scanner/diff.py,29
+  src/tagi/scanner/files.py,29
+  src/tagi/scanner/status.py,66
   src/tagi/ui/design_tokens.py,221
-  src/tagi/utils/detect_provider.py,33
-  src/tagi/utils/inspect_helpers.py,125
-  src/tagi/utils/line_builder.py,22
+  src/tagi/utils/change_filter.py,120
+  src/tagi/utils/change_stats.py,42
+  src/tagi/utils/detect_provider.py,54
+  src/tagi/utils/inspect_helpers.py,25
+  src/tagi/utils/line_builder.py,23
   src/tagi/utils/logger.py,71
-  src/tagi/utils/publish_helpers.py,49
-  src/tagi/utils/risk.py,19
-  src/tagi/utils/send_helpers.py,38
-  src/tagi/utils/summary_helpers.py,115
+  src/tagi/utils/publish_helpers.py,40
+  src/tagi/utils/risk.py,33
+  src/tagi/utils/send_helpers.py,34
+  src/tagi/utils/summary_helpers.py,113
   testql-scenarios/generated-cli-tests.testql.toon.yaml,20
   tree.txt,89
   wup.yaml,100
 D:
-  src/tagi/utils/inspect_helpers.py:
-    e: resolve_filtered_changes,filter_changes_by_tag,filter_changes_by_tags_any,filter_changes_by_tags_all,calculate_tag_statistics,display_statistics_table
-    resolve_filtered_changes(changes;tags;mode)
-    filter_changes_by_tag(changes;tag)
-    filter_changes_by_tags_any(changes;tags)
-    filter_changes_by_tags_all(changes;tags)
-    calculate_tag_statistics(changes)
-    display_statistics_table(changes;console)
-  src/tagi/config.py:
-    e: Config,load_config
-    Config: __init__(1),_load_config(0),get_tag_for_path(1),get_custom_tags_for_pattern(1),get_tag_color(1),get_heuristics_for_path(1),get_tag_description(1),get_template(1),should_ignore(1)  # Configuration loaded from tagi.toml...
-    load_config(repo_path)
-  src/tagi/composer/formats.py:
-    e: generate_conventional_message,generate_detailed_message,generate_simple_message,generate_oneline_message,generate_files_message
-    generate_conventional_message(changes)
-    generate_detailed_message(changes)
-    generate_simple_message(changes)
-    generate_oneline_message(changes)
-    generate_files_message(changes)
-  src/tagi/analyzer/metrics.py:
-    e: MetricsCollector,generate_report,compare_metrics
-    MetricsCollector: __init__(0),collect(1),to_json(0),save(1)  # Collect and analyze metrics about changes...
-    generate_report(metrics)
-    compare_metrics(metrics1;metrics2)
   src/tagi/cli/publishing_commands.py:
     e: _ensure_tag_prefix,publish_command,deploy_command
     _ensure_tag_prefix(tag)
     publish_command(tag;repo_path;dry_run;template;verbose)
     deploy_command(tag;repo_path;environment;dry_run;verbose)
-  src/tagi/heuristics/tags.py:
-    e: apply_tags,apply_path_tags
-    apply_tags(changes;repo_path)
-    apply_path_tags(change;lines_changed)
-  src/tagi/analyzer/dependency_graph.py:
-    e: analyze_python_imports,build_dependency_graph,find_dependency_order,detect_cycles,get_critical_path
-    analyze_python_imports(file_path;repo_path)
-    build_dependency_graph(changes;repo_path)
-    find_dependency_order(graph)
-    detect_cycles(graph)
-    get_critical_path(graph)
+  src/tagi/analyzer/metrics.py:
+    e: MetricsCollector,generate_report,compare_metrics
+    MetricsCollector: __init__(0),collect(1),to_json(0),save(1)  # Collect and analyze metrics about changes...
+    generate_report(metrics)
+    compare_metrics(metrics1;metrics2)
   src/tagi/cli/utility_commands.py:
     e: _ensure_tag_prefix,summary_command,init_command,hooks_command,draft_command
     _ensure_tag_prefix(tag)
@@ -127,15 +99,6 @@ D:
     init_command(repo_path;force)
     hooks_command(repo_path;install;uninstall;list_hooks)
     draft_command(tag;repo_path;template)
-  src/tagi/cli/inspection_commands.py:
-    e: inspect_command,filter_command,file_command
-    inspect_command(tag;repo_path;diff)
-    filter_command(tags;repo_path;mode;diff)
-    file_command(file_path;repo_path;diff)
-  src/tagi/composer/summary.py:
-    e: generate_summary,generate_file_list
-    generate_summary(changes)
-    generate_file_list(changes;max_files)
   src/tagi/planner/branch_grouper.py:
     e: group_by_branch,get_branch_info
     group_by_branch(changes;repo_path)
@@ -147,6 +110,34 @@ D:
     select_small_changes(changes;max_lines)
     select_by_tags(changes;tags;require_all)
     select_safe_changes(changes)
+  src/tagi/providers/koru.py:
+    e: KoruDeploymentPlan,KoruProvider
+    KoruDeploymentPlan:  # Deployment plan from Koru API...
+    KoruProvider: __init__(3),_make_api_request(3),get_topology(0),get_planfile_tickets(0),run_quality_gates(0),get_context_brief(0),_deployment_recommendations(4),analyze_deployment_priority(1),deploy_group(3),is_available(0)  # Integration with Koru API for deployment analysis...
+  src/tagi/composer/summary.py:
+    e: generate_summary,generate_file_list
+    generate_summary(changes)
+    generate_file_list(changes;max_files)
+  src/tagi/analyzer/dependency_graph.py:
+    e: _LevelOrder,_collect_import_names,analyze_python_imports,build_dependency_graph,find_dependency_order,_mark,_cycle_from,_dfs_visit,detect_cycles,_longest_path_length,_find_longest_start,_next_critical_node,_reconstruct_critical_path,get_critical_path
+    _LevelOrder: __init__(1),levels(0),_drain_level(0)  # Level-by-level topological order over a dependency graph (Ka...
+    _collect_import_names(tree)
+    analyze_python_imports(file_path;repo_path)
+    build_dependency_graph(changes;repo_path)
+    find_dependency_order(graph)
+    _mark(node;color;value)
+    _cycle_from(node;path)
+    _dfs_visit(node;graph;color;path;cycles)
+    detect_cycles(graph)
+    _longest_path_length(node;graph;memo)
+    _find_longest_start(graph;memo)
+    _next_critical_node(node;graph;memo;visited)
+    _reconstruct_critical_path(start_node;graph;memo)
+    get_critical_path(graph)
+  src/tagi/planner/preview.py:
+    e: preview_plan,preview_changes
+    preview_plan(changes;tag)
+    preview_changes(group)
   src/tagi/cli/git_operations.py:
     e: _ensure_tag_prefix,_is_known_tag,_resolve_send_target,_filter_by_tag,_execute_git_operations,send_command,auto_command
     _ensure_tag_prefix(tag)
@@ -156,14 +147,11 @@ D:
     _execute_git_operations(changes;commit_message;push;repo_path)
     send_command(target;repo_path;auto_order;dry_run;push;template;verbose)
     auto_command(repo_path;dry_run;push;template;verbose)
-  src/tagi/providers/koru.py:
-    e: KoruDeploymentPlan,KoruProvider
-    KoruDeploymentPlan:  # Deployment plan from Koru API...
-    KoruProvider: __init__(3),_make_api_request(3),get_topology(0),get_planfile_tickets(0),run_quality_gates(0),get_context_brief(0),_deployment_recommendations(4),analyze_deployment_priority(1),deploy_group(3),is_available(0)  # Integration with Koru API for deployment analysis...
-  src/tagi/planner/preview.py:
-    e: preview_plan,preview_changes
-    preview_plan(changes;tag)
-    preview_changes(group)
+  src/tagi/cli/inspection_commands.py:
+    e: inspect_command,filter_command,file_command
+    inspect_command(tag;repo_path;diff)
+    filter_command(tags;repo_path;mode;diff)
+    file_command(file_path;repo_path;diff)
   src/tagi/cli/core_commands.py:
     e: scan_command,list_groups_command,list_command,_do_list_groups,stats_command
     scan_command(repo_path;grouped)
@@ -178,9 +166,6 @@ D:
     e: scan_repo,parse_status
     scan_repo(repo_path)
     parse_status(status)
-  src/tagi/heuristics/scoring.py:
-    e: calculate_risk_score
-    calculate_risk_score(change;tags)
   src/tagi/composer/_tags.py:
     e: all_tags,all_tag_values,summary_tag,infer_scope
     all_tags(changes)
@@ -209,25 +194,26 @@ D:
     _get_primary_tag(tags)
   src/tagi/cli/display_utils.py:
     e: _display_changes,_format_tags,_display_groups,_display_changes_grouped
-    _display_changes(changes;config)
+    _display_changes(changes)
     _format_tags(tags;config)
     _display_groups(groups)
     _display_changes_grouped(changes)
   src/tagi/cli/main.py:
-    e: setup_logging,_configure_command_logging,_ensure_tag_prefix,_is_known_tag,_resolve_send_target,detect_provider,get_logger
+    e: setup_logging,_configure_command_logging,_ensure_tag_prefix,_is_known_tag,_resolve_send_target,detect_provider
     setup_logging(verbose)
     _configure_command_logging(verbose)
     _ensure_tag_prefix(tag)
     _is_known_tag(value)
     _resolve_send_target(target;repo_path)
     detect_provider(repo_path)
-    get_logger()
   src/tagi/providers/utils/pr.py:
     e: build_pr_command,execute_pr_command
     build_pr_command(tool;pr_type;spec)
     execute_pr_command(result)
   src/tagi/heuristics/metrics.py:
-    e: calculate_metrics,_calculate_complexity,_calculate_impact,_calculate_stability,_calculate_test_impact,_calculate_dependency_depth,filter_by_metrics,sort_by_metric,calculate_vector_distance
+    e: _extension_complexity_weight,_extension_impact_weight,calculate_metrics,_calculate_complexity,_calculate_impact,_calculate_stability,_calculate_test_impact,_calculate_dependency_depth,filter_by_metrics,sort_by_metric,calculate_vector_distance
+    _extension_complexity_weight(path)
+    _extension_impact_weight(path)
     calculate_metrics(change;repo_path)
     _calculate_complexity(change)
     _calculate_impact(change)
@@ -237,6 +223,17 @@ D:
     filter_by_metrics(changes;min_risk;max_risk;min_complexity;max_complexity;min_impact;max_impact)
     sort_by_metric(changes;metric;ascending)
     calculate_vector_distance(change1;change2)
+  src/tagi/composer/formats.py:
+    e: _commit_type,_describe_changes,generate_conventional_message,_count_tags,_detailed_file_lines,generate_detailed_message,generate_simple_message,generate_oneline_message,generate_files_message
+    _commit_type(tags)
+    _describe_changes(changes)
+    generate_conventional_message(changes)
+    _count_tags(changes)
+    _detailed_file_lines(changes)
+    generate_detailed_message(changes)
+    generate_simple_message(changes)
+    generate_oneline_message(changes)
+    generate_files_message(changes)
   src/tagi/composer/commit_message.py:
     e: generate_commit_message,_improve_with_llm
     generate_commit_message(changes;template;repo_path;use_llm)
@@ -248,24 +245,47 @@ D:
     build_changes_by_type_section(changes)
     build_tag_distribution_section(changes;config)
     build_file_list_section(changes)
+  src/tagi/utils/change_filter.py:
+    e: _normalize_tag,_changes_matching_tag,_resolve_tag_enums,_changes_matching_any,_changes_matching_all,resolve_filtered_changes,filter_changes_by_tag,filter_changes_by_tags_any,filter_changes_by_tags_all
+    _normalize_tag(value)
+    _changes_matching_tag(changes;tag_enum)
+    _resolve_tag_enums(tags)
+    _changes_matching_any(changes;tag_enums)
+    _changes_matching_all(changes;tag_enums)
+    resolve_filtered_changes(changes;tags;mode)
+    filter_changes_by_tag(changes;tag)
+    filter_changes_by_tags_any(changes;tags)
+    filter_changes_by_tags_all(changes;tags)
+  src/tagi/config.py:
+    e: Config,load_config
+    Config: __init__(1),_load_config(0),_apply_sections(1),get_tag_for_path(1),get_custom_tags_for_pattern(1),get_tag_color(1),get_heuristics_for_path(1),get_tags_for_path(1),get_tag_description(1),get_template(1),should_ignore(1)  # Configuration loaded from tagi.toml...
+    load_config(repo_path)
   src/tagi/cli/provider_commands.py:
     e: detect_provider_command,_current_branch,_pr_spec,create_pr,create_mr
     detect_provider_command(repo_path)
     _current_branch(repo_path)
-    _pr_spec(title;body;repo_path)
-    create_pr(title;body;repo_path)
-    create_mr(title;body;repo_path)
+    _pr_spec(spec;repo_path)
+    create_pr(spec;repo_path)
+    create_mr(spec;repo_path)
   src/tagi/providers/gitlab.py:
     e: GitLabProvider
     GitLabProvider(BaseProvider): is_authenticated(0),get_auth_status(0),get_configured_host(0),create_pr(1),detect_remote(0)  # GitLab provider using glab CLI...
+  src/tagi/heuristics/tags.py:
+    e: apply_tags,_tag_change,_custom_config_tags,_size_tags,apply_path_tags
+    apply_tags(changes;repo_path)
+    _tag_change(change;repo_path;custom_tags_for)
+    _custom_config_tags(custom_tags_for;path)
+    _size_tags(lines_changed;has_other_tags)
+    apply_path_tags(change;lines_changed)
   src/tagi/llm/llx_adapter.py:
     e: LlxAdapter
     LlxAdapter: __init__(2),is_available(0),improve_message(2),improve_description(2)  # Adapter for LLX library for optional LLM integration...
   src/tagi/executor/git.py:
     e: GitExecutor
-    GitExecutor: __init__(1),add(1),commit(2),push(3),status(0),get_current_branch(0),get_remote_url(1),has_staged_changes(0)  # Executor for git commands...
+    GitExecutor: __init__(1),_run_command(1),add(1),commit(2),push(3),status(0),get_current_branch(0),get_remote_url(1),has_staged_changes(0)  # Executor for git commands...
   src/tagi/utils/detect_provider.py:
-    e: detect_git_provider
+    e: get_provider,detect_git_provider
+    get_provider(repo_path)
     detect_git_provider(repo_path)
   src/tagi/utils/logger.py:
     e: setup_logger,get_logger
@@ -277,19 +297,19 @@ D:
   src/tagi/providers/detector.py:
     e: detect_provider
     detect_provider(repo_path)
+  src/tagi/heuristics/scoring.py:
+    e: calculate_risk_score,_lines_risk_weight,_tag_risk_weight,_change_type_risk_weight
+    calculate_risk_score(change;tags)
+    _lines_risk_weight(lines_changed)
+    _tag_risk_weight(tags)
+    _change_type_risk_weight(change_type)
   src/tagi/executor/publish.py:
     e: PublishExecutor
     PublishExecutor: __init__(1),stage_and_commit(3),publish(6),dry_run(2)  # Executor for publishing changes...
-  src/tagi/utils/publish_helpers.py:
-    e: detect_and_get_provider,create_publish_group
-    detect_and_get_provider(repo_path)
-    create_publish_group(changes;tag)
   src/tagi/utils/risk.py:
-    e: average_risk
+    e: total_lines_changed,average_risk
+    total_lines_changed(changes)
     average_risk(changes)
-  src/tagi/utils/send_helpers.py:
-    e: create_change_group
-    create_change_group(filtered_changes;tag)
   src/tagi/providers/base.py:
     e: PrSpec,BaseProvider
     PrSpec:  # Pull/merge request parameters...
@@ -304,6 +324,9 @@ D:
   src/tagi/composer/_templates.py:
     e: render_template
     render_template(template)
+  src/tagi/utils/send_helpers.py:
+    e: create_change_group
+    create_change_group(changes;tag)
   src/tagi/ui/design_tokens.py:
     e: ColorTokens,SpacingTokens,TypographyTokens,BorderRadiusTokens,ShadowTokens,LayoutTokens,DesignTokens
     ColorTokens:  # Color design tokens...
@@ -328,9 +351,17 @@ D:
     _get_config_attr(repo_path;attr_name)
     get_custom_rules(repo_path)
     get_custom_heuristics(repo_path)
+  src/tagi/utils/publish_helpers.py:
+    e: detect_and_get_provider,create_publish_group
+    detect_and_get_provider(repo_path)
+    create_publish_group(changes;tag)
+  src/tagi/utils/change_stats.py:
+    e: calculate_tag_statistics,display_statistics_table
+    calculate_tag_statistics(changes)
+    display_statistics_table(changes;console)
   src/tagi/utils/line_builder.py:
     e: LineBuilder
-    LineBuilder: __init__(0),add(0),as_list(0),text(0)  # Single place where report line lists are created and mutated...
+    LineBuilder: __init__(1),add(0),as_list(0),text(0)  # Single place where report line lists are created and mutated...
   goal.yaml:
   regix.yaml:
   local.dev.txt:
@@ -358,4 +389,5 @@ D:
   src/tagi/llm/__init__.py:
   src/tagi/composer/__init__.py:
   src/tagi/executor/__init__.py:
+  src/tagi/utils/inspect_helpers.py:
   testql-scenarios/generated-cli-tests.testql.toon.yaml:

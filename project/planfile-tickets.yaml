@@ -1,14 +1,14 @@
-source: code2llm
-# generated in 0.03s
+source: koru-scan
+# generated in 9.95s
 schema: code2llm.planfile_tickets.v1
 project_root: /home/tom/github/semcod/tagi
 tickets:
 - signal: code2llm_smell_shotgun_surgery
-  title: 'Address code smell: Shotgun Surgery: logger'
-  description: 'code2llm reports `Shotgun Surgery: logger` in `src/tagi/cli/main.py:46`.
+  title: 'Address code smell: Shotgun Surgery: path_lower'
+  description: 'code2llm reports `Shotgun Surgery: path_lower` in `src/tagi/heuristics/metrics.py:33`.
 
 
-    Mutation of variable ''logger'' spans 5 functions. Changing this logic requires
+    Mutation of variable ''path_lower'' spans 8 functions. Changing this logic requires
     work in many places.
 
 
@@ -20,15 +20,15 @@ tickets:
   - code-smell
   - shotgun-surgery
   files:
-  - src/tagi/cli/main.py
-  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/cli/main.py:46:Shotgun Surgery:
-    logger'
+  - src/tagi/heuristics/metrics.py
+  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/heuristics/metrics.py:33:Shotgun
+    Surgery: path_lower'
 - signal: code2llm_smell_shotgun_surgery
-  title: 'Address code smell: Shotgun Surgery: tags_str'
-  description: 'code2llm reports `Shotgun Surgery: tags_str` in `src/tagi/cli/display_utils.py:14`.
+  title: 'Address code smell: Shotgun Surgery: tags'
+  description: 'code2llm reports `Shotgun Surgery: tags` in `src/tagi/heuristics/tags.py:48`.
 
 
-    Mutation of variable ''tags_str'' spans 6 functions. Changing this logic requires
+    Mutation of variable ''tags'' spans 5 functions. Changing this logic requires
     work in many places.
 
 
@@ -40,94 +40,15 @@ tickets:
   - code-smell
   - shotgun-surgery
   files:
-  - src/tagi/cli/display_utils.py
-  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/cli/display_utils.py:14:Shotgun
-    Surgery: tags_str'
-- signal: code2llm_cc
-  title: 'Reduce cyclomatic complexity: src.tagi.utils.inspect_helpers.resolve_filtered_changes
-    (CC=17)'
-  description: 'code2llm reports `src.tagi.utils.inspect_helpers.resolve_filtered_changes`
-    at `src/tagi/utils/inspect_helpers.py:10` with cyclomatic complexity 17 (limit
-    15).
-
-
-    Extract smaller functions, flatten conditionals, or split strategy branches. Re-run
-    code2llm after the change and keep tests green.'
-  priority: normal
-  labels:
-  - llm-ready
-  - code2llm
-  - complexity
-  - refactor
-  files:
-  - src/tagi/utils/inspect_helpers.py
-  dedupe_key: code2llm:cc:src/tagi/utils/inspect_helpers.py:src.tagi.utils.inspect_helpers.resolve_filtered_changes
-- signal: code2llm_smell_data_clump
-  title: 'Address code smell: Data Clump: title, repo_path, body'
-  description: 'code2llm reports `Data Clump: title, repo_path, body` in `src/tagi/cli/provider_commands.py:34`.
-
-
-    Arguments (title, repo_path, body) are used together in multiple functions: src.tagi.cli.provider_commands._pr_spec,
-    src.tagi.cli.provider_commands.create_pr, src.tagi.cli.provider_commands.create_mr.
-
-
-    Make the smallest refactor that removes the smell and run local tests.'
-  priority: normal
-  labels:
-  - llm-ready
-  - code2llm
-  - code-smell
-  - data-clump
-  files:
-  - src/tagi/cli/provider_commands.py
-  dedupe_key: 'code2llm:smell:data_clump:src/tagi/cli/provider_commands.py:34:Data
-    Clump: title, repo_path, body'
-- signal: code2llm_smell_data_clump
-  title: 'Address code smell: Data Clump: title, repo_path, body'
-  description: 'code2llm reports `Data Clump: title, repo_path, body` in `src/tagi/cli/provider_commands.py:38`.
-
-
-    Arguments (title, repo_path, body) are used together in multiple functions: src.tagi.cli.provider_commands._pr_spec,
-    src.tagi.cli.provider_commands.create_pr, src.tagi.cli.provider_commands.create_mr.
-
-
-    Make the smallest refactor that removes the smell and run local tests.'
-  priority: normal
-  labels:
-  - llm-ready
-  - code2llm
-  - code-smell
-  - data-clump
-  files:
-  - src/tagi/cli/provider_commands.py
-  dedupe_key: 'code2llm:smell:data_clump:src/tagi/cli/provider_commands.py:38:Data
-    Clump: title, repo_path, body'
-- signal: code2llm_smell_data_clump
-  title: 'Address code smell: Data Clump: title, repo_path, body'
-  description: 'code2llm reports `Data Clump: title, repo_path, body` in `src/tagi/cli/provider_commands.py:59`.
-
-
-    Arguments (title, repo_path, body) are used together in multiple functions: src.tagi.cli.provider_commands._pr_spec,
-    src.tagi.cli.provider_commands.create_pr, src.tagi.cli.provider_commands.create_mr.
-
-
-    Make the smallest refactor that removes the smell and run local tests.'
-  priority: normal
-  labels:
-  - llm-ready
-  - code2llm
-  - code-smell
-  - data-clump
-  files:
-  - src/tagi/cli/provider_commands.py
-  dedupe_key: 'code2llm:smell:data_clump:src/tagi/cli/provider_commands.py:59:Data
-    Clump: title, repo_path, body'
+  - src/tagi/heuristics/tags.py
+  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/heuristics/tags.py:48:Shotgun
+    Surgery: tags'
 - signal: code2llm_smell_god_function
-  title: 'Address code smell: God Function: _calculate_complexity'
-  description: 'code2llm reports `God Function: _calculate_complexity` in `src/tagi/heuristics/metrics.py:46`.
+  title: 'Address code smell: God Function: _tag_change'
+  description: 'code2llm reports `God Function: _tag_change` in `src/tagi/heuristics/tags.py:22`.
 
 
-    Function ''_calculate_complexity'' is oversized: CC=5, fan-out=6, mutations=10.
+    Function ''_tag_change'' is oversized: CC=2, fan-out=9, mutations=9.
 
 
     Make the smallest refactor that removes the smell and run local tests.'
@@ -138,180 +59,9 @@ tickets:
   - code-smell
   - god-function
   files:
-  - src/tagi/heuristics/metrics.py
-  dedupe_key: 'code2llm:smell:god_function:src/tagi/heuristics/metrics.py:46:God Function:
-    _calculate_complexity'
-- signal: code2llm_smell_god_function
-  title: 'Address code smell: God Function: _calculate_impact'
-  description: 'code2llm reports `God Function: _calculate_impact` in `src/tagi/heuristics/metrics.py:78`.
-
-
-    Function ''_calculate_impact'' is oversized: CC=5, fan-out=3, mutations=8.
-
-
-    Make the smallest refactor that removes the smell and run local tests.'
-  priority: normal
-  labels:
-  - llm-ready
-  - code2llm
-  - code-smell
-  - god-function
-  files:
-  - src/tagi/heuristics/metrics.py
-  dedupe_key: 'code2llm:smell:god_function:src/tagi/heuristics/metrics.py:78:God Function:
-    _calculate_impact'
-- signal: code2llm_smell_god_function
-  title: 'Address code smell: God Function: _load_config'
-  description: 'code2llm reports `God Function: _load_config` in `src/tagi/config.py:30`.
-
-
-    Function ''_load_config'' is oversized: CC=13, fan-out=6, mutations=0.
-
-
-    Make the smallest refactor that removes the smell and run local tests.'
-  priority: normal
-  labels:
-  - llm-ready
-  - code2llm
-  - code-smell
-  - god-function
-  files:
-  - src/tagi/config.py
-  dedupe_key: 'code2llm:smell:god_function:src/tagi/config.py:30:God Function: _load_config'
-- signal: code2llm_smell_god_function
-  title: 'Address code smell: God Function: analyze_python_imports'
-  description: 'code2llm reports `God Function: analyze_python_imports` in `src/tagi/analyzer/dependency_graph.py:9`.
-
-
-    Function ''analyze_python_imports'' is oversized: CC=8, fan-out=6, mutations=7.
-
-
-    Make the smallest refactor that removes the smell and run local tests.'
-  priority: normal
-  labels:
-  - llm-ready
-  - code2llm
-  - code-smell
-  - god-function
-  files:
-  - src/tagi/analyzer/dependency_graph.py
-  dedupe_key: 'code2llm:smell:god_function:src/tagi/analyzer/dependency_graph.py:9:God
-    Function: analyze_python_imports'
-- signal: code2llm_smell_god_function
-  title: 'Address code smell: God Function: calculate_risk_score'
-  description: 'code2llm reports `God Function: calculate_risk_score` in `src/tagi/heuristics/scoring.py:8`.
-
-
-    Function ''calculate_risk_score'' is oversized: CC=7, fan-out=1, mutations=8.
-
-
-    Make the smallest refactor that removes the smell and run local tests.'
-  priority: normal
-  labels:
-  - llm-ready
-  - code2llm
-  - code-smell
-  - god-function
-  files:
-  - src/tagi/heuristics/scoring.py
-  dedupe_key: 'code2llm:smell:god_function:src/tagi/heuristics/scoring.py:8:God Function:
-    calculate_risk_score'
-- signal: code2llm_smell_god_function
-  title: 'Address code smell: God Function: detect_cycles'
-  description: 'code2llm reports `God Function: detect_cycles` in `src/tagi/analyzer/dependency_graph.py:104`.
-
-
-    Function ''detect_cycles'' is oversized: CC=4, fan-out=6, mutations=8.
-
-
-    Make the smallest refactor that removes the smell and run local tests.'
-  priority: normal
-  labels:
-  - llm-ready
-  - code2llm
-  - code-smell
-  - god-function
-  files:
-  - src/tagi/analyzer/dependency_graph.py
-  dedupe_key: 'code2llm:smell:god_function:src/tagi/analyzer/dependency_graph.py:104:God
-    Function: detect_cycles'
-- signal: code2llm_smell_god_function
-  title: 'Address code smell: God Function: find_dependency_order'
-  description: 'code2llm reports `God Function: find_dependency_order` in `src/tagi/analyzer/dependency_graph.py:63`.
-
-
-    Function ''find_dependency_order'' is oversized: CC=10, fan-out=10, mutations=13.
-
-
-    Make the smallest refactor that removes the smell and run local tests.'
-  priority: normal
-  labels:
-  - llm-ready
-  - code2llm
-  - code-smell
-  - god-function
-  files:
-  - src/tagi/analyzer/dependency_graph.py
-  dedupe_key: 'code2llm:smell:god_function:src/tagi/analyzer/dependency_graph.py:63:God
-    Function: find_dependency_order'
-- signal: code2llm_smell_god_function
-  title: 'Address code smell: God Function: generate_conventional_message'
-  description: 'code2llm reports `God Function: generate_conventional_message` in
-    `src/tagi/composer/formats.py:16`.
-
-
-    Function ''generate_conventional_message'' is oversized: CC=12, fan-out=4, mutations=14.
-
-
-    Make the smallest refactor that removes the smell and run local tests.'
-  priority: normal
-  labels:
-  - llm-ready
-  - code2llm
-  - code-smell
-  - god-function
-  files:
-  - src/tagi/composer/formats.py
-  dedupe_key: 'code2llm:smell:god_function:src/tagi/composer/formats.py:16:God Function:
-    generate_conventional_message'
-- signal: code2llm_smell_god_function
-  title: 'Address code smell: God Function: generate_detailed_message'
-  description: 'code2llm reports `God Function: generate_detailed_message` in `src/tagi/composer/formats.py:59`.
-
-
-    Function ''generate_detailed_message'' is oversized: CC=7, fan-out=7, mutations=11.
-
-
-    Make the smallest refactor that removes the smell and run local tests.'
-  priority: normal
-  labels:
-  - llm-ready
-  - code2llm
-  - code-smell
-  - god-function
-  files:
-  - src/tagi/composer/formats.py
-  dedupe_key: 'code2llm:smell:god_function:src/tagi/composer/formats.py:59:God Function:
-    generate_detailed_message'
-- signal: code2llm_smell_god_function
-  title: 'Address code smell: God Function: get_critical_path'
-  description: 'code2llm reports `God Function: get_critical_path` in `src/tagi/analyzer/dependency_graph.py:143`.
-
-
-    Function ''get_critical_path'' is oversized: CC=10, fan-out=7, mutations=16.
-
-
-    Make the smallest refactor that removes the smell and run local tests.'
-  priority: normal
-  labels:
-  - llm-ready
-  - code2llm
-  - code-smell
-  - god-function
-  files:
-  - src/tagi/analyzer/dependency_graph.py
-  dedupe_key: 'code2llm:smell:god_function:src/tagi/analyzer/dependency_graph.py:143:God
-    Function: get_critical_path'
+  - src/tagi/heuristics/tags.py
+  dedupe_key: 'code2llm:smell:god_function:src/tagi/heuristics/tags.py:22:God Function:
+    _tag_change'
 - signal: code2llm_smell_god_function
   title: 'Address code smell: God Function: group_by_branch'
   description: 'code2llm reports `God Function: group_by_branch` in `src/tagi/planner/branch_grouper.py:7`.
@@ -332,11 +82,30 @@ tickets:
   dedupe_key: 'code2llm:smell:god_function:src/tagi/planner/branch_grouper.py:7:God
     Function: group_by_branch'
 - signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: group_changes'
+  description: 'code2llm reports `God Function: group_changes` in `src/tagi/planner/grouper.py:10`.
+
+
+    Function ''group_changes'' is oversized: CC=4, fan-out=9, mutations=7.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - src/tagi/planner/grouper.py
+  dedupe_key: 'code2llm:smell:god_function:src/tagi/planner/grouper.py:10:God Function:
+    group_changes'
+- signal: code2llm_smell_god_function
   title: 'Address code smell: God Function: hooks_command'
   description: 'code2llm reports `God Function: hooks_command` in `src/tagi/cli/utility_commands.py:131`.
 
 
-    Function ''hooks_command'' is oversized: CC=10, fan-out=11, mutations=0.
+    Function ''hooks_command'' is oversized: CC=10, fan-out=11, mutations=4.
 
 
     Make the smallest refactor that removes the smell and run local tests.'
@@ -355,7 +124,7 @@ tickets:
   description: 'code2llm reports `God Function: inspect_command` in `src/tagi/cli/inspection_commands.py:19`.
 
 
-    Function ''inspect_command'' is oversized: CC=7, fan-out=11, mutations=0.
+    Function ''inspect_command'' is oversized: CC=7, fan-out=11, mutations=4.
 
 
     Make the smallest refactor that removes the smell and run local tests.'
@@ -370,49 +139,11 @@ tickets:
   dedupe_key: 'code2llm:smell:god_function:src/tagi/cli/inspection_commands.py:19:God
     Function: inspect_command'
 - signal: code2llm_smell_god_function
-  title: 'Address code smell: God Function: preview_changes'
-  description: 'code2llm reports `God Function: preview_changes` in `src/tagi/planner/preview.py:29`.
-
-
-    Function ''preview_changes'' is oversized: CC=3, fan-out=5, mutations=8.
-
-
-    Make the smallest refactor that removes the smell and run local tests.'
-  priority: normal
-  labels:
-  - llm-ready
-  - code2llm
-  - code-smell
-  - god-function
-  files:
-  - src/tagi/planner/preview.py
-  dedupe_key: 'code2llm:smell:god_function:src/tagi/planner/preview.py:29:God Function:
-    preview_changes'
-- signal: code2llm_smell_god_function
-  title: 'Address code smell: God Function: preview_plan'
-  description: 'code2llm reports `God Function: preview_plan` in `src/tagi/planner/preview.py:9`.
-
-
-    Function ''preview_plan'' is oversized: CC=7, fan-out=6, mutations=7.
-
-
-    Make the smallest refactor that removes the smell and run local tests.'
-  priority: normal
-  labels:
-  - llm-ready
-  - code2llm
-  - code-smell
-  - god-function
-  files:
-  - src/tagi/planner/preview.py
-  dedupe_key: 'code2llm:smell:god_function:src/tagi/planner/preview.py:9:God Function:
-    preview_plan'
-- signal: code2llm_smell_god_function
   title: 'Address code smell: God Function: publish_command'
   description: 'code2llm reports `God Function: publish_command` in `src/tagi/cli/publishing_commands.py:23`.
 
 
-    Function ''publish_command'' is oversized: CC=11, fan-out=14, mutations=0.
+    Function ''publish_command'' is oversized: CC=11, fan-out=14, mutations=8.
 
 
     Make the smallest refactor that removes the smell and run local tests.'
@@ -431,7 +162,7 @@ tickets:
   description: 'code2llm reports `God Function: scan_repo` in `src/tagi/scanner/status.py:11`.
 
 
-    Function ''scan_repo'' is oversized: CC=7, fan-out=15, mutations=0.
+    Function ''scan_repo'' is oversized: CC=7, fan-out=15, mutations=8.
 
 
     Make the smallest refactor that removes the smell and run local tests.'
@@ -450,7 +181,7 @@ tickets:
   description: 'code2llm reports `God Function: send_command` in `src/tagi/cli/git_operations.py:90`.
 
 
-    Function ''send_command'' is oversized: CC=8, fan-out=13, mutations=0.
+    Function ''send_command'' is oversized: CC=7, fan-out=13, mutations=9.
 
 
     Make the smallest refactor that removes the smell and run local tests.'
@@ -485,10 +216,10 @@ tickets:
     setup_logger'
 - signal: code2llm_smell_god_function
   title: 'Address code smell: God Function: summary_command'
-  description: 'code2llm reports `God Function: summary_command` in `src/tagi/cli/utility_commands.py:24`.
+  description: 'code2llm reports `God Function: summary_command` in `src/tagi/cli/utility_commands.py:25`.
 
 
-    Function ''summary_command'' is oversized: CC=9, fan-out=12, mutations=0.
+    Function ''summary_command'' is oversized: CC=7, fan-out=13, mutations=17.
 
 
     Make the smallest refactor that removes the smell and run local tests.'
@@ -500,7 +231,19 @@ tickets:
   - god-function
   files:
   - src/tagi/cli/utility_commands.py
-  dedupe_key: 'code2llm:smell:god_function:src/tagi/cli/utility_commands.py:24:God
+  dedupe_key: 'code2llm:smell:god_function:src/tagi/cli/utility_commands.py:25:God
     Function: summary_command'
-applied: []
+applied:
+- 'Address code smell: Shotgun Surgery: path_lower'
+- 'Address code smell: Shotgun Surgery: tags'
+- 'Address code smell: God Function: _tag_change'
+- 'Address code smell: God Function: group_by_branch'
+- 'Address code smell: God Function: group_changes'
+- 'Address code smell: God Function: hooks_command'
+- 'Address code smell: God Function: inspect_command'
+- 'Address code smell: God Function: publish_command'
+- 'Address code smell: God Function: scan_repo'
+- 'Address code smell: God Function: send_command'
+- 'Address code smell: God Function: setup_logger'
+- 'Address code smell: God Function: summary_command'
 skipped: []

@@ -1,169 +1,170 @@
-# code2llm | 73f 5496L | python:64,yaml:5,txt:2,toml:1,shell:1 | 2026-09-18
-# generated in 0.01s
-# CC̅=3.3 | critical:1/193 | dups:0 | cycles:0
+# code2llm | 75f 5609L | python:66,yaml:5,txt:2,toml:1,shell:1 | 2026-09-19
+# generated in 0.03s
+# CC̅=2.9 | critical:0/225 | dups:0 | cycles:2
 
-HEALTH[1]:
-  🟡 CC    resolve_filtered_changes CC=17 (limit:15)
+HEALTH[0]: ok
 
 REFACTOR[1]:
-  1. split 1 high-CC methods  (CC>15)
+  1. break 2 circular dependencies
 
-PIPELINES[116]:
+PIPELINES[122]:
   [1] Src [__init__]: __init__
       PURITY: 100% pure
   [2] Src [_load_config]: _load_config
       PURITY: 100% pure
-  [3] Src [get_tag_for_path]: get_tag_for_path
+  [3] Src [_apply_sections]: _apply_sections
       PURITY: 100% pure
-  [4] Src [get_custom_tags_for_pattern]: get_custom_tags_for_pattern
+  [4] Src [get_tag_for_path]: get_tag_for_path
       PURITY: 100% pure
-  [5] Src [get_tag_color]: get_tag_color
+  [5] Src [get_custom_tags_for_pattern]: get_custom_tags_for_pattern
       PURITY: 100% pure
-  [6] Src [get_heuristics_for_path]: get_heuristics_for_path
+  [6] Src [get_tag_color]: get_tag_color
       PURITY: 100% pure
-  [7] Src [get_tag_description]: get_tag_description
+  [7] Src [get_heuristics_for_path]: get_heuristics_for_path
       PURITY: 100% pure
-  [8] Src [get_template]: get_template
+  [8] Src [get_tags_for_path]: get_tags_for_path
       PURITY: 100% pure
-  [9] Src [should_ignore]: should_ignore
+  [9] Src [get_tag_description]: get_tag_description
       PURITY: 100% pure
-  [10] Src [install_hooks]: install_hooks → _pre_commit_hook → _hooks_dir
+  [10] Src [get_template]: get_template
       PURITY: 100% pure
-  [11] Src [uninstall_hooks]: uninstall_hooks → _pre_commit_hook → _hooks_dir
+  [11] Src [install_hooks]: install_hooks → _pre_commit_hook → _hooks_dir
       PURITY: 100% pure
-  [12] Src [list_hooks]: list_hooks → _hooks_dir
+  [12] Src [uninstall_hooks]: uninstall_hooks → _pre_commit_hook → _hooks_dir
       PURITY: 100% pure
-  [13] Src [run_hook]: run_hook → _hooks_dir
+  [13] Src [list_hooks]: list_hooks → _hooks_dir
       PURITY: 100% pure
-  [14] Src [build_dependency_graph]: build_dependency_graph → analyze_python_imports
+  [14] Src [run_hook]: run_hook → _hooks_dir
       PURITY: 100% pure
-  [15] Src [find_dependency_order]: find_dependency_order
+  [15] Src [build_dependency_graph]: build_dependency_graph → analyze_python_imports → _collect_import_names
       PURITY: 100% pure
-  [16] Src [detect_cycles]: detect_cycles
+  [16] Src [__init__]: __init__
       PURITY: 100% pure
-  [17] Src [get_critical_path]: get_critical_path
+  [17] Src [levels]: levels
       PURITY: 100% pure
-  [18] Src [collect]: collect → average_risk
+  [18] Src [_drain_level]: _drain_level
       PURITY: 100% pure
-  [19] Src [to_json]: to_json
+  [19] Src [find_dependency_order]: find_dependency_order
       PURITY: 100% pure
-  [20] Src [save]: save
+  [20] Src [detect_cycles]: detect_cycles → _dfs_visit → _mark
       PURITY: 100% pure
-  [21] Src [generate_report]: generate_report
+  [21] Src [get_critical_path]: get_critical_path → _find_longest_start → _longest_path_length
       PURITY: 100% pure
-  [22] Src [sort_by_tag_priority]: sort_by_tag_priority
+  [22] Src [collect]: collect → total_lines_changed
       PURITY: 100% pure
-  [23] Src [group_by_complexity]: group_by_complexity → sort_by_complexity
+  [23] Src [to_json]: to_json
       PURITY: 100% pure
-  [24] Src [group_changes]: group_changes → average_risk
+  [24] Src [save]: save
       PURITY: 100% pure
-  [25] Src [group_by_tag]: group_by_tag → select_changes_by_tag
+  [25] Src [generate_report]: generate_report
       PURITY: 100% pure
-  [26] Src [preview_plan]: preview_plan
+  [26] Src [sort_by_tag_priority]: sort_by_tag_priority
       PURITY: 100% pure
-  [27] Src [preview_changes]: preview_changes
+  [27] Src [group_by_complexity]: group_by_complexity → sort_by_complexity
       PURITY: 100% pure
-  [28] Src [group_by_branch]: group_by_branch
+  [28] Src [group_changes]: group_changes → _get_primary_tag
       PURITY: 100% pure
-  [29] Src [get_branch_info]: get_branch_info
+  [29] Src [group_by_tag]: group_by_tag → select_changes_by_tag
       PURITY: 100% pure
-  [30] Src [select_by_tags]: select_by_tags
+  [30] Src [preview_plan]: preview_plan
       PURITY: 100% pure
-  [31] Src [select_safe_changes]: select_safe_changes
+  [31] Src [preview_changes]: preview_changes
       PURITY: 100% pure
-  [32] Src [auto_command]: auto_command → _configure_command_logging → setup_logger
+  [32] Src [group_by_branch]: group_by_branch
       PURITY: 100% pure
-  [33] Src [inspect_command]: inspect_command → load_config
+  [33] Src [get_branch_info]: get_branch_info
       PURITY: 100% pure
-  [34] Src [filter_command]: filter_command → resolve_filtered_changes
+  [34] Src [select_by_tags]: select_by_tags
       PURITY: 100% pure
-  [35] Src [file_command]: file_command → get_diff
+  [35] Src [select_safe_changes]: select_safe_changes
       PURITY: 100% pure
-  [36] Src [create_pr]: create_pr → detect_git_provider
+  [36] Src [auto_command]: auto_command → _configure_command_logging → setup_logger
       PURITY: 100% pure
-  [37] Src [create_mr]: create_mr → detect_git_provider
+  [37] Src [inspect_command]: inspect_command → resolve_filtered_changes → _resolve_tag_enums → _normalize_tag
       PURITY: 100% pure
-  [38] Src [scan_command]: scan_command → scan_and_tag
+  [38] Src [filter_command]: filter_command → resolve_filtered_changes → _resolve_tag_enums → _normalize_tag
       PURITY: 100% pure
-  [39] Src [list_groups_command]: list_groups_command → _do_list_groups → scan_and_tag
+  [39] Src [file_command]: file_command → get_diff
       PURITY: 100% pure
-  [40] Src [list_command]: list_command → _do_list_groups → scan_and_tag
+  [40] Src [create_pr]: create_pr → get_provider → detect_git_provider
       PURITY: 100% pure
-  [41] Src [stats_command]: stats_command → scan_and_tag
+  [41] Src [create_mr]: create_mr → get_provider → detect_git_provider
       PURITY: 100% pure
-  [42] Src [setup_logging]: setup_logging → setup_logger
+  [42] Src [scan_command]: scan_command → scan_and_tag
       PURITY: 100% pure
-  [43] Src [_resolve_send_target]: _resolve_send_target → _is_known_tag → _ensure_tag_prefix
+  [43] Src [list_groups_command]: list_groups_command → _do_list_groups → scan_and_tag
       PURITY: 100% pure
-  [44] Src [publish_command]: publish_command → scan_and_tag
+  [44] Src [list_command]: list_command → _do_list_groups → scan_and_tag
       PURITY: 100% pure
-  [45] Src [deploy_command]: deploy_command → scan_and_tag
+  [45] Src [stats_command]: stats_command → scan_and_tag
       PURITY: 100% pure
-  [46] Src [summary_command]: summary_command → scan_and_tag
+  [46] Src [setup_logging]: setup_logging → setup_logger
       PURITY: 100% pure
-  [47] Src [init_command]: init_command
+  [47] Src [_resolve_send_target]: _resolve_send_target → _is_known_tag → _ensure_tag_prefix
       PURITY: 100% pure
-  [48] Src [hooks_command]: hooks_command → check_hooks_installed → _pre_commit_hook → _hooks_dir
+  [48] Src [detect_provider]: detect_provider → detect_provider_command → get_provider → detect_git_provider
       PURITY: 100% pure
-  [49] Src [draft_command]: draft_command → scan_and_tag
+  [49] Src [publish_command]: publish_command → scan_and_tag
       PURITY: 100% pure
-  [50] Src [_run_command]: _run_command
+  [50] Src [deploy_command]: deploy_command → scan_and_tag
       PURITY: 100% pure
 
 LAYERS:
-  src/                            CC̄=3.3    ←in:0  →out:0
+  src/                            CC̄=2.9    ←in:0  →out:0
+  │ dependency_graph           276L  1C   16m  CC=7      ←0
+  │ metrics                    228L  0C   11m  CC=5      ←1
   │ design_tokens              221L  7C    3m  CC=2      ←0
-  │ metrics                    214L  0C    9m  CC=5      ←1
   │ utility_commands           211L  0C    5m  CC=10     ←0
-  │ dependency_graph           195L  0C    5m  CC=10     ←0
-  │ git_operations             172L  0C    7m  CC=8      ←0
   │ koru                       171L  2C   10m  CC=8      ←0
-  │ metrics                    155L  1C    6m  CC=11     ←0
+  │ git_operations             170L  0C    7m  CC=7      ←0
+  │ metrics                    153L  1C    6m  CC=10     ←0
+  │ formats                    141L  0C    9m  CC=5      ←0
   │ publishing_commands        139L  0C    3m  CC=11     ←0
-  │ config                     134L  1C   10m  CC=13     ←5
-  │ formats                    128L  0C    5m  CC=12     ←0
   │ hooks                      127L  0C    7m  CC=5      ←1
-  │ inspection_commands        125L  0C    3m  CC=9      ←0
-  │ !! inspect_helpers            125L  0C    6m  CC=17     ←5
-  │ main                       123L  0C    7m  CC=5      ←2
-  │ summary_helpers            115L  0C    5m  CC=5      ←0
-  │ git                        114L  1C    8m  CC=4      ←0
+  │ config                     126L  1C   12m  CC=4      ←5
+  │ inspection_commands        120L  0C    3m  CC=7      ←0
+  │ change_filter              120L  0C    9m  CC=5      ←5
+  │ main                       113L  0C    6m  CC=5      ←1
+  │ summary_helpers            113L  0C    5m  CC=5      ←0
   │ sorter                     104L  0C    3m  CC=5      ←1
   │ core_commands               94L  0C    5m  CC=7      ←0
+  │ tags                        89L  0C    5m  CC=4      ←0
   │ branch_grouper              88L  0C    2m  CC=8      ←0
-  │ tags                        87L  0C    2m  CC=11     ←0
-  │ display_utils               81L  0C    4m  CC=5      ←2
-  │ grouper                     77L  0C    4m  CC=5      ←0
-  │ provider_commands           77L  0C    5m  CC=4      ←1
-  │ logger                      71L  0C    2m  CC=4      ←1
+  │ provider_commands           79L  0C    5m  CC=4      ←1
+  │ display_utils               79L  0C    4m  CC=5      ←3
+  │ grouper                     74L  0C    4m  CC=5      ←0
+  │ git                         72L  1C    9m  CC=4      ←0
+  │ logger                      71L  0C    2m  CC=4      ←2
   │ base                        70L  2C    8m  CC=2      ←0
-  │ status                      67L  0C    2m  CC=7      ←0
-  │ commit_message              65L  0C    2m  CC=5      ←1
+  │ status                      66L  0C    2m  CC=7      ←0
+  │ commit_message              64L  0C    2m  CC=5      ←1
   │ change                      60L  4C    1m  CC=1      ←0
-  │ _tags                       57L  0C    4m  CC=7      ←2
   │ llx_adapter                 55L  1C    4m  CC=4      ←0
-  │ publish_helpers             49L  0C    2m  CC=3      ←1
+  │ detect_provider             54L  0C    2m  CC=4      ←4
+  │ _tags                       52L  0C    4m  CC=7      ←2
   │ gitlab                      47L  1C    5m  CC=4      ←0
-  │ pr                          47L  0C    2m  CC=5      ←2
-  │ summary                     47L  0C    2m  CC=9      ←0
   │ __init__                    47L  0C    0m  CC=0.0    ←0
+  │ pr                          46L  0C    2m  CC=5      ←2
   │ selector                    44L  0C    5m  CC=8      ←1
-  │ preview                     42L  0C    2m  CC=7      ←0
+  │ preview                     43L  0C    2m  CC=7      ←0
+  │ change_stats                42L  0C    2m  CC=1      ←3
+  │ scoring                     41L  0C    4m  CC=3      ←1
+  │ publish_helpers             40L  0C    2m  CC=1      ←1
+  │ summary                     39L  0C    2m  CC=8      ←0
   │ publish                     39L  1C    4m  CC=3      ←0
   │ github                      38L  1C    5m  CC=2      ←0
-  │ send_helpers                38L  0C    1m  CC=3      ←2
-  │ detect_provider             33L  0C    1m  CC=4      ←3
+  │ send_helpers                34L  0C    1m  CC=2      ←2
+  │ risk                        33L  0C    2m  CC=3      ←7
   │ auth                        32L  0C    2m  CC=2      ←2
   │ __init__                    32L  0C    0m  CC=0.0    ←0
-  │ diff                        31L  0C    2m  CC=1      ←1
-  │ scoring                     31L  0C    1m  CC=7      ←1
-  │ files                       30L  0C    1m  CC=7      ←1
+  │ files                       29L  0C    1m  CC=7      ←1
+  │ diff                        29L  0C    2m  CC=1      ←1
   │ scan_utils                  25L  0C    1m  CC=3      ←5
+  │ inspect_helpers             25L  0C    0m  CC=0.0    ←0
+  │ line_builder                23L  1C    4m  CC=1      ←0
   │ plan                        23L  2C    0m  CC=0.0    ←0
-  │ line_builder                22L  1C    4m  CC=1      ←0
   │ _templates                  21L  0C    1m  CC=2      ←1
   │ rules                       20L  0C    3m  CC=1      ←0
-  │ risk                        19L  0C    1m  CC=3      ←7
   │ __init__                    18L  0C    0m  CC=0.0    ←0
   │ group                       16L  1C    0m  CC=0.0    ←0
   │ detector                    15L  0C    1m  CC=3      ←0
