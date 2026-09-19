@@ -13,6 +13,14 @@ _COMPLEXITY_EXTENSION_WEIGHTS = (
 )
 _DEFAULT_COMPLEXITY_EXTENSION_WEIGHT = 0.5
 
+_IMPACT_EXTENSION_WEIGHTS = (
+    ((".py", ".js", ".ts"), 0.8),
+    ((".css", ".html", ".jsx", ".tsx"), 0.6),
+    ((".md", ".txt", ".rst"), 0.2),
+    ((".json", ".yaml", ".yml", ".toml", ".ini"), 0.7),
+)
+_DEFAULT_IMPACT_EXTENSION_WEIGHT = 0.5
+
 _COMPLEXITY_TYPE_WEIGHTS = {
     ChangeType.MODIFIED: 0.3,
     ChangeType.ADDED: 0.6,
@@ -29,6 +37,15 @@ def _extension_complexity_weight(path: str) -> float:
         if path_lower.endswith(suffixes):
             return weight
     return _DEFAULT_COMPLEXITY_EXTENSION_WEIGHT
+
+
+def _extension_impact_weight(path: str) -> float:
+    """Return the impact weight for a file path (first matching suffix wins)."""
+    path_lower = path.lower()
+    for suffixes, weight in _IMPACT_EXTENSION_WEIGHTS:
+        if path_lower.endswith(suffixes):
+            return weight
+    return _DEFAULT_IMPACT_EXTENSION_WEIGHT
 
 
 def calculate_metrics(change: Change, repo_path: str = ".") -> ChangeMetrics:
@@ -89,27 +106,12 @@ def _calculate_complexity(change: Change) -> float:
 
 def _calculate_impact(change: Change) -> float:
     """Calculate impact score (0-1)."""
-    path_lower = change.path.lower()
-    
-    # High impact files
-    if path_lower.endswith(('.py', '.js', '.ts')):
-        impact = 0.8
-    # Medium impact files
-    elif path_lower.endswith(('.css', '.html', '.jsx', '.tsx')):
-        impact = 0.6
-    # Low impact files
-    elif path_lower.endswith(('.md', '.txt', '.rst')):
-        impact = 0.2
-    # Config files - medium to high impact
-    elif path_lower.endswith(('.json', '.yaml', '.yml', '.toml', '.ini')):
-        impact = 0.7
-    else:
-        impact = 0.5
-    
+    impact = _extension_impact_weight(change.path)
+
     # Adjust by lines changed
     lines_factor = min(change.lines_changed / 100, 1.0)
     impact = impact * (0.5 + lines_factor * 0.5)
-    
+
     return min(impact, 1.0)
 
 
