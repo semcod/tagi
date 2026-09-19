@@ -1,5 +1,6 @@
 """Provider detection and PR/MR creation utilities."""
 
+from dataclasses import replace
 from typing import Optional
 
 from rich.console import Console
@@ -33,19 +34,20 @@ def _current_branch(repo_path: str) -> str:
     return result.stdout.strip() or "main"
 
 
-def _pr_spec(title: str, body: str, repo_path: str) -> PrSpec:
-    return PrSpec(title=title, body=body, branch=_current_branch(repo_path))
+def _pr_spec(spec: PrSpec, repo_path: str) -> PrSpec:
+    """Fill in the current branch of a PR/MR specification."""
+    return replace(spec, branch=_current_branch(repo_path))
 
 
-def create_pr(title: str, body: str, repo_path: str = ".") -> bool:
+def create_pr(spec: PrSpec, repo_path: str = ".") -> bool:
     """Create a GitHub pull request."""
     github_provider = get_provider(repo_path)
     if not isinstance(github_provider, GitHubProvider):
         console.print("[red]Repository is not hosted on GitHub[/red]")
         return False
-    
+
     try:
-        pr_url = github_provider.create_pr(_pr_spec(title, body, repo_path))
+        pr_url = github_provider.create_pr(_pr_spec(spec, repo_path))
         if pr_url:
             console.print(f"[green]✓ Pull request created:[/green] {pr_url}")
             return True
@@ -57,15 +59,15 @@ def create_pr(title: str, body: str, repo_path: str = ".") -> bool:
         return False
 
 
-def create_mr(title: str, body: str, repo_path: str = ".") -> bool:
+def create_mr(spec: PrSpec, repo_path: str = ".") -> bool:
     """Create a GitLab merge request."""
     gitlab_provider = get_provider(repo_path)
     if not isinstance(gitlab_provider, GitLabProvider):
         console.print("[red]Repository is not hosted on GitLab[/red]")
         return False
-    
+
     try:
-        mr_url = gitlab_provider.create_pr(_pr_spec(title, body, repo_path))
+        mr_url = gitlab_provider.create_pr(_pr_spec(spec, repo_path))
         if mr_url:
             console.print(f"[green]✓ Merge request created:[/green] {mr_url}")
             return True
