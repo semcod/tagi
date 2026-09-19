@@ -12,46 +12,58 @@ from .metrics import calculate_metrics
 def apply_tags(changes: List[Change], repo_path: str = ".") -> List[Change]:
     """Apply heuristic tags to changes."""
     custom_tags_for = load_config(repo_path).get_tags_for_path
-    
+
     for change in changes:
-        tags = []
-        
-        # Apply custom config tags (rule tag first, then heuristics)
-        for custom_tag in custom_tags_for(change.path):
-            try:
-                tags.append(Tag(custom_tag))
-            except ValueError:
-                pass  # Invalid tag, skip
-        
-        # Calculate lines changed for size heuristics
-        lines_changed = count_lines_changed(change.path, repo_path)
-        change.lines_changed = lines_changed
-        
-        # Apply path-based tags
-        tags.extend(apply_path_tags(change, lines_changed))
-        
-        # Tag based on change type
-        if change.change_type == ChangeType.ADDED:
-            tags.append(Tag.NEW)
-        
-        # Calculate numerical metrics
-        change.metrics = calculate_metrics(change, repo_path)
-        
-        # Size-based tagging (can coexist with other tags)
-        if lines_changed > 100:
-            tags.append(Tag.LARGE)
-        elif lines_changed < 10:
-            if not tags:
-                tags.append(Tag.SMALL)
-        else:
-            # Medium size changes don't get size tag unless they have no other tags
-            if not tags:
-                tags.append(Tag.SMALL)
-        
-        change.tags = tags
-        change.risk_score = calculate_risk_score(change, tags)
-    
+        _tag_change(change, repo_path, custom_tags_for)
+
     return changes
+
+
+def _tag_change(change: Change, repo_path: str, custom_tags_for) -> None:
+    """Apply all heuristic tags to a single change."""
+    # Custom config tags come first (rule tag before heuristics)
+    tags = _custom_config_tags(custom_tags_for, change.path)
+
+    # Calculate lines changed for size heuristics
+    lines_changed = count_lines_changed(change.path, repo_path)
+    change.lines_changed = lines_changed
+
+    # Apply path-based tags
+    tags.extend(apply_path_tags(change, lines_changed))
+
+    # Tag based on change type
+    if change.change_type == ChangeType.ADDED:
+        tags.append(Tag.NEW)
+
+    # Calculate numerical metrics
+    change.metrics = calculate_metrics(change, repo_path)
+
+    # Size-based tagging (LARGE coexists with other tags)
+    tags.extend(_size_tags(lines_changed, has_other_tags=bool(tags)))
+
+    change.tags = tags
+    change.risk_score = calculate_risk_score(change, tags)
+
+
+def _custom_config_tags(custom_tags_for, path: str):
+    """Convert configured custom tag names into valid Tag values."""
+    tags = []
+    for custom_tag in custom_tags_for(path):
+        try:
+            tags.append(Tag(custom_tag))
+        except ValueError:
+            pass  # Invalid tag, skip
+    return tags
+
+
+def _size_tags(lines_changed: int, has_other_tags: bool):
+    """Return the size tags for a change (zero or one entries)."""
+    if lines_changed > 100:
+        return [Tag.LARGE]
+    if has_other_tags:
+        # Small/medium changes only get a size tag when no other tag applies
+        return []
+    return [Tag.SMALL]
 
 
 def apply_path_tags(change: Change, lines_changed: int) -> List[Tag]:
