@@ -2,12 +2,18 @@
 
 from typing import List, Optional
 
+from tagi.composer.commit_message import generate_commit_message
+from tagi.models import ChangeGroup
+from tagi.providers.base import BaseProvider, PrSpec
+from tagi.providers.github import GitHubProvider
+from tagi.providers.gitlab import GitLabProvider
+
 from .git import GitExecutor
 
 
 class PublishExecutor:
     """Executor for publishing changes."""
-    
+
     def __init__(self, repo_path: str = "."):
         self.repo_path = repo_path
         self.git = GitExecutor(repo_path)
@@ -37,3 +43,48 @@ class PublishExecutor:
                 f"git commit -m '{message}'"
             ]
         }
+
+    def create_github_pr(
+        self,
+        group: ChangeGroup,
+        template: str = "default",
+        provider: Optional[BaseProvider] = None,
+    ) -> str:
+        """Create a GitHub pull request for a change group."""
+        return self._create_change_request(GitHubProvider, group, template, provider)
+
+    def create_gitlab_mr(
+        self,
+        group: ChangeGroup,
+        template: str = "default",
+        provider: Optional[BaseProvider] = None,
+    ) -> str:
+        """Create a GitLab merge request for a change group."""
+        return self._create_change_request(GitLabProvider, group, template, provider)
+
+    def _create_change_request(
+        self,
+        provider_cls: type,
+        group: ChangeGroup,
+        template: str,
+        provider: Optional[BaseProvider],
+    ) -> str:
+        """Build a PrSpec from the group and delegate to the provider."""
+        message = generate_commit_message(
+            group.changes, template=template, repo_path=self.repo_path
+        )
+        title = message.splitlines()[0] if message else group.name
+        spec = PrSpec(
+            title=title,
+            body=self._build_body(group, message),
+            branch=self.git.get_current_branch(),
+        )
+        active = provider if provider is not None else provider_cls(self.repo_path)
+        return active.create_pr(spec)
+
+    @staticmethod
+    def _build_body(group: ChangeGroup, message: str) -> str:
+        """Render the PR/MR description from the commit message and file list."""
+        lines = [message, "", "Changes:"]
+        lines.extend(f"- {change.path}" for change in group.changes)
+        return "\n".join(lines)
