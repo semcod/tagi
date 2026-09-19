@@ -6,7 +6,7 @@ from rich.console import Console
 from tagi.executor.publish import PublishExecutor
 from tagi.utils.inspect_helpers import resolve_filtered_changes
 from tagi.utils.publish_helpers import create_publish_group
-from tagi.utils.detect_provider import detect_git_provider
+from tagi.utils.detect_provider import get_provider
 from tagi.cli.scan_utils import scan_and_tag
 
 
@@ -49,13 +49,13 @@ def publish_command(
     group = create_publish_group(publish_changes, normalized_tag)
     
     # Detect provider
-    provider = detect_git_provider(repo_path)
-    if not provider:
+    provider = get_provider(repo_path)
+    if provider is None:
         console.print("[yellow]Could not detect GitHub or GitLab provider[/yellow]")
         console.print("[yellow]Please ensure you have a remote configured[/yellow]")
         return
     
-    console.print(f"[bold]Detected provider:[/bold] {provider}")
+    console.print(f"[bold]Detected provider:[/bold] {provider.name}")
     
     if dry_run:
         console.print("\n[bold cyan]Dry run - would create PR/MR with:[/bold cyan]")
@@ -69,7 +69,7 @@ def publish_command(
     try:
         publish_executor = PublishExecutor(repo_path)
         
-        if provider == "github":
+        if provider.name == "github":
             pr_url = publish_executor.create_github_pr(group, template=template)
             if pr_url:
                 console.print(f"[green]✓ Pull request created:[/green] {pr_url}")
@@ -77,7 +77,7 @@ def publish_command(
                 console.print("[red]Failed to create pull request[/red]")
                 raise typer.Exit(1)
                 
-        elif provider == "gitlab":
+        elif provider.name == "gitlab":
             mr_url = publish_executor.create_gitlab_mr(group, template=template)
             if mr_url:
                 console.print(f"[green]✓ Merge request created:[/green] {mr_url}")
@@ -85,7 +85,7 @@ def publish_command(
                 console.print("[red]Failed to create merge request[/red]")
                 raise typer.Exit(1)
         else:
-            console.print(f"[red]Unsupported provider: {provider}[/red]")
+            console.print(f"[red]Unsupported provider: {provider.name}[/red]")
             raise typer.Exit(1)
             
     except Exception as e:

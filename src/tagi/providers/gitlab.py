@@ -10,7 +10,9 @@ from .base import BaseProvider, PrSpec
 
 class GitLabProvider(BaseProvider):
     """GitLab provider using glab CLI."""
-    
+
+    name = "gitlab"
+
     def is_authenticated(self) -> bool:
         """Check if glab CLI is authenticated."""
         result = self._run_command(["glab", "auth", "status"])
