@@ -1,6 +1,6 @@
-# code2llm | 75f 5609L | python:66,yaml:5,txt:2,toml:1,shell:1 | 2026-09-19
-# generated in 0.03s
-# CC̅=2.9 | critical:0/225 | dups:0 | cycles:2
+# code2llm | 77f 5590L | python:68,yaml:5,txt:2,toml:1,shell:1 | 2026-09-19
+# generated in 0.01s
+# CC̅=2.8 | critical:0/229 | dups:0 | cycles:2
 
 HEALTH[0]: ok
 
@@ -14,13 +14,13 @@ PIPELINES[122]:
       PURITY: 100% pure
   [3] Src [_apply_sections]: _apply_sections
       PURITY: 100% pure
-  [4] Src [get_tag_for_path]: get_tag_for_path
+  [4] Src [get_tag_for_path]: get_tag_for_path → path_matches → path_key
       PURITY: 100% pure
   [5] Src [get_custom_tags_for_pattern]: get_custom_tags_for_pattern
       PURITY: 100% pure
   [6] Src [get_tag_color]: get_tag_color
       PURITY: 100% pure
-  [7] Src [get_heuristics_for_path]: get_heuristics_for_path
+  [7] Src [get_heuristics_for_path]: get_heuristics_for_path → path_matches → path_key
       PURITY: 100% pure
   [8] Src [get_tags_for_path]: get_tags_for_path
       PURITY: 100% pure
@@ -70,9 +70,9 @@ PIPELINES[122]:
       PURITY: 100% pure
   [31] Src [preview_changes]: preview_changes
       PURITY: 100% pure
-  [32] Src [group_by_branch]: group_by_branch
+  [32] Src [group_by_branch]: group_by_branch → run_command
       PURITY: 100% pure
-  [33] Src [get_branch_info]: get_branch_info
+  [33] Src [get_branch_info]: get_branch_info → run_command
       PURITY: 100% pure
   [34] Src [select_by_tags]: select_by_tags
       PURITY: 100% pure
@@ -84,11 +84,11 @@ PIPELINES[122]:
       PURITY: 100% pure
   [38] Src [filter_command]: filter_command → resolve_filtered_changes → _resolve_tag_enums → _normalize_tag
       PURITY: 100% pure
-  [39] Src [file_command]: file_command → get_diff
+  [39] Src [file_command]: file_command → get_diff → run_command
       PURITY: 100% pure
-  [40] Src [create_pr]: create_pr → get_provider → detect_git_provider
+  [40] Src [create_pr]: create_pr → get_provider → detect_git_provider → run_command
       PURITY: 100% pure
-  [41] Src [create_mr]: create_mr → get_provider → detect_git_provider
+  [41] Src [create_mr]: create_mr → get_provider → detect_git_provider → run_command
       PURITY: 100% pure
   [42] Src [scan_command]: scan_command → scan_and_tag
       PURITY: 100% pure
@@ -102,7 +102,7 @@ PIPELINES[122]:
       PURITY: 100% pure
   [47] Src [_resolve_send_target]: _resolve_send_target → _is_known_tag → _ensure_tag_prefix
       PURITY: 100% pure
-  [48] Src [detect_provider]: detect_provider → detect_provider_command → get_provider → detect_git_provider
+  [48] Src [detect_provider]: detect_provider → detect_provider_command → get_provider → detect_git_provider → ...(1 more)
       PURITY: 100% pure
   [49] Src [publish_command]: publish_command → scan_and_tag
       PURITY: 100% pure
@@ -110,9 +110,9 @@ PIPELINES[122]:
       PURITY: 100% pure
 
 LAYERS:
-  src/                            CC̄=2.9    ←in:0  →out:0
+  src/                            CC̄=2.8    ←in:0  →out:0
   │ dependency_graph           276L  1C   16m  CC=7      ←0
-  │ metrics                    228L  0C   11m  CC=5      ←1
+  │ metrics                    223L  0C   11m  CC=5      ←1
   │ design_tokens              221L  7C    3m  CC=2      ←0
   │ utility_commands           211L  0C    5m  CC=10     ←0
   │ koru                       171L  2C   10m  CC=8      ←0
@@ -121,30 +121,30 @@ LAYERS:
   │ formats                    141L  0C    9m  CC=5      ←0
   │ publishing_commands        139L  0C    3m  CC=11     ←0
   │ hooks                      127L  0C    7m  CC=5      ←1
-  │ config                     126L  1C   12m  CC=4      ←5
   │ inspection_commands        120L  0C    3m  CC=7      ←0
   │ change_filter              120L  0C    9m  CC=5      ←5
+  │ config                     118L  1C   12m  CC=4      ←5
   │ main                       113L  0C    6m  CC=5      ←1
   │ summary_helpers            113L  0C    5m  CC=5      ←0
   │ sorter                     104L  0C    3m  CC=5      ←1
   │ core_commands               94L  0C    5m  CC=7      ←0
-  │ tags                        89L  0C    5m  CC=4      ←0
-  │ branch_grouper              88L  0C    2m  CC=8      ←0
-  │ provider_commands           79L  0C    5m  CC=4      ←1
+  │ tags                        88L  0C    5m  CC=4      ←0
+  │ branch_grouper              81L  0C    2m  CC=8      ←0
   │ display_utils               79L  0C    4m  CC=5      ←3
+  │ provider_commands           78L  0C    5m  CC=4      ←1
   │ grouper                     74L  0C    4m  CC=5      ←0
-  │ git                         72L  1C    9m  CC=4      ←0
   │ logger                      71L  0C    2m  CC=4      ←2
-  │ base                        70L  2C    8m  CC=2      ←0
-  │ status                      66L  0C    2m  CC=7      ←0
+  │ git                         67L  1C    9m  CC=4      ←0
+  │ base                        66L  2C    8m  CC=2      ←0
   │ commit_message              64L  0C    2m  CC=5      ←1
   │ change                      60L  4C    1m  CC=1      ←0
+  │ status                      60L  0C    2m  CC=7      ←0
   │ llx_adapter                 55L  1C    4m  CC=4      ←0
-  │ detect_provider             54L  0C    2m  CC=4      ←4
   │ _tags                       52L  0C    4m  CC=7      ←2
-  │ gitlab                      47L  1C    5m  CC=4      ←0
+  │ detect_provider             52L  0C    2m  CC=5      ←4
   │ __init__                    47L  0C    0m  CC=0.0    ←0
   │ pr                          46L  0C    2m  CC=5      ←2
+  │ gitlab                      45L  1C    5m  CC=4      ←0
   │ selector                    44L  0C    5m  CC=8      ←1
   │ preview                     43L  0C    2m  CC=7      ←0
   │ change_stats                42L  0C    2m  CC=1      ←3
@@ -152,23 +152,25 @@ LAYERS:
   │ publish_helpers             40L  0C    2m  CC=1      ←1
   │ summary                     39L  0C    2m  CC=8      ←0
   │ publish                     39L  1C    4m  CC=3      ←0
-  │ github                      38L  1C    5m  CC=2      ←0
+  │ github                      36L  1C    5m  CC=2      ←0
   │ send_helpers                34L  0C    1m  CC=2      ←2
   │ risk                        33L  0C    2m  CC=3      ←7
   │ auth                        32L  0C    2m  CC=2      ←2
   │ __init__                    32L  0C    0m  CC=0.0    ←0
-  │ files                       29L  0C    1m  CC=7      ←1
-  │ diff                        29L  0C    2m  CC=1      ←1
   │ scan_utils                  25L  0C    1m  CC=3      ←5
+  │ files                       25L  0C    1m  CC=7      ←1
   │ inspect_helpers             25L  0C    0m  CC=0.0    ←0
+  │ paths                       24L  0C    3m  CC=1      ←3
   │ line_builder                23L  1C    4m  CC=1      ←0
   │ plan                        23L  2C    0m  CC=0.0    ←0
   │ _templates                  21L  0C    1m  CC=2      ←1
   │ rules                       20L  0C    3m  CC=1      ←0
+  │ commands                    20L  0C    1m  CC=1      ←8
   │ __init__                    18L  0C    0m  CC=0.0    ←0
   │ group                       16L  1C    0m  CC=0.0    ←0
   │ detector                    15L  0C    1m  CC=3      ←0
   │ __init__                    14L  0C    0m  CC=0.0    ←0
+  │ diff                        13L  0C    2m  CC=1      ←1
   │ __init__                    13L  0C    0m  CC=0.0    ←0
   │ __init__                    13L  0C    0m  CC=0.0    ←0
   │ __init__                    12L  0C    0m  CC=0.0    ←0
@@ -192,7 +194,20 @@ LAYERS:
   │ generated-cli-tests.testql.toon.yaml    20L  0C    0m  CC=0.0    ←0
   │
 
-COUPLING: no cross-package imports detected
+COUPLING:
+                        src.tagi      tagi.utils    tagi.scanner  tagi.providers        tagi.cli    tagi.planner   tagi.executor
+        src.tagi              ──               3               4              ←8               1                                  hub
+      tagi.utils              ←3              ──              ←4              ←1              ←4              ←2              ←1  hub
+    tagi.scanner               2               4              ──                                                                
+  tagi.providers               8               1                              ──                                                  !! fan-out
+        tagi.cli              ←1               4                                              ──                                
+    tagi.planner                               2                                                              ──                
+   tagi.executor                               1                                                                              ──
+  CYCLES: 2
+  HUB: tagi.utils/ (fan-in=15)
+  HUB: src.tagi/ (fan-in=10)
+  SMELL: src.tagi/ fan-out=8 → split needed
+  SMELL: tagi.providers/ fan-out=9 → split needed
 
 EXTERNAL:
   validation: run `vallm batch .` → validation.toon

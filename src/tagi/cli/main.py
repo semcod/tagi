@@ -1,12 +1,8 @@
 """CLI interface for tagi."""
 
-from pathlib import Path
-from typing import Optional
-
 import typer
 from rich.console import Console
 
-from tagi.models.change import Tag
 from tagi.utils.logger import setup_logger
 
 # Import command modules
@@ -45,40 +41,6 @@ def _configure_command_logging(verbose: bool) -> None:
     """Enable verbose logging for a single command invocation."""
     if verbose:
         setup_logger(verbose=True).debug("Verbose logging enabled")
-
-
-def _ensure_tag_prefix(tag: str) -> str:
-    """Ensure tag has # prefix."""
-    if not tag.startswith("#"):
-        return f"#{tag}"
-    return tag
-
-
-def _is_known_tag(value: str) -> bool:
-    """Return True when the value matches a supported tag."""
-    try:
-        Tag(_ensure_tag_prefix(value))
-        return True
-    except ValueError:
-        return False
-
-
-def _resolve_send_target(target: Optional[str], repo_path: str) -> tuple[str, Optional[str]]:
-    """Resolve send positional input as either a tag or a repository path."""
-    if target is None:
-        return repo_path, None
-
-    if repo_path != ".":
-        return repo_path, target
-
-    if _is_known_tag(target):
-        return repo_path, target
-
-    candidate = Path(target).expanduser()
-    if candidate.exists():
-        return str(candidate), None
-
-    return repo_path, target
 
 
 # Register core commands

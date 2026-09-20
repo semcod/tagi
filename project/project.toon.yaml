@@ -1,8 +1,8 @@
-# tagi | 225 func | 51f | 5609L | python | 2026-09-19
+# tagi | 229 func | 53f | 5590L | python | 2026-09-19
 # generated in 0.00s
 
 HEALTH:
-  CC̄=2.9  critical=3 (limit:10)  dup=0  cycles=2
+  CC̄=2.8  critical=3 (limit:10)  dup=0  cycles=2
 
 ALERTS[10]:
   !!  high_fan_out     scan_repo = 15 (limit:10)
@@ -16,10 +16,10 @@ ALERTS[10]:
   !   high_fan_out     draft_command = 10 (limit:10)
   !   high_fan_out     KoruProvider.analyze_deployment_priority = 10 (limit:10)
 
-MODULES[75] (top by size):
+MODULES[77] (top by size):
   M[goal.yaml] 539L C:0 F:0 CC↑0 D:0 (yaml)
   M[src/tagi/analyzer/dependency_graph.py] 276L C:1 F:16 CC↑7 D:0 (python)
-  M[src/tagi/heuristics/metrics.py] 228L C:0 F:11 CC↑5 D:1 (python)
+  M[src/tagi/heuristics/metrics.py] 223L C:0 F:11 CC↑5 D:1 (python)
   M[src/tagi/ui/design_tokens.py] 221L C:7 F:3 CC↑2 D:0 (python)
   M[src/tagi/cli/utility_commands.py] 211L C:0 F:5 CC↑10 D:0 (python)
   M[src/tagi/providers/koru.py] 171L C:2 F:10 CC↑8 D:0 (python)
@@ -29,10 +29,10 @@ MODULES[75] (top by size):
   M[src/tagi/cli/publishing_commands.py] 139L C:0 F:3 CC↑11 D:0 (python)
   M[koru.yaml] 133L C:0 F:0 CC↑0 D:0 (yaml)
   M[src/tagi/hooks.py] 127L C:0 F:7 CC↑5 D:1 (python)
-  M[src/tagi/config.py] 126L C:1 F:12 CC↑4 D:5 (python)
   M[src/tagi/cli/inspection_commands.py] 120L C:0 F:3 CC↑7 D:0 (python)
   M[src/tagi/utils/change_filter.py] 120L C:0 F:9 CC↑5 D:5 (python)
-  LANGS: python:66/yaml:5/txt:2/shell:1/toml:1
+  M[src/tagi/config.py] 118L C:1 F:12 CC↑4 D:5 (python)
+  LANGS: python:68/yaml:5/txt:2/shell:1/toml:1
 
 HOTSPOTS[10]:
   ★ scan_repo fan=15  // Scan repository for uncommitted changes using git status --porcelain.
@@ -52,4 +52,4 @@ REFACTOR[4]:
   [4] M/M Reduce scan_repo fan-out (currently 15)
 
 EVOLUTION:
-  2026-09-19 CC̄=2.9 crit=3 5609L // Automated analysis
+  2026-09-19 CC̄=2.8 crit=3 5590L // Automated analysis

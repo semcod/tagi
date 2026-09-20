@@ -1,51 +1,11 @@
-source: koru-scan
-# generated in 9.95s
+source: code2llm
+# generated in 0.01s
 schema: code2llm.planfile_tickets.v1
 project_root: /home/tom/github/semcod/tagi
 tickets:
-- signal: code2llm_smell_shotgun_surgery
-  title: 'Address code smell: Shotgun Surgery: path_lower'
-  description: 'code2llm reports `Shotgun Surgery: path_lower` in `src/tagi/heuristics/metrics.py:33`.
-
-
-    Mutation of variable ''path_lower'' spans 8 functions. Changing this logic requires
-    work in many places.
-
-
-    Make the smallest refactor that removes the smell and run local tests.'
-  priority: high
-  labels:
-  - llm-ready
-  - code2llm
-  - code-smell
-  - shotgun-surgery
-  files:
-  - src/tagi/heuristics/metrics.py
-  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/heuristics/metrics.py:33:Shotgun
-    Surgery: path_lower'
-- signal: code2llm_smell_shotgun_surgery
-  title: 'Address code smell: Shotgun Surgery: tags'
-  description: 'code2llm reports `Shotgun Surgery: tags` in `src/tagi/heuristics/tags.py:48`.
-
-
-    Mutation of variable ''tags'' spans 5 functions. Changing this logic requires
-    work in many places.
-
-
-    Make the smallest refactor that removes the smell and run local tests.'
-  priority: high
-  labels:
-  - llm-ready
-  - code2llm
-  - code-smell
-  - shotgun-surgery
-  files:
-  - src/tagi/heuristics/tags.py
-  dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/heuristics/tags.py:48:Shotgun
-    Surgery: tags'
 - signal: code2llm_smell_god_function
   title: 'Address code smell: God Function: _tag_change'
-  description: 'code2llm reports `God Function: _tag_change` in `src/tagi/heuristics/tags.py:22`.
+  description: 'code2llm reports `God Function: _tag_change` in `src/tagi/heuristics/tags.py:23`.
 
 
     Function ''_tag_change'' is oversized: CC=2, fan-out=9, mutations=9.
@@ -60,7 +20,7 @@ tickets:
   - god-function
   files:
   - src/tagi/heuristics/tags.py
-  dedupe_key: 'code2llm:smell:god_function:src/tagi/heuristics/tags.py:22:God Function:
+  dedupe_key: 'code2llm:smell:god_function:src/tagi/heuristics/tags.py:23:God Function:
     _tag_change'
 - signal: code2llm_smell_god_function
   title: 'Address code smell: God Function: group_by_branch'
@@ -233,17 +193,5 @@ tickets:
   - src/tagi/cli/utility_commands.py
   dedupe_key: 'code2llm:smell:god_function:src/tagi/cli/utility_commands.py:25:God
     Function: summary_command'
-applied:
-- 'Address code smell: Shotgun Surgery: path_lower'
-- 'Address code smell: Shotgun Surgery: tags'
-- 'Address code smell: God Function: _tag_change'
-- 'Address code smell: God Function: group_by_branch'
-- 'Address code smell: God Function: group_changes'
-- 'Address code smell: God Function: hooks_command'
-- 'Address code smell: God Function: inspect_command'
-- 'Address code smell: God Function: publish_command'
-- 'Address code smell: God Function: scan_repo'
-- 'Address code smell: God Function: send_command'
-- 'Address code smell: God Function: setup_logger'
-- 'Address code smell: God Function: summary_command'
+applied: []
 skipped: []

@@ -1,11 +1,11 @@
-# tagi | 75f 5609L | yaml:5,txt:2,toml:1,shell:1,python:66 | 2026-09-19
+# tagi | 77f 5590L | yaml:5,txt:2,toml:1,shell:1,python:68 | 2026-09-19
 # generated in 0.01s
-# stats: 225 func | 0 cls | 75 mod | CC̄=2.9 | critical:0 | cycles:0
+# stats: 229 func | 0 cls | 77 mod | CC̄=2.8 | critical:0 | cycles:0
 # alerts[5]: fan-out scan_repo=15; fan-out publish_command=14; fan-out send_command=13; fan-out setup_logger=13; fan-out summary_command=13
 # hotspots[5]: scan_repo fan=15; publish_command fan=14; send_command fan=13; summary_command fan=13; setup_logger fan=13
-# evolution: CC̄ 2.9→2.9 (flat 0.0)
+# evolution: CC̄ 2.8→2.8 (flat 0.0)
 # Keys: M=modules, D=details, i=imports, e=exports, c=classes, f=functions, m=methods
-M[75]:
+M[77]:
   goal.yaml,539
   koru.yaml,133
   local.dev.txt,11
@@ -22,7 +22,6 @@ M[75]:
   src/tagi/cli/git_operations.py,170
   src/tagi/cli/inspection_commands.py,120
   src/tagi/cli/main.py,113
-  src/tagi/cli/provider_commands.py,79
   src/tagi/cli/publishing_commands.py,139
   src/tagi/cli/scan_utils.py,25
   src/tagi/cli/utility_commands.py,211
@@ -32,15 +31,14 @@ M[75]:
   src/tagi/composer/commit_message.py,64
   src/tagi/composer/formats.py,141
   src/tagi/composer/summary.py,39
-  src/tagi/config.py,126
+  src/tagi/config.py,118
   src/tagi/executor/__init__.py,9
-  src/tagi/executor/git.py,72
   src/tagi/executor/publish.py,39
   src/tagi/heuristics/__init__.py,13
-  src/tagi/heuristics/metrics.py,228
+  src/tagi/heuristics/metrics.py,223
   src/tagi/heuristics/rules.py,20
   src/tagi/heuristics/scoring.py,41
-  src/tagi/heuristics/tags.py,89
+  src/tagi/heuristics/tags.py,88
   src/tagi/hooks.py,127
   src/tagi/llm/__init__.py,7
   src/tagi/llm/llx_adapter.py,55
@@ -49,35 +47,39 @@ M[75]:
   src/tagi/models/group.py,16
   src/tagi/models/plan.py,23
   src/tagi/planner/__init__.py,18
-  src/tagi/planner/branch_grouper.py,88
   src/tagi/planner/grouper.py,74
   src/tagi/planner/preview.py,43
   src/tagi/planner/selector.py,44
   src/tagi/planner/sorter.py,104
   src/tagi/providers/__init__.py,11
-  src/tagi/providers/base.py,70
   src/tagi/providers/detector.py,15
-  src/tagi/providers/github.py,38
-  src/tagi/providers/gitlab.py,47
   src/tagi/providers/koru.py,171
   src/tagi/providers/utils/__init__.py,1
   src/tagi/providers/utils/auth.py,32
   src/tagi/providers/utils/pr.py,46
   src/tagi/scanner/__init__.py,13
-  src/tagi/scanner/diff.py,29
-  src/tagi/scanner/files.py,29
-  src/tagi/scanner/status.py,66
   src/tagi/ui/design_tokens.py,221
   src/tagi/utils/change_filter.py,120
   src/tagi/utils/change_stats.py,42
-  src/tagi/utils/detect_provider.py,54
   src/tagi/utils/inspect_helpers.py,25
   src/tagi/utils/line_builder.py,23
   src/tagi/utils/logger.py,71
+  src/tagi/utils/paths.py,24
   src/tagi/utils/publish_helpers.py,40
   src/tagi/utils/risk.py,33
   src/tagi/utils/send_helpers.py,34
   src/tagi/utils/summary_helpers.py,113
+  src/tagi/cli/provider_commands.py,78
+  src/tagi/executor/git.py,67
+  src/tagi/planner/branch_grouper.py,81
+  src/tagi/providers/base.py,66
+  src/tagi/providers/github.py,36
+  src/tagi/providers/gitlab.py,45
+  src/tagi/scanner/diff.py,13
+  src/tagi/scanner/files.py,25
+  src/tagi/scanner/status.py,60
+  src/tagi/utils/commands.py,20
+  src/tagi/utils/detect_provider.py,52
   testql-scenarios/generated-cli-tests.testql.toon.yaml,20
   tree.txt,89
   wup.yaml,100
@@ -245,6 +247,10 @@ D:
     build_changes_by_type_section(changes)
     build_tag_distribution_section(changes;config)
     build_file_list_section(changes)
+  src/tagi/utils/detect_provider.py:
+    e: get_provider,detect_git_provider
+    get_provider(repo_path)
+    detect_git_provider(repo_path)
   src/tagi/utils/change_filter.py:
     e: _normalize_tag,_changes_matching_tag,_resolve_tag_enums,_changes_matching_any,_changes_matching_all,resolve_filtered_changes,filter_changes_by_tag,filter_changes_by_tags_any,filter_changes_by_tags_all
     _normalize_tag(value)
@@ -283,10 +289,6 @@ D:
   src/tagi/executor/git.py:
     e: GitExecutor
     GitExecutor: __init__(1),_run_command(1),add(1),commit(2),push(3),status(0),get_current_branch(0),get_remote_url(1),has_staged_changes(0)  # Executor for git commands...
-  src/tagi/utils/detect_provider.py:
-    e: get_provider,detect_git_provider
-    get_provider(repo_path)
-    detect_git_provider(repo_path)
   src/tagi/utils/logger.py:
     e: setup_logger,get_logger
     setup_logger(name;level;log_file;verbose)
@@ -355,10 +357,18 @@ D:
     e: detect_and_get_provider,create_publish_group
     detect_and_get_provider(repo_path)
     create_publish_group(changes;tag)
+  src/tagi/utils/commands.py:
+    e: run_command
+    run_command(cmd;cwd)
   src/tagi/utils/change_stats.py:
     e: calculate_tag_statistics,display_statistics_table
     calculate_tag_statistics(changes)
     display_statistics_table(changes;console)
+  src/tagi/utils/paths.py:
+    e: path_key,path_matches,path_endswith
+    path_key(path)
+    path_matches(path;pattern)
+    path_endswith(path;suffixes)
   src/tagi/utils/line_builder.py:
     e: LineBuilder
     LineBuilder: __init__(1),add(0),as_list(0),text(0)  # Single place where report line lists are created and mutated...

@@ -360,6 +360,13 @@ sprint:
       - code2llm
       - code-smell
       - data-clump
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-088
       name: 'Address code smell: Data Clump: body, repo_path, title'
@@ -477,6 +484,13 @@ sprint:
       - code2llm
       - code-smell
       - god-function
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-089
       name: 'Address code smell: God Function: _calculate_complexity'
@@ -592,6 +606,13 @@ sprint:
       - code2llm
       - code-smell
       - god-function
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-090
       name: 'Address code smell: God Function: _calculate_impact'
@@ -707,6 +728,13 @@ sprint:
       - code2llm
       - code-smell
       - god-function
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-091
       name: 'Address code smell: God Function: _load_config'
@@ -822,6 +850,13 @@ sprint:
       - code2llm
       - code-smell
       - god-function
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-092
       name: 'Address code smell: God Function: analyze_python_imports'
@@ -937,6 +972,13 @@ sprint:
       - code2llm
       - code-smell
       - god-function
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-093
       name: 'Address code smell: God Function: apply_tags'
@@ -1052,6 +1094,13 @@ sprint:
       - code2llm
       - code-smell
       - god-function
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-094
       name: 'Address code smell: God Function: build_report_header'
@@ -1173,6 +1222,13 @@ sprint:
       - code2llm
       - code-smell
       - data-clump
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-109
       name: 'Address code smell: Data Clump: title, repo_path, body'
@@ -1296,6 +1352,13 @@ sprint:
       - code2llm
       - code-smell
       - data-clump
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-118
       name: 'Address code smell: Data Clump: repo_path, title, body'
@@ -1413,6 +1476,13 @@ sprint:
       - code2llm
       - refactor
       - complexity
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-119
       name: 'Reduce cyclomatic complexity: src.tagi.utils.inspect_helpers.resolve_filtered_changes
@@ -1528,6 +1598,13 @@ sprint:
       - code2llm
       - code-smell
       - god-function
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-120
       name: 'Address code smell: God Function: calculate_risk_score'
@@ -1643,6 +1720,13 @@ sprint:
       - code2llm
       - code-smell
       - god-function
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-126
       name: 'Address code smell: God Function: group_by_branch'
@@ -1758,6 +1842,13 @@ sprint:
       - code2llm
       - code-smell
       - god-function
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-127
       name: 'Address code smell: God Function: hooks_command'
@@ -1873,6 +1964,13 @@ sprint:
       - code2llm
       - code-smell
       - god-function
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-128
       name: 'Address code smell: God Function: inspect_command'
@@ -1988,6 +2086,13 @@ sprint:
       - code2llm
       - code-smell
       - god-function
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-129
       name: 'Address code smell: God Function: preview_changes'
@@ -2095,6 +2200,13 @@ sprint:
       - refactor
       - scan
       - complexity
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-131
       name: 'Reduce cyclomatic complexity: resolve_filtered_changes (CC=17, limit=15)'
@@ -2184,6 +2296,13 @@ sprint:
       - code2llm
       - refactor
       - scan
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-132
       name: 'code2llm refactor: split 1 high-CC methods'
@@ -2285,6 +2404,13 @@ sprint:
       - 'priority: normal'
       - code-smell
       - god-function
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-138
       name: 'Address code smell: God Function: build_statistics_section'
@@ -2406,6 +2532,13 @@ sprint:
       - 'priority: normal'
       - code-smell
       - god-function
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-139
       name: 'Address code smell: God Function: build_tag_distribution_section'
@@ -2524,6 +2657,13 @@ sprint:
       - 'priority: normal'
       - code-smell
       - god-function
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-140
       name: 'Address code smell: God Function: display_statistics_table'
@@ -2577,126 +2717,6 @@ sprint:
           key: semcod/tagi#145
           url: https://github.com/semcod/tagi/issues/145
       updated_at: '2026-09-18T20:31:21.515076+00:00'
-    PLF-141:
-      assignee: null
-      backend: github
-      blocked_by: []
-      blocks: []
-      created_at: '2026-09-18T20:46:53.090400+00:00'
-      description: '<!-- planfile:deduplication-key=PLF-141 -->
-
-        code2llm reports `Shotgun Surgery: result` in `src/tagi/scanner/diff.py:20`.
-
-
-        Mutation of variable ''result'' spans 24 functions. Changing this logic requires
-        work in many places.
-
-
-        Make the smallest refactor that removes the smell and run local tests.'
-      execution:
-        attempt: 0
-        max_attempts: 1
-        queue: default
-        state: ready
-      executor:
-        kind: human
-        mode: interactive
-      external_id: '147'
-      files:
-      - src/tagi/scanner/diff.py
-      history:
-      - action: created
-        message: 'code2llm reports `Shotgun Surgery: result` in `src/tagi/scanner/diff.py:20`.
-
-
-          Mutation of variable ''result'' spans 24 functions. Changing this logic
-          requires work in many places.
-
-
-          Make the smallest refactor that removes the smell and run local tests.'
-        source: koru task
-        timestamp: '2026-09-18T20:46:53.090400+00:00'
-      id: PLF-141
-      inputs:
-        api_headers: {}
-        api_method: GET
-        api_timeout_seconds: 30.0
-        env_keys: []
-        prompt: 'code2llm reports `Shotgun Surgery: result` in `src/tagi/scanner/diff.py:20`.
-
-
-          Mutation of variable ''result'' spans 24 functions. Changing this logic
-          requires work in many places.
-
-
-          Make the smallest refactor that removes the smell and run local tests.'
-      integration:
-      - github
-      labels:
-      - planfile
-      - managed
-      - koru
-      - nl-task
-      - llm-ready
-      - priority-high
-      - 'priority: high'
-      - code2llm
-      - code-smell
-      - shotgun-surgery
-      metadata:
-        deduplication_key: PLF-141
-      name: 'Address code smell: Shotgun Surgery: result'
-      outputs:
-        artifacts: []
-        notes: []
-      priority: high
-      source:
-        context:
-          dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/scanner/diff.py:20:Shotgun
-            Surgery: result'
-          evidence:
-            artifact:
-              mtime_ns: 1789764409471628814
-              path: project/analysis.toon.yaml
-              sha256: 8272c84ad525516fbd4040cd83b4fb110a3f4e91aa510378427c65686d9f3018
-              size_bytes: 10424
-            files:
-            - mtime_ns: 1779802548044288725
-              path: src/tagi/scanner/diff.py
-              sha256: 5c96c6b90833c3d6205e40b53b402d2b1eca555c135ff8bbd9cd94f8931716f2
-              size_bytes: 708
-            kind: code2llm_discovery
-            planfile_tickets:
-              mtime_ns: 1789764409534879854
-              path: project/planfile-tickets.yaml
-              sha256: e229a798269d410a9ccbb63568a783f63de2465f87ad7c4d3acd2a5c0b1ec43a
-              size_bytes: 16701
-            regenerate_command: code2llm /home/tom/github/semcod/tagi -f all -o /home/tom/github/semcod/tagi/project
-              --no-chunk --exclude *.md --exclude plugins --planfile-apply --planfile-source
-              koru-project-discovery --planfile-sprint current --planfile-project
-              /home/tom/github/semcod/tagi --planfile-limit 20
-            schema: koru.ticket_evidence.v1
-            staleness_check: Regenerate artifacts and compare artifact.sha256 / files[].sha256
-              before assuming this ticket is still current.
-          input: 'code2llm reports `Shotgun Surgery: result` in `src/tagi/scanner/diff.py:20`.
-
-
-            Mutation of variable ''result'' spans 24 functions. Changing this logic
-            requires work in many places.
-
-
-            Make the smallest refactor that removes the smell and run local tests.'
-          signal: code2llm_smell_shotgun_surgery
-        timestamp: '2026-09-18T20:46:53.090400+00:00'
-        tool: koru-project-discovery
-      sprint: current
-      status: open
-      sync:
-        github:
-          id: '147'
-          key: semcod/tagi#147
-          url: https://github.com/semcod/tagi/issues/147
-      updated_at: '2026-09-18T20:46:53.090400+00:00'
     PLF-142:
       assignee: null
       backend: github
@@ -2766,6 +2786,13 @@ sprint:
       - 'priority: normal'
       - code-smell
       - data-clump
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-142
       name: 'Address code smell: Data Clump: repo_path, body, title'
@@ -2884,6 +2911,13 @@ sprint:
       - 'priority: normal'
       - code-smell
       - god-function
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-143
       name: 'Address code smell: God Function: group_changes'
@@ -3006,6 +3040,13 @@ sprint:
       - 'priority: normal'
       - code-smell
       - data-clump
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-145
       name: 'Address code smell: Data Clump: body, title, repo_path'
@@ -3061,246 +3102,6 @@ sprint:
           key: semcod/tagi#152
           url: https://github.com/semcod/tagi/issues/152
       updated_at: '2026-09-18T21:51:29.650993+00:00'
-    PLF-146:
-      assignee: null
-      backend: github
-      blocked_by: []
-      blocks: []
-      created_at: '2026-09-19T06:26:13.380402+00:00'
-      description: '<!-- planfile:deduplication-key=PLF-146 -->
-
-        code2llm reports `Shotgun Surgery: path_lower` in `src/tagi/heuristics/metrics.py:46`.
-
-
-        Mutation of variable ''path_lower'' spans 8 functions. Changing this logic
-        requires work in many places.
-
-
-        Make the smallest refactor that removes the smell and run local tests.'
-      execution:
-        attempt: 0
-        max_attempts: 1
-        queue: default
-        state: ready
-      executor:
-        kind: human
-        mode: interactive
-      external_id: '153'
-      files:
-      - src/tagi/heuristics/metrics.py
-      history:
-      - action: created
-        message: 'code2llm reports `Shotgun Surgery: path_lower` in `src/tagi/heuristics/metrics.py:46`.
-
-
-          Mutation of variable ''path_lower'' spans 8 functions. Changing this logic
-          requires work in many places.
-
-
-          Make the smallest refactor that removes the smell and run local tests.'
-        source: koru task
-        timestamp: '2026-09-19T06:26:13.380402+00:00'
-      id: PLF-146
-      inputs:
-        api_headers: {}
-        api_method: GET
-        api_timeout_seconds: 30.0
-        env_keys: []
-        prompt: 'code2llm reports `Shotgun Surgery: path_lower` in `src/tagi/heuristics/metrics.py:46`.
-
-
-          Mutation of variable ''path_lower'' spans 8 functions. Changing this logic
-          requires work in many places.
-
-
-          Make the smallest refactor that removes the smell and run local tests.'
-      integration:
-      - github
-      labels:
-      - planfile
-      - managed
-      - koru
-      - nl-task
-      - llm-ready
-      - priority-high
-      - 'priority: high'
-      - code2llm
-      - code-smell
-      - shotgun-surgery
-      metadata:
-        deduplication_key: PLF-146
-      name: 'Address code smell: Shotgun Surgery: path_lower'
-      outputs:
-        artifacts: []
-        notes: []
-      priority: high
-      source:
-        context:
-          dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/heuristics/metrics.py:46:Shotgun
-            Surgery: path_lower'
-          evidence:
-            artifact:
-              mtime_ns: 1789799169500661533
-              path: project/analysis.toon.yaml
-              sha256: e121c107d051daf013a3c36bbcbc8717b86b66089c73a3586f38da06dbdec891
-              size_bytes: 10356
-            files:
-            - mtime_ns: 1779811310790143885
-              path: src/tagi/heuristics/metrics.py
-              sha256: dcd2cc0255c4f2ee3eee8aaae72af3e54f0aa6a78598d290d61eb44299401b2d
-              size_bytes: 6521
-            kind: code2llm_discovery
-            planfile_tickets:
-              mtime_ns: 1789799169537365843
-              path: project/planfile-tickets.yaml
-              sha256: 1d4adc5d27067e26cec142ccc46490afbb9b85cb5d197c470f6353698b37aceb
-              size_bytes: 17914
-            regenerate_command: code2llm /home/tom/github/semcod/tagi -f all -o /home/tom/github/semcod/tagi/project
-              --no-chunk --exclude *.md --exclude plugins --planfile-apply --planfile-source
-              koru-project-discovery --planfile-sprint current --planfile-project
-              /home/tom/github/semcod/tagi --planfile-limit 20
-            schema: koru.ticket_evidence.v1
-            staleness_check: Regenerate artifacts and compare artifact.sha256 / files[].sha256
-              before assuming this ticket is still current.
-          input: 'code2llm reports `Shotgun Surgery: path_lower` in `src/tagi/heuristics/metrics.py:46`.
-
-
-            Mutation of variable ''path_lower'' spans 8 functions. Changing this logic
-            requires work in many places.
-
-
-            Make the smallest refactor that removes the smell and run local tests.'
-          signal: code2llm_smell_shotgun_surgery
-        timestamp: '2026-09-19T06:26:13.380402+00:00'
-        tool: koru-project-discovery
-      sprint: current
-      status: open
-      sync:
-        github:
-          id: '153'
-          key: semcod/tagi#153
-          url: https://github.com/semcod/tagi/issues/153
-      updated_at: '2026-09-19T06:26:13.380402+00:00'
-    PLF-147:
-      assignee: null
-      backend: github
-      blocked_by: []
-      blocks: []
-      created_at: '2026-09-19T06:31:54.694978+00:00'
-      description: '<!-- planfile:deduplication-key=PLF-147 -->
-
-        code2llm reports `Shotgun Surgery: tags` in `src/tagi/composer/formats.py:16`.
-
-
-        Mutation of variable ''tags'' spans 6 functions. Changing this logic requires
-        work in many places.
-
-
-        Make the smallest refactor that removes the smell and run local tests.'
-      execution:
-        attempt: 0
-        max_attempts: 1
-        queue: default
-        state: ready
-      executor:
-        kind: human
-        mode: interactive
-      external_id: '154'
-      files:
-      - src/tagi/composer/formats.py
-      history:
-      - action: created
-        message: 'code2llm reports `Shotgun Surgery: tags` in `src/tagi/composer/formats.py:16`.
-
-
-          Mutation of variable ''tags'' spans 6 functions. Changing this logic requires
-          work in many places.
-
-
-          Make the smallest refactor that removes the smell and run local tests.'
-        source: koru task
-        timestamp: '2026-09-19T06:31:54.694978+00:00'
-      id: PLF-147
-      inputs:
-        api_headers: {}
-        api_method: GET
-        api_timeout_seconds: 30.0
-        env_keys: []
-        prompt: 'code2llm reports `Shotgun Surgery: tags` in `src/tagi/composer/formats.py:16`.
-
-
-          Mutation of variable ''tags'' spans 6 functions. Changing this logic requires
-          work in many places.
-
-
-          Make the smallest refactor that removes the smell and run local tests.'
-      integration:
-      - github
-      labels:
-      - planfile
-      - managed
-      - koru
-      - nl-task
-      - llm-ready
-      - priority-high
-      - 'priority: high'
-      - code2llm
-      - code-smell
-      - shotgun-surgery
-      metadata:
-        deduplication_key: PLF-147
-      name: 'Address code smell: Shotgun Surgery: tags'
-      outputs:
-        artifacts: []
-        notes: []
-      priority: high
-      source:
-        context:
-          dedupe_key: 'code2llm:smell:shotgun_surgery:src/tagi/composer/formats.py:16:Shotgun
-            Surgery: tags'
-          evidence:
-            artifact:
-              mtime_ns: 1789799169500661533
-              path: project/analysis.toon.yaml
-              sha256: e121c107d051daf013a3c36bbcbc8717b86b66089c73a3586f38da06dbdec891
-              size_bytes: 10356
-            files:
-            - mtime_ns: 1789764358606193196
-              path: src/tagi/composer/formats.py
-              sha256: f83369fc3a57d03450699627061999b0e07c463e547289218fda64626fb0e6c0
-              size_bytes: 3495
-            kind: code2llm_discovery
-            planfile_tickets:
-              mtime_ns: 1789799169537365843
-              path: project/planfile-tickets.yaml
-              sha256: 1d4adc5d27067e26cec142ccc46490afbb9b85cb5d197c470f6353698b37aceb
-              size_bytes: 17914
-            regenerate_command: code2llm /home/tom/github/semcod/tagi -f all -o /home/tom/github/semcod/tagi/project
-              --no-chunk --exclude *.md --exclude plugins --planfile-apply --planfile-source
-              koru-project-discovery --planfile-sprint current --planfile-project
-              /home/tom/github/semcod/tagi --planfile-limit 20
-            schema: koru.ticket_evidence.v1
-            staleness_check: Regenerate artifacts and compare artifact.sha256 / files[].sha256
-              before assuming this ticket is still current.
-          input: 'code2llm reports `Shotgun Surgery: tags` in `src/tagi/composer/formats.py:16`.
-
-
-            Mutation of variable ''tags'' spans 6 functions. Changing this logic requires
-            work in many places.
-
-
-            Make the smallest refactor that removes the smell and run local tests.'
-          signal: code2llm_smell_shotgun_surgery
-        timestamp: '2026-09-19T06:31:54.694978+00:00'
-        tool: koru-project-discovery
-      sprint: current
-      status: open
-      sync:
-        github:
-          id: '154'
-          key: semcod/tagi#154
-          url: https://github.com/semcod/tagi/issues/154
-      updated_at: '2026-09-19T06:31:54.694978+00:00'
     PLF-149:
       assignee: null
       backend: github
@@ -3364,6 +3165,13 @@ sprint:
       - 'priority: normal'
       - code-smell
       - god-function
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-149
       name: 'Address code smell: God Function: publish_command'
@@ -3486,6 +3294,13 @@ sprint:
       - 'priority: normal'
       - code-smell
       - data-clump
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-152
       name: 'Address code smell: Data Clump: title, body, repo_path'
@@ -3604,6 +3419,13 @@ sprint:
       - 'priority: normal'
       - code-smell
       - god-function
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
       metadata:
         deduplication_key: PLF-154
       name: 'Address code smell: God Function: scan_repo'
@@ -3723,6 +3545,13 @@ sprint:
       - code2llm
       - code-smell
       - shotgun-surgery
+      - 'priority: high'
+      - 'priority: high'
+      - 'priority: high'
+      - 'priority: high'
+      - 'priority: high'
+      - 'priority: high'
+      - 'priority: high'
       metadata:
         deduplication_key: PLF-156
       name: 'Address code smell: Shotgun Surgery: provider'
@@ -3777,197 +3606,6 @@ sprint:
           key: semcod/tagi#169
           url: https://github.com/semcod/tagi/issues/169
       updated_at: '2026-09-19T11:41:05.586678+00:00'
-    PLF-157:
-      assignee: null
-      backend: github
-      blocked_by: []
-      blocks: []
-      created_at: '2026-09-19T12:42:18.834682+00:00'
-      description: '<!-- planfile:deduplication-key=PLF-157 -->
-
-        `project/analysis.toon.yaml` flags `inspect_helpers` in LAYERS as a large/hot
-        module (121 lines, 0 classes, 6 methods, CC=17). Extract cohesive submodules
-        around stable responsibilities and add focused regression tests before broad
-        edits.
-
-
-        ---
-
-
-        **Strategy Metadata:**
-
-        - planfile_id: PLF-157
-
-        '
-      execution:
-        attempt: 0
-        max_attempts: 1
-        queue: default
-        state: ready
-      executor:
-        kind: human
-        mode: interactive
-      external_id: '172'
-      files:
-      - src/tagi/utils/inspect_helpers.py
-      - project/analysis.toon.yaml
-      history:
-      - action: created
-        message: '`project/analysis.toon.yaml` flags `inspect_helpers` in LAYERS as
-          a large/hot module (121 lines, 0 classes, 6 methods, CC=17). Extract cohesive
-          submodules around stable responsibilities and add focused regression tests
-          before broad edits.'
-        source: koru task
-        timestamp: '2026-09-19T12:42:18.834682+00:00'
-      id: PLF-157
-      inputs:
-        api_headers: {}
-        api_method: GET
-        api_timeout_seconds: 30.0
-        env_keys: []
-        prompt: '`project/analysis.toon.yaml` flags `inspect_helpers` in LAYERS as
-          a large/hot module (121 lines, 0 classes, 6 methods, CC=17). Extract cohesive
-          submodules around stable responsibilities and add focused regression tests
-          before broad edits.'
-      integration:
-      - github
-      labels:
-      - planfile
-      - managed
-      - koru
-      - nl-task
-      - llm-ready
-      - priority-high
-      - code2llm
-      - architecture
-      - large-module
-      - refactor
-      - scan
-      metadata:
-        deduplication_key: PLF-157
-      name: 'Split large module: inspect_helpers'
-      outputs:
-        artifacts: []
-        notes: []
-      priority: high
-      source:
-        context:
-          dedupe_key: koru-scan:code2llm_layer_hotspot:src/tagi/utils/inspect_helpers.py:project/analysis.toon.yaml
-          evidence:
-            artifact:
-              mtime_ns: 1789820718961281621
-              path: project/analysis.toon.yaml
-              sha256: 28f5e52d781bb3dc5180c4411848287482185ddd7898976d85fe5df0d5cd3580
-              size_bytes: 10363
-            kind: code2llm_analysis
-            regenerate_command: code2llm /home/tom/github/semcod/tagi -f all -o /home/tom/github/semcod/tagi/project
-              --no-chunk --exclude '*.md' --planfile-apply --planfile-source koru-project-discovery
-              --planfile-sprint current --planfile-project /home/tom/github/semcod/tagi
-              --planfile-limit 20
-            schema: koru.ticket_evidence.v1
-            staleness_check: Regenerate the artifact and compare artifact.sha256 before
-              assuming this ticket still reflects the current code.
-          input: '`project/analysis.toon.yaml` flags `inspect_helpers` in LAYERS as
-            a large/hot module (121 lines, 0 classes, 6 methods, CC=17). Extract cohesive
-            submodules around stable responsibilities and add focused regression tests
-            before broad edits.'
-          signal: code2llm_layer_hotspot
-        timestamp: '2026-09-19T12:42:18.834682+00:00'
-        tool: koru-scan
-      sprint: current
-      status: open
-      sync:
-        github:
-          id: '172'
-          key: semcod/tagi#172
-          url: https://github.com/semcod/tagi/issues/172
-      updated_at: '2026-09-19T12:42:18.834682+00:00'
-    PLF-158:
-      acceptance_criteria: []
-      blocked_by: []
-      blocks: []
-      children: []
-      contract_version: planfile.ticket/v1
-      created_at: '2026-09-19T17:29:11.164575Z'
-      description: 'code2llm reports `Shotgun Surgery: path_lower` in `src/tagi/heuristics/metrics.py:33`.
-
-
-        Mutation of variable ''path_lower'' spans 8 functions. Changing this logic
-        requires work in many places.
-
-
-        Make the smallest refactor that removes the smell and run local tests.
-
-
-        code2llm-dedupe: code2llm:smell:shotgun_surgery:src/tagi/heuristics/metrics.py:33:Shotgun
-        Surgery: path_lower'
-      dsl: SODL/1 id=evt_1a6aaf76c4ba5b63b56256bc event_hash=7d65339256becf3c499f5189e7c46b90588d4a52675bacd47945b39cbfdb3882
-        timestamp=2026-09-19T17%3A29%3A11.164575%2B00%3A00 kind=task source=planfile.ticket
-        ticket_id=PLF-158 actor=koru-scan oql=ticket.create uri=planfile%3A%2F%2Ftickets%2FPLF-158%2Fcommand%2Fcreate
-        mode=apply status=open correlation_id=PLF-158 causation_id=- input_hash=9ac39162431fbacf71cb140d6f58f295cc0f944ad37b22cbe0a4b4d07a17d58c
-        receipt_ref=- replayable=true data=eyJwYXlsb2FkIjp7ImFjY2VwdGFuY2VfY3JpdGVyaWEiOltdLCJibG9ja2VkX2J5IjpbXSwiYmxvY2tzIjpbXSwiY2hpbGRyZW4iOltdLCJjb250cmFjdF92ZXJzaW9uIjoicGxhbmZpbGUudGlja2V0L3YxIiwiY3JlYXRlZF9hdCI6IjIwMjYtMDktMTlUMTc6Mjk6MTEuMTY0NTc1WiIsImRlc2NyaXB0aW9uIjoiY29kZTJsbG0gcmVwb3J0cyBgU2hvdGd1biBTdXJnZXJ5OiBwYXRoX2xvd2VyYCBpbiBgc3JjL3RhZ2kvaGV1cmlzdGljcy9tZXRyaWNzLnB5OjMzYC5cblxuTXV0YXRpb24gb2YgdmFyaWFibGUgJ3BhdGhfbG93ZXInIHNwYW5zIDggZnVuY3Rpb25zLiBDaGFuZ2luZyB0aGlzIGxvZ2ljIHJlcXVpcmVzIHdvcmsgaW4gbWFueSBwbGFjZXMuXG5cbk1ha2UgdGhlIHNtYWxsZXN0IHJlZmFjdG9yIHRoYXQgcmVtb3ZlcyB0aGUgc21lbGwgYW5kIHJ1biBsb2NhbCB0ZXN0cy5cblxuY29kZTJsbG0tZGVkdXBlOiBjb2RlMmxsbTpzbWVsbDpzaG90Z3VuX3N1cmdlcnk6c3JjL3RhZ2kvaGV1cmlzdGljcy9tZXRyaWNzLnB5OjMzOlNob3RndW4gU3VyZ2VyeTogcGF0aF9sb3dlciIsImZpbGVzIjpbInNyYy90YWdpL2hldXJpc3RpY3MvbWV0cmljcy5weSJdLCJpZCI6IlBMRi0xNTgiLCJsYWJlbHMiOlsibGxtLXJlYWR5IiwiY29kZTJsbG0iLCJjb2RlLXNtZWxsIiwic2hvdGd1bi1zdXJnZXJ5Il0sIm5hbWUiOiJBZGRyZXNzIGNvZGUgc21lbGw6IFNob3RndW4gU3VyZ2VyeTogcGF0aF9sb3dlciIsInByaW9yaXR5IjoiaGlnaCIsInNvdXJjZSI6eyJjb250ZXh0Ijp7fSwidGltZXN0YW1wIjoiMjAyNi0wOS0xOVQxNzoyOToxMS4xNTQ5MzZaIiwidG9vbCI6ImtvcnUtc2NhbiJ9LCJzcHJpbnQiOiJjdXJyZW50Iiwic3RhdHVzIjoib3BlbiIsInN5bmMiOnt9LCJ1cGRhdGVkX2F0IjoiMjAyNi0wOS0xOVQxNzoyOToxMS4xNjQ1NzlaIn19
-      files:
-      - src/tagi/heuristics/metrics.py
-      history: []
-      id: PLF-158
-      labels:
-      - llm-ready
-      - code2llm
-      - code-smell
-      - shotgun-surgery
-      name: 'Address code smell: Shotgun Surgery: path_lower'
-      priority: high
-      source:
-        context: {}
-        timestamp: '2026-09-19T17:29:11.154936Z'
-        tool: koru-scan
-      sprint: current
-      status: open
-      sync: {}
-      updated_at: '2026-09-19T17:29:11.164579Z'
-    PLF-159:
-      acceptance_criteria: []
-      blocked_by: []
-      blocks: []
-      children: []
-      contract_version: planfile.ticket/v1
-      created_at: '2026-09-19T17:29:11.918031Z'
-      description: 'code2llm reports `Shotgun Surgery: tags` in `src/tagi/heuristics/tags.py:48`.
-
-
-        Mutation of variable ''tags'' spans 5 functions. Changing this logic requires
-        work in many places.
-
-
-        Make the smallest refactor that removes the smell and run local tests.
-
-
-        code2llm-dedupe: code2llm:smell:shotgun_surgery:src/tagi/heuristics/tags.py:48:Shotgun
-        Surgery: tags'
-      dsl: SODL/1 id=evt_83500b9a1eed7d17acb5d9fb event_hash=0742737296da2c07434ecfea4dcb1c8cb6ae655a488c87cdba0103bd8a11bb02
-        timestamp=2026-09-19T17%3A29%3A11.918031%2B00%3A00 kind=task source=planfile.ticket
-        ticket_id=PLF-159 actor=koru-scan oql=ticket.create uri=planfile%3A%2F%2Ftickets%2FPLF-159%2Fcommand%2Fcreate
-        mode=apply status=open correlation_id=PLF-159 causation_id=- input_hash=55fc906af39db774bbbb80466d1102d53e7300ae63a8527729323d5cc7d9d5ec
-        receipt_ref=- replayable=true data=eyJwYXlsb2FkIjp7ImFjY2VwdGFuY2VfY3JpdGVyaWEiOltdLCJibG9ja2VkX2J5IjpbXSwiYmxvY2tzIjpbXSwiY2hpbGRyZW4iOltdLCJjb250cmFjdF92ZXJzaW9uIjoicGxhbmZpbGUudGlja2V0L3YxIiwiY3JlYXRlZF9hdCI6IjIwMjYtMDktMTlUMTc6Mjk6MTEuOTE4MDMxWiIsImRlc2NyaXB0aW9uIjoiY29kZTJsbG0gcmVwb3J0cyBgU2hvdGd1biBTdXJnZXJ5OiB0YWdzYCBpbiBgc3JjL3RhZ2kvaGV1cmlzdGljcy90YWdzLnB5OjQ4YC5cblxuTXV0YXRpb24gb2YgdmFyaWFibGUgJ3RhZ3MnIHNwYW5zIDUgZnVuY3Rpb25zLiBDaGFuZ2luZyB0aGlzIGxvZ2ljIHJlcXVpcmVzIHdvcmsgaW4gbWFueSBwbGFjZXMuXG5cbk1ha2UgdGhlIHNtYWxsZXN0IHJlZmFjdG9yIHRoYXQgcmVtb3ZlcyB0aGUgc21lbGwgYW5kIHJ1biBsb2NhbCB0ZXN0cy5cblxuY29kZTJsbG0tZGVkdXBlOiBjb2RlMmxsbTpzbWVsbDpzaG90Z3VuX3N1cmdlcnk6c3JjL3RhZ2kvaGV1cmlzdGljcy90YWdzLnB5OjQ4OlNob3RndW4gU3VyZ2VyeTogdGFncyIsImZpbGVzIjpbInNyYy90YWdpL2hldXJpc3RpY3MvdGFncy5weSJdLCJpZCI6IlBMRi0xNTkiLCJsYWJlbHMiOlsibGxtLXJlYWR5IiwiY29kZTJsbG0iLCJjb2RlLXNtZWxsIiwic2hvdGd1bi1zdXJnZXJ5Il0sIm5hbWUiOiJBZGRyZXNzIGNvZGUgc21lbGw6IFNob3RndW4gU3VyZ2VyeTogdGFncyIsInByaW9yaXR5IjoiaGlnaCIsInNvdXJjZSI6eyJjb250ZXh0Ijp7fSwidGltZXN0YW1wIjoiMjAyNi0wOS0xOVQxNzoyOToxMS44NDA4MzlaIiwidG9vbCI6ImtvcnUtc2NhbiJ9LCJzcHJpbnQiOiJjdXJyZW50Iiwic3RhdHVzIjoib3BlbiIsInN5bmMiOnt9LCJ1cGRhdGVkX2F0IjoiMjAyNi0wOS0xOVQxNzoyOToxMS45MTgwMzdaIn19
-      files:
-      - src/tagi/heuristics/tags.py
-      history: []
-      id: PLF-159
-      labels:
-      - llm-ready
-      - code2llm
-      - code-smell
-      - shotgun-surgery
-      name: 'Address code smell: Shotgun Surgery: tags'
-      priority: high
-      source:
-        context: {}
-        timestamp: '2026-09-19T17:29:11.840839Z'
-        tool: koru-scan
-      sprint: current
-      status: open
-      sync: {}
-      updated_at: '2026-09-19T17:29:11.918037Z'
     PLF-160:
       acceptance_criteria: []
       blocked_by: []
@@ -4388,3 +4026,619 @@ sprint:
       status: open
       sync: {}
       updated_at: '2026-09-19T17:29:19.641514Z'
+    PLF-171:
+      backend: github
+      blocked_by: []
+      blocks: []
+      created_at: '2026-09-19T17:43:09.548402+00:00'
+      description: 'code2llm reports `God Function: _tag_change` in `src/tagi/heuristics/tags.py:22`.
+
+
+        Function ''_tag_change'' is oversized: CC=2, fan-out=9, mutations=9.
+
+
+        Make the smallest refactor that removes the smell and run local tests.'
+      execution:
+        attempt: 0
+        max_attempts: 1
+        queue: default
+        state: ready
+      executor:
+        kind: human
+        mode: interactive
+      external_id: '187'
+      files:
+      - src/tagi/heuristics/tags.py
+      history:
+      - action: created
+        message: 'code2llm reports `God Function: _tag_change` in `src/tagi/heuristics/tags.py:22`.
+
+
+          Function ''_tag_change'' is oversized: CC=2, fan-out=9, mutations=9.
+
+
+          Make the smallest refactor that removes the smell and run local tests.'
+        source: koru task
+        timestamp: '2026-09-19T17:43:09.548402+00:00'
+      id: PLF-171
+      inputs:
+        api_headers: {}
+        api_method: GET
+        api_timeout_seconds: 30.0
+        env_keys: []
+        prompt: 'code2llm reports `God Function: _tag_change` in `src/tagi/heuristics/tags.py:22`.
+
+
+          Function ''_tag_change'' is oversized: CC=2, fan-out=9, mutations=9.
+
+
+          Make the smallest refactor that removes the smell and run local tests.'
+      integration:
+      - github
+      labels:
+      - koru
+      - nl-task
+      - llm-ready
+      - code2llm
+      - code-smell
+      - god-function
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      name: 'Address code smell: God Function: _tag_change'
+      outputs:
+        artifacts: []
+        notes: []
+      priority: normal
+      source:
+        context:
+          dedupe_key: 'code2llm:smell:god_function:src/tagi/heuristics/tags.py:22:God
+            Function: _tag_change'
+          evidence:
+            artifact:
+              mtime_ns: 1789838949904540410
+              path: project/analysis.toon.yaml
+              sha256: a20fa29c7d952fbcda7207db98cbe6042565fe78c7e14633a3065728be7842c6
+              size_bytes: 9689
+            files:
+            - mtime_ns: 1789830262593470416
+              path: src/tagi/heuristics/tags.py
+              sha256: a4f450ad5caf03cfd4f6b956809d7dfb0dabd3f6f7da91aad7e2202ac7576f69
+              size_bytes: 3411
+            kind: code2llm_discovery
+            planfile_tickets:
+              mtime_ns: 1789838959872519685
+              path: project/planfile-tickets.yaml
+              sha256: b5faa6f4e5d625a802e28855d7954530f8835c2a1c4377ec4676a9e843e17d04
+              size_bytes: 8004
+            regenerate_command: code2llm /home/tom/github/semcod/tagi -f all -o /home/tom/github/semcod/tagi/project
+              --no-chunk --exclude *.md --exclude plugins --planfile-apply --planfile-source
+              koru-project-discovery --planfile-sprint current --planfile-project
+              /home/tom/github/semcod/tagi --planfile-limit 20
+            schema: koru.ticket_evidence.v1
+            staleness_check: Regenerate artifacts and compare artifact.sha256 / files[].sha256
+              before assuming this ticket is still current.
+          input: 'code2llm reports `God Function: _tag_change` in `src/tagi/heuristics/tags.py:22`.
+
+
+            Function ''_tag_change'' is oversized: CC=2, fan-out=9, mutations=9.
+
+
+            Make the smallest refactor that removes the smell and run local tests.'
+          signal: code2llm_smell_god_function
+        timestamp: '2026-09-19T17:43:09.548402+00:00'
+        tool: koru-project-discovery
+      sprint: current
+      status: open
+      sync:
+        github:
+          id: '187'
+          key: semcod/tagi#187
+          url: https://github.com/semcod/tagi/issues/187
+      updated_at: '2026-09-19T17:43:09.548402+00:00'
+    PLF-172:
+      backend: github
+      blocked_by: []
+      blocks: []
+      created_at: '2026-09-19T17:53:12.889023+00:00'
+      description: 'code2llm reports `God Function: send_command` in `src/tagi/cli/git_operations.py:90`.
+
+
+        Function ''send_command'' is oversized: CC=7, fan-out=13, mutations=9.
+
+
+        Make the smallest refactor that removes the smell and run local tests.'
+      execution:
+        attempt: 0
+        max_attempts: 1
+        queue: default
+        state: ready
+      executor:
+        kind: human
+        mode: interactive
+      external_id: '188'
+      files:
+      - src/tagi/cli/git_operations.py
+      history:
+      - action: created
+        message: 'code2llm reports `God Function: send_command` in `src/tagi/cli/git_operations.py:90`.
+
+
+          Function ''send_command'' is oversized: CC=7, fan-out=13, mutations=9.
+
+
+          Make the smallest refactor that removes the smell and run local tests.'
+        source: koru task
+        timestamp: '2026-09-19T17:53:12.889023+00:00'
+      id: PLF-172
+      inputs:
+        api_headers: {}
+        api_method: GET
+        api_timeout_seconds: 30.0
+        env_keys: []
+        prompt: 'code2llm reports `God Function: send_command` in `src/tagi/cli/git_operations.py:90`.
+
+
+          Function ''send_command'' is oversized: CC=7, fan-out=13, mutations=9.
+
+
+          Make the smallest refactor that removes the smell and run local tests.'
+      integration:
+      - github
+      labels:
+      - koru
+      - nl-task
+      - llm-ready
+      - code2llm
+      - code-smell
+      - god-function
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      name: 'Address code smell: God Function: send_command'
+      outputs:
+        artifacts: []
+        notes: []
+      priority: normal
+      source:
+        context:
+          dedupe_key: 'code2llm:smell:god_function:src/tagi/cli/git_operations.py:90:God
+            Function: send_command'
+          evidence:
+            artifact:
+              mtime_ns: 1789838949904540410
+              path: project/analysis.toon.yaml
+              sha256: a20fa29c7d952fbcda7207db98cbe6042565fe78c7e14633a3065728be7842c6
+              size_bytes: 9689
+            files:
+            - mtime_ns: 1789824641491087908
+              path: src/tagi/cli/git_operations.py
+              sha256: 049eb6ec4314014115e3471ce64f037758ab685f40cb9896fe129daf8618d861
+              size_bytes: 6307
+            kind: code2llm_discovery
+            planfile_tickets:
+              mtime_ns: 1789838959872519685
+              path: project/planfile-tickets.yaml
+              sha256: b5faa6f4e5d625a802e28855d7954530f8835c2a1c4377ec4676a9e843e17d04
+              size_bytes: 8004
+            regenerate_command: code2llm /home/tom/github/semcod/tagi -f all -o /home/tom/github/semcod/tagi/project
+              --no-chunk --exclude *.md --exclude plugins --planfile-apply --planfile-source
+              koru-project-discovery --planfile-sprint current --planfile-project
+              /home/tom/github/semcod/tagi --planfile-limit 20
+            schema: koru.ticket_evidence.v1
+            staleness_check: Regenerate artifacts and compare artifact.sha256 / files[].sha256
+              before assuming this ticket is still current.
+          input: 'code2llm reports `God Function: send_command` in `src/tagi/cli/git_operations.py:90`.
+
+
+            Function ''send_command'' is oversized: CC=7, fan-out=13, mutations=9.
+
+
+            Make the smallest refactor that removes the smell and run local tests.'
+          signal: code2llm_smell_god_function
+        timestamp: '2026-09-19T17:53:12.889023+00:00'
+        tool: koru-project-discovery
+      sprint: current
+      status: open
+      sync:
+        github:
+          id: '188'
+          key: semcod/tagi#188
+          url: https://github.com/semcod/tagi/issues/188
+      updated_at: '2026-09-19T17:53:12.889023+00:00'
+    PLF-173:
+      backend: github
+      blocked_by: []
+      blocks: []
+      created_at: '2026-09-19T18:16:24.472046+00:00'
+      description: 'code2llm reports `God Function: setup_logger` in `src/tagi/utils/logger.py:9`.
+
+
+        Function ''setup_logger'' is oversized: CC=4, fan-out=13, mutations=14.
+
+
+        Make the smallest refactor that removes the smell and run local tests.'
+      execution:
+        attempt: 0
+        max_attempts: 1
+        queue: default
+        state: ready
+      executor:
+        kind: human
+        mode: interactive
+      external_id: '189'
+      files:
+      - src/tagi/utils/logger.py
+      history:
+      - action: created
+        message: 'code2llm reports `God Function: setup_logger` in `src/tagi/utils/logger.py:9`.
+
+
+          Function ''setup_logger'' is oversized: CC=4, fan-out=13, mutations=14.
+
+
+          Make the smallest refactor that removes the smell and run local tests.'
+        source: koru task
+        timestamp: '2026-09-19T18:16:24.472046+00:00'
+      id: PLF-173
+      inputs:
+        api_headers: {}
+        api_method: GET
+        api_timeout_seconds: 30.0
+        env_keys: []
+        prompt: 'code2llm reports `God Function: setup_logger` in `src/tagi/utils/logger.py:9`.
+
+
+          Function ''setup_logger'' is oversized: CC=4, fan-out=13, mutations=14.
+
+
+          Make the smallest refactor that removes the smell and run local tests.'
+      integration:
+      - github
+      labels:
+      - koru
+      - nl-task
+      - llm-ready
+      - code2llm
+      - code-smell
+      - god-function
+      - 'priority: normal'
+      - 'priority: normal'
+      - 'priority: normal'
+      name: 'Address code smell: God Function: setup_logger'
+      outputs:
+        artifacts: []
+        notes: []
+      priority: normal
+      source:
+        context:
+          dedupe_key: 'code2llm:smell:god_function:src/tagi/utils/logger.py:9:God
+            Function: setup_logger'
+          evidence:
+            artifact:
+              mtime_ns: 1789838949904540410
+              path: project/analysis.toon.yaml
+              sha256: a20fa29c7d952fbcda7207db98cbe6042565fe78c7e14633a3065728be7842c6
+              size_bytes: 9689
+            files:
+            - mtime_ns: 1779809465287675064
+              path: src/tagi/utils/logger.py
+              sha256: 25d7171aee4d351bc65d315acfa6d09d6e91491346c2ac3cca945577d7397c89
+              size_bytes: 1747
+            kind: code2llm_discovery
+            planfile_tickets:
+              mtime_ns: 1789838959872519685
+              path: project/planfile-tickets.yaml
+              sha256: b5faa6f4e5d625a802e28855d7954530f8835c2a1c4377ec4676a9e843e17d04
+              size_bytes: 8004
+            regenerate_command: code2llm /home/tom/github/semcod/tagi -f all -o /home/tom/github/semcod/tagi/project
+              --no-chunk --exclude *.md --exclude plugins --planfile-apply --planfile-source
+              koru-project-discovery --planfile-sprint current --planfile-project
+              /home/tom/github/semcod/tagi --planfile-limit 20
+            schema: koru.ticket_evidence.v1
+            staleness_check: Regenerate artifacts and compare artifact.sha256 / files[].sha256
+              before assuming this ticket is still current.
+          input: 'code2llm reports `God Function: setup_logger` in `src/tagi/utils/logger.py:9`.
+
+
+            Function ''setup_logger'' is oversized: CC=4, fan-out=13, mutations=14.
+
+
+            Make the smallest refactor that removes the smell and run local tests.'
+          signal: code2llm_smell_god_function
+        timestamp: '2026-09-19T18:16:24.472046+00:00'
+        tool: koru-project-discovery
+      sprint: current
+      status: open
+      sync:
+        github:
+          id: '189'
+          key: semcod/tagi#189
+          url: https://github.com/semcod/tagi/issues/189
+      updated_at: '2026-09-19T18:16:24.472046+00:00'
+    PLF-174:
+      backend: github
+      blocked_by: []
+      blocks: []
+      created_at: '2026-09-19T18:25:22.064458+00:00'
+      description: 'code2llm reports `God Function: summary_command` in `src/tagi/cli/utility_commands.py:25`.
+
+
+        Function ''summary_command'' is oversized: CC=7, fan-out=13, mutations=17.
+
+
+        Make the smallest refactor that removes the smell and run local tests.'
+      execution:
+        attempt: 0
+        max_attempts: 1
+        queue: default
+        state: ready
+      executor:
+        kind: human
+        mode: interactive
+      external_id: '190'
+      files:
+      - src/tagi/cli/utility_commands.py
+      history:
+      - action: created
+        message: 'code2llm reports `God Function: summary_command` in `src/tagi/cli/utility_commands.py:25`.
+
+
+          Function ''summary_command'' is oversized: CC=7, fan-out=13, mutations=17.
+
+
+          Make the smallest refactor that removes the smell and run local tests.'
+        source: koru task
+        timestamp: '2026-09-19T18:25:22.064458+00:00'
+      id: PLF-174
+      inputs:
+        api_headers: {}
+        api_method: GET
+        api_timeout_seconds: 30.0
+        env_keys: []
+        prompt: 'code2llm reports `God Function: summary_command` in `src/tagi/cli/utility_commands.py:25`.
+
+
+          Function ''summary_command'' is oversized: CC=7, fan-out=13, mutations=17.
+
+
+          Make the smallest refactor that removes the smell and run local tests.'
+      integration:
+      - github
+      labels:
+      - koru
+      - nl-task
+      - llm-ready
+      - code2llm
+      - code-smell
+      - god-function
+      - 'priority: normal'
+      - 'priority: normal'
+      name: 'Address code smell: God Function: summary_command'
+      outputs:
+        artifacts: []
+        notes: []
+      priority: normal
+      source:
+        context:
+          dedupe_key: 'code2llm:smell:god_function:src/tagi/cli/utility_commands.py:25:God
+            Function: summary_command'
+          evidence:
+            artifact:
+              mtime_ns: 1789838949904540410
+              path: project/analysis.toon.yaml
+              sha256: a20fa29c7d952fbcda7207db98cbe6042565fe78c7e14633a3065728be7842c6
+              size_bytes: 9689
+            files:
+            - mtime_ns: 1789817932257139916
+              path: src/tagi/cli/utility_commands.py
+              sha256: e8d62787b625b75ab02154b4de181d4c5ab9cf2443e7bec06574c0ec46b63499
+              size_bytes: 7253
+            kind: code2llm_discovery
+            planfile_tickets:
+              mtime_ns: 1789838959872519685
+              path: project/planfile-tickets.yaml
+              sha256: b5faa6f4e5d625a802e28855d7954530f8835c2a1c4377ec4676a9e843e17d04
+              size_bytes: 8004
+            regenerate_command: code2llm /home/tom/github/semcod/tagi -f all -o /home/tom/github/semcod/tagi/project
+              --no-chunk --exclude *.md --exclude plugins --planfile-apply --planfile-source
+              koru-project-discovery --planfile-sprint current --planfile-project
+              /home/tom/github/semcod/tagi --planfile-limit 20
+            schema: koru.ticket_evidence.v1
+            staleness_check: Regenerate artifacts and compare artifact.sha256 / files[].sha256
+              before assuming this ticket is still current.
+          input: 'code2llm reports `God Function: summary_command` in `src/tagi/cli/utility_commands.py:25`.
+
+
+            Function ''summary_command'' is oversized: CC=7, fan-out=13, mutations=17.
+
+
+            Make the smallest refactor that removes the smell and run local tests.'
+          signal: code2llm_smell_god_function
+        timestamp: '2026-09-19T18:25:22.064458+00:00'
+        tool: koru-project-discovery
+      sprint: current
+      status: open
+      sync:
+        github:
+          id: '190'
+          key: semcod/tagi#190
+          url: https://github.com/semcod/tagi/issues/190
+      updated_at: '2026-09-19T18:25:22.064458+00:00'
+    PLF-177:
+      acceptance_criteria: []
+      blocked_by: []
+      blocks: []
+      children: []
+      contract_version: planfile.ticket/v1
+      created_at: '2026-09-19T21:13:19.174193Z'
+      description: 'Fresh redup scan (project/duplication.toon.yaml, 2026-09-19) flags
+        copy-pasted helpers introduced by the cli module split:
+
+
+        - _ensure_tag_prefix: 4 identical copies (src/tagi/cli/main.py:50, git_operations.py:21,
+        publishing_commands.py:16, utility_commands.py:18) — 24 duplicated lines.
+
+        - _resolve_send_target + _is_known_tag: duplicated between src/tagi/cli/main.py:57-83
+        and git_operations.py:28-56 (19+10 lines), with comment drift between the
+        two copies.
+
+
+        Extract these into one shared cli helper module (e.g. src/tagi/cli/tag_targets.py),
+        import it from all four command modules, and keep behavior identical.
+
+
+        Acceptance criteria:
+
+        - redup scan of src/ reports no EXAC groups for these helpers (dup groups
+        7 -> <=4).
+
+        - python -m pytest -q stays green (127 passed).'
+      dsl: SODL/1 id=evt_6d8071ad9e575f187c0d44fc event_hash=09dee25ffd62e51fcf5519f07cf9cdb658a69ceb037eb39c11b0a66d7d2508f3
+        timestamp=2026-09-19T21%3A13%3A19.174193%2B00%3A00 kind=task source=planfile.ticket
+        ticket_id=PLF-177 actor=koru-project-discovery oql=ticket.create uri=planfile%3A%2F%2Ftickets%2FPLF-177%2Fcommand%2Fcreate
+        mode=apply status=open correlation_id=PLF-177 causation_id=- input_hash=c3d47241fd79a8d7580afdb743ddae69f661a9bc415f8a9439190b58d9951b52
+        receipt_ref=- replayable=true data=eyJwYXlsb2FkIjp7ImFjY2VwdGFuY2VfY3JpdGVyaWEiOltdLCJibG9ja2VkX2J5IjpbXSwiYmxvY2tzIjpbXSwiY2hpbGRyZW4iOltdLCJjb250cmFjdF92ZXJzaW9uIjoicGxhbmZpbGUudGlja2V0L3YxIiwiY3JlYXRlZF9hdCI6IjIwMjYtMDktMTlUMjE6MTM6MTkuMTc0MTkzWiIsImRlc2NyaXB0aW9uIjoiRnJlc2ggcmVkdXAgc2NhbiAocHJvamVjdC9kdXBsaWNhdGlvbi50b29uLnlhbWwsIDIwMjYtMDktMTkpIGZsYWdzIGNvcHktcGFzdGVkIGhlbHBlcnMgaW50cm9kdWNlZCBieSB0aGUgY2xpIG1vZHVsZSBzcGxpdDpcblxuLSBfZW5zdXJlX3RhZ19wcmVmaXg6IDQgaWRlbnRpY2FsIGNvcGllcyAoc3JjL3RhZ2kvY2xpL21haW4ucHk6NTAsIGdpdF9vcGVyYXRpb25zLnB5OjIxLCBwdWJsaXNoaW5nX2NvbW1hbmRzLnB5OjE2LCB1dGlsaXR5X2NvbW1hbmRzLnB5OjE4KSDigJQgMjQgZHVwbGljYXRlZCBsaW5lcy5cbi0gX3Jlc29sdmVfc2VuZF90YXJnZXQgKyBfaXNfa25vd25fdGFnOiBkdXBsaWNhdGVkIGJldHdlZW4gc3JjL3RhZ2kvY2xpL21haW4ucHk6NTctODMgYW5kIGdpdF9vcGVyYXRpb25zLnB5OjI4LTU2ICgxOSsxMCBsaW5lcyksIHdpdGggY29tbWVudCBkcmlmdCBiZXR3ZWVuIHRoZSB0d28gY29waWVzLlxuXG5FeHRyYWN0IHRoZXNlIGludG8gb25lIHNoYXJlZCBjbGkgaGVscGVyIG1vZHVsZSAoZS5nLiBzcmMvdGFnaS9jbGkvdGFnX3RhcmdldHMucHkpLCBpbXBvcnQgaXQgZnJvbSBhbGwgZm91ciBjb21tYW5kIG1vZHVsZXMsIGFuZCBrZWVwIGJlaGF2aW9yIGlkZW50aWNhbC5cblxuQWNjZXB0YW5jZSBjcml0ZXJpYTpcbi0gcmVkdXAgc2NhbiBvZiBzcmMvIHJlcG9ydHMgbm8gRVhBQyBncm91cHMgZm9yIHRoZXNlIGhlbHBlcnMgKGR1cCBncm91cHMgNyAtPiA8PTQpLlxuLSBweXRob24gLW0gcHl0ZXN0IC1xIHN0YXlzIGdyZWVuICgxMjcgcGFzc2VkKS4iLCJmaWxlcyI6WyJzcmMvdGFnaS9jbGkvbWFpbi5weSIsInNyYy90YWdpL2NsaS9naXRfb3BlcmF0aW9ucy5weSIsInNyYy90YWdpL2NsaS9wdWJsaXNoaW5nX2NvbW1hbmRzLnB5Iiwic3JjL3RhZ2kvY2xpL3V0aWxpdHlfY29tbWFuZHMucHkiXSwiaWQiOiJQTEYtMTc3IiwibGFiZWxzIjpbImtvcnUiLCJubC10YXNrIiwibGxtLXJlYWR5IiwicHJvamVjdC1kaXNjb3ZlcnkiLCJkdXBsaWNhdGlvbiJdLCJuYW1lIjoiRGVkdXBsaWNhdGUgY2xpIHRhZyBoZWxwZXJzIChfZW5zdXJlX3RhZ19wcmVmaXgsIF9pc19rbm93bl90YWcsIF9yZXNvbHZlX3NlbmRfdGFyZ2V0KSIsInByaW9yaXR5IjoiaGlnaCIsInNvdXJjZSI6eyJjb250ZXh0Ijp7fSwidGltZXN0YW1wIjoiMjAyNi0wOS0xOVQyMToxMzoxOS4xNTg3NzdaIiwidG9vbCI6ImtvcnUtcHJvamVjdC1kaXNjb3ZlcnkifSwic3ByaW50IjoiY3VycmVudCIsInN0YXR1cyI6Im9wZW4iLCJzeW5jIjp7fSwidXBkYXRlZF9hdCI6IjIwMjYtMDktMTlUMjE6MTM6MTkuMTc0MTk4WiJ9fQ
+      files:
+      - src/tagi/cli/main.py
+      - src/tagi/cli/git_operations.py
+      - src/tagi/cli/publishing_commands.py
+      - src/tagi/cli/utility_commands.py
+      history: []
+      id: PLF-177
+      labels:
+      - koru
+      - nl-task
+      - llm-ready
+      - project-discovery
+      - duplication
+      name: Deduplicate cli tag helpers (_ensure_tag_prefix, _is_known_tag, _resolve_send_target)
+      priority: high
+      source:
+        context: {}
+        timestamp: '2026-09-19T21:13:19.158777Z'
+        tool: koru-project-discovery
+      sprint: current
+      status: open
+      sync: {}
+      updated_at: '2026-09-19T21:13:19.174198Z'
+    PLF-178:
+      acceptance_criteria: []
+      blocked_by: []
+      blocks: []
+      children: []
+      contract_version: planfile.ticket/v1
+      created_at: '2026-09-19T21:13:25.344158Z'
+      description: 'src/tagi/analyzer/dependency_graph.py is the largest module in
+        the codebase (276L, 16 functions, CC=7) and has no dedicated test coverage
+        (verified 2026-09-19: no tests/ file imports it; only a path fixture mention).
+
+
+        It implements pure graph algorithms used by planning: build_dependency_graph,
+        find_dependency_order, detect_cycles, get_critical_path, levels.
+
+
+        Add tests/test_dependency_graph.py covering:
+
+        - build_dependency_graph from python import analysis (incl. _collect_import_names
+        edge cases).
+
+        - find_dependency_order: deterministic order, dependencies before dependents.
+
+        - detect_cycles: acyclic graph -> [], cyclic graph -> reported cycle (incl.
+        self-loop).
+
+        - get_critical_path: longest path in a diamond graph.
+
+        - levels/_drain_level partitioning.
+
+
+        Acceptance criteria:
+
+        - python -m pytest -q green with the new tests included.
+
+        - Coverage of the module''s public functions without mocking internals.'
+      dsl: SODL/1 id=evt_7078a45181f0dc0a74954bb8 event_hash=6bc21c34be2c3bd2a2b9b78df0201095dfdbbf142a1d02d1c0d9b28f28f88bba
+        timestamp=2026-09-19T21%3A13%3A25.344158%2B00%3A00 kind=task source=planfile.ticket
+        ticket_id=PLF-178 actor=koru-project-discovery oql=ticket.create uri=planfile%3A%2F%2Ftickets%2FPLF-178%2Fcommand%2Fcreate
+        mode=apply status=open correlation_id=PLF-178 causation_id=- input_hash=ae3d0bc4ac06e679201e277c56e8950193680a23891a710c80eb024e664f08d2
+        receipt_ref=- replayable=true data=eyJwYXlsb2FkIjp7ImFjY2VwdGFuY2VfY3JpdGVyaWEiOltdLCJibG9ja2VkX2J5IjpbXSwiYmxvY2tzIjpbXSwiY2hpbGRyZW4iOltdLCJjb250cmFjdF92ZXJzaW9uIjoicGxhbmZpbGUudGlja2V0L3YxIiwiY3JlYXRlZF9hdCI6IjIwMjYtMDktMTlUMjE6MTM6MjUuMzQ0MTU4WiIsImRlc2NyaXB0aW9uIjoic3JjL3RhZ2kvYW5hbHl6ZXIvZGVwZW5kZW5jeV9ncmFwaC5weSBpcyB0aGUgbGFyZ2VzdCBtb2R1bGUgaW4gdGhlIGNvZGViYXNlICgyNzZMLCAxNiBmdW5jdGlvbnMsIENDPTcpIGFuZCBoYXMgbm8gZGVkaWNhdGVkIHRlc3QgY292ZXJhZ2UgKHZlcmlmaWVkIDIwMjYtMDktMTk6IG5vIHRlc3RzLyBmaWxlIGltcG9ydHMgaXQ7IG9ubHkgYSBwYXRoIGZpeHR1cmUgbWVudGlvbikuXG5cbkl0IGltcGxlbWVudHMgcHVyZSBncmFwaCBhbGdvcml0aG1zIHVzZWQgYnkgcGxhbm5pbmc6IGJ1aWxkX2RlcGVuZGVuY3lfZ3JhcGgsIGZpbmRfZGVwZW5kZW5jeV9vcmRlciwgZGV0ZWN0X2N5Y2xlcywgZ2V0X2NyaXRpY2FsX3BhdGgsIGxldmVscy5cblxuQWRkIHRlc3RzL3Rlc3RfZGVwZW5kZW5jeV9ncmFwaC5weSBjb3ZlcmluZzpcbi0gYnVpbGRfZGVwZW5kZW5jeV9ncmFwaCBmcm9tIHB5dGhvbiBpbXBvcnQgYW5hbHlzaXMgKGluY2wuIF9jb2xsZWN0X2ltcG9ydF9uYW1lcyBlZGdlIGNhc2VzKS5cbi0gZmluZF9kZXBlbmRlbmN5X29yZGVyOiBkZXRlcm1pbmlzdGljIG9yZGVyLCBkZXBlbmRlbmNpZXMgYmVmb3JlIGRlcGVuZGVudHMuXG4tIGRldGVjdF9jeWNsZXM6IGFjeWNsaWMgZ3JhcGggLT4gW10sIGN5Y2xpYyBncmFwaCAtPiByZXBvcnRlZCBjeWNsZSAoaW5jbC4gc2VsZi1sb29wKS5cbi0gZ2V0X2NyaXRpY2FsX3BhdGg6IGxvbmdlc3QgcGF0aCBpbiBhIGRpYW1vbmQgZ3JhcGguXG4tIGxldmVscy9fZHJhaW5fbGV2ZWwgcGFydGl0aW9uaW5nLlxuXG5BY2NlcHRhbmNlIGNyaXRlcmlhOlxuLSBweXRob24gLW0gcHl0ZXN0IC1xIGdyZWVuIHdpdGggdGhlIG5ldyB0ZXN0cyBpbmNsdWRlZC5cbi0gQ292ZXJhZ2Ugb2YgdGhlIG1vZHVsZSdzIHB1YmxpYyBmdW5jdGlvbnMgd2l0aG91dCBtb2NraW5nIGludGVybmFscy4iLCJmaWxlcyI6WyJzcmMvdGFnaS9hbmFseXplci9kZXBlbmRlbmN5X2dyYXBoLnB5Il0sImlkIjoiUExGLTE3OCIsImxhYmVscyI6WyJrb3J1IiwibmwtdGFzayIsImxsbS1yZWFkeSIsInByb2plY3QtZGlzY292ZXJ5IiwidGVzdHMiXSwibmFtZSI6IkFkZCB1bml0IHRlc3RzIGZvciBhbmFseXplci9kZXBlbmRlbmN5X2dyYXBoLnB5IiwicHJpb3JpdHkiOiJoaWdoIiwic291cmNlIjp7ImNvbnRleHQiOnt9LCJ0aW1lc3RhbXAiOiIyMDI2LTA5LTE5VDIxOjEzOjI1LjMzMTQ0N1oiLCJ0b29sIjoia29ydS1wcm9qZWN0LWRpc2NvdmVyeSJ9LCJzcHJpbnQiOiJjdXJyZW50Iiwic3RhdHVzIjoib3BlbiIsInN5bmMiOnt9LCJ1cGRhdGVkX2F0IjoiMjAyNi0wOS0xOVQyMToxMzoyNS4zNDQxNjVaIn19
+      files:
+      - src/tagi/analyzer/dependency_graph.py
+      history: []
+      id: PLF-178
+      labels:
+      - koru
+      - nl-task
+      - llm-ready
+      - project-discovery
+      - tests
+      name: Add unit tests for analyzer/dependency_graph.py
+      priority: high
+      source:
+        context: {}
+        timestamp: '2026-09-19T21:13:25.331447Z'
+        tool: koru-project-discovery
+      sprint: current
+      status: open
+      sync: {}
+      updated_at: '2026-09-19T21:13:25.344165Z'
+    PLF-179:
+      acceptance_criteria: []
+      blocked_by: []
+      blocks: []
+      children: []
+      contract_version: planfile.ticket/v1
+      created_at: '2026-09-19T21:13:31.396943Z'
+      description: 'src/tagi/providers/koru.py (171L, CC=8) implements KoruProvider,
+        including analyze_deployment_priority flagged by code2llm as high fan-out
+        (10, limit 10 — project/project.toon.yaml ALERTS). It has no test coverage
+        (verified 2026-09-19); github/gitlab providers each have a dedicated test
+        module, koru does not.
+
+
+        Add tests/test_koru_provider.py following the test_github_provider.py/test_gitlab_provider.py
+        pattern, covering:
+
+        - is_authenticated / get_auth_status for token-present and token-missing cases.
+
+        - analyze_deployment_priority output shape for representative inputs.
+
+        - create_pr / detect_remote behavior with a stubbed transport.
+
+        - Error paths (missing config, failed command).
+
+
+        Acceptance criteria:
+
+        - python -m pytest -q green with the new tests included.
+
+        - No network access in tests (stub/mocked transport only).'
+      dsl: SODL/1 id=evt_66de8743a3eefd20e509044a event_hash=35a4ce7177c8b0a23e2cfef6be335c571ee64328a9a7ce75f2879f68559faad0
+        timestamp=2026-09-19T21%3A13%3A31.396943%2B00%3A00 kind=task source=planfile.ticket
+        ticket_id=PLF-179 actor=koru-project-discovery oql=ticket.create uri=planfile%3A%2F%2Ftickets%2FPLF-179%2Fcommand%2Fcreate
+        mode=apply status=open correlation_id=PLF-179 causation_id=- input_hash=efe4ccacd819cd7b58a15895e0fd785559b241912e310199661481ecb3252de5
+        receipt_ref=- replayable=true data=eyJwYXlsb2FkIjp7ImFjY2VwdGFuY2VfY3JpdGVyaWEiOltdLCJibG9ja2VkX2J5IjpbXSwiYmxvY2tzIjpbXSwiY2hpbGRyZW4iOltdLCJjb250cmFjdF92ZXJzaW9uIjoicGxhbmZpbGUudGlja2V0L3YxIiwiY3JlYXRlZF9hdCI6IjIwMjYtMDktMTlUMjE6MTM6MzEuMzk2OTQzWiIsImRlc2NyaXB0aW9uIjoic3JjL3RhZ2kvcHJvdmlkZXJzL2tvcnUucHkgKDE3MUwsIENDPTgpIGltcGxlbWVudHMgS29ydVByb3ZpZGVyLCBpbmNsdWRpbmcgYW5hbHl6ZV9kZXBsb3ltZW50X3ByaW9yaXR5IGZsYWdnZWQgYnkgY29kZTJsbG0gYXMgaGlnaCBmYW4tb3V0ICgxMCwgbGltaXQgMTAg4oCUIHByb2plY3QvcHJvamVjdC50b29uLnlhbWwgQUxFUlRTKS4gSXQgaGFzIG5vIHRlc3QgY292ZXJhZ2UgKHZlcmlmaWVkIDIwMjYtMDktMTkpOyBnaXRodWIvZ2l0bGFiIHByb3ZpZGVycyBlYWNoIGhhdmUgYSBkZWRpY2F0ZWQgdGVzdCBtb2R1bGUsIGtvcnUgZG9lcyBub3QuXG5cbkFkZCB0ZXN0cy90ZXN0X2tvcnVfcHJvdmlkZXIucHkgZm9sbG93aW5nIHRoZSB0ZXN0X2dpdGh1Yl9wcm92aWRlci5weS90ZXN0X2dpdGxhYl9wcm92aWRlci5weSBwYXR0ZXJuLCBjb3ZlcmluZzpcbi0gaXNfYXV0aGVudGljYXRlZCAvIGdldF9hdXRoX3N0YXR1cyBmb3IgdG9rZW4tcHJlc2VudCBhbmQgdG9rZW4tbWlzc2luZyBjYXNlcy5cbi0gYW5hbHl6ZV9kZXBsb3ltZW50X3ByaW9yaXR5IG91dHB1dCBzaGFwZSBmb3IgcmVwcmVzZW50YXRpdmUgaW5wdXRzLlxuLSBjcmVhdGVfcHIgLyBkZXRlY3RfcmVtb3RlIGJlaGF2aW9yIHdpdGggYSBzdHViYmVkIHRyYW5zcG9ydC5cbi0gRXJyb3IgcGF0aHMgKG1pc3NpbmcgY29uZmlnLCBmYWlsZWQgY29tbWFuZCkuXG5cbkFjY2VwdGFuY2UgY3JpdGVyaWE6XG4tIHB5dGhvbiAtbSBweXRlc3QgLXEgZ3JlZW4gd2l0aCB0aGUgbmV3IHRlc3RzIGluY2x1ZGVkLlxuLSBObyBuZXR3b3JrIGFjY2VzcyBpbiB0ZXN0cyAoc3R1Yi9tb2NrZWQgdHJhbnNwb3J0IG9ubHkpLiIsImZpbGVzIjpbInNyYy90YWdpL3Byb3ZpZGVycy9rb3J1LnB5Il0sImlkIjoiUExGLTE3OSIsImxhYmVscyI6WyJrb3J1IiwibmwtdGFzayIsImxsbS1yZWFkeSIsInByb2plY3QtZGlzY292ZXJ5IiwidGVzdHMiXSwibmFtZSI6IkFkZCB1bml0IHRlc3RzIGZvciBwcm92aWRlcnMva29ydS5weSAoS29ydVByb3ZpZGVyKSIsInByaW9yaXR5Ijoibm9ybWFsIiwic291cmNlIjp7ImNvbnRleHQiOnt9LCJ0aW1lc3RhbXAiOiIyMDI2LTA5LTE5VDIxOjEzOjMxLjM4NzQxNloiLCJ0b29sIjoia29ydS1wcm9qZWN0LWRpc2NvdmVyeSJ9LCJzcHJpbnQiOiJjdXJyZW50Iiwic3RhdHVzIjoib3BlbiIsInN5bmMiOnt9LCJ1cGRhdGVkX2F0IjoiMjAyNi0wOS0xOVQyMToxMzozMS4zOTY5NTJaIn19
+      files:
+      - src/tagi/providers/koru.py
+      history: []
+      id: PLF-179
+      labels:
+      - koru
+      - nl-task
+      - llm-ready
+      - project-discovery
+      - tests
+      name: Add unit tests for providers/koru.py (KoruProvider)
+      priority: normal
+      source:
+        context: {}
+        timestamp: '2026-09-19T21:13:31.387416Z'
+        tool: koru-project-discovery
+      sprint: current
+      status: open
+      sync: {}
+      updated_at: '2026-09-19T21:13:31.396952Z'

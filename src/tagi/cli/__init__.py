@@ -3,10 +3,12 @@
 from tagi.cli.main import (
     app,
     detect_provider,
+    _configure_command_logging,
+)
+from tagi.cli.tag_targets import (
     _ensure_tag_prefix,
     _is_known_tag,
     _resolve_send_target,
-    _configure_command_logging,
 )
 from tagi.cli.provider_commands import create_pr, create_mr
 
