@@ -1,9 +1,8 @@
 """Helper functions for summary command."""
 
-from typing import List
+from typing import Dict, List
 from collections import Counter
 from tagi.models import Change, ChangeType
-from tagi.config import Config
 from tagi.utils.line_builder import LineBuilder
 from tagi.utils.risk import average_risk, total_lines_changed
 
@@ -65,13 +64,15 @@ def build_changes_by_type_section(changes: List[Change]) -> List[str]:
     ]).as_list()
 
 
-def build_tag_distribution_section(changes: List[Change], config: Config) -> List[str]:
+def build_tag_distribution_section(
+    changes: List[Change], tag_descriptions: Dict[str, str]
+) -> List[str]:
     """Build tag distribution section.
     
     Args:
         changes: All changes
-        config: Configuration instance
-        
+        tag_descriptions: Mapping of tag name to description text
+         
     Returns:
         List of tag distribution lines
     """
@@ -85,7 +86,7 @@ def build_tag_distribution_section(changes: List[Change], config: Config) -> Lis
         "-" * 40,
         *(
             f"  {tag} ({count}): {desc}"
-            if (desc := config.get_tag_description(tag))
+            if (desc := tag_descriptions.get(tag))
             else f"  {tag}: {count}"
             for tag, count in tag_counts.most_common()
         ),
