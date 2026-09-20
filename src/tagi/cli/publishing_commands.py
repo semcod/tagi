@@ -6,7 +6,7 @@ from rich.console import Console
 from tagi.executor.publish import PublishExecutor
 from tagi.utils.inspect_helpers import resolve_filtered_changes
 from tagi.utils.publish_helpers import create_publish_group
-from tagi.utils.detect_provider import get_provider
+from tagi.providers.detector import get_provider
 from tagi.cli.scan_utils import scan_and_tag
 from tagi.cli.tag_targets import _ensure_tag_prefix
 

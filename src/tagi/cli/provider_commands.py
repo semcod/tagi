@@ -5,7 +5,7 @@ from typing import Optional
 
 from rich.console import Console
 
-from tagi.utils.detect_provider import get_provider
+from tagi.providers.detector import get_provider
 from tagi.providers.base import PrSpec
 from tagi.providers.github import GitHubProvider
 from tagi.providers.gitlab import GitLabProvider

@@ -9,7 +9,7 @@ from tagi.planner.sorter import sort_by_complexity
 from tagi.utils.inspect_helpers import resolve_filtered_changes
 from tagi.utils.logger import get_logger
 from tagi.utils.send_helpers import create_change_group
-from tagi.utils.detect_provider import get_provider
+from tagi.providers.detector import get_provider
 from tagi.cli.scan_utils import scan_and_tag
 from tagi.cli.tag_targets import (
     _ensure_tag_prefix,
