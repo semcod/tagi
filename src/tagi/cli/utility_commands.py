@@ -196,7 +196,9 @@ def draft_command(
     group = create_change_group(draft_changes, normalized_tag)
     
     # Generate commit message
-    commit_message = generate_commit_message(group, template=template)
+    commit_message = generate_commit_message(
+        group.changes, template=template, repo_path=repo_path
+    )
     
     console.print("\n[bold cyan]Draft commit message:[/bold cyan]")
     console.print(commit_message)
