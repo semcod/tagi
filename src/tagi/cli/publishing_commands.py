@@ -3,7 +3,7 @@
 import typer
 from rich.console import Console
 
-from tagi.executor.publish import PublishExecutor
+from tagi.executor.publish import PrRequest, PublishExecutor
 from tagi.utils.inspect_helpers import resolve_filtered_changes
 from tagi.utils.publish_helpers import create_publish_group
 from tagi.providers.detector import get_provider
@@ -39,9 +39,10 @@ def _execute_publish(repo_path, provider, group, template):
     """Create the PR/MR through the detected provider."""
     try:
         publish_executor = PublishExecutor(repo_path)
+        request = PrRequest(group, template=template)
 
         if provider.name == "github":
-            pr_url = publish_executor.create_github_pr(group, template=template)
+            pr_url = publish_executor.create_github_pr(request)
             if pr_url:
                 console.print(f"[green]✓ Pull request created:[/green] {pr_url}")
             else:
@@ -49,7 +50,7 @@ def _execute_publish(repo_path, provider, group, template):
                 raise typer.Exit(1)
 
         elif provider.name == "gitlab":
-            mr_url = publish_executor.create_gitlab_mr(group, template=template)
+            mr_url = publish_executor.create_gitlab_mr(request)
             if mr_url:
                 console.print(f"[green]✓ Merge request created:[/green] {mr_url}")
             else:

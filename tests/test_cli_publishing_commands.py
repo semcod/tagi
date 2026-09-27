@@ -77,14 +77,14 @@ class RecordingPublishExecutor:
     def __init__(self, repo_path):
         self.repo_path = repo_path
 
-    def create_github_pr(self, group, template="default"):
-        RecordingPublishExecutor.calls.append(("github", group, template))
+    def create_github_pr(self, request):
+        RecordingPublishExecutor.calls.append(("github", request))
         if RecordingPublishExecutor.raise_on_call:
             raise RuntimeError("boom")
         return RecordingPublishExecutor.github_result
 
-    def create_gitlab_mr(self, group, template="default"):
-        RecordingPublishExecutor.calls.append(("gitlab", group, template))
+    def create_gitlab_mr(self, request):
+        RecordingPublishExecutor.calls.append(("gitlab", request))
         if RecordingPublishExecutor.raise_on_call:
             raise RuntimeError("boom")
         return RecordingPublishExecutor.gitlab_result
@@ -194,11 +194,11 @@ def test_publish_github_pr_created(monkeypatch):
     assert result.exit_code == 0
     assert "Pull request created: https://github.com/example/pr/1" in result.output
     assert len(RecordingPublishExecutor.calls) == 1
-    kind, group, template = RecordingPublishExecutor.calls[0]
+    kind, request = RecordingPublishExecutor.calls[0]
     assert kind == "github"
-    assert template == "default"
-    assert group.name == "#small"
-    assert len(group.changes) == 2
+    assert request.template == "default"
+    assert request.group.name == "#small"
+    assert len(request.group.changes) == 2
 
 
 def test_publish_github_pr_failure_exits(monkeypatch):
@@ -220,7 +220,7 @@ def test_publish_gitlab_mr_created(monkeypatch):
     result = runner.invoke(app, ["publish", "#small", "."])
     assert result.exit_code == 0
     assert "Merge request created: https://gitlab.com/example/mr/1" in result.output
-    kind, _group, _template = RecordingPublishExecutor.calls[0]
+    kind, _request = RecordingPublishExecutor.calls[0]
     assert kind == "gitlab"
 
 
@@ -265,8 +265,8 @@ def test_publish_forwards_template_option(monkeypatch):
         app, ["publish", "#small", ".", "--template", "conventional"]
     )
     assert result.exit_code == 0
-    _kind, _group, template = RecordingPublishExecutor.calls[0]
-    assert template == "conventional"
+    _kind, request = RecordingPublishExecutor.calls[0]
+    assert request.template == "conventional"
 
 
 # ---------------------------------------------------------------------------

@@ -8,7 +8,7 @@ from pathlib import Path
 from click import unstyle
 from typer.testing import CliRunner
 
-from tagi.executor.publish import PublishExecutor
+from tagi.executor.publish import PrRequest, PublishExecutor
 from tagi.models import Change, ChangeGroup, ChangeType, Tag
 from tagi.providers.base import BaseProvider
 
@@ -79,7 +79,7 @@ def test_create_github_pr_builds_spec_from_group():
         executor = PublishExecutor(tmpdir)
         fake = FakeProvider(tmpdir)
 
-        url = executor.create_github_pr(_make_group(), provider=fake)
+        url = executor.create_github_pr(PrRequest(_make_group(), provider=fake))
 
         assert url == "https://example.fake/change-requests/1"
         spec = fake.specs[0]
@@ -101,7 +101,7 @@ def test_create_gitlab_mr_builds_spec_from_group():
         executor = PublishExecutor(tmpdir)
         fake = FakeProvider(tmpdir)
 
-        url = executor.create_gitlab_mr(_make_group(), provider=fake)
+        url = executor.create_gitlab_mr(PrRequest(_make_group(), provider=fake))
 
         assert url == "https://example.fake/change-requests/1"
         spec = fake.specs[0]
@@ -117,7 +117,7 @@ def test_create_pr_template_selection_builtin():
         executor = PublishExecutor(tmpdir)
         fake = FakeProvider(tmpdir)
 
-        executor.create_github_pr(_make_group(), template="simple", provider=fake)
+        executor.create_github_pr(PrRequest(_make_group(), template="simple", provider=fake))
 
         assert fake.specs[0].title == "#small: 2 files"
 
@@ -130,7 +130,7 @@ def test_create_pr_template_selection_custom():
         fake = FakeProvider(tmpdir)
 
         executor.create_gitlab_mr(
-            _make_group(), template="{tag}: {count} changed", provider=fake
+            PrRequest(_make_group(), template="{tag}: {count} changed", provider=fake)
         )
 
         assert fake.specs[0].title == "#small: 2 changed"
@@ -145,7 +145,7 @@ def test_create_github_pr_defaults_to_github_provider(monkeypatch):
             "tagi.executor.publish.GitHubProvider", lambda path: fake
         )
 
-        url = PublishExecutor(tmpdir).create_github_pr(_make_group())
+        url = PublishExecutor(tmpdir).create_github_pr(PrRequest(_make_group()))
 
         assert url == "https://example.fake/change-requests/1"
         assert fake.specs[0].title == "#small: 2 files (src/a.py, src/b.py)"
@@ -160,7 +160,7 @@ def test_create_gitlab_mr_defaults_to_gitlab_provider(monkeypatch):
             "tagi.executor.publish.GitLabProvider", lambda path: fake
         )
 
-        url = PublishExecutor(tmpdir).create_gitlab_mr(_make_group())
+        url = PublishExecutor(tmpdir).create_gitlab_mr(PrRequest(_make_group()))
 
         assert url == "https://example.fake/change-requests/1"
         assert fake.specs[0].title == "#small: 2 files (src/a.py, src/b.py)"

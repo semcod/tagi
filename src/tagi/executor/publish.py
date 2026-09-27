@@ -1,5 +1,6 @@
 """Publish executor module for publishing changes."""
 
+from dataclasses import dataclass
 from typing import List, Optional
 
 from tagi.composer.commit_message import generate_commit_message
@@ -9,6 +10,15 @@ from tagi.providers.github import GitHubProvider
 from tagi.providers.gitlab import GitLabProvider
 
 from .git import GitExecutor
+
+
+@dataclass
+class PrRequest:
+    """Inputs that travel together when opening a PR/MR for a change group."""
+
+    group: ChangeGroup
+    template: str = "default"
+    provider: Optional[BaseProvider] = None
 
 
 class PublishExecutor:
@@ -44,42 +54,32 @@ class PublishExecutor:
             ]
         }
 
-    def create_github_pr(
-        self,
-        group: ChangeGroup,
-        template: str = "default",
-        provider: Optional[BaseProvider] = None,
-    ) -> str:
+    def create_github_pr(self, request: PrRequest) -> str:
         """Create a GitHub pull request for a change group."""
-        return self._create_change_request(GitHubProvider, group, template, provider)
+        return self._create_change_request(GitHubProvider, request)
 
-    def create_gitlab_mr(
-        self,
-        group: ChangeGroup,
-        template: str = "default",
-        provider: Optional[BaseProvider] = None,
-    ) -> str:
+    def create_gitlab_mr(self, request: PrRequest) -> str:
         """Create a GitLab merge request for a change group."""
-        return self._create_change_request(GitLabProvider, group, template, provider)
+        return self._create_change_request(GitLabProvider, request)
 
-    def _create_change_request(
-        self,
-        provider_cls: type,
-        group: ChangeGroup,
-        template: str,
-        provider: Optional[BaseProvider],
-    ) -> str:
-        """Build a PrSpec from the group and delegate to the provider."""
+    def _create_change_request(self, provider_cls: type, request: PrRequest) -> str:
+        """Build a PrSpec from the request and delegate to the provider."""
         message = generate_commit_message(
-            group.changes, template=template, repo_path=self.repo_path
+            request.group.changes,
+            template=request.template,
+            repo_path=self.repo_path,
         )
-        title = message.splitlines()[0] if message else group.name
+        title = message.splitlines()[0] if message else request.group.name
         spec = PrSpec(
             title=title,
-            body=self._build_body(group, message),
+            body=self._build_body(request.group, message),
             branch=self.git.get_current_branch(),
         )
-        active = provider if provider is not None else provider_cls(self.repo_path)
+        active = (
+            request.provider
+            if request.provider is not None
+            else provider_cls(self.repo_path)
+        )
         return active.create_pr(spec)
 
     @staticmethod
