@@ -1,7 +1,7 @@
 """Status module for parsing git status."""
 
 import os
-from typing import List
+from typing import Callable, List
 
 from tagi.models import Change, ChangeType
 from tagi.config import load_config
@@ -20,31 +20,37 @@ def scan_repo(repo_path: str = ".") -> List[Change]:
     if status.returncode != 0:
         raise RuntimeError(f"Failed to scan repository: {status.stderr}")
 
+    return _parse_status_lines(status.stdout, should_ignore)
+
+
+def _parse_status_lines(
+    porcelain_output: str, should_ignore: Callable[[str], bool]
+) -> List[Change]:
+    """Parse git status --porcelain output into Change objects."""
     changes = []
-    for line in status.stdout.strip().split('\n'):
+    for line in porcelain_output.strip().split('\n'):
         if not line:
             continue
-        
+
         # git status --porcelain format: XY PATH
         # X = staged status, Y = working tree status
         # There's a space between XY and PATH
         parts = line.split(maxsplit=1)
         if len(parts) < 2:
             continue
-        
+
         status = parts[0].strip()
         path = parts[1]
-        
+
         # Skip ignored paths
         if should_ignore(path):
             continue
-        
-        change_type = parse_status(status)
+
         changes.append(Change(
             path=path,
-            change_type=change_type
+            change_type=parse_status(status)
         ))
-    
+
     return changes
 
 
