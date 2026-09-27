@@ -123,6 +123,53 @@ backend = ["backend/", "server/", "api/"]
     console.print(f"[green]✓ Created tagi.toml at {config_path}[/green]")
 
 
+def _hooks_list(repo: Path) -> None:
+    """Print the hooks currently installed in the repository."""
+    from tagi.hooks import list_hooks as tagi_list_hooks
+
+    hooks = tagi_list_hooks(str(repo))
+    if hooks:
+        console.print("[bold]Installed hooks:[/bold]")
+        for hook in hooks:
+            marker = "[green]✓[/green]" if "tagi" in hook else "[dim]•[/dim]"
+            console.print(f"  {marker} {hook}")
+    else:
+        console.print("[dim]No hooks installed[/dim]")
+
+
+def _hooks_install(repo: Path) -> None:
+    """Install tagi git hooks or exit with an error."""
+    from tagi.hooks import install_hooks as tagi_install_hooks
+
+    if tagi_install_hooks(str(repo)):
+        console.print(f"[green]✓ Installed tagi hooks in {repo}/.git/hooks[/green]")
+    else:
+        console.print("[red]Failed to install hooks[/red]")
+        raise typer.Exit(1)
+
+
+def _hooks_uninstall(repo: Path) -> None:
+    """Remove tagi git hooks or exit with an error."""
+    from tagi.hooks import uninstall_hooks as tagi_uninstall_hooks
+
+    if tagi_uninstall_hooks(str(repo)):
+        console.print(f"[green]✓ Removed tagi hooks from {repo}/.git/hooks[/green]")
+    else:
+        console.print("[red]Failed to uninstall hooks[/red]")
+        raise typer.Exit(1)
+
+
+def _hooks_status(repo: Path) -> None:
+    """Report whether tagi hooks are installed."""
+    from tagi.hooks import check_hooks_installed
+
+    if check_hooks_installed(str(repo)):
+        console.print(f"[green]✓ tagi hooks are installed in {repo}[/green]")
+    else:
+        console.print(f"[yellow]✗ tagi hooks are not installed in {repo}[/yellow]")
+        console.print("[dim]Run: tagi hooks --install[/dim]")
+
+
 def hooks_command(
     repo_path: str = typer.Argument(".", help="Path to repository"),
     install: bool = typer.Option(False, "--install", "-i", help="Install git hooks"),
@@ -130,46 +177,17 @@ def hooks_command(
     list_hooks: bool = typer.Option(False, "--list", "-l", help="List installed hooks"),
 ):
     """Manage git hooks integration for tagi."""
-    from tagi.hooks import install_hooks as tagi_install_hooks
-    from tagi.hooks import uninstall_hooks as tagi_uninstall_hooks
-    from tagi.hooks import check_hooks_installed, list_hooks as tagi_list_hooks
-    
     repo = Path(repo_path).resolve()
-    
+
     if list_hooks:
-        hooks = tagi_list_hooks(str(repo))
-        if hooks:
-            console.print("[bold]Installed hooks:[/bold]")
-            for hook in hooks:
-                marker = "[green]✓[/green]" if "tagi" in hook else "[dim]•[/dim]"
-                console.print(f"  {marker} {hook}")
-        else:
-            console.print("[dim]No hooks installed[/dim]")
-        return
-    
-    if install:
-        if tagi_install_hooks(str(repo)):
-            console.print(f"[green]✓ Installed tagi hooks in {repo}/.git/hooks[/green]")
-        else:
-            console.print("[red]Failed to install hooks[/red]")
-            raise typer.Exit(1)
-        return
-    
-    if uninstall:
-        if tagi_uninstall_hooks(str(repo)):
-            console.print(f"[green]✓ Removed tagi hooks from {repo}/.git/hooks[/green]")
-        else:
-            console.print("[red]Failed to uninstall hooks[/red]")
-            raise typer.Exit(1)
-        return
-    
-    # Default: show status
-    installed = check_hooks_installed(str(repo))
-    if installed:
-        console.print(f"[green]✓ tagi hooks are installed in {repo}[/green]")
+        _hooks_list(repo)
+    elif install:
+        _hooks_install(repo)
+    elif uninstall:
+        _hooks_uninstall(repo)
     else:
-        console.print(f"[yellow]✗ tagi hooks are not installed in {repo}[/yellow]")
-        console.print("[dim]Run: tagi hooks --install[/dim]")
+        # Default: show status
+        _hooks_status(repo)
 
 
 def draft_command(
