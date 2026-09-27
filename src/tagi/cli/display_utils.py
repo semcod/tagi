@@ -6,6 +6,7 @@ from rich.table import Table
 
 from tagi.models.change import Change
 from tagi.config import Config
+from tagi.scanner.diff import get_diff
 
 
 console = Console()
@@ -30,6 +31,16 @@ def _display_changes(changes: list[Change]) -> None:
         )
     
     console.print(table)
+
+
+def _display_diffs(changes: list[Change], repo_path: str, limit: int = 5) -> None:
+    """Display diffs for the first ``limit`` changes that have a diff."""
+    console.print("\n[bold cyan]Diffs:[/bold cyan]")
+    for change in changes[:limit]:
+        diff_output = get_diff(change.path, repo_path)
+        if diff_output:
+            console.print(f"\n[bold]{change.path}:[/bold]")
+            console.print(diff_output)
 
 
 def _format_tags(tags: list[Change], config: Optional[Config] = None) -> str:

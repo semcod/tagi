@@ -8,12 +8,24 @@ from tagi.utils.inspect_helpers import (
     resolve_filtered_changes,
     display_statistics_table,
 )
-from tagi.cli.display_utils import _display_changes, _format_tags
+from tagi.cli.display_utils import _display_changes, _display_diffs, _format_tags
 from tagi.cli.scan_utils import scan_and_tag
 from tagi.config import load_config
 
 
 console = Console()
+
+
+def _tag_changes(repo_path, tag_value):
+    """Scan the repository and return the changes carrying a single tag."""
+    return resolve_filtered_changes(scan_and_tag(repo_path), tag_value)
+
+
+def _print_tag_description(repo_path, tag_value):
+    """Print the configured description for a tag, when one exists."""
+    tag_desc = load_config(repo_path).get_tag_description(tag_value)
+    if tag_desc:
+        console.print(f"[dim]{tag_desc}[/dim]")
 
 
 def inspect_command(
@@ -28,29 +40,22 @@ def inspect_command(
     tag_value = tag if tag.startswith("#") else f"#{tag}"
     
     # Filter changes by tag
-    tag_changes = resolve_filtered_changes(scan_and_tag(repo_path), tag_value)
-    
+    tag_changes = _tag_changes(repo_path, tag_value)
+
     if not tag_changes:
         console.print(f"[yellow]No changes found for {tag_value}[/yellow]")
         return
-    
+
     # Show tag description if available
-    tag_desc = load_config(repo_path).get_tag_description(tag_value)
-    if tag_desc:
-        console.print(f"[dim]{tag_desc}[/dim]")
-    
+    _print_tag_description(repo_path, tag_value)
+
     # Display statistics
     display_statistics_table(tag_changes, console)
-    
+
     _display_changes(tag_changes)
-    
+
     if diff:
-        console.print("\n[bold cyan]Diffs:[/bold cyan]")
-        for change in tag_changes[:5]:  # Limit to first 5 files
-            diff_output = get_diff(change.path, repo_path)
-            if diff_output:
-                console.print(f"\n[bold]{change.path}:[/bold]")
-                console.print(diff_output)
+        _display_diffs(tag_changes, repo_path)
 
 
 def filter_command(
@@ -78,12 +83,7 @@ def filter_command(
     _display_changes(matching_changes)
     
     if diff:
-        console.print("\n[bold cyan]Diffs:[/bold cyan]")
-        for change in matching_changes[:5]:  # Limit to first 5 files
-            diff_output = get_diff(change.path, repo_path)
-            if diff_output:
-                console.print(f"\n[bold]{change.path}:[/bold]")
-                console.print(diff_output)
+        _display_diffs(matching_changes, repo_path)
 
 
 def file_command(
