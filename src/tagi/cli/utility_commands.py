@@ -7,7 +7,7 @@ from pathlib import Path
 
 from tagi.composer.commit_message import generate_commit_message
 from tagi.utils.send_helpers import create_change_group
-from tagi.utils.inspect_helpers import resolve_filtered_changes
+from tagi.utils.inspect_helpers import count_changes_by_tag, resolve_filtered_changes
 from tagi.cli.display_utils import _format_tags
 from tagi.cli.scan_utils import scan_and_tag
 from tagi.cli.tag_targets import _ensure_tag_prefix
@@ -16,55 +16,69 @@ from tagi.cli.tag_targets import _ensure_tag_prefix
 console = Console()
 
 
-def summary_command(
-    repo_path: str = typer.Argument(".", help="Path to repository"),
-    output: Optional[str] = typer.Option(None, "--output", "-o", help="Output file for summary report"),
-):
-    """Generate a comprehensive summary report of all changes."""
-    console.print(f"[bold]Generating summary[/bold] for {repo_path}")
-    
-    all_changes = scan_and_tag(repo_path)
-    
-    if not all_changes:
-        console.print("[yellow]No changes found[/yellow]")
-        return
-    
-    # Generate summary content
-    summary_lines = []
-    summary_lines.append("# Change Summary Report")
-    summary_lines.append(f"Repository: {Path(repo_path).absolute()}")
-    summary_lines.append(f"Total changes: {len(all_changes)}")
-    summary_lines.append("")
-    
-    # Group by tags
-    from tagi.utils.inspect_helpers import count_changes_by_tag
+def _summary_overview_lines(repo_path: str, all_changes) -> list:
+    """Report header plus the per-tag change counts section."""
     tag_stats = count_changes_by_tag(all_changes)
-    
-    summary_lines.append("## Changes by Tag")
-    for tag, count in tag_stats.items():
-        if count > 0:
-            summary_lines.append(f"- {tag}: {count} change(s)")
-    summary_lines.append("")
-    
-    # Detailed change list
-    summary_lines.append("## Detailed Changes")
+    return [
+        "# Change Summary Report",
+        f"Repository: {Path(repo_path).absolute()}",
+        f"Total changes: {len(all_changes)}",
+        "",
+        "## Changes by Tag",
+        *(f"- {tag}: {count} change(s)" for tag, count in tag_stats.items() if count > 0),
+        "",
+    ]
+
+
+def _describe_change(change) -> list:
+    """Summary block for a single change."""
+    description = getattr(change, "description", None)
+    lines = [
+        f"- **{change.path}** [{change.change_type.value}]",
+        f"  Tags: {_format_tags(change.tags)}",
+    ]
+    if description:
+        lines.append(f"  Description: {description}")
+    lines.append("")
+    return lines
+
+
+def _detailed_change_lines(all_changes) -> list:
+    """Detailed per-change listing section."""
+    lines = ["## Detailed Changes"]
     for change in all_changes:
-        summary_lines.append(f"- **{change.path}** [{change.change_type.value}]")
-        summary_lines.append(f"  Tags: {_format_tags(change.tags)}")
-        description = getattr(change, "description", None)
-        if description:
-            summary_lines.append(f"  Description: {description}")
-        summary_lines.append("")
-    
-    summary_content = "\n".join(summary_lines)
-    
-    # Output summary
+        lines.extend(_describe_change(change))
+    return lines
+
+
+def _write_summary(output: Optional[str], summary_content: str) -> None:
+    """Save the report to ``output`` or print it to the console."""
     if output:
         output_path = Path(output)
         output_path.write_text(summary_content)
         console.print(f"[green]✓ Summary saved to:[/green] {output_path}")
     else:
         console.print(summary_content)
+
+
+def summary_command(
+    repo_path: str = typer.Argument(".", help="Path to repository"),
+    output: Optional[str] = typer.Option(None, "--output", "-o", help="Output file for summary report"),
+):
+    """Generate a comprehensive summary report of all changes."""
+    console.print(f"[bold]Generating summary[/bold] for {repo_path}")
+
+    all_changes = scan_and_tag(repo_path)
+
+    if not all_changes:
+        console.print("[yellow]No changes found[/yellow]")
+        return
+
+    summary_lines = [
+        *_summary_overview_lines(repo_path, all_changes),
+        *_detailed_change_lines(all_changes),
+    ]
+    _write_summary(output, "\n".join(summary_lines))
 
 
 def init_command(
