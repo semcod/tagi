@@ -4,52 +4,54 @@ from typing import Dict, List
 from tagi.models.change import Change
 
 
+def _branches_for_change(change: Change, repo_path: str) -> List[str]:
+    """Return cleaned branch names containing the change path, or an empty list."""
+    from tagi.utils.commands import run_command
+
+    contains = run_command(
+        ["git", "branch", "--contains", "HEAD", "--", change.path],
+        repo_path,
+    )
+
+    if contains.returncode != 0:
+        return []
+
+    # Clean up branch names (remove * prefix)
+    return [b.strip().replace('*', '').strip() for b in contains.stdout.strip().split('\n') if b.strip()]
+
+
+def _resolve_branch(change: Change, repo_path: str, default_branch: str) -> str:
+    """Pick the branch a change is attributed to, falling back to default_branch."""
+    try:
+        branches = _branches_for_change(change, repo_path)
+    except Exception:
+        return default_branch
+
+    # Use the first branch found (typically the current branch)
+    return branches[0] if branches else default_branch
+
+
 def group_by_branch(changes: List[Change], repo_path: str = ".") -> Dict[str, List[Change]]:
     """Group changes by the git branch they were modified on.
-    
+
     Args:
         changes: List of changes to group
         repo_path: Path to the git repository
-        
+
     Returns:
         Dictionary mapping branch names to lists of changes
     """
     from tagi.executor.git import GitExecutor
-    from tagi.utils.commands import run_command
 
     executor = GitExecutor(repo_path)
     current_branch = executor.get_current_branch()
 
-    # Get branch history for each file
     branch_groups: Dict[str, List[Change]] = {}
 
     for change in changes:
-        try:
-            # Get the branch where the file was last modified
-            contains = run_command(
-                ["git", "branch", "--contains", "HEAD", "--", change.path],
-                repo_path,
-            )
+        branch = _resolve_branch(change, repo_path, current_branch)
+        branch_groups.setdefault(branch, []).append(change)
 
-            if contains.returncode == 0:
-                branches = contains.stdout.strip().split('\n')
-                # Clean up branch names (remove * prefix)
-                branches = [b.strip().replace('*', '').strip() for b in branches if b.strip()]
-                
-                if branches:
-                    # Use the first branch found (typically the current branch)
-                    branch = branches[0]
-                else:
-                    branch = current_branch
-            else:
-                branch = current_branch
-        except Exception:
-            branch = current_branch
-        
-        if branch not in branch_groups:
-            branch_groups[branch] = []
-        branch_groups[branch].append(change)
-    
     return branch_groups
 
 
