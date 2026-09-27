@@ -1,7 +1,5 @@
 """Koru integration provider for deployment priority analysis."""
 
-import json
-import subprocess
 from pathlib import Path
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
@@ -107,7 +105,7 @@ class KoruProvider:
         # Get project context
         topology = self.get_topology()
         tickets = self.get_planfile_tickets()
-        context = self.get_context_brief()
+        self.get_context_brief()
         quality_gates = self.run_quality_gates()
 
         # Analyze changes with Koru context

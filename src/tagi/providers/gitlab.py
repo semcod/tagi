@@ -1,6 +1,5 @@
 """GitLab provider module."""
 
-from typing import List, Optional
 
 from tagi.providers.utils.pr import build_pr_command, execute_pr_command
 from tagi.providers.utils.auth import get_auth_status_from_result, is_authenticated_from_result

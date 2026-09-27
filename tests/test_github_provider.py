@@ -2,10 +2,8 @@
 
 import os
 import tempfile
-from pathlib import Path
 
 from tagi.providers.github import GitHubProvider
-from tagi.executor.git import GitExecutor
 
 
 def test_github_provider_initialization():

@@ -9,7 +9,7 @@ from typer.testing import CliRunner
 
 from tagi.models import Change, ChangeType, Tag
 from tagi.config import Config
-from tagi.planner.grouper import group_changes, group_by_tag, group_by_risk
+from tagi.planner.grouper import group_changes, group_by_risk
 from tagi.planner.selector import select_by_tags, select_safe_changes
 from tagi.composer.commit_message import generate_commit_message, generate_conventional_message
 from tagi.composer.summary import generate_summary
@@ -68,7 +68,7 @@ def test_tag_enum_creation_with_prefix():
 def test_tag_enum_creation_without_prefix():
     """Test Tag enum creation without # prefix fails."""
     try:
-        tag = Tag("small")
+        Tag("small")
         assert False, "Should have raised ValueError"
     except ValueError:
         pass  # Expected

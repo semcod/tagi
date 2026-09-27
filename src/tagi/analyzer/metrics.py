@@ -4,7 +4,6 @@ from typing import Dict, List
 from tagi.models.change import Change
 from tagi.utils.line_builder import LineBuilder
 from tagi.utils.risk import average_risk, total_lines_changed
-from datetime import datetime
 import json
 
 

@@ -1,6 +1,5 @@
 """Configuration module for tagi.toml support."""
 
-import os
 from pathlib import Path
 from typing import Dict, List, Optional
 

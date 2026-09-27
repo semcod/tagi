@@ -4,7 +4,6 @@ from collections import defaultdict, deque
 from typing import Dict, List, Optional, Set
 from tagi.models.change import Change
 import ast
-import re
 
 
 def _collect_import_names(tree: ast.AST) -> List[str]:

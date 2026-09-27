@@ -2,7 +2,7 @@
 
 from typing import Dict, List
 from collections import Counter
-from tagi.models import Change, ChangeType
+from tagi.models import Change
 from tagi.utils.line_builder import LineBuilder
 from tagi.utils.risk import average_risk, total_lines_changed
 

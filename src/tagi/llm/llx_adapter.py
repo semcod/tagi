@@ -13,7 +13,7 @@ class LlxAdapter:
     def is_available(self) -> bool:
         """Check if LLX is available."""
         try:
-            import llx  # type: ignore[import-not-found]
+            import llx  # noqa: F401  # type: ignore[import-not-found]
             return True
         except ImportError:
             return False
@@ -24,7 +24,6 @@ class LlxAdapter:
             return message
         
         try:
-            import llx  # type: ignore[import-not-found]
             # Use LLX to improve the message
             # This is a placeholder implementation
             # In a real implementation, you would:
@@ -47,7 +46,6 @@ class LlxAdapter:
             return description
         
         try:
-            import llx
             # Similar to improve_message, this would use LLX to enhance
             # the PR/MR description
             return description

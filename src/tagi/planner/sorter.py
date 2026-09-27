@@ -61,7 +61,6 @@ def sort_by_tag_priority(changes: List[Change], tag_order: List[str]) -> List[Ch
     Returns:
         Sorted list of changes by tag priority
     """
-    from tagi.models.change import Tag
     
     # Map tags to their priority index
     tag_priority = {tag: i for i, tag in enumerate(tag_order)}

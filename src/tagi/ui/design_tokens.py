@@ -1,6 +1,6 @@
 """Design system tokens for tagi UI."""
 
-from typing import Dict, Any
+from typing import Dict
 from dataclasses import dataclass
 
 

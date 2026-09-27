@@ -1,7 +1,6 @@
 """Helper functions for publish command."""
 
 from typing import List
-from rich.console import Console
 from tagi.models import Change, ChangeGroup, Tag
 from tagi.utils.risk import average_risk, total_lines_changed
 
