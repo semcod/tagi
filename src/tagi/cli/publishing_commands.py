@@ -14,6 +14,56 @@ from tagi.cli.tag_targets import _ensure_tag_prefix
 console = Console()
 
 
+def _resolve_publish_changes(repo_path, tag):
+    """Scan the repository and resolve the changes matching a tag."""
+    tagged_changes = scan_and_tag(repo_path)
+    normalized_tag = _ensure_tag_prefix(tag)
+    try:
+        publish_changes = resolve_filtered_changes(tagged_changes, normalized_tag)
+    except ValueError:
+        console.print(f"[red]Unknown tag: {normalized_tag}[/red]")
+        raise typer.Exit(1)
+    return normalized_tag, publish_changes
+
+
+def _print_dry_run_summary(normalized_tag, publish_changes):
+    """Preview the PR/MR that would be created."""
+    console.print("\n[bold cyan]Dry run - would create PR/MR with:[/bold cyan]")
+    console.print(f"  Tag: {normalized_tag}")
+    console.print(f"  Changes: {len(publish_changes)}")
+    for change in publish_changes:
+        console.print(f"    • {change.path}")
+
+
+def _execute_publish(repo_path, provider, group, template):
+    """Create the PR/MR through the detected provider."""
+    try:
+        publish_executor = PublishExecutor(repo_path)
+
+        if provider.name == "github":
+            pr_url = publish_executor.create_github_pr(group, template=template)
+            if pr_url:
+                console.print(f"[green]✓ Pull request created:[/green] {pr_url}")
+            else:
+                console.print("[red]Failed to create pull request[/red]")
+                raise typer.Exit(1)
+
+        elif provider.name == "gitlab":
+            mr_url = publish_executor.create_gitlab_mr(group, template=template)
+            if mr_url:
+                console.print(f"[green]✓ Merge request created:[/green] {mr_url}")
+            else:
+                console.print("[red]Failed to create merge request[/red]")
+                raise typer.Exit(1)
+        else:
+            console.print(f"[red]Unsupported provider: {provider.name}[/red]")
+            raise typer.Exit(1)
+
+    except Exception as e:
+        console.print(f"[red]Error during publish: {e}[/red]")
+        raise typer.Exit(1)
+
+
 def publish_command(
     tag: str = typer.Argument(..., help="Tag to publish (e.g., #small)"),
     repo_path: str = typer.Argument(".", help="Path to repository"),
@@ -27,13 +77,7 @@ def publish_command(
 
     console.print(f"[bold]Publishing[/bold] {tag}")
 
-    tagged_changes = scan_and_tag(repo_path)
-    normalized_tag = _ensure_tag_prefix(tag)
-    try:
-        publish_changes = resolve_filtered_changes(tagged_changes, normalized_tag)
-    except ValueError:
-        console.print(f"[red]Unknown tag: {normalized_tag}[/red]")
-        raise typer.Exit(1)
+    normalized_tag, publish_changes = _resolve_publish_changes(repo_path, tag)
 
     if not publish_changes:
         console.print(f"[yellow]No changes found for {normalized_tag}[/yellow]")
@@ -41,50 +85,21 @@ def publish_command(
 
     # Create change group
     group = create_publish_group(publish_changes, normalized_tag)
-    
+
     # Detect provider
     provider = get_provider(repo_path)
     if provider is None:
         console.print("[yellow]Could not detect GitHub or GitLab provider[/yellow]")
         console.print("[yellow]Please ensure you have a remote configured[/yellow]")
         return
-    
+
     console.print(f"[bold]Detected provider:[/bold] {provider.name}")
-    
+
     if dry_run:
-        console.print("\n[bold cyan]Dry run - would create PR/MR with:[/bold cyan]")
-        console.print(f"  Tag: {normalized_tag}")
-        console.print(f"  Changes: {len(publish_changes)}")
-        for change in publish_changes:
-            console.print(f"    • {change.path}")
+        _print_dry_run_summary(normalized_tag, publish_changes)
         return
 
-    # Create PR/MR
-    try:
-        publish_executor = PublishExecutor(repo_path)
-        
-        if provider.name == "github":
-            pr_url = publish_executor.create_github_pr(group, template=template)
-            if pr_url:
-                console.print(f"[green]✓ Pull request created:[/green] {pr_url}")
-            else:
-                console.print("[red]Failed to create pull request[/red]")
-                raise typer.Exit(1)
-                
-        elif provider.name == "gitlab":
-            mr_url = publish_executor.create_gitlab_mr(group, template=template)
-            if mr_url:
-                console.print(f"[green]✓ Merge request created:[/green] {mr_url}")
-            else:
-                console.print("[red]Failed to create merge request[/red]")
-                raise typer.Exit(1)
-        else:
-            console.print(f"[red]Unsupported provider: {provider.name}[/red]")
-            raise typer.Exit(1)
-            
-    except Exception as e:
-        console.print(f"[red]Error during publish: {e}[/red]")
-        raise typer.Exit(1)
+    _execute_publish(repo_path, provider, group, template)
 
 
 def deploy_command(
