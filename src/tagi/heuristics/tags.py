@@ -22,12 +22,19 @@ def apply_tags(changes: List[Change], repo_path: str = ".") -> List[Change]:
 
 def _tag_change(change: Change, repo_path: str, custom_tags_for) -> None:
     """Apply all heuristic tags to a single change."""
-    # Custom config tags come first (rule tag before heuristics)
-    tags = _custom_config_tags(custom_tags_for, change.path)
-
     # Calculate lines changed for size heuristics
     lines_changed = count_lines_changed(change.path, repo_path)
     change.lines_changed = lines_changed
+
+    tags = _build_tags(change, custom_tags_for, lines_changed)
+
+    _apply_tag_results(change, repo_path, tags)
+
+
+def _build_tags(change: Change, custom_tags_for, lines_changed: int) -> List[Tag]:
+    """Collect custom, path, change-type and size tags for a change."""
+    # Custom config tags come first (rule tag before heuristics)
+    tags = _custom_config_tags(custom_tags_for, change.path)
 
     # Apply path-based tags
     tags.extend(apply_path_tags(change, lines_changed))
@@ -36,12 +43,16 @@ def _tag_change(change: Change, repo_path: str, custom_tags_for) -> None:
     if change.change_type == ChangeType.ADDED:
         tags.append(Tag.NEW)
 
-    # Calculate numerical metrics
-    change.metrics = calculate_metrics(change, repo_path)
-
     # Size-based tagging (LARGE coexists with other tags)
     tags.extend(_size_tags(lines_changed, has_other_tags=bool(tags)))
 
+    return tags
+
+
+def _apply_tag_results(change: Change, repo_path: str, tags: List[Tag]) -> None:
+    """Assign the computed metrics, tags and risk score to the change."""
+    # Calculate numerical metrics
+    change.metrics = calculate_metrics(change, repo_path)
     change.tags = tags
     change.risk_score = calculate_risk_score(change, tags)
 
