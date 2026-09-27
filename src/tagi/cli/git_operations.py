@@ -112,6 +112,10 @@ def send_command(
     _cli._configure_command_logging(verbose)
 
     repo_path, tag = _resolve_send_target(target, repo_path)
+    if tag is not None:
+        # create_change_group builds Tag values directly, so the documented
+        # unprefixed form (``tagi send small``) must be normalized here.
+        tag = _ensure_tag_prefix(tag)
 
     get_logger().debug(f"Send command called with tag={tag}, repo_path={repo_path}, auto_order={auto_order}, dry_run={dry_run}, push={push}")
 
