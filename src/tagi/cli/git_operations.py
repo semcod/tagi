@@ -49,6 +49,55 @@ def _execute_git_operations(changes, commit_message: str, push: bool, repo_path:
         console.print(f"[red]Error during git operations: {e}[/red]")
         raise typer.Exit(1)
 
+
+def _collect_changes(repo_path: str, tag: Optional[str], auto_order: bool):
+    """Print the send header, scan and filter by tag; returns changes to send (may be empty)."""
+    if tag is None:
+        console.print("[bold]Sending[/bold] all changes")
+    else:
+        console.print(f"[bold]Sending[/bold] {tag}")
+
+    tagged_changes = scan_and_tag(repo_path)
+    if not tagged_changes:
+        console.print("[yellow]No changes found[/yellow]")
+        return []
+
+    changes = _filter_by_tag(tagged_changes, tag)
+
+    # Auto-order if requested
+    if auto_order:
+        console.print("[bold]Sorting changes by complexity (simplest first)[/bold]")
+        changes = sort_by_complexity(changes)
+
+    if not changes:
+        if tag is None:
+            console.print("[yellow]No changes found[/yellow]")
+        else:
+            console.print(f"[yellow]No changes found for {tag}[/yellow]")
+    return changes
+
+
+def _send_changes(changes, tag: Optional[str], template: str, repo_path: str, dry_run: bool, push: bool) -> None:
+    """Generate and preview the commit message, then stage/commit/push unless dry-run."""
+    import tagi.cli as _cli
+
+    # Create change group
+    group = create_change_group(changes, tag)
+
+    # Generate commit message
+    commit_message = _cli.generate_commit_message(
+        group.changes, template=template, repo_path=repo_path
+    )
+    console.print("\n[bold cyan]Commit message:[/bold cyan]")
+    console.print(commit_message)
+
+    if dry_run:
+        console.print("\n[yellow][DRY-RUN] No changes will be made[/yellow]")
+        return
+
+    _execute_git_operations(changes, commit_message, push, repo_path)
+
+
 def send_command(
     target: Optional[str] = typer.Argument(None, help="Tag to send (e.g., small) or repository path. If not specified, sends all changes"),
     repo_path: str = typer.Option(".", "--repo-path", "--path", help="Path to repository"),
@@ -66,45 +115,11 @@ def send_command(
 
     get_logger().debug(f"Send command called with tag={tag}, repo_path={repo_path}, auto_order={auto_order}, dry_run={dry_run}, push={push}")
 
-    if tag is None:
-        console.print("[bold]Sending[/bold] all changes")
-    else:
-        console.print(f"[bold]Sending[/bold] {tag}")
-
-    tagged_changes = scan_and_tag(repo_path)
-    if not tagged_changes:
-        console.print("[yellow]No changes found[/yellow]")
-        return
-
-    changes_to_send = _filter_by_tag(tagged_changes, tag)
-
-    # Auto-order if requested
-    if auto_order:
-        console.print("[bold]Sorting changes by complexity (simplest first)[/bold]")
-        changes_to_send = sort_by_complexity(changes_to_send)
-
+    changes_to_send = _collect_changes(repo_path, tag, auto_order)
     if not changes_to_send:
-        if tag is None:
-            console.print("[yellow]No changes found[/yellow]")
-        else:
-            console.print(f"[yellow]No changes found for {tag}[/yellow]")
         return
 
-    # Create change group
-    group = create_change_group(changes_to_send, tag)
-
-    # Generate commit message
-    commit_message = _cli.generate_commit_message(
-        group.changes, template=template, repo_path=repo_path
-    )
-    console.print("\n[bold cyan]Commit message:[/bold cyan]")
-    console.print(commit_message)
-
-    if dry_run:
-        console.print("\n[yellow][DRY-RUN] No changes will be made[/yellow]")
-        return
-
-    _execute_git_operations(changes_to_send, commit_message, push, repo_path)
+    _send_changes(changes_to_send, tag, template, repo_path, dry_run, push)
 
 
 def auto_command(
