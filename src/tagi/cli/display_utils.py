@@ -4,7 +4,7 @@ from typing import Optional
 from rich.console import Console
 from rich.table import Table
 
-from tagi.models.change import Change
+from tagi.models.change import Change, Tag
 from tagi.config import Config
 from tagi.scanner.diff import get_diff
 
@@ -43,7 +43,7 @@ def _display_diffs(changes: list[Change], repo_path: str, limit: int = 5) -> Non
             console.print(diff_output)
 
 
-def _format_tags(tags: list[Change], config: Optional[Config] = None) -> str:
+def _format_tags(tags: list[Tag], config: Optional[Config] = None) -> str:
     """Format tags for display with descriptions if available."""
     if not tags:
         return "none"
@@ -79,7 +79,7 @@ def _display_changes_grouped(changes: list[Change]) -> None:
         return
     
     # Group changes by their primary tag
-    groups = {}
+    groups: dict[str, list[Change]] = {}
     for change in changes:
         if change.tags:
             primary_tag = change.tags[0].value

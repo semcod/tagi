@@ -3,7 +3,7 @@
 import subprocess
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import List, Optional
+from typing import ClassVar, List, Optional
 
 from tagi.utils.commands import run_command
 
@@ -22,7 +22,11 @@ class PrSpec:
 
 class BaseProvider(ABC):
     """Base class for Git hosting providers."""
-    
+
+    # Human-readable provider identifier (e.g. "github", "gitlab"),
+    # defined as a class attribute by each concrete provider.
+    name: ClassVar[str]
+
     def __init__(self, repo_path: str = "."):
         """Initialize provider with repository path."""
         self.repo_path = repo_path

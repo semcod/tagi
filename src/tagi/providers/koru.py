@@ -114,7 +114,7 @@ class KoruProvider:
         deployment_groups = []
         priority_order = []
         risk_assessment = {}
-        dependencies = {}
+        dependencies: Dict[str, List[str]] = {}
 
         # Group changes by tag and emit deployment groups in priority order
         by_tag = {tag: [c for c in changes if tag in c.tags] for tag, *_ in self._GROUP_ORDER}

@@ -1,5 +1,7 @@
 """CLI interface for tagi."""
 
+from typing import Optional
+
 import typer
 from rich.console import Console
 
@@ -70,6 +72,6 @@ app.command(name="hooks")(hooks_command)
 
 
 # Expose provider functions for backward compatibility
-def detect_provider(repo_path: str = ".") -> str:
+def detect_provider(repo_path: str = ".") -> Optional[str]:
     """Detect Git provider (GitHub/GitLab) for the repository."""
     return detect_provider_command(repo_path)

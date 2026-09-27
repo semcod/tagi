@@ -1,12 +1,12 @@
 """Preview module for showing execution plans."""
 
-from typing import List
+from typing import List, Optional
 
 from tagi.models import Change, ChangeGroup
 from tagi.utils.line_builder import LineBuilder
 
 
-def preview_plan(changes: List[Change], tag: str = None) -> str:
+def preview_plan(changes: List[Change], tag: Optional[str] = None) -> str:
     """Generate a preview of the execution plan."""
     if tag:
         from tagi.models import Tag

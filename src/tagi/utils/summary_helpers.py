@@ -76,7 +76,7 @@ def build_tag_distribution_section(
     Returns:
         List of tag distribution lines
     """
-    tag_counts = Counter()
+    tag_counts: Counter[str] = Counter()
     for change in changes:
         for tag in change.tags:
             tag_counts[tag.value] += 1

@@ -9,10 +9,12 @@ from tagi.utils.paths import path_matches
 try:
     import tomli
 except ImportError:
+    # Python >= 3.11 ships tomllib under the tomli API; both ignores are
+    # confined to this version-conditional backport import.
     try:
-        import tomllib as tomli
+        import tomllib as tomli  # type: ignore[no-redef]
     except ImportError:
-        tomli = None
+        tomli = None  # type: ignore[assignment]
 
 
 _SECTION_ATTRIBUTES = {
