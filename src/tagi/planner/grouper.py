@@ -19,19 +19,24 @@ def group_changes(changes: List[Change]) -> List[ChangeGroup]:
         else:
             grouped[Tag.SMALL].append(change)
     
-    groups = []
-    for tag, tag_changes in grouped.items():
-        group = ChangeGroup(
-            name=tag.value,
-            changes=tag_changes,
-            tags=[tag],
-            total_lines=total_lines_changed(tag_changes),
-            avg_risk=average_risk(tag_changes)
-        )
-        groups.append(group)
-    
+    groups = [
+        _build_group(tag, tag_changes)
+        for tag, tag_changes in grouped.items()
+    ]
+
     # Sort by risk score (safest first)
     return sorted(groups, key=lambda g: g.avg_risk)
+
+
+def _build_group(tag: Tag, tag_changes: List[Change]) -> ChangeGroup:
+    """Build a single group for a tag and its changes."""
+    return ChangeGroup(
+        name=tag.value,
+        changes=tag_changes,
+        tags=[tag],
+        total_lines=total_lines_changed(tag_changes),
+        avg_risk=average_risk(tag_changes)
+    )
 
 
 def group_by_tag(changes: List[Change], tag: Tag) -> List[Change]:
