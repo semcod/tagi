@@ -4468,63 +4468,6 @@ sprint:
           key: semcod/tagi#190
           url: https://github.com/semcod/tagi/issues/190
       updated_at: '2026-09-19T18:25:22.064458+00:00'
-    PLF-177:
-      acceptance_criteria: []
-      blocked_by: []
-      blocks: []
-      children: []
-      contract_version: planfile.ticket/v1
-      created_at: '2026-09-19T21:13:19.174193Z'
-      description: 'Fresh redup scan (project/duplication.toon.yaml, 2026-09-19) flags
-        copy-pasted helpers introduced by the cli module split:
-
-
-        - _ensure_tag_prefix: 4 identical copies (src/tagi/cli/main.py:50, git_operations.py:21,
-        publishing_commands.py:16, utility_commands.py:18) — 24 duplicated lines.
-
-        - _resolve_send_target + _is_known_tag: duplicated between src/tagi/cli/main.py:57-83
-        and git_operations.py:28-56 (19+10 lines), with comment drift between the
-        two copies.
-
-
-        Extract these into one shared cli helper module (e.g. src/tagi/cli/tag_targets.py),
-        import it from all four command modules, and keep behavior identical.
-
-
-        Acceptance criteria:
-
-        - redup scan of src/ reports no EXAC groups for these helpers (dup groups
-        7 -> <=4).
-
-        - python -m pytest -q stays green (127 passed).'
-      dsl: SODL/1 id=evt_6d8071ad9e575f187c0d44fc event_hash=09dee25ffd62e51fcf5519f07cf9cdb658a69ceb037eb39c11b0a66d7d2508f3
-        timestamp=2026-09-19T21%3A13%3A19.174193%2B00%3A00 kind=task source=planfile.ticket
-        ticket_id=PLF-177 actor=koru-project-discovery oql=ticket.create uri=planfile%3A%2F%2Ftickets%2FPLF-177%2Fcommand%2Fcreate
-        mode=apply status=open correlation_id=PLF-177 causation_id=- input_hash=c3d47241fd79a8d7580afdb743ddae69f661a9bc415f8a9439190b58d9951b52
-        receipt_ref=- replayable=true data=eyJwYXlsb2FkIjp7ImFjY2VwdGFuY2VfY3JpdGVyaWEiOltdLCJibG9ja2VkX2J5IjpbXSwiYmxvY2tzIjpbXSwiY2hpbGRyZW4iOltdLCJjb250cmFjdF92ZXJzaW9uIjoicGxhbmZpbGUudGlja2V0L3YxIiwiY3JlYXRlZF9hdCI6IjIwMjYtMDktMTlUMjE6MTM6MTkuMTc0MTkzWiIsImRlc2NyaXB0aW9uIjoiRnJlc2ggcmVkdXAgc2NhbiAocHJvamVjdC9kdXBsaWNhdGlvbi50b29uLnlhbWwsIDIwMjYtMDktMTkpIGZsYWdzIGNvcHktcGFzdGVkIGhlbHBlcnMgaW50cm9kdWNlZCBieSB0aGUgY2xpIG1vZHVsZSBzcGxpdDpcblxuLSBfZW5zdXJlX3RhZ19wcmVmaXg6IDQgaWRlbnRpY2FsIGNvcGllcyAoc3JjL3RhZ2kvY2xpL21haW4ucHk6NTAsIGdpdF9vcGVyYXRpb25zLnB5OjIxLCBwdWJsaXNoaW5nX2NvbW1hbmRzLnB5OjE2LCB1dGlsaXR5X2NvbW1hbmRzLnB5OjE4KSDigJQgMjQgZHVwbGljYXRlZCBsaW5lcy5cbi0gX3Jlc29sdmVfc2VuZF90YXJnZXQgKyBfaXNfa25vd25fdGFnOiBkdXBsaWNhdGVkIGJldHdlZW4gc3JjL3RhZ2kvY2xpL21haW4ucHk6NTctODMgYW5kIGdpdF9vcGVyYXRpb25zLnB5OjI4LTU2ICgxOSsxMCBsaW5lcyksIHdpdGggY29tbWVudCBkcmlmdCBiZXR3ZWVuIHRoZSB0d28gY29waWVzLlxuXG5FeHRyYWN0IHRoZXNlIGludG8gb25lIHNoYXJlZCBjbGkgaGVscGVyIG1vZHVsZSAoZS5nLiBzcmMvdGFnaS9jbGkvdGFnX3RhcmdldHMucHkpLCBpbXBvcnQgaXQgZnJvbSBhbGwgZm91ciBjb21tYW5kIG1vZHVsZXMsIGFuZCBrZWVwIGJlaGF2aW9yIGlkZW50aWNhbC5cblxuQWNjZXB0YW5jZSBjcml0ZXJpYTpcbi0gcmVkdXAgc2NhbiBvZiBzcmMvIHJlcG9ydHMgbm8gRVhBQyBncm91cHMgZm9yIHRoZXNlIGhlbHBlcnMgKGR1cCBncm91cHMgNyAtPiA8PTQpLlxuLSBweXRob24gLW0gcHl0ZXN0IC1xIHN0YXlzIGdyZWVuICgxMjcgcGFzc2VkKS4iLCJmaWxlcyI6WyJzcmMvdGFnaS9jbGkvbWFpbi5weSIsInNyYy90YWdpL2NsaS9naXRfb3BlcmF0aW9ucy5weSIsInNyYy90YWdpL2NsaS9wdWJsaXNoaW5nX2NvbW1hbmRzLnB5Iiwic3JjL3RhZ2kvY2xpL3V0aWxpdHlfY29tbWFuZHMucHkiXSwiaWQiOiJQTEYtMTc3IiwibGFiZWxzIjpbImtvcnUiLCJubC10YXNrIiwibGxtLXJlYWR5IiwicHJvamVjdC1kaXNjb3ZlcnkiLCJkdXBsaWNhdGlvbiJdLCJuYW1lIjoiRGVkdXBsaWNhdGUgY2xpIHRhZyBoZWxwZXJzIChfZW5zdXJlX3RhZ19wcmVmaXgsIF9pc19rbm93bl90YWcsIF9yZXNvbHZlX3NlbmRfdGFyZ2V0KSIsInByaW9yaXR5IjoiaGlnaCIsInNvdXJjZSI6eyJjb250ZXh0Ijp7fSwidGltZXN0YW1wIjoiMjAyNi0wOS0xOVQyMToxMzoxOS4xNTg3NzdaIiwidG9vbCI6ImtvcnUtcHJvamVjdC1kaXNjb3ZlcnkifSwic3ByaW50IjoiY3VycmVudCIsInN0YXR1cyI6Im9wZW4iLCJzeW5jIjp7fSwidXBkYXRlZF9hdCI6IjIwMjYtMDktMTlUMjE6MTM6MTkuMTc0MTk4WiJ9fQ
-      files:
-      - src/tagi/cli/main.py
-      - src/tagi/cli/git_operations.py
-      - src/tagi/cli/publishing_commands.py
-      - src/tagi/cli/utility_commands.py
-      history: []
-      id: PLF-177
-      labels:
-      - koru
-      - nl-task
-      - llm-ready
-      - project-discovery
-      - duplication
-      name: Deduplicate cli tag helpers (_ensure_tag_prefix, _is_known_tag, _resolve_send_target)
-      priority: high
-      source:
-        context: {}
-        timestamp: '2026-09-19T21:13:19.158777Z'
-        tool: koru-project-discovery
-      sprint: current
-      status: open
-      sync: {}
-      updated_at: '2026-09-19T21:13:19.174198Z'
     PLF-178:
       acceptance_criteria: []
       blocked_by: []
