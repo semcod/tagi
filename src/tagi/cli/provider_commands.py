@@ -6,7 +6,7 @@ from typing import Optional
 from rich.console import Console
 
 from tagi.providers.detector import get_provider
-from tagi.providers.base import PrSpec
+from tagi.providers.base import BaseProvider, PrSpec
 from tagi.providers.github import GitHubProvider
 from tagi.providers.gitlab import GitLabProvider
 
@@ -38,41 +38,34 @@ def _pr_spec(spec: PrSpec, repo_path: str) -> PrSpec:
     return replace(spec, branch=_current_branch(repo_path))
 
 
-def create_pr(spec: PrSpec, repo_path: str = ".") -> bool:
-    """Create a GitHub pull request."""
-    github_provider = get_provider(repo_path)
-    if not isinstance(github_provider, GitHubProvider):
-        console.print("[red]Repository is not hosted on GitHub[/red]")
+def _create_request(provider_type: type[BaseProvider], spec: PrSpec, repo_path: str) -> bool:
+    """Run the shared PR/MR creation flow with provider-specific messages."""
+    provider = get_provider(repo_path)
+    host, request_name, abbreviation = {
+        GitHubProvider: ("GitHub", "pull request", "PR"),
+        GitLabProvider: ("GitLab", "merge request", "MR"),
+    }[provider_type]
+    if not isinstance(provider, provider_type):
+        console.print(f"[red]Repository is not hosted on {host}[/red]")
         return False
 
     try:
-        pr_url = github_provider.create_pr(_pr_spec(spec, repo_path))
-        if pr_url:
-            console.print(f"[green]✓ Pull request created:[/green] {pr_url}")
+        url = provider.create_pr(_pr_spec(spec, repo_path))
+        if url:
+            console.print(f"[green]✓ {request_name.capitalize()} created:[/green] {url}")
             return True
-        else:
-            console.print("[red]Failed to create pull request[/red]")
-            return False
-    except Exception as e:
-        console.print(f"[red]Error creating PR: {e}[/red]")
+        console.print(f"[red]Failed to create {request_name}[/red]")
         return False
+    except Exception as e:
+        console.print(f"[red]Error creating {abbreviation}: {e}[/red]")
+        return False
+
+
+def create_pr(spec: PrSpec, repo_path: str = ".") -> bool:
+    """Create a GitHub pull request."""
+    return _create_request(GitHubProvider, spec, repo_path)
 
 
 def create_mr(spec: PrSpec, repo_path: str = ".") -> bool:
     """Create a GitLab merge request."""
-    gitlab_provider = get_provider(repo_path)
-    if not isinstance(gitlab_provider, GitLabProvider):
-        console.print("[red]Repository is not hosted on GitLab[/red]")
-        return False
-
-    try:
-        mr_url = gitlab_provider.create_pr(_pr_spec(spec, repo_path))
-        if mr_url:
-            console.print(f"[green]✓ Merge request created:[/green] {mr_url}")
-            return True
-        else:
-            console.print("[red]Failed to create merge request[/red]")
-            return False
-    except Exception as e:
-        console.print(f"[red]Error creating MR: {e}[/red]")
-        return False
+    return _create_request(GitLabProvider, spec, repo_path)
